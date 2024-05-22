@@ -56,12 +56,133 @@
             <h1>@jackcarey/web-components</h1>
             <p>View on <a href="https://github.com/jackcarey/web-components">GitHub</a></p>
         </header>
-        <main>
-            <div>
-                <h2>can-i-use</h2>
-                <p>Check browser support for a feature</p>
-                <can-i-use feature="flexbox" store expanded />
-            </div>
-        </main>
+        <main></main>
+    </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>web-components</title>
+        <style>
+            :root {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                text-align: center;
+                vertical-align: middle;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+                    "Segoe UI Symbol", "Noto Color Emoji";
+            }
+            body {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 1rem;
+            }
+        </style>
+        <script src="https://unpkg.com/ical.js/dist/ical.es5.cjs"></script>
+        <script src="./src/jc-ical.js"></script>
+    </head>
+    <body>
+        <h1>Web components</h1>
+        <p>
+            GitHub:
+            <a href="https://github.com/jackcarey/web-components">jackcarey/web-components</a>
+        </p>
+        <hr />
+        <h2>jc-ical</h2>
+        <jc-ical
+            src="/src/example.ics"
+            events="BEGIN:VCALENDAR
+    VERSION:2.0
+    CALSCALE:GREGORIAN
+    BEGIN:VEVENT
+    SUMMARY:Signing of the Declaration of Independence
+    DTSTART;TZID=America/New_York:17760704T120000
+    DTEND;TZID=America/New_York:17760704T130000
+    LOCATION:Philadelphia, PA
+    DESCRIPTION: The signing of the Declaration of Independence.
+    STATUS:CONFIRMED
+    SEQUENCE:1
+    BEGIN:VALARM
+    TRIGGER:-PT10M
+    DESCRIPTION:Event Reminder
+    ACTION:DISPLAY
+    END:VALARM
+    END:VEVENT
+    BEGIN:VEVENT
+    SUMMARY:First Moon Landing
+    DTSTART;TZID=America/New_York:19690720T203000
+    DTEND;TZID=America/New_York:19690720T210000
+    LOCATION:Tranquility Base, Moon
+    DESCRIPTION: Neil Armstrong takes the first step on the moon.
+    STATUS:CONFIRMED
+    SEQUENCE:1
+    BEGIN:VALARM
+    TRIGGER:-PT10M
+    DESCRIPTION:Event Reminder
+    ACTION:DISPLAY
+    END:VALARM
+    END:VEVENT
+    BEGIN:VEVENT
+    SUMMARY:Fall of the Berlin Wall
+    DTSTART;TZID=Europe/Berlin:19891109T180000
+    DTEND;TZID=Europe/Berlin:19891109T190000
+    LOCATION:Berlin, Germany
+    DESCRIPTION: The Berlin Wall falls, marking the end of the Cold War.
+    STATUS:CONFIRMED
+    SEQUENCE:1
+    BEGIN:VALARM
+    TRIGGER:-PT10M
+    DESCRIPTION:Event Reminder
+    ACTION:DISPLAY
+    END:VALARM
+    END:VEVENT
+    BEGIN:VEVENT
+    SUMMARY:Invention of the World Wide Web
+    DTSTART;TZID=Europe/London:19890312T090000
+    DTEND;TZID=Europe/London:19890312T100000
+    LOCATION:CERN, Switzerland
+    DESCRIPTION: Tim Berners-Lee invents the World Wide Web.
+    STATUS:CONFIRMED
+    SEQUENCE:1
+    BEGIN:VALARM
+    TRIGGER:-PT10M
+    DESCRIPTION:Event Reminder
+    ACTION:DISPLAY
+    END:VALARM
+    END:VEVENT
+    BEGIN:VEVENT
+    SUMMARY:First Flight of the Wright Brothers
+    DTSTART;TZID=America/New_York:19031217T103000
+    DTEND;TZID=America/New_York:19031217T110000
+    LOCATION:Kitty Hawk, NC
+    DESCRIPTION: The Wright Brothers successfully fly the first powered aircraft.
+    STATUS:CONFIRMED
+    SEQUENCE:1
+    BEGIN:VALARM
+    TRIGGER:-PT10M
+    DESCRIPTION:Event Reminder
+    ACTION:DISPLAY
+    END:VALARM
+    END:VEVENT"
+        >
+            <template>
+                <h3><slot name="title"></slot></h3>
+                <p><slot name="date"></slot></p>
+                <p><slot name="location"></slot></p>
+                <p><slot name="description"></slot></p>
+                <p>some random content</p>
+            </template>
+            <p>child without slot</p>
+        </jc-ical>
+        <h2>Can I Use?</h2>
+        <div>
+            <h2>can-i-use</h2>
+            <p>Check browser support for a feature</p>
+            <can-i-use feature="flexbox" store expanded />
+        </div>
+        <hr />
     </body>
 </html>
