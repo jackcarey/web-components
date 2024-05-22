@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@jackcarey/web-components</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            header {
+                background-color: #eee;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                > h1 {
+                    margin-bottom: 0.5em;
+                }
+            }
+
+            main {
+                padding: 1rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            main div {
+                margin: 0.25eml;
+            }
+
+            h1 {
+                margin: 0;
+            }
+
+            h2 {
+                margin: 0 0 1rem;
+            }
+
+            p {
+                margin: 0;
+            }
+        </style>
+        <script type="module" src="/can-i-use.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>@jackcarey/web-components</h1>
+            <p>View on <a href="https://github.com/jackcarey/web-components">GitHub</a></p>
+        </header>
+        <main>
+            <div>
+                <h2>can-i-use</h2>
+                <p>Check browser support for a feature</p>
+                <can-i-use feature="flexbox" store expanded />
+            </div>
+        </main>
+    </body>
+</html>
