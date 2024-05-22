@@ -82,7 +82,8 @@
             }
         </style>
         <script src="https://unpkg.com/ical.js/dist/ical.es5.cjs"></script>
-        <script src="./src/jc-ical.js"></script>
+        <script src="./i-cal/i-cal.js"></script>
+        <script src="./can-i-use/can-i-use.js"></script>
     </head>
     <body>
         <h1>Web components</h1>
@@ -92,7 +93,7 @@
         </p>
         <hr />
         <h2>jc-ical</h2>
-        <jc-ical
+        <i-cal
             src="/src/example.ics"
             events="BEGIN:VCALENDAR
     VERSION:2.0
@@ -176,7 +177,7 @@
                 <p>some random content</p>
             </template>
             <p>child without slot</p>
-        </jc-ical>
+        </i-cal>
         <h2>Can I Use?</h2>
         <div>
             <h2>can-i-use</h2>

@@ -41,9 +41,9 @@ class ICalComponent extends HTMLElement {
 
   connectedCallback() {
     console.log("connected");
-    if(this.src && !this.events){
+    if (this.src && !this.events) {
       this.#fetchEvents().then(() => this.#render());
-    }else{
+    } else {
       this.#render();
     }
   }
@@ -109,7 +109,7 @@ class ICalComponent extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue) return;
-    console.log(`attributeChanged`,{ name, oldValue, newValue });
+    console.log(`attributeChanged`, { name, oldValue, newValue });
     if (name === "src" && !newValue) {
       this.#clearRefreshInterval();
     }
@@ -129,7 +129,7 @@ class ICalComponent extends HTMLElement {
   }
 
   async #render() {
-    console.log("rendering"); 
+    console.log("rendering");
     const refreshMs = this.refresh * 1000;
     const staleBefore = Date.now() - refreshMs;
     const hasEvents = this.events && this.events.length > 0;
@@ -139,7 +139,7 @@ class ICalComponent extends HTMLElement {
       this.#lastFetched &&
       this.#lastFetched <= staleBefore;
     if (!hasEvents || isOld) {
-      
+
     }
 
     let templateNode = this.querySelector("template");
@@ -160,27 +160,26 @@ class ICalComponent extends HTMLElement {
       styleClone = templateStyle.cloneNode(true);
       templateNode.removeChild(templateStyle);
     }
-    this.#root.innerHTML = `<p>${
-      this.hasFixedEvents ? "fixed" : "fetch"
-    }</p>${styleClone ? styleClone.outerHTML : ""}${this.#eventsList
-      .map((eventStr) => {
-        //todo: properly render event objects inside the template
-        const clone = templateNode?.content?.cloneNode(true);
-        if(clone){
-          const eventAttrs = ["title", "start", "end", "description"];
-          eventAttrs.forEach((attr) => {
-            const slot = clone.querySelector(`slot[name="${attr}"]`);
-            if (slot) {
-              slot.innerHTML = eventStr[attr];
-            }
-          });
-          return clone.outerHTML;
-        }else{
+    this.#root.innerHTML = `<p>${this.hasFixedEvents ? "fixed" : "fetch"
+      }</p>${styleClone ? styleClone.outerHTML : ""}${this.#eventsList
+        .map((eventStr) => {
+          //todo: properly render event objects inside the template
+          const clone = templateNode?.content?.cloneNode(true);
+          if (clone) {
+            const eventAttrs = ["title", "start", "end", "description"];
+            eventAttrs.forEach((attr) => {
+              const slot = clone.querySelector(`slot[name="${attr}"]`);
+              if (slot) {
+                slot.innerHTML = eventStr[attr];
+              }
+            });
+            return clone.outerHTML;
+          } else {
 
-        }
-        return `<div>${eventStr}</div>`;
-      })
-      .join("")}<slot></slot>`;
+          }
+          return `<div>${eventStr}</div>`;
+        })
+        .join("")}<slot></slot>`;
     this.#root.appendChild(clone);
   }
 }
@@ -197,5 +196,5 @@ window.addEventListener("DOMContentLoaded", () => {
     script.src = icalDep;
     document.head.appendChild(script);
   }
-  customElements.define("jc-ical", ICalComponent);
+  customElements.define("i-ccal", ICalComponent);
 });
