@@ -16,25 +16,25 @@ const packageDirectories = fs.readdirSync(rootDir, { withFileTypes: true })
 
 
 // Read the package.json files and extract the details
-const pkgDetails = [];
+const pkgDetails = {};
 await Promise.all(packageDirectories.map(async (dir) => {
-    console.log('reading package.json from:', dir);
     return PackageJson.load(dir).then(({ content }) => {
-        console.log({ content });
-        pkgDetails.push(content);
+        pkgDetails[dir] = content;
     });
 }));
 
 // Generate the markdown content
-const mdHeader = `# web-components\n\nThis repository contains a collection of ${pkgDetails.length} web components for various purposes. Each component is published as a separate package with their own readme. Below is a list of all the components along with their version and description.\n\n---\n\n`;
-const mdBody = `| Package | Version | Description |\n| --- | --- | --- | \n${pkgDetails.map(pkg => `| ${pkg.name} | ${pkg.version} | ${pkg.description} |`).join('\n')}\n\n`;
+const mdHeader = `# web-components\n\nThis repository contains a collection of ${pkgDetails.length} web components for various purposes. Each component is published as a separate package with their own readme.\n\n---\n\n`;
+const relativeLink = (dir) => "/" + path.relative(rootDir, dir);
+const pkgToMdRow = ([dir, pkgJson]) => `| [${pkgJson.name}](${relativeLink(dir)}) | ${pkgJson.version} | ${pkgJson.description} |`;
+const mdBody = `| Package | Version | Description |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const emojiList = ["💖", "❤️", "💙", "💛", "💚", "🧡", "🖤", "🤍", "🩷", "💜", "💗"];
 const emoji = emojiList[Math.floor(Math.random() * emojiList.length)];
-const mdFooter = `Made with ${emoji} by[jackcarey](https://jackcarey.co.uk/)`;
+const mdFooter = `Made with ${emoji} by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
 
 // Write the markdown content to the README.md file
 const readmePath = path.join(rootDir, 'README.md');
 fs.writeFileSync(readmePath, markdownContent);
 
-console.log(pkgDetails.length + ' package details saved to README.md');
+console.log(Object.keys(pkgDetails).length + ' package details saved to README.md');
