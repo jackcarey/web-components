@@ -1,6 +1,6 @@
 # web-components
 
-This repository contains a collection of undefined web components for various purposes. Each component is published as a separate package with their own readme.
+This repository contains a collection of 2 web components for various purposes. Each component is published as a separate package with their own readme.
 
 ---
 
@@ -11,4 +11,4 @@ This repository contains a collection of undefined web components for various pu
 | [i-cal](/i-cal) | 1.0.0 |  |
 
 
-Made with 💛 by [jackcarey](https://jackcarey.co.uk/)
+Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)

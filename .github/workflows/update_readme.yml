@@ -1,0 +1,33 @@
+name: Update README
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run update-readme.mjs script
+              run: node scripts/update-readme.mjs
+
+            - name: Commit and push if it changed
+              run: |
+                  git diff
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -am "updated readme" || exit 0
+                  git push
