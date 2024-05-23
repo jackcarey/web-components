@@ -28,7 +28,7 @@ const mdHeader = `# web-components\n\nThis repository contains a collection of $
 const relativeLink = (dir) => "/" + path.relative(rootDir, dir);
 const pkgToMdRow = ([dir, pkgJson]) => `| [${pkgJson.name}](${relativeLink(dir)}) | ${pkgJson.version} | ${pkgJson.description} |`;
 const mdBody = `| Package | Version | Description |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
-const emojiList = ["💖", "❤️", "💙", "💛", "💚", "🧡", "🖤", "🤍", "🩷", "💜", "💗"];
+const emojiList = ["💖", "❤️", "💙", "💛", "💚", "🧡", "🖤", "🤍", "🩷", "💜", "💗", "🤎", "🩶", "💕"];
 const emoji = emojiList[Math.floor(Math.random() * emojiList.length)];
 const mdFooter = `Made with ${emoji} by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
