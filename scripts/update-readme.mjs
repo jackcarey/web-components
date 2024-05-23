@@ -1,30 +1,8 @@
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
-import PackageJson from '@npmcli/package-json';
-
-// Get the root directory of the repository
-const repoRootDir = process.cwd();
-const pkgRootDir = path.join(repoRootDir, '/packages');
+import { repoRootDir, pkgDetails, count } from "./get-packages.mjs";
 
 console.log('compiling packages for readme from:', repoRootDir);
-
-// Get a list of all directories at the root level that contain a package.json file
-const packageDirectories = fs.readdirSync(pkgRootDir, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(directory => path.join(pkgRootDir, directory.name))
-    .filter(directory => fs.existsSync(path.join(directory, 'package.json')));
-
-
-// Read the package.json files and extract the details
-const pkgDetails = {};
-let count = 0;
-await Promise.all(packageDirectories.map(async (dir) => {
-    return PackageJson.load(dir).then(({ content }) => {
-        pkgDetails[dir] = content;
-        count += 1;
-    });
-}));
 
 // Generate the markdown content
 const mdHeader = `# web-components\n\nThis repository contains a collection of ${count} web components for various purposes. Each component is published as a separate package with their own readme.\n\n---\n\n`;
