@@ -35,8 +35,11 @@ const pkgToMdRow = ([dir, pkgJson]) => {
     const description = pkgJson?.description ?? '-';
     const version = pkgJson?.version ?? '-';
     const jsrScope = 'web-components';
-    const jsrLink = `[![$[name}]](https://jsr.io/badges/@${jsrScope}/${name})](https://jsr.io/@${jsrScope}/${name})`;
-    return `| [${name}](${srcLink}) | ${description} | ${version} | ![${name}](${jsrLink}) |`;
+    const jsrBadgeUrl = `https://jsr.io/badges/@${jsrScope}/${name}`;
+    const jsrbadgeMd = `[![${name}](${jsrBadgeUrl})]`;
+    const jsrLinkUrl = `https://jsr.io/@${jsrScope}/${name}`;
+    const jsrLinkMd = `[${jsrbadgeMd}](${jsrLinkUrl})`;
+    return `| [${name}](${srcLink}) | ${description} | ${version} | ${jsrLinkMd} |`;
 };
 const mdBody = `| Name  | Description | Version | Registry |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const mdFooter = `Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)`;
