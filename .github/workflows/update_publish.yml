@@ -11,7 +11,7 @@ jobs:
 
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v3
@@ -21,13 +21,26 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Run generate-jsr.mjs script
+              run: node scripts/generate-jsr.mjs
+
             - name: Run update-readme.mjs script
               run: node scripts/update-readme.mjs
 
-            - name: Commit and push if it changed
+            - name: Commit and push changed files to repo
               run: |
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
                   git commit -am "updated readme" || exit 0
                   git push
+
+            - name: Publish updated packages to JSR
+              run: |
+                  for dir in packages/*; do
+                    if [ -d "$dir" ]; then
+                      cd "$dir"
+                      npx jsr publish
+                      cd ..
+                    fi
+                  done
