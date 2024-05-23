@@ -19,9 +19,9 @@ const packageDirectories = fs.readdirSync(rootDir, { withFileTypes: true })
 const pkgDetails = [];
 await Promise.all(packageDirectories.map(async (dir) => {
     console.log('reading package.json from:', dir);
-    return PackageJson.load(dir).then(json => {
-        console.log({ json });
-        pkgDetails.push(json);
+    return PackageJson.load(dir).then(({ content }) => {
+        console.log({ content });
+        pkgDetails.push(content);
     });
 }));
 

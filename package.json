@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@npmcli/package-json": "^5.1.0"
+  },
+  "name": "web-components",
+  "description": "This repository contains a collection of 0 web components for various purposes. Each component is published as a separate package with their own readme. Below is a list of all the components along with their version and description.",
+  "version": "1.0.0",
+  "main": "autoloader.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
