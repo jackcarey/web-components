@@ -29,8 +29,16 @@ await Promise.all(packageDirectories.map(async (dir) => {
 // Generate the markdown content
 const mdHeader = `# web-components\n\nThis repository contains a collection of ${count} web components for various purposes. Each component is published as a separate package with their own readme.\n\n---\n\n`;
 const relativeLink = (dir) => "/" + path.relative(repoRootDir, dir);
-const pkgToMdRow = ([dir, pkgJson]) => `| [${pkgJson?.name ?? '-'}](${relativeLink(dir)}) | ${pkgJson?.version ?? '-'} | ${pkgJson?.description ?? '-'} |`;
-const mdBody = `| Package | Version | Description |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
+const pkgToMdRow = ([dir, pkgJson]) => {
+    const name = pkgJson?.name ?? '-';
+    const srcLink = `[${name}](${relativeLink(dir)})`;
+    const description = pkgJson?.description ?? '-';
+    const version = pkgJson?.version ?? '-';
+    const jsrScope = 'web-components';
+    const jsrLink = `[![$[name}]](https://jsr.io/badges/@${jsrScope}/${name})](https://jsr.io/@${jsrScope}/${name})`;
+    return `| [${name}](${srcLink}) | ${description} | ${version} | ![${name}](${jsrLink}) |`;
+};
+const mdBody = `| Name  | Description | Version | Registry |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const mdFooter = `Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
 

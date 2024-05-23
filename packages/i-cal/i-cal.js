@@ -196,5 +196,5 @@ window.addEventListener("DOMContentLoaded", () => {
     script.src = icalDep;
     document.head.appendChild(script);
   }
-  customElements.define("i-ccal", ICalComponent);
+  customElements.define("i-cal", ICalComponent);
 });
