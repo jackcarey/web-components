@@ -7,8 +7,8 @@ This repository contains a collection of 2 web components for various purposes. 
 
 | Package | Version | Description |
 | --- | --- | --- | 
-| [can-i-use](/can-i-use) | 1.0.0 |  |
-| [i-cal](/i-cal) | 1.0.0 |  |
+| [can-i-use](/packages\can-i-use) | 1.0.0 |  |
+| [i-cal](/packages\i-cal) | 1.0.0 |  |
 
 
 Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
