@@ -1,0 +1,12 @@
+{
+  "name": "can-i-use",
+  "version": "1.0.0",
+  "description": "",
+  "main": "can-i-use.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
