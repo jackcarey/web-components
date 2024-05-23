@@ -23,12 +23,12 @@ await Promise.all(packageDirectories.map(async (dir) => {
         pkgDetails[dir] = content;
         count += 1;
     });
-})); 
+}));
 
 // Generate the markdown content
 const mdHeader = `# web-components\n\nThis repository contains a collection of ${count} web components for various purposes. Each component is published as a separate package with their own readme.\n\n---\n\n`;
 const relativeLink = (dir) => "/" + path.relative(rootDir, dir);
-const pkgToMdRow = ([dir, pkgJson]) => `| [${pkgJson.name}](${relativeLink(dir)}) | ${pkgJson.version} | ${pkgJson.description} |`;
+const pkgToMdRow = ([dir, pkgJson]) => `| [${pkgJson?.name ?? '-'}](${relativeLink(dir)}) | ${pkgJson?.version ?? '-'} | ${pkgJson?.description ?? '-'} |`;
 const mdBody = `| Package | Version | Description |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const mdFooter = `Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
