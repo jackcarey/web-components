@@ -19,7 +19,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
     const jsrLinkMd = `[${jsrbadgeMd}](${jsrLinkUrl})`;
     return `| ${srcLink} | ${description} | ${version} | ${jsrLinkMd} |`;
 };
-const mdBody = `| Name | Description | Version | Registry |\n| --- | --- | --- | \n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
+const mdBody = `| Name | Description | Version | Registry |\n| --- | --- | --- | --- |\n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const mdFooter = `Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
 
