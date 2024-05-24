@@ -25,6 +25,9 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Run generate-autoloader.mjs script
+              run: node scripts/generate-autoloader.mjs
+
             - name: Run generate-jsr.mjs script
               run: node scripts/generate-jsr.mjs
 
