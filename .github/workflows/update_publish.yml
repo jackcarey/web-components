@@ -95,7 +95,7 @@ jobs:
                   git push
 
     publish:
-        needs: [test, build-docs]
+        needs: [test, bump-versions-on-main, build-docs]
         runs-on: ubuntu-latest
 
         permissions:
