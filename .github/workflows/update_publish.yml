@@ -38,6 +38,9 @@ jobs:
               with:
                   node-version: "20"
 
+            - name: Install dependencies
+              run: npm install
+
             - name: Bump version in package.json
               run: |
                   for dir in $(find . -name 'package.json' -printf '%h\n' | sort -u)
@@ -52,7 +55,7 @@ jobs:
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
-                  git commit -am "Bump version"
+                  git commit -am "[GH Actions] Bump patch versions"
                   git push
 
     build-docs:
