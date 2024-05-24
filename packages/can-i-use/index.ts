@@ -4,7 +4,7 @@
    *
 +  * @example
 +  * ```html
-+  * <script src="https://jsr.io/@web-components/can-i-use"></script>
++  * <script src="https://esm.sh/jsr/@web-components/can-i-use"></script>
 +  * <can-i-use feature="custom-elementsv1"></can-i-use>
 +  * ```
    */

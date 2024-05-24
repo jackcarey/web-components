@@ -4,7 +4,7 @@
    *
 +  * @example
 +  * ```html
-+  * <script src="https://jsr.io/@web-components/autoloader"></script>
++  * <script src="https://esm.sh/jsr/@web-components/autoloader"></script>
 +  * ```
    */
 
