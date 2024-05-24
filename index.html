@@ -68,7 +68,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>web-components</title>
-        <script src="./packages/autoloader/index.ts"></script>
+        <script src="./packages/autoloader/index"></script>
     </head>
     <body>
         <header>
@@ -82,14 +82,18 @@
             <p>JSR: <a href="https://jsr.io/@web-components" target="_blank">@web-components</a></p>
         </header>
         <main>
-            <div>
-                <h2>can-i-use</h2>
-                <p>Check browser support for a feature</p>
+            <details open>
+                <summary>
+                    <h2>can-i-use</h2>
+                    <p>Check browser support for a feature</p>
+                </summary>
                 <can-i-use feature="flexbox" />
-            </div>
+            </details>
             <hr />
-            <div>
-                <h2>i-cal</h2>
+            <details open>
+                <summary>
+                    <h2>i-cal</h2>
+                </summary>
                 <i-cal
                     src="/src/example.ics"
                     events="BEGIN:VCALENDAR
@@ -175,7 +179,7 @@
                     </template>
                     <p>child without slot</p>
                 </i-cal>
-            </div>
+            </details>
             <hr />
         </main>
     </body>
