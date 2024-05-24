@@ -42,11 +42,8 @@ jobs:
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
 
-            - name: Exit if not on main branch
+            - name: Publish updated packages to JSR if on main
               if: github.ref == 'refs/heads/main'
-              run: exit 0
-
-            - name: Publish updated packages to JSR
               run: |
                   for dir in packages/*; do
                     if [ -d "$dir" ]; then
