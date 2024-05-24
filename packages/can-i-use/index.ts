@@ -1,6 +1,6 @@
 /**
    * @module
-   * This module contains a custom elment to render data from caniuse.com
+   * This module contains a custom element to render data from caniuse.com
    *
 +  * @example
 +  * ```html
