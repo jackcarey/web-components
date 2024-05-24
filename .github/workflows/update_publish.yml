@@ -3,6 +3,34 @@ name: Generate Documentation and Publish Packages
 on: [push, pull_request]
 
 jobs:
+    bump-versions:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "14"
+
+            - name: Bump version in package.json
+              run: |
+                  git diff --name-only HEAD^ | grep / | awk -F/ '{print $1}' | uniq | while read -r dir; do
+                    if [ -f "$dir/package.json" ]; then
+                      cd "$dir"
+                      npm version patch -m "Bump version to %s"
+                      cd -
+                    fi
+                  done
+
+            - name: Commit changes
+              run: |
+                  git config --local user.email "action@github.com"
+                  git config --local user.name "GitHub Action"
+                  git commit -am "Bump version"
+
     build-docs:
         runs-on: ubuntu-latest
 
