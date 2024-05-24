@@ -93,7 +93,7 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Publish updated packages to JSR if on main
+            - name: Publish updated packages to JSR
               run: |
                   for dir in packages/*; do
                     if [ -d "$dir" ]; then
