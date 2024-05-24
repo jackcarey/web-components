@@ -12,14 +12,15 @@ const jsrScope = 'web-components';
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const name = pkgJson?.name;
     const version = pkgJson?.version;
+    const entry = pkgJson?.main ?? "./index.ts";
     if (!name) throw new Error('Package name not found in package.json');
     if (!version) throw new Error('Package version not found in package.json');
     const jsrJson = {
         "name": `@${jsrScope}/${name}`,
         "version": version,
-        "exports": "./index.ts"
+        "exports": entry,
     };
     const jsrPath = path.join(dir, 'jsr.json');
-    console.log('writing jsr package to:', dir, jsrPath);
+    console.log('writing JSR object to:', dir, jsrPath);
     fs.writeFileSync(jsrPath, JSON.stringify(jsrJson, null, 2));
 });
