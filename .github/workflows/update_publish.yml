@@ -25,7 +25,7 @@ jobs:
             - name: Run tests
               run: npm test
 
-    bump-versions-on-main:
+    bump-versions:
         needs: test
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
@@ -55,7 +55,7 @@ jobs:
                   git push
 
     build-docs:
-        needs: test
+        needs: [test, bump-versions]
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
 
@@ -96,7 +96,7 @@ jobs:
                   git push
 
     publish:
-        needs: [test, build-docs]
+        needs: [test, bump-versions, build-docs]
         runs-on: ubuntu-latest
 
         permissions:
