@@ -74,7 +74,6 @@ jobs:
 
     publish:
         needs: build-docs
-        if: github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
 
         permissions:
@@ -93,7 +92,19 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Publish updated packages to JSR (dry-run)
+              if: github.ref != 'refs/heads/main'
+              run: |
+                  for dir in packages/*; do
+                    if [ -d "$dir" ]; then
+                      cd "$dir"
+                      npx jsr publish --allow-dirty --dry-run
+                      cd ..
+                    fi
+                  done
+
             - name: Publish updated packages to JSR
+              if: github.ref == 'refs/heads/main'
               run: |
                   for dir in packages/*; do
                     if [ -d "$dir" ]; then
