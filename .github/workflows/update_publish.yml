@@ -34,6 +34,14 @@ jobs:
             - name: Run update-readme.mjs script
               run: node scripts/generate-readme.mjs
 
+            - name: Commit and push changed files to repo
+              run: |
+                  git diff
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -am "updated readme and/or config files" || exit 0
+                  git push
+
             - name: Publish updated packages to JSR
               run: |
                   for dir in packages/*; do
@@ -43,11 +51,3 @@ jobs:
                       cd ..
                     fi
                   done
-
-            - name: Commit and push changed files to repo
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "updated readme" || exit 0
-                  git push
