@@ -3,10 +3,13 @@ name: Generate Documentation and Publish Packages
 on: [push, pull_request]
 
 jobs:
-    bump-versions:
+    bump-versions-on-main:
         runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
         steps:
+            - name: Exit if not on main
+              if: github.ref != 'refs/heads/main'
+              run: exit 0
+
             - name: Checkout code
               uses: actions/checkout@v4
 
@@ -32,7 +35,7 @@ jobs:
                   git commit -am "Bump version"
 
     build-docs:
-        needs: bump-versions
+        needs: bump-versions-on-main
         runs-on: ubuntu-latest
 
         permissions:
