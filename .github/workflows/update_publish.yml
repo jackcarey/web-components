@@ -39,7 +39,7 @@ jobs:
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
-                  git commit -am "updated readme" || exit 0
+                  git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
 
             - name: Publish updated packages to JSR
