@@ -3,7 +3,7 @@ name: Generate Documentation and Publish Packages
 on: [push, pull_request]
 
 jobs:
-    build:
+    build-docs:
         runs-on: ubuntu-latest
 
         permissions:
@@ -42,8 +42,28 @@ jobs:
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
 
+    publish:
+        needs: build-docs
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            id-token: write
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
             - name: Publish updated packages to JSR if on main
-              if: github.ref == 'refs/heads/main'
               run: |
                   for dir in packages/*; do
                     if [ -d "$dir" ]; then
