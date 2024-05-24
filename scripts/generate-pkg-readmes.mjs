@@ -6,7 +6,7 @@ console.log('generating package readmes from...');
 
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const readmePath = path.join(dir, 'README.md');
-    const readmeContent = `# ${pkgJson.name}\n\nversion: ${pkgJson.version}\n\n${pkgJson.description}`;
+    const readmeContent = `# ${pkgJson.name}\n\n## version: ${pkgJson.version}\n\n>${pkgJson.description}`;
     fs.writeFileSync(readmePath, readmeContent);
 });
 
