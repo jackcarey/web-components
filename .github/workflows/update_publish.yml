@@ -1,9 +1,6 @@
 name: Generate Documentation and Publish Packages
 
-on:
-    push:
-      branches:
-        - **
+on: [push, pull_request]
 
 jobs:
     build:
