@@ -1,5 +1,7 @@
 # autoloader
 
-## version: 1.0.1
+**version:** 1.0.1
 
->Automatically load the components from jackcarey/web-components
+> Automatically load the components from jackcarey/web-components
+
+Made by [jackcarey](https://jackcarey.co.uk).
