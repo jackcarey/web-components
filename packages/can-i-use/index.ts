@@ -5,29 +5,29 @@ import list from "./feature-list";
  */
 
 class CanIuseComponent extends HTMLElement {
-    static get observedAttributes() {
+    static get observedAttributes(): string[] {
         return ["feature"];
     }
     #root: ShadowRoot | undefined;
-    connectedCallback() {
+    connectedCallback(): void {
         if (!this.#root) {
             this.#root = this.attachShadow({ mode: "open" });
         }
-        this.render();
+        this.#render();
     }
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         this.#root = undefined;
     }
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback(name, oldValue, newValue): void {
         if (oldValue === newValue) return;
         if (name === "feature") {
             if (!list.includes(newValue)) {
                 this.feature = oldValue;
             }
         }
-        this.render();
+        this.#render();
     }
-    get feature() {
+    get feature(): string {
         return this.getAttribute("feature") ?? "custom-elementsv1";
     }
     set feature(value) {
@@ -37,7 +37,7 @@ class CanIuseComponent extends HTMLElement {
             this.setAttribute("feature", value);
         }
     }
-    get periods() {
+    get periods(): string {
         return this.getAttribute("periods") ?? "future_1,current,past_1,past_2";
     }
     set periods(value) {
@@ -47,7 +47,7 @@ class CanIuseComponent extends HTMLElement {
             this.setAttribute("periods", value);
         }
     }
-    get accessibleColours() {
+    get accessibleColours(): string {
         return this.getAttribute("accessible-colours") ?? "false";
     }
     set accessibleColours(value) {
@@ -57,7 +57,7 @@ class CanIuseComponent extends HTMLElement {
             this.setAttribute("accessible-colours", String(value ? true : false));
         }
     }
-    render() {
+    #render(): void {
         if (!this.#root) return;
         //todo: render the iframe embed
         this.#root.innerHTML = `<p class="ciu_embed" data-feature="${this.feature}" data-periods="${
