@@ -1,4 +1,4 @@
-name: Generate Documentation and Publish Packages
+name: Test, Docs, & Publish
 
 on: [push]
 
