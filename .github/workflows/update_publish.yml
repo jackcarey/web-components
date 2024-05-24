@@ -1,6 +1,6 @@
 name: Generate Documentation and Publish Packages
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
     test:

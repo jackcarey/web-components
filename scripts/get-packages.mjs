@@ -19,7 +19,9 @@ let count = 0;
 await Promise.all(packageDirectories.map(async (dir) => {
     return PackageJson.load(dir).then(({ content }) => {
         pkgDetails[dir] = content;
-        count += 1;
+        if (content.name !== "autoloader") {
+            count += 1;
+        }
     });
 }));
 
