@@ -9,7 +9,8 @@ const autoLoaderContent = `window.addEventListener("DOMContentLoaded", () => {
     components.forEach(component => {
         if(!document.querySelector(component)) return;
         const script = document.createElement('script');
-        script.src = \`/packages/\${component}.js\`;
+        script.type = 'module';
+        script.src = \`https://esm.sh/jsr/@web-components/\${component}\`;
         document.head.appendChild(script);
     });
 
