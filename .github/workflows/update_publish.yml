@@ -3,6 +3,27 @@ name: Generate Documentation and Publish Packages
 on: [push, pull_request]
 
 jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            id-token: write
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Run tests
+              run: npm test
     bump-versions-on-main:
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
