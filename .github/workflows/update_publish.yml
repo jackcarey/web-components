@@ -32,6 +32,7 @@ jobs:
                   git commit -am "Bump version"
 
     build-docs:
+        needs: bump-versions
         runs-on: ubuntu-latest
 
         permissions:
