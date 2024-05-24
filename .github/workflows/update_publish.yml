@@ -93,7 +93,6 @@ jobs:
               run: npm install
 
             - name: Publish updated packages to JSR (dry-run)
-              if: github.ref != 'refs/heads/main'
               run: |
                   for dir in packages/*; do
                     if [ -d "$dir" ]; then
