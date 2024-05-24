@@ -5,9 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@jackcarey/web-components</title>
         <style>
+            :root {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                text-align: center;
+                vertical-align: middle;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+                    "Segoe UI Symbol", "Noto Color Emoji";
+            }
             body {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 1rem;
                 font-family: sans-serif;
-                margin: 0;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -49,7 +63,7 @@
                 margin: 0;
             }
         </style>
-        <script type="module" src="/can-i-use.js"></script>
+        <script type="module" src="packages/autoloader/index.ts"></script>
     </head>
     <body>
         <header>
@@ -62,25 +76,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>web-components</title>
-        <style>
-            :root {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                text-align: center;
-                vertical-align: middle;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-                    "Segoe UI Symbol", "Noto Color Emoji";
-            }
-            body {
-                width: 100%;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 1rem;
-            }
-        </style>
         <script src="https://unpkg.com/ical.js/dist/ical.es5.cjs"></script>
         <script src="./i-cal/i-cal.js"></script>
         <script src="./can-i-use/can-i-use.js"></script>
@@ -92,10 +87,11 @@
             <a href="https://github.com/jackcarey/web-components">jackcarey/web-components</a>
         </p>
         <hr />
-        <h2>jc-ical</h2>
-        <i-cal
-            src="/src/example.ics"
-            events="BEGIN:VCALENDAR
+        <div>
+            <h2>i-cal</h2>
+            <i-cal
+                src="/src/example.ics"
+                events="BEGIN:VCALENDAR
     VERSION:2.0
     CALSCALE:GREGORIAN
     BEGIN:VEVENT
@@ -168,17 +164,17 @@
     ACTION:DISPLAY
     END:VALARM
     END:VEVENT"
-        >
-            <template>
-                <h3><slot name="title"></slot></h3>
-                <p><slot name="date"></slot></p>
-                <p><slot name="location"></slot></p>
-                <p><slot name="description"></slot></p>
-                <p>some random content</p>
-            </template>
-            <p>child without slot</p>
-        </i-cal>
-        <h2>Can I Use?</h2>
+            >
+                <template>
+                    <h3><slot name="title"></slot></h3>
+                    <p><slot name="date"></slot></p>
+                    <p><slot name="location"></slot></p>
+                    <p><slot name="description"></slot></p>
+                    <p>some random content</p>
+                </template>
+                <p>child without slot</p>
+            </i-cal>
+        </div>
         <div>
             <h2>can-i-use</h2>
             <p>Check browser support for a feature</p>
