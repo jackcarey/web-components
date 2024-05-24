@@ -24,37 +24,38 @@ jobs:
 
             - name: Run tests
               run: npm test
-    bump-versions-on-main:
-        needs: test
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "14"
+    # bump-versions-on-main:
+    #     needs: test
+    #     runs-on: ubuntu-latest
+    #     if: github.ref == 'refs/heads/main'
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v4
 
-            - name: Bump version in package.json
-              run: |
-                  git diff --name-only HEAD^ | grep / | awk -F/ '{print $1}' | uniq | while read -r dir; do
-                    if [ -f "$dir/package.json" ]; then
-                      cd "$dir"
-                      npm version patch -m "Bump version to %s"
-                      cd -
-                    fi
-                  done
+    #         - name: Setup Node.js
+    #           uses: actions/setup-node@v3
+    #           with:
+    #               node-version: "14"
 
-            - name: Commit changes
-              run: |
-                  git config --local user.email "action@github.com"
-                  git config --local user.name "GitHub Action"
-                  git commit -am "Bump version"
+    #         - name: Bump version in package.json
+    #           run: |
+    #               git diff --name-only HEAD^ | grep / | awk -F/ '{print $1}' | uniq | while read -r dir; do
+    #                 if [ -f "$dir/package.json" ]; then
+    #                   cd "$dir"
+    #                   npm version patch -m "Bump version to %s"
+    #                   cd -
+    #                 fi
+    #               done
+
+    #         - name: Commit changes
+    #           run: |
+    #               git config --local user.email "action@github.com"
+    #               git config --local user.name "GitHub Action"
+    #               git commit -am "Bump version"
 
     build-docs:
-        needs: bump-versions-on-main
+        needs: test
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
 
@@ -95,7 +96,7 @@ jobs:
                   git push
 
     publish:
-        needs: [test, bump-versions-on-main, build-docs]
+        needs: [test, build-docs]
         runs-on: ubuntu-latest
 
         permissions:

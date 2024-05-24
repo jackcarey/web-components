@@ -4,6 +4,7 @@
 
 This is a collection of 2 web components for various purposes. Each component is published as a separate package with its own readme. The 'autoloader' can be used to load other components. 
 
+![update_publish workflow](https://github.com/jackcarey/web-components/actions/workflows/update_publish.yml/badge.svg)
 
 | Name | Description | Version | Registry |
 | --- | --- | --- | --- |
