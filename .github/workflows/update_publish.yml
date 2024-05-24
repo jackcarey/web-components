@@ -5,11 +5,8 @@ on: [push, pull_request]
 jobs:
     bump-versions-on-main:
         runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
         steps:
-            - name: Exit if not on main
-              if: github.ref != 'refs/heads/main'
-              run: exit 0
-
             - name: Checkout code
               uses: actions/checkout@v4
 
@@ -36,6 +33,7 @@ jobs:
 
     build-docs:
         needs: bump-versions-on-main
+        if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
 
         permissions:
