@@ -1,5 +1,5 @@
 {
-  "name": "@web-components/i-cal",
+  "name": "@web-components/autoloader",
   "version": "1.0.1",
   "exports": "./index.ts"
 }

@@ -1,8 +1,8 @@
 {
   "name": "i-cal",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
+  "version": "1.0.1",
+  "description": "Renders ics data in a web component",
+  "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
