@@ -1,3 +1,14 @@
+/**
+   * @module
+   * This module contains a custom elment to render data from caniuse.com
+   *
++  * @example
++  * ```html
++  * <script src="https://jsr.io/@web-components/can-i-use"></script>
++  * <can-i-use feature="custom-elementsv1"></can-i-use>
++  * ```
+   */
+
 import list from "./feature-list";
 
 /**
