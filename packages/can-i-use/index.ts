@@ -18,7 +18,7 @@ class CanIuseComponent extends HTMLElement {
     disconnectedCallback(): void {
         this.#root = undefined;
     }
-    attributeChangedCallback(name, oldValue, newValue): void {
+    attributeChangedCallback(name: string, oldValue: string, newValue: string): void {
         if (oldValue === newValue) return;
         if (name === "feature") {
             if (!list.includes(newValue)) {
@@ -30,7 +30,7 @@ class CanIuseComponent extends HTMLElement {
     get feature(): string {
         return this.getAttribute("feature") ?? "custom-elementsv1";
     }
-    set feature(value) {
+    set feature(value: string) {
         if (!value) {
             this.removeAttribute("feature");
         } else {
@@ -40,7 +40,7 @@ class CanIuseComponent extends HTMLElement {
     get periods(): string {
         return this.getAttribute("periods") ?? "future_1,current,past_1,past_2";
     }
-    set periods(value) {
+    set periods(value: string) {
         if (!value) {
             this.removeAttribute("periods");
         } else {
@@ -50,7 +50,7 @@ class CanIuseComponent extends HTMLElement {
     get accessibleColours(): string {
         return this.getAttribute("accessible-colours") ?? "false";
     }
-    set accessibleColours(value) {
+    set accessibleColours(value: string) {
         if (!value) {
             this.removeAttribute("accessible-colours");
         } else {
