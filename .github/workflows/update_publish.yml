@@ -2,8 +2,8 @@ name: Generate Documentation and Publish Packages
 
 on:
     push:
-        branches-ignore:
-            - main
+      branches:
+        - **
 
 jobs:
     build:
@@ -44,6 +44,10 @@ jobs:
                   git config --global user.name "GitHub Action"
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
+
+            - name: Exit if not on main branch
+              if: github.ref == 'refs/heads/main'
+              run: exit 0
 
             - name: Publish updated packages to JSR
               run: |
