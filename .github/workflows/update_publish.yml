@@ -39,7 +39,7 @@ jobs:
                   node-version: "20"
 
             - name: Install dependencies
-              run: npm install
+              run: npm clean-install
 
             - name: Bump version in package.json
               run: |
