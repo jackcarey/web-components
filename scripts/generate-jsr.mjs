@@ -26,5 +26,8 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const newContent = JSON.stringify(jsrJson, null, 2);
     if (existingContent !== newContent) {
         fs.writeFileSync(jsrPath, newContent);
+        console.log('JSR object updated at ', jsrPath);
+    } else {
+        console.log('No changes to JSR object at', jsrPath);
     }
 });

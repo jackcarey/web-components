@@ -38,4 +38,7 @@ const autoLoaderContent = `window.addEventListener("DOMContentLoaded", () => {
 
 if (fs.readFileSync(autoloaderPath, 'utf8') !== autoLoaderContent) {
     fs.writeFileSync(autoloaderPath, autoLoaderContent);
+    console.log('Autoloader updated');
+} else {
+    console.log('No changes to autoloader');
 }

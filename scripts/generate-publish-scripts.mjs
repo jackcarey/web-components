@@ -16,4 +16,7 @@ const existingPublishContent = fs.readFileSync(dryRunPath, 'utf8');
 
 if (existingPublishContent !== publishString) {
     fs.writeFileSync(publishPath, publishString, 'utf8');
+    console.log('Publish scripts updated');
+} else {
+    console.log('No changes to publish scripts');
 }

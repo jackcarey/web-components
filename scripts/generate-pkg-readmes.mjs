@@ -10,6 +10,9 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const readmeContent = `# ${pkgJson.name}\n\n**version:** ${pkgJson.version}\n\n> ${pkgJson.description}\n\nUse in a browser with [${esmShHref}](${esmShHref})\n\n\`\`\`html\n<script src="${esmShHref}"></script>\n\`\`\`\n\nMade by [jackcarey](https://jackcarey.co.uk).`;
     if (!fs.existsSync(readmePath) || fs.readFileSync(readmePath, 'utf8') !== readmeContent) {
         fs.writeFileSync(readmePath, readmeContent);
+        console.log(`README.md created at ${dir}`);
+    } else {
+        console.log(`No changes to README.md at ${dir}`);
     }
 });
 
