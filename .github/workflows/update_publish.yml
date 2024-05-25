@@ -45,7 +45,7 @@ jobs:
               run: npm install
 
             - name: Build the autoloader package
-              run: node scripts/build-autoloader.mjs
+              run: node scripts/generate-autoloader.mjs
 
             - name: Commit and push changed files to repo
               run: |
