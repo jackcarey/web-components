@@ -14,14 +14,20 @@ const packageDirectories = fs.readdirSync(pkgRootDir, { withFileTypes: true })
 
 
 // Read the package.json files and extract the details
-const pkgDetails = {};
+const unsortedPkgDetails = {};
 let count = 0;
 await Promise.all(packageDirectories.map(async (dir) => {
     return PackageJson.load(dir).then(({ content }) => {
-        pkgDetails[dir] = content;
+        unsortedPkgDetails[dir] = content;
         count += 1;
     });
 }));
 
+const pkgDetails = Object.fromEntries(Object.entries(unsortedPkgDetails).sort(([dirA, pkgA], [dirB, pkgB]) => {
+    const nameA = String(pkgA?.name ?? '').replaceAll('-', '');
+    const nameB = String(pkgB?.name ?? '').replaceAll('-', '');
+    return nameA.localeCompare(nameB);
+}));
+
 export { repoRootDir, pkgRootDir, pkgDetails, count };
-export default pkgDetails;
+export default unsortedPkgDetails;
