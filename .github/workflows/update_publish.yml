@@ -44,11 +44,6 @@ jobs:
             contents: write
             id-token: write
         steps:
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.9.0
-              with:
-                  ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
-
             - name: Checkout repo
               uses: actions/checkout@v4
 
@@ -56,6 +51,11 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "20"
+
+            - name: Setup SSH
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
 
             - name: Install dependencies
               run: npm install
@@ -65,6 +65,7 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -101,6 +102,7 @@ jobs:
 
             - name: Commit and push changes
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -143,6 +145,7 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
