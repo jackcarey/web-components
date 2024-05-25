@@ -6,4 +6,8 @@
 
 Use in a browser with [https://esm.sh/jsr/@web-components/query](https://esm.sh/jsr/@web-components/query)
 
+```html
+<script src="https://esm.sh/jsr/@web-components/query"></script>
+```
+
 Made by [jackcarey](https://jackcarey.co.uk).
