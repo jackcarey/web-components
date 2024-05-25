@@ -103,7 +103,7 @@ jobs:
     publish:
         needs: [test, bump-versions, build-docs]
         runs-on: ubuntu-latest
-
+        if: always() #always run this job, but after others
         permissions:
             contents: read
             id-token: write
