@@ -130,7 +130,7 @@ jobs:
                     fi
                   done
 
-            - name: Publish updated packages to JSR
+            - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
               run: |
                   for dir in packages/*; do
