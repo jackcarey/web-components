@@ -6,4 +6,8 @@
 
 Use in a browser with [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web-components/autoloader)
 
+```html
+<script src="https://esm.sh/jsr/@web-components/autoloader"></script>
+```
+
 Made by [jackcarey](https://jackcarey.co.uk).

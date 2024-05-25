@@ -4,18 +4,17 @@ on: [push, pull_request]
 
 jobs:
     test:
+        name: Test
         runs-on: ubuntu-latest
-
         permissions:
             contents: read
             id-token: write
-
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
 
             - name: Setup Node.js environment
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: "20"
 
@@ -25,8 +24,40 @@ jobs:
             - name: Run tests
               run: npm test
 
+    build-autoloader:
+        name: Build autoloader
+        needs: [test]
+        if: always() #always run this job, but after others
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build the autoloader package
+              run: node scripts/generate-autoloader.mjs
+
+            - name: Commit and push changed files to repo
+              run: |
+                  git diff
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -am "[GH Actions] Bump patch versions" || exit 0
+                  git push
+
     bump-versions:
-        needs: test
+        name: Bump patch versions
+        needs: [test, build-autoloader]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
         permissions:
@@ -37,7 +68,7 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Setup Node.js
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: "20"
 
@@ -45,13 +76,7 @@ jobs:
               run: npm install
 
             - name: Bump versions in package.json files
-              run: |
-                  for dir in $(find . -name 'package.json' -printf '%h\n' | sort -u)
-                  do
-                    cd $dir
-                    npm version patch -m "Bump package patch version"
-                    cd ..
-                  done
+              run: bash scripts/bump-versions.sh
 
             - name: Commit and push changes
               run: |
@@ -62,7 +87,8 @@ jobs:
                   git push
 
     build-docs:
-        needs: [test, bump-versions]
+        name: Build docs
+        needs: [test, bump-versions, build-autoloader]
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
         permissions:
@@ -73,7 +99,7 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Setup Node.js environment
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: "20"
 
@@ -89,9 +115,6 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            - name: Generate the autoloader package
-              run: node scripts/generate-autoloader.mjs
-
             - name: Commit and push changed files to repo
               run: |
                   git diff
@@ -101,7 +124,8 @@ jobs:
                   git push
 
     publish:
-        needs: [test, bump-versions, build-docs]
+        name: Publish packages
+        needs: [test, bump-versions, build-autoloader, build-docs]
         runs-on: ubuntu-latest
         if: always() #always run this job, but after others
         permissions:
@@ -113,30 +137,19 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Setup Node.js environment
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: "20"
 
             - name: Install dependencies
               run: npm install
 
+            - name: Generate publishing scripts
+              run: node scripts/generate-publish-scripts.mjs
+
             - name: Publish updated packages to JSR (dry-run)
-              run: |
-                  for dir in packages/*; do
-                    if [ -d "$dir" ]; then
-                      cd "$dir"
-                      npx jsr publish --allow-dirty --dry-run
-                      cd ..
-                    fi
-                  done
+              run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
-              run: |
-                  for dir in packages/*; do
-                    if [ -d "$dir" ]; then
-                      cd "$dir"
-                      npx jsr publish --allow-dirty
-                      cd ..
-                    fi
-                  done
+              run: bash scripts/publish-jsr.sh
