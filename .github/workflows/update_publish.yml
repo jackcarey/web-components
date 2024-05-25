@@ -45,13 +45,7 @@ jobs:
               run: npm install
 
             - name: Bump versions in package.json files
-              run: |
-                  for dir in $(find . -name 'package.json' -printf '%h\n' | sort -u)
-                  do
-                    cd $dir
-                    npm version patch -m "Bump package patch version"
-                    cd ..
-                  done
+              run:
 
             - name: Commit and push changes
               run: |
