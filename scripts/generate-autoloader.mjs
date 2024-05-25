@@ -35,4 +35,7 @@ const autoLoaderContent = `window.addEventListener("DOMContentLoaded", () => {
 
     observer.observe(document.body, { childList: true, subtree: true });
 });`;
-fs.writeFileSync(autoloaderPath, autoLoaderContent);
+
+if (fs.readFileSync(autoloaderPath, 'utf8') !== autoLoaderContent) {
+    fs.writeFileSync(autoloaderPath, autoLoaderContent);
+}
