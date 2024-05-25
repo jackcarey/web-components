@@ -15,7 +15,6 @@ on:
 jobs:
     test:
         name: Test
-        if: github.actor != 'GitHub Action'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -38,17 +37,11 @@ jobs:
     build-autoloader:
         name: Build autoloader
         needs: [test]
-        if: github.actor != 'GitHub Action'
         runs-on: ubuntu-latest
         permissions:
             contents: write
             id-token: write
         steps:
-            - name: Setup SSH
-              uses: webfactory/ssh-agent@v0.9.0
-              with:
-                  ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
-
             - name: Checkout repo
               uses: actions/checkout@v4
 
@@ -56,6 +49,11 @@ jobs:
               uses: actions/setup-node@v4
               with:
                   node-version: "20"
+
+            - name: Setup SSH
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                  ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
 
             - name: Install dependencies
               run: npm install
@@ -65,6 +63,7 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -75,7 +74,7 @@ jobs:
         name: Bump patch versions
         needs: [test, build-autoloader]
         runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main' && github.actor != 'GitHub Action'
+        if: github.ref == 'refs/heads/main'
         permissions:
             contents: write
             id-token: write
@@ -101,6 +100,7 @@ jobs:
 
             - name: Commit and push changes
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -110,7 +110,7 @@ jobs:
     build-docs:
         name: Build docs
         needs: [test, bump-versions, build-autoloader]
-        if: github.actor != 'GitHub Action'
+        if: always()
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -143,6 +143,7 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
+                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -152,8 +153,8 @@ jobs:
     publish-dry:
         name: Publish packages (dry run)
         needs: [test, bump-versions, build-autoloader, build-docs]
+        if: always()
         runs-on: ubuntu-latest
-        if: github.actor != 'GitHub Action'
         permissions:
             contents: read
             id-token: write
@@ -180,7 +181,7 @@ jobs:
         name: Publish packages
         needs: [publish-dry]
         runs-on: ubuntu-latest
-        if: github.actor != 'GitHub Action'
+        if: github.ref == 'refs/heads/main'
         permissions:
             contents: read
             id-token: write

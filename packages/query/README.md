@@ -1,6 +1,6 @@
 # query
 
-**version:** 0.0.1
+**version:** 0.0.3
 
 > A class for periodically fetching new data from a memory, OPFS, or sessionStorage.
 
