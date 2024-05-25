@@ -50,7 +50,10 @@ jobs:
             - name: Commit and push changed files to repo
               run: |
                   git diff
-                  git config --global user.email "
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -am "[GH Actions] Bump patch versions" || exit 0
+                  git push
 
     bump-versions:
         name: Bump patch versions
