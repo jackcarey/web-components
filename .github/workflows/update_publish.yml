@@ -138,8 +138,8 @@ jobs:
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
 
-    publish:
-        name: Publish packages
+    publish-dry:
+        name: Publish packages (dry run)
         needs: [test, bump-versions, build-autoloader, build-docs]
         runs-on: ubuntu-latest
         if: always() #always run this job, but after others
@@ -164,6 +164,30 @@ jobs:
 
             - name: Publish updated packages to JSR (dry-run)
               run: bash scripts/publish-jsr-dryrun.sh
+
+    publish:
+        name: Publish packages
+        needs: [publish-dry]
+        runs-on: ubuntu-latest
+        if: always() #always run this job, but after others
+        permissions:
+            contents: read
+            id-token: write
+
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Generate publishing scripts
+              run: node scripts/generate-publish-scripts.mjs
 
             - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
