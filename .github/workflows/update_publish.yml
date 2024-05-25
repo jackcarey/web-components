@@ -1,6 +1,6 @@
 name: Test, Docs, & Publish
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
     test:
@@ -29,6 +29,9 @@ jobs:
         needs: test
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
+        permissions:
+            contents: write
+            id-token: write
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -62,11 +65,9 @@ jobs:
         needs: [test, bump-versions]
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
-
         permissions:
             contents: write
             id-token: write
-
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -102,7 +103,7 @@ jobs:
     publish:
         needs: [test, bump-versions, build-docs]
         runs-on: ubuntu-latest
-
+        if: always() #always run this job, but after others
         permissions:
             contents: read
             id-token: write
@@ -129,7 +130,7 @@ jobs:
                     fi
                   done
 
-            - name: Publish updated packages to JSR
+            - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
               run: |
                   for dir in packages/*; do
