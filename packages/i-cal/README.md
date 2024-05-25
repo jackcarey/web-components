@@ -1,6 +1,6 @@
 # i-cal
 
-**version:** 1.0.4
+**version:** 1.0.5
 
 > Renders ics data in a web component
 
