@@ -26,6 +26,11 @@ const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
 
 // Write the markdown content to the README.md file
 const readmePath = path.join(repoRootDir, 'README.md');
-fs.writeFileSync(readmePath, markdownContent);
-
-console.log(count + ' package details saved to README.md');
+// Check if the content has changed
+const currentContent = fs.readFileSync(readmePath, 'utf8');
+if (currentContent !== markdownContent) {
+    fs.writeFileSync(readmePath, markdownContent);
+    console.log(count + ' package details saved to README.md');
+} else {
+    console.log('No changes to README.md')
+}

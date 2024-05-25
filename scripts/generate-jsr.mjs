@@ -22,5 +22,9 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     };
     const jsrPath = path.join(dir, 'jsr.json');
     console.log('writing JSR object to:', dir, jsrPath);
-    fs.writeFileSync(jsrPath, JSON.stringify(jsrJson, null, 2));
+    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
+    const newContent = JSON.stringify(jsrJson, null, 2);
+    if (existingContent !== newContent) {
+        fs.writeFileSync(jsrPath, newContent);
+    }
 });
