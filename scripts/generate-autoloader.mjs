@@ -1,7 +1,8 @@
 import fs from 'fs';
 import { repoRootDir, pkgDetails } from "./get-packages.mjs";
 
-const componentNames = Object.values(pkgDetails).filter(pkg => pkg?.name !== "autoloader").map(pkg => pkg.name);
+// Custom Element names must include hyphens so the packages do too. Utility packages like 'autoloader' and 'query' won't be included.
+const componentNames = Object.values(pkgDetails).filter(pkg => String(pkg?.name ?? '').includes("-")).map(pkg => pkg.name);
 const autoloaderPath = `${repoRootDir}/packages/autoloader/index.ts`;
 //to do: fix the script urls here
 const autoLoaderContent = `window.addEventListener("DOMContentLoaded", () => {
