@@ -1,6 +1,6 @@
 # autoloader
 
-**version:** 1.0.1
+**version:** 1.0.2
 
 > Automatically load the components from jackcarey/web-components
 
