@@ -152,8 +152,8 @@ jobs:
 
     publish-dry:
         name: Publish packages (dry run)
-        needs: [test, bump-versions, build-autoloader, build-docs]
-        if: always()
+        needs: [test, build-autoloader, build-docs]
+        if: github.ref != 'refs/heads/main'
         runs-on: ubuntu-latest
         permissions:
             contents: read
