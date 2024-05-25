@@ -15,6 +15,7 @@ on:
 jobs:
     test:
         name: Test
+        if: github.actor != 'GitHub Action'
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -37,7 +38,7 @@ jobs:
     build-autoloader:
         name: Build autoloader
         needs: [test]
-        if: always() #always run this job, but after others
+        if: github.actor != 'GitHub Action'
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -74,7 +75,7 @@ jobs:
         name: Bump patch versions
         needs: [test, build-autoloader]
         runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && github.actor != 'GitHub Action'
         permissions:
             contents: write
             id-token: write
@@ -109,7 +110,7 @@ jobs:
     build-docs:
         name: Build docs
         needs: [test, bump-versions, build-autoloader]
-        if: always() #always run this job, but after bump-versions-on-main
+        if: github.actor != 'GitHub Action'
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -152,7 +153,7 @@ jobs:
         name: Publish packages (dry run)
         needs: [test, bump-versions, build-autoloader, build-docs]
         runs-on: ubuntu-latest
-        if: always() #always run this job, but after others
+        if: github.actor != 'GitHub Action'
         permissions:
             contents: read
             id-token: write
@@ -179,7 +180,7 @@ jobs:
         name: Publish packages
         needs: [publish-dry]
         runs-on: ubuntu-latest
-        if: always() #always run this job, but after others
+        if: github.actor != 'GitHub Action'
         permissions:
             contents: read
             id-token: write
