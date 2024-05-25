@@ -24,9 +24,37 @@ jobs:
             - name: Run tests
               run: npm test
 
+    build-autoloader:
+        name: Build autoloader
+        needs: [test]
+        if: always() #always run this job, but after others
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build the autoloader package
+              run: node scripts/build-autoloader.mjs
+
+            - name: Commit and push changed files to repo
+              run: |
+                  git diff
+                  git config --global user.email "
+
     bump-versions:
         name: Bump patch versions
-        needs: [test]
+        needs: [test, build-autoloader]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
         permissions:
@@ -57,7 +85,7 @@ jobs:
 
     build-docs:
         name: Build docs
-        needs: [test, bump-versions]
+        needs: [test, bump-versions, build-autoloader]
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
         permissions:
@@ -91,34 +119,6 @@ jobs:
                   git config --global user.name "GitHub Action"
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
-
-    build-autoloader:
-        name: Build autoloader
-        needs: [test]
-        if: always() #always run this job, but after others
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-            id-token: write
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
-
-            - name: Build the autoloader package
-              run: node scripts/build-autoloader.mjs
-
-            - name: Commit and push changed files to repo
-              run: |
-                  git diff
-                  git config --global user.email "
 
     publish:
         name: Publish packages
