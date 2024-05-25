@@ -4,7 +4,7 @@
 
 ![update_publish workflow](https://github.com/jackcarey/web-components/actions/workflows/update_publish.yml/badge.svg?branch=main)
 
-This is a collection of 4 packages for various purposes. **Each component is published as a separate package with its own readme.** The 'autoloader' can be used to load other components. 
+There are 4 packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published with its own readme and license.** The 'autoloader' can be used to load other components. 
 
 
 | Name | Description | Version | Registry |
