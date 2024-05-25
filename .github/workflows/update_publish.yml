@@ -29,6 +29,9 @@ jobs:
         needs: test
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
+        permissions:
+            contents: write
+            id-token: write
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -62,11 +65,9 @@ jobs:
         needs: [test, bump-versions]
         if: always() #always run this job, but after bump-versions-on-main
         runs-on: ubuntu-latest
-
         permissions:
             contents: write
             id-token: write
-
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
