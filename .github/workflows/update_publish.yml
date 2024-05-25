@@ -44,7 +44,7 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Bump version in package.json
+            - name: Bump versions in package.json files
               run: |
                   for dir in $(find . -name 'package.json' -printf '%h\n' | sort -u)
                   do
@@ -80,17 +80,17 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Run generate-autoloader.mjs script
-              run: node scripts/generate-autoloader.mjs
-
-            - name: Run generate-jsr.mjs script
+            - name: Generate JSR files from package.json
               run: node scripts/generate-jsr.mjs
 
-            - name: Run generate-root-readme.mjs script
+            - name: Generate package README files
+              run: node scripts/generate-pkg-readmes.mjs
+
+            - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            - name: Run generate-pkg-readmes.mjs script
-              run: node scripts/generate-pkg-readmes.mjs
+            - name: Generate the autoloader package
+              run: node scripts/generate-autoloader.mjs
 
             - name: Commit and push changed files to repo
               run: |
