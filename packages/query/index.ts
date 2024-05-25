@@ -1,4 +1,4 @@
-import { FetchFn, GlobalStore, Options, QueryResult, Retry, RetryDelay } from "./types";
+import type { FetchFn, GlobalStore, Options, QueryResult, Retry, RetryDelay } from "./types.d.ts";
 
 const defaultOptions: Options = {
     retry: ((failureCount: number, error: Error) => failureCount < 3) as Retry,
