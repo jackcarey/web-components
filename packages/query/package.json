@@ -1,7 +1,7 @@
 {
   "name": "query",
   "version": "0.0.1",
-  "description": "A class for periodically fetching new data from a store",
+  "description": "A class for periodically fetching new data from a memory, OPFS, or sessionStorage.",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
