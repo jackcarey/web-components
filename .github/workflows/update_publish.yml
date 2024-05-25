@@ -1,6 +1,11 @@
 name: Test, Docs, & Publish
 
 on:
+    push:
+        paths:
+            - ".github/workflows/**"
+            - "packages/**"
+            - "scripts/**"
     pull_request:
         paths:
             - ".github/workflows/**"
