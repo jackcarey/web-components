@@ -178,7 +178,7 @@ jobs:
               run: bash scripts/publish-jsr-dryrun.sh
 
     publish:
-        name: Publish packages
+        name: Publish packages (on main)
         needs: [test, bump-versions, build-autoloader, build-docs]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
