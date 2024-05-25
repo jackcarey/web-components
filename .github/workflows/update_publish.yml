@@ -45,7 +45,7 @@ jobs:
               run: npm install
 
             - name: Bump versions in package.json files
-              run:
+              run: bash scripts/bump-versions.sh
 
             - name: Commit and push changes
               run: |
