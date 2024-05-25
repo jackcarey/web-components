@@ -25,7 +25,7 @@ jobs:
               run: npm test
 
     bump-versions:
-        name: Bump package patch versions
+        name: Bump patch versions
         needs: [test]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
@@ -84,9 +84,6 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            - name: Generate the autoloader package
-              run: node scripts/generate-autoloader.mjs
-
             - name: Commit and push changed files to repo
               run: |
                   git diff
@@ -95,9 +92,37 @@ jobs:
                   git commit -am "[GH Actions] updated readme and/or config files" || exit 0
                   git push
 
+    build-autoloader:
+        name: Build autoloader
+        needs: [test]
+        if: always() #always run this job, but after others
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            id-token: write
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
+            - name: Build the autoloader package
+              run: node scripts/build-autoloader.mjs
+
+            - name: Commit and push changed files to repo
+              run: |
+                  git diff
+                  git config --global user.email "
+
     publish:
         name: Publish packages
-        needs: [test, bump-versions, build-docs]
+        needs: [test, bump-versions, build-autoloader, build-docs]
         runs-on: ubuntu-latest
         if: always() #always run this job, but after others
         permissions:
