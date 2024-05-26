@@ -6,7 +6,7 @@ console.log('compiling packages for root readme from:', repoRootDir);
 
 // Generate the markdown content
 const badgeUrl = `https://github.com/jackcarey/web-components/actions/workflows/update_publish.yml/badge.svg?branch=main`;
-const mdHeader = `# web-components\n\n## This repo is currently a work-in-progress.\n\n![update_publish workflow](${badgeUrl}) [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)\n\nThere are ${count} packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published with its own readme and license.** They are published to [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components. \n\n`;
+const mdHeader = `# web-components\n\n## This repo is currently a work-in-progress.\n\n[![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components) ![update_publish workflow](${badgeUrl})\n\nThere are ${count} packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published with its own readme and license.** They are published to [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components. \n\n`;
 const relativeLink = (dir) => "/" + path.relative(repoRootDir, dir);
 const pkgToMdRow = ([dir, pkgJson]) => {
     const name = pkgJson?.name ?? '-';
