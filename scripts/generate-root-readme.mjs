@@ -16,12 +16,14 @@ const pkgToMdRow = ([dir, pkgJson]) => {
     const license = pkgJson?.license ?? '-';
     const jsrScope = 'web-components';
     const jsrBadgeUrl = `https://jsr.io/badges/@${jsrScope}/${name}`;
-    const jsrBadgeMd = `![${name}](${jsrBadgeUrl})`;
+    const jsrVersionBadgeMd = `![${name}](${jsrBadgeUrl})`;
     const jsrLinkUrl = `https://jsr.io/@${jsrScope}/${name}`;
-    const jsrLinkMd = `[${jsrBadgeMd}](${jsrLinkUrl})`;
-    return `| ${srcLink} | ${description} | ${version} | ${license} | ${jsrLinkMd} |`;
+    const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
+    const jsrScoreUrl = `${jsrBadgeUrl}/score`;
+    const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl})`;
+    return `| ${srcLink} | ${description} | ${version} | ${license} | ${jsrVersionMd} ${jsrScoreMd} |`;
 };
-const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- |\n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
+const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
 const mdFooter = `Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)`;
 const markdownContent = `${mdHeader}\n${mdBody}\n${mdFooter}`.trim();
 
