@@ -1,25 +1,24 @@
-window.addEventListener("DOMContentLoaded", () => {
-    const components = ["can-i-use","i-cal"];
-    components.forEach(component => {
-        if(!document.querySelector(component)) return;
-        const script = document.createElement('script');
-        script.type = 'module';
-        script.src = `https://esm.sh/jsr/@web-components/${component}`;
-        document.head.appendChild(script);
+import components from "./components";
+
+/**
+ * Automatically loads components from JSR @web-components.
+ * It adds a script tag with the component's source URL to the document head.
+ * It also observes the document body for any added nodes and loads the corresponding components.
+ */
+const autoload = () => {
+    components.forEach((component) => {
+        if (!document.querySelector(component)) return;
+        loadTag(component);
     });
 
-    const observer = new MutationObserver((mutationsList, observer) => {
+    const observer = new MutationObserver((mutationsList) => {
         for (let mutation of mutationsList) {
-            if (mutation.type === 'childList') {
+            if (mutation.type === "childList") {
                 const addedNodes = Array.from(mutation.addedNodes);
-                addedNodes.forEach(node => {
+                addedNodes.forEach((node) => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
-                        const componentName = node.tagName.toLowerCase();
-                        if (components.includes(componentName)) {
-                            const script = document.createElement('script');
-                            script.src = `/packages/${componentName}.js`;
-                            document.head.appendChild(script);
-                        }
+                        const isIncluded = components.includes(node.nodeName.toLowerCase());
+                        if (isIncluded) loadTag(isIncluded);
                     }
                 });
             }
@@ -27,4 +26,16 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-});
+};
+
+const loadTag = (name) => {
+    if (!name) return;
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}`;
+    script.async = true;
+    script.fetchPriority = "high";
+    document.head.appendChild(script);
+};
+
+window.addEventListener("DOMContentLoaded", autoload);
