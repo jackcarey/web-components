@@ -1,6 +1,8 @@
 # autoloader
 
-**version:** 1.0.6
+**version:** 1.0.7
+
+**license:** ISC
 
 > Automatically load the components from jackcarey/web-components
 
