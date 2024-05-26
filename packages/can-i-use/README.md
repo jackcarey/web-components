@@ -1,7 +1,7 @@
 # can-i-use
 
 **version:** 1.0.6
-**license:** ISC
+**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 

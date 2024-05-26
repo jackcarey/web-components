@@ -1,7 +1,7 @@
 # i-cal
 
 **version:** 1.0.6
-**license:** ISC
+**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
 > Renders ics data in a web component
 
