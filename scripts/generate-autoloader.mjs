@@ -12,6 +12,8 @@ const autoLoaderContent = `window.addEventListener("DOMContentLoaded", () => {
         const script = document.createElement('script');
         script.type = 'module';
         script.src = \`https://esm.sh/jsr/@web-components/\${component}\`;
+        script.async = true;
+        script.fetchPriority = "high";
         document.head.appendChild(script);
     });
 
