@@ -1,6 +1,7 @@
 # autoloader
 
-**version:** 1.0.6
+**version:** 1.0.7
+**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
 > Automatically load the components from jackcarey/web-components
 

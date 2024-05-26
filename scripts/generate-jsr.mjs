@@ -10,6 +10,13 @@ console.log('compiling packages for jsr from:', repoRootDir);
 const jsrScope = 'web-components';
 
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
+    const jsrPath = path.join(dir, 'jsr.json');
+    const isPrivate = pkgJson?.private;
+    if (isPrivate) {
+        fs.unlinkSync(jsrPath);
+        console.log('JSR file deleted:', jsrPath);
+        return;
+    }
     const name = pkgJson?.name;
     const version = pkgJson?.version;
     const entry = pkgJson?.main ?? "./index.ts";
@@ -20,7 +27,6 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
         "version": version,
         "exports": entry,
     };
-    const jsrPath = path.join(dir, 'jsr.json');
     console.log('writing JSR object to:', dir, jsrPath);
     const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
     const newContent = JSON.stringify(jsrJson, null, 2);

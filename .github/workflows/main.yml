@@ -1,7 +1,9 @@
-name: Test, Docs, & Publish
+name: CI/CD
 
 on:
     push:
+        branches:
+            - main
         paths:
             - ".github/workflows/**"
             - "packages/**"
@@ -22,6 +24,8 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -44,6 +48,8 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -63,7 +69,6 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -86,6 +91,8 @@ jobs:
 
             - name: Checkout code
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
@@ -100,7 +107,6 @@ jobs:
 
             - name: Commit and push changes
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -123,6 +129,8 @@ jobs:
 
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -143,7 +151,6 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -153,7 +160,7 @@ jobs:
     publish-dry:
         name: Publish packages (dry run)
         needs: [test, build-autoloader, build-docs]
-        if: github.ref != 'refs/heads/main'
+        if: always()
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -162,6 +169,8 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -179,7 +188,7 @@ jobs:
 
     publish:
         name: Publish packages (on main)
-        needs: [test, bump-versions, build-autoloader, build-docs]
+        needs: [test, bump-versions, build-autoloader, build-docs, publish-dry]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
         permissions:
@@ -189,6 +198,8 @@ jobs:
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
