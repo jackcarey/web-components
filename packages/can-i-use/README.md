@@ -1,6 +1,8 @@
 # can-i-use
 
-**version:** 1.0.5
+**version:** 1.0.6
+
+**license:** ISC
 
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 
