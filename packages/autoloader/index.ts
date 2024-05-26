@@ -28,6 +28,10 @@ const autoload = () => {
     observer.observe(document.body, { childList: true, subtree: true });
 };
 
+/**
+ * Loads a web component by dynamically creating a script tag and appending it to the document head.
+ * @param name - The name of the web component to load.
+ */
 const loadTag = (name) => {
     if (!name) return;
     const script = document.createElement("script");
