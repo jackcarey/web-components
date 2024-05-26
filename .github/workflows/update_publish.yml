@@ -63,7 +63,6 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -100,7 +99,6 @@ jobs:
 
             - name: Commit and push changes
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
@@ -143,7 +141,6 @@ jobs:
 
             - name: Commit and push changed files to repo
               run: |
-                  git pull
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
