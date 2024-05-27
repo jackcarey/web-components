@@ -9,6 +9,9 @@
 +  * ```
    */
 
+/**
+ * Represents a custom web component for displaying iCal events.
+ */
 class ICalComponent extends HTMLElement {
     #refreshInterval: number | undefined;
     #eventsList = [];
