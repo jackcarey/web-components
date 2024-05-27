@@ -39,7 +39,7 @@ jobs:
               run: npm test
 
     build-autoloader:
-        name: Build autoloader
+        name: Build autoloader package list
         needs: [test]
         runs-on: ubuntu-latest
         permissions:
@@ -64,8 +64,8 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Build the autoloader package
-              run: node scripts/generate-autoloader.mjs
+            - name: Build the autoloader package list
+              run: node scripts/generate-autoloader-list.mjs
 
             - name: Commit and push changed files to repo
               run: |
