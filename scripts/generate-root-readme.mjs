@@ -21,7 +21,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
     const jsrLinkUrl = `https://jsr.io/@${jsrScope}/${name}`;
     const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
     const jsrScoreUrl = `${jsrBadgeUrl}/score`;
-    const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl})`;
+    const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
     return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${jsrVersionMd} ${jsrScoreMd} |`;
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(pkgDetails).map(pkgToMdRow).join('\n')}\n\n`;
