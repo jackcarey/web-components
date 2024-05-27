@@ -1,6 +1,6 @@
 {
   "name": "autoloader",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Automatically load the components from jackcarey/web-components",
   "main": "./index.ts",
   "scripts": {
