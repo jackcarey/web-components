@@ -9,7 +9,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const esmShHref = `https://esm.sh/jsr/@web-components/${pkgJson.name}`;
     const licenseName = pkgJson?.license ?? 'unlicensed';
     const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(licenseName)})`;
-    const readmeContent = `# ${pkgJson.name}\n\n**version:** ${pkgJson.version}\n**license:** ${licenseMd}\n\n\> ${pkgJson.description}\n\nUse in a browser with [${esmShHref}](${esmShHref})\n\n\`\`\`html\n<script src="${esmShHref}"></script>\n\`\`\`\n\nMade by [jackcarey](https://jackcarey.co.uk).`;
+    const readmeContent = `# ${pkgJson.name}\n\n**version:** ${pkgJson.version}\n\n**license:** ${licenseMd}\n\n\> ${pkgJson.description}\n\nUse in a browser with [${esmShHref}](${esmShHref})\n\n\`\`\`html\n<script src="${esmShHref}"></script>\n\`\`\`\n\nMade by [jackcarey](https://jackcarey.co.uk).`;
     if (!fs.existsSync(readmePath) || fs.readFileSync(readmePath, 'utf8') !== readmeContent) {
         fs.writeFileSync(readmePath, readmeContent);
         console.log(`README.md created at ${dir}`);
