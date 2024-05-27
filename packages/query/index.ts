@@ -1,4 +1,12 @@
-import type { FetchFn, GlobalStore, Options, QueryResult, Retry, RetryDelay } from "./types.d.ts";
+import type {
+    FetchFn,
+    GlobalStore,
+    Options,
+    QueryResult,
+    Retry,
+    RetryDelay,
+    Status,
+} from "./types.d.ts";
 
 const defaultOptions: Options = {
     retry: ((failureCount: number, error: Error) => failureCount < 3) as Retry,
@@ -50,14 +58,14 @@ class Query {
     /**
      * Gets the key of the query.
      */
-    get key() {
+    get key(): string {
         return this.#key;
     }
 
     /**
      * Fetches the data for the query.
      */
-    refetch() {
+    refetch(): void {
         if (this.#fetchFn) {
             this.#localResult.status = "pending";
             this.#fetchFn()
@@ -87,24 +95,25 @@ class Query {
     /**
      * Gets the options of the query.
      */
-    get options() {
+    get options(): Options {
         return this.#options;
     }
 
     /**
      * Checks if the query is using a global store.
      */
-    get isGlobal() {
+    get isGlobal(): Boolean {
+        const hasGlobalStore = this.#options?.globalStore ? true : false;
         return (
-            this.#options?.globalStore &&
-            ["memory", "opfs", "session"].includes(this.#options.globalStore)
+            hasGlobalStore &&
+            ["memory", "opfs", "session"].includes(this.#options?.globalStore as string)
         );
     }
 
     /**
      * Gets the option values of the query.
      */
-    get optionValues() {
+    get optionValues(): Options {
         const opts = { ...defaultOptions, ...this.#options };
         if (typeof this.#options?.retry === "function") {
             opts.retry = this.#options.retry(this.failureCount, this.error);
@@ -121,28 +130,28 @@ class Query {
     /**
      * Gets the status of the query.
      */
-    get status() {
+    get status(): Status {
         return this.#localResult.error ? "error" : this.#localResult.status;
     }
 
     /**
      * Checks if the query is pending.
      */
-    get isPending() {
+    get isPending(): Boolean {
         return this.#localResult.status === "pending";
     }
 
     /**
      * Checks if the query has encountered an error.
      */
-    get isError() {
+    get isError(): Boolean {
         return this.#localResult.error ? true : false;
     }
 
     /**
      * Gets the data of the query.
      */
-    get data() {
+    get data(): unknown {
         if (this.isStale) {
             this.refetch();
         }
@@ -157,7 +166,7 @@ class Query {
     /**
      * Checks if the query is using previous data.
      */
-    get isPreviousData() {
+    get isPreviousData(): Boolean {
         const hasData = this.#localResult.data;
         const hasPrevious = this.#localResult.previousData;
         const hasInitial = this.#options?.initialData;
@@ -167,14 +176,14 @@ class Query {
     /**
      * Gets the timestamp when the data was last updated.
      */
-    get dataUpdatedAt() {
-        return this.#localResult.dataUpdatedAt;
+    get dataUpdatedAt(): Date | undefined {
+        return this.#localResult?.dataUpdatedAt ?? undefined;
     }
 
     /**
      * Checks if the query data is stale.
      */
-    get isStale() {
+    get isStale(): Boolean {
         if (!this.#localResult.dataUpdatedAt) return true;
         const now = Date.now();
         const ttl = this.options?.ttl ?? 60000;
@@ -185,46 +194,50 @@ class Query {
     /**
      * Gets the error of the query.
      */
-    get error() {
-        return this.#localResult.error;
+    get error(): Error | undefined {
+        return this.#localResult?.error ?? undefined;
     }
 
     /**
      * Gets the timestamp when the error occurred.
      */
-    get errorUpdatedAt() {
-        return this.#localResult.errorUpdatedAt;
+    get errorUpdatedAt(): Date | undefined {
+        return this.#localResult?.errorUpdatedAt ?? undefined;
     }
 
     /**
      * Gets the timestamp when the query was last updated.
      */
-    get updatedAt() {
+    get updatedAt(): Date | undefined {
         if (!this.#localResult.dataUpdatedAt) return this.#localResult.errorUpdatedAt;
-        if (!this.#localResult.errorUpdatedAt) return this.#localResult.dataUpdatedAt;
-        const dataNumber = new Date(this.#localResult.dataUpdatedAt).getTime();
-        const errNumber = new Date(this.#localResult.errorUpdatedAt).getTime();
-        return new Date(Math.max(dataNumber, errNumber));
+        const dataNumber = this.#localResult?.dataUpdatedAt
+            ? new Date(this.#localResult.dataUpdatedAt).getTime()
+            : undefined;
+        const errNumber = this.#localResult?.errorUpdatedAt
+            ? new Date(this.#localResult.errorUpdatedAt)?.getTime()
+            : undefined;
+        const hasNumber = dataNumber || errNumber;
+        return !hasNumber ? undefined : new Date(Math.max(dataNumber ?? 0, errNumber ?? 0));
     }
 
     /**
      * Gets the failure count of the query.
      */
-    get failureCount() {
+    get failureCount(): number {
         return this.#localResult.failureCount;
     }
 
     /**
      * Returns a string representation of the query.
      */
-    toString() {
+    toString(): string {
         return JSON.stringify({ ...this.optionValues, ...this.#localResult });
     }
 
     /**
      * Returns the data value of the query.
      */
-    valueOf() {
+    valueOf(): unknown {
         return this.data;
     }
 }
