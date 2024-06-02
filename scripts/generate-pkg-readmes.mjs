@@ -22,7 +22,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
   const replacements = {
     $name: pkgJson.name,
     $version: pkgJson.version,
-    $description: pkgJson.description,
+    $description: `> ${pkgJson.description}`,
     $license: pkgJson.license ?? "unlicensed",
     $encodedLicense: encodeURIComponent(pkgJson.license) ?? "",
     $docs: docsStr,
