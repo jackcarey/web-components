@@ -41,15 +41,15 @@ jobs:
               run: npm install
 
             - name: Run tests
-                run: node scripts/test-json.mjs
+              run: node scripts/test-json.mjs
 
             - name: Save test results (diff)
-                run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Update test results" || exit 0
-                  git push
+              run: |
+                git diff
+                git config --global user.email "action@github.com"
+                git config --global user.name "GitHub Action"
+                git commit -am "[GH Actions] Update test results" || exit 0
+                git push
 
     build-autoloader:
         name: Build autoloader package list
