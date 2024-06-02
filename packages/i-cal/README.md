@@ -1,6 +1,6 @@
 # i-cal
 
-**version:** 1.0.6
+**version:** 1.0.7
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 

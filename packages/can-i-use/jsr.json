@@ -1,5 +1,5 @@
 {
   "name": "@web-components/can-i-use",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "exports": "./index.ts"
 }
