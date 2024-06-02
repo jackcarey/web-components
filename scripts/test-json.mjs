@@ -7,7 +7,7 @@ exec("jest --config=jest.config.js --json --passWithNoTests", (_error, stdout, _
   }
 
   //Save test results
-  fs.writeFileSync("test-output/results.json", JSON.stringify(stdout, null, 2));
+  fs.writeFileSync("test-output/results.json", stdout);
   console.log("Saved test results to jest-results.json");
 
   // Save other messages and errors
