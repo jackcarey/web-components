@@ -10,7 +10,7 @@ fi
 for dir in $directories; do
     cd $dir
     branchChanges=$(git diff $(git merge-base origin/main HEAD) origin/main -- $dir)
-    lastCommitChanges=$(git diff HEAD^ HEAD -- $dir)
+    lastCommitChanges=$(git diff -- $dir)
     if [ "$currentBranch" = "main" ]; then
         if [ -z "$lastCommitChanges" ]; then
             echo "No changes in $dir. Skipping version bump."
