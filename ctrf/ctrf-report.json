@@ -1,0 +1,18 @@
+{
+  "results": {
+    "tool": {
+      "name": "jest"
+    },
+    "summary": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "start": 1717337209808,
+      "stop": 1717337209808
+    },
+    "tests": []
+  }
+}
