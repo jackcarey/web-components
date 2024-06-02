@@ -19,7 +19,7 @@ jobs:
         name: Test
         runs-on: ubuntu-latest
         permissions:
-            contents: read
+            contents: write
             id-token: write
         steps:
             - name: Checkout repo
@@ -30,13 +30,29 @@ jobs:
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
               with:
-                  node-version: "20"
+                node-version: "20"
+
+            - name: Setup SSH
+              uses: webfactory/ssh-agent@v0.9.0
+              with:
+                ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
+
+            - name: Install Jest
+              run: npm install -g jest
 
             - name: Install dependencies
               run: npm install
 
             - name: Run tests
-              run: npm test
+              run: node scripts/test-json.mjs
+
+            - name: Save test results (diff)
+              run: |
+                git diff
+                git config --global user.email "action@github.com"
+                git config --global user.name "GitHub Action"
+                git commit -am "[GH Actions] Update test results" || exit 0
+                git push
 
     build-autoloader:
         name: Build autoloader package list
@@ -77,7 +93,7 @@ jobs:
 
     bump-versions:
         name: Bump patch versions
-        needs: [test, build-autoloader]
+        needs: [test]
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/main'
         permissions:
@@ -116,7 +132,7 @@ jobs:
     build-docs:
         name: Build docs
         needs: [test, bump-versions, build-autoloader]
-        if: always()
+        if: needs.test.result == 'success'
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -160,7 +176,7 @@ jobs:
     publish-dry:
         name: Publish packages (dry run)
         needs: [test, build-autoloader, build-docs]
-        if: always()
+        if: needs.test.result == 'success'
         runs-on: ubuntu-latest
         permissions:
             contents: read

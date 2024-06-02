@@ -38,7 +38,6 @@ const loadTag = (name) => {
     script.type = "module";
     script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}`;
     script.async = true;
-    script.fetchPriority = "high";
     document.head.appendChild(script);
 };
 

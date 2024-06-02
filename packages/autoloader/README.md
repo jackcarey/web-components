@@ -1,6 +1,6 @@
 # autoloader
 
-**version:** 1.0.7
+**version:** 1.0.8
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
 > Automatically load the components from jackcarey/web-components
@@ -12,3 +12,7 @@ Use in a browser with [https://esm.sh/jsr/@web-components/autoloader](https://es
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).
+
+## Documentation
+
+The 'autoloader' has no options. Component script tags are added to the head of the document with [async loading](https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement/async).
