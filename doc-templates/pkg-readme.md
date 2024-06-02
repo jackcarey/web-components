@@ -4,7 +4,7 @@
 
 **license:** [$license](https://www.tldrlegal.com/search?query=$encodedLicense)
 
-> $description
+$description
 
 Use in a browser with [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
