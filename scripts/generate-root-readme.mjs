@@ -14,7 +14,8 @@ const relativeLink = (dir) => "/" + path.relative(repoRootDir, dir);
 const pkgToMdRow = ([dir, pkgJson]) => {
   const name = pkgJson?.name ?? "-";
   const srcLink = `[${name}](${relativeLink(dir)})`;
-  const description = pkgJson?.description ?? "-";
+  const type = name.includes("-") ? "Component" : "Utility";
+  const description = `${pkgJson?.description ?? ""} - **${type}**`.trim();
   const version = pkgJson?.version ?? "-";
   const licenseName = pkgJson?.license ?? "unlicensed";
   const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
