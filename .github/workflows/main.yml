@@ -70,7 +70,7 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Save test results (diff)
+            - name: Save file changes
               run: |
                 git diff
                 git config --global user.email "action@github.com"
