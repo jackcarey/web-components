@@ -1,6 +1,7 @@
 # $name
 
 **version:** $version
+
 **license:** [$license](https://www.tldrlegal.com/search?query=$encodedLicense)
 
 > $description
