@@ -19,7 +19,7 @@ jobs:
         name: Test
         runs-on: ubuntu-latest
         permissions:
-            contents: read
+            contents: write
             id-token: write
         steps:
             - name: Checkout repo
@@ -38,7 +38,7 @@ jobs:
             - name: Run tests
                 run: node scripts/test-json.mjs
 
-            - name: Save test results
+            - name: Save test results (diff)
                 run: |
                   git diff
                   git config --global user.email "action@github.com"
