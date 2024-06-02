@@ -71,6 +71,7 @@ jobs:
               run: bash scripts/publish-jsr.sh
 
             - name: Save file changes
+              if: github.ref == 'refs/heads/main'
               run: |
                 git diff
                 git config --global user.email "action@github.com"
