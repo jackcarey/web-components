@@ -11,7 +11,7 @@
 ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal)
 
 ```html
-<script src="https://esm.sh/jsr/@web-components/i-cal"></script>
+<script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).

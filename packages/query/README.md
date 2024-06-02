@@ -11,7 +11,7 @@
 ESM CDN: [https://esm.sh/jsr/@web-components/query](https://esm.sh/jsr/@web-components/query)
 
 ```html
-<script src="https://esm.sh/jsr/@web-components/query"></script>
+<script src="https://esm.sh/jsr/@web-components/query" type="module"></script>
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).

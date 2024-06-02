@@ -11,7 +11,7 @@
 ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web-components/autoloader)
 
 ```html
-<script src="https://esm.sh/jsr/@web-components/autoloader"></script>
+<script src="https://esm.sh/jsr/@web-components/autoloader" type="module"></script>
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).

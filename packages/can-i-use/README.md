@@ -11,7 +11,7 @@
 ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use)
 
 ```html
-<script src="https://esm.sh/jsr/@web-components/can-i-use"></script>
+<script src="https://esm.sh/jsr/@web-components/can-i-use" type="module"></script>
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).
