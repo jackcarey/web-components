@@ -6,6 +6,7 @@ import components from "./components";
  * It also observes the document body for any added nodes and loads the corresponding components.
  */
 const autoload = () => {
+    console.info("Autoloading components...");
     components.forEach((component) => {
         if (!document.querySelector(component)) return;
         loadTag(component);
@@ -38,6 +39,7 @@ const loadTag = (name) => {
     script.type = "module";
     script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}`;
     script.async = true;
+    console.info(`Loading component: ${name}`);
     document.head.appendChild(script);
 };
 
