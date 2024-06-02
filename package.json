@@ -12,7 +12,7 @@
     "ts-jest": "^29.1.4"
   },
   "scripts": {
-    "test": "jest --passWithNoTests"
+    "test": "node scripts/test-json.mjs"
   },
   "keywords": [],
   "author": "",
