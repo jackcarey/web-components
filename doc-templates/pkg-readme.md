@@ -6,7 +6,9 @@
 
 $description
 
-Use in a browser with [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
+## Browser Use
+
+ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/$name"></script>
