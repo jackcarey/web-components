@@ -1,7 +1,7 @@
 import fs from "fs";
 import { exec } from "child_process";
 
-exec("jest --json", (_error, stdout, _stderr) => {
+exec("jest --json --passWithNoTests", (_error, stdout, _stderr) => {
   if(_error){
     throw new Error(_error);
   }
