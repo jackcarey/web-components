@@ -1,7 +1,7 @@
 import fs from "fs";
 import { exec } from "child_process";
 
-exec("jest --config=jest.config.js --json --passWithNoTests", (_error, stdout, _stderr) => {
+exec("jest --config=jest.config.js --json --colors --testLocationInResults --passWithNoTests", (_error, stdout, _stderr) => {
   if(_error){
     throw new Error(_error);
   }
