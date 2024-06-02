@@ -9,3 +9,15 @@ There are $count packages in this collection. Some are web components intended f
 $table
 
 Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
+
+## Using components
+
+//todo
+
+## Developing components
+
+//todo
+
+## Producing documentation
+
+Readmes, JSR config, and package documentation are updated by the files in the `/scripts` folder by GitHub Actions. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling readme files from `package.json` files and `DOCUMENTATION.md` files.
