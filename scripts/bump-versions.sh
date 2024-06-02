@@ -3,7 +3,7 @@ echo "Bumping package patch versions"
 directories=$(find "$(git rev-parse --show-toplevel)/packages" -name 'package.json' -not -path '*/node_modules/*' -type f -printf '%h\n' | sort -u)
 currentBranch=$(git rev-parse --abbrev-ref HEAD)
 if [ "$currentBranch" = "main" ]; then
-    echo "Current branch is main. Checking for changes against last commit..."
+    echo "Current branch is main. Checking for changes against last common commit..."
 else
     echo "Current branch is not main. Checking for changes against main branch..."
 fi
