@@ -37,6 +37,9 @@ jobs:
               with:
                 ssh-private-key: ${{ secrets.WEB_COMPONENTS_DEPLOY_SECRET }}
 
+            - name: Install Jest
+              run: npm install -g jest
+
             - name: Install dependencies
               run: npm install
 
