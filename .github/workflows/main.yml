@@ -129,7 +129,6 @@ jobs:
     build-docs:
         name: Build docs
         needs: [test, bump-versions, build-autoloader]
-        needs: [test]
         if: needs.test.result == 'success'
         runs-on: ubuntu-latest
         permissions:
