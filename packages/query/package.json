@@ -3,6 +3,7 @@
   "version": "0.0.6",
   "description": "A class for periodically fetching new data from a memory, OPFS, or sessionStorage.",
   "main": "./index.ts",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

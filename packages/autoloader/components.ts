@@ -1,1 +1,2 @@
-const components = ["can-i-use","i-cal"];export default components;
+const components = ["can-i-use","i-cal"];
+export default components;
