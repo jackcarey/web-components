@@ -70,7 +70,7 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Save file changes
+            - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
               run: |
                 git diff
