@@ -129,7 +129,6 @@ jobs:
     build-docs:
         name: Build docs
         needs: [test, bump-versions, build-autoloader]
-        if: always()
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -173,7 +172,6 @@ jobs:
     publish-dry:
         name: Publish packages (dry run)
         needs: [test, build-autoloader, build-docs]
-        if: always()
         runs-on: ubuntu-latest
         permissions:
             contents: read
