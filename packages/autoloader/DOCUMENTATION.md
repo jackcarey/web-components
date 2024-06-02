@@ -1,0 +1,1 @@
+The 'autoloader' has no options. Component script tags are added to the head of the document with [async loading](https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement/async).

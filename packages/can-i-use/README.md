@@ -12,3 +12,7 @@ Use in a browser with [https://esm.sh/jsr/@web-components/can-i-use](https://esm
 ```
 
 Made by [jackcarey](https://jackcarey.co.uk).
+
+## Documentation
+
+See repo: [jackcarey/web-components](https://github.com/jackcarey/web-components)
