@@ -16,8 +16,8 @@ on:
             - "scripts/**"
 
 jobs:
-    test:
-        name: Test
+    main:
+        name: Test, build, and publish
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -43,103 +43,12 @@ jobs:
             - name: Run tests
               run: node scripts/test-json.mjs
 
-            - name: Save test results (diff)
-              run: |
-                git diff
-                git config --global user.email "action@github.com"
-                git config --global user.name "GitHub Action"
-                git commit -am "[GH Actions] Update test results" || exit 0
-                git push
-
-    build-autoloader:
-        name: Build autoloader package list
-        needs: [test]
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-            id-token: write
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.event.pull_request.head.ref }}
-                  token: ${{ secrets.CI_PAT }}
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
-
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
-            - name: Commit and push changed files to repo
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Bump patch versions" || exit 0
-                  git push
-
-    bump-versions:
-        name: Bump patch versions
-        needs: [test]
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
-        permissions:
-            contents: write
-            id-token: write
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.event.pull_request.head.ref }}
-                  token: ${{ secrets.CI_PAT }}
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
-
             - name: Bump versions in package.json files
+              if: github.ref == 'refs/heads/main'
               run: bash scripts/bump-versions.sh
-
-            - name: Commit and push changes
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Bump patch versions" || exit 0
-                  git push
-
-    build-docs:
-        name: Build docs
-        needs: [test, bump-versions, build-autoloader]
-        if: needs.test.result == 'success'
-        runs-on: ubuntu-latest
-        permissions:
-            contents: write
-            id-token: write
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.event.pull_request.head.ref }}
-                  token: ${{ secrets.CI_PAT }}
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
 
             - name: Generate JSR files from package.json
               run: node scripts/generate-jsr.mjs
@@ -150,69 +59,21 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            - name: Commit and push changed files to repo
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] updated readme and/or config files" || exit 0
-                  git push
-
-    publish-dry:
-        name: Publish packages (dry run)
-        needs: [test, build-autoloader, build-docs]
-        if: needs.test.result == 'success'
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            id-token: write
-
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.event.pull_request.head.ref }}
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
-
             - name: Generate publishing scripts
               run: node scripts/generate-publish-scripts.mjs
 
             - name: Publish updated packages to JSR (dry-run)
+              if: github.ref != 'refs/heads/main'
               run: bash scripts/publish-jsr-dryrun.sh
-
-    publish:
-        name: Publish packages (on main)
-        needs: [test, bump-versions, build-autoloader, build-docs, publish-dry]
-        runs-on: ubuntu-latest
-        if: github.ref == 'refs/heads/main'
-        permissions:
-            contents: read
-            id-token: write
-
-        steps:
-            - name: Checkout repo
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.event.pull_request.head.ref }}
-
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
-            - name: Install dependencies
-              run: npm install
-
-            - name: Generate publishing scripts
-              run: node scripts/generate-publish-scripts.mjs
 
             - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
+
+            - name: Save test results (diff)
+              run: |
+                git diff
+                git config --global user.email "action@github.com"
+                git config --global user.name "GitHub Action"
+                git commit -am "[GH Actions] Update documentation" || exit 0
+                git push
