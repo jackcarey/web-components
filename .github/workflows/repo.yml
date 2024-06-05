@@ -1,4 +1,4 @@
-name: Check CODEOWNERS File
+name: Repository
 
 on:
   push:
