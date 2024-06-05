@@ -1,0 +1,20 @@
+name: Check CODEOWNERS File
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-codeowners:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if CODEOWNERS file exists
+        run: bash scripts/check-codeowners.sh
