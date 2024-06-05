@@ -21,7 +21,7 @@ jobs:
         run: bash scripts/check-codeowners.sh
 
   check-documentation:
-  name: Documentation files exist
+    name: Documentation files exist
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
