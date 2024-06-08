@@ -29,14 +29,6 @@ jobs:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
 
-            - name: Read commit author
-              id: read-author
-              run: echo "::set-output name=author::$(git log -1 --pretty=format:'%ae')"
-
-            - name: Check author
-              if: steps.read-author.outputs.author == 'action@github.com'
-              run: exit 0
-
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
               with:
