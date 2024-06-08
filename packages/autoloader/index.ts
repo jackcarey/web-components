@@ -6,10 +6,9 @@ import components from "./components";
  * It also observes the document body for any added nodes and loads the corresponding components.
  */
 const autoload = () => {
-    console.info("Autoloading components...");
-    components.forEach((component) => {
-        if (!document.querySelector(component)) return;
-        loadTag(component);
+    Object.entries(components).forEach(([tagName, version]) => {
+        if (!document.querySelector(tagName)) return;
+        loadTag(tagName);
     });
 
     const observer = new MutationObserver((mutationsList) => {
@@ -18,8 +17,9 @@ const autoload = () => {
                 const addedNodes = Array.from(mutation.addedNodes);
                 addedNodes.forEach((node) => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
-                        const isIncluded = components.includes(node.nodeName.toLowerCase());
-                        if (isIncluded) loadTag(isIncluded);
+                        const nodeTagName = node.nodeName.toLowerCase();
+                        const isIncluded = Object.keys(components).includes(nodeTagName);
+                        if (isIncluded) loadTag(nodeTagName);
                     }
                 });
             }
@@ -35,11 +35,13 @@ const autoload = () => {
  */
 const loadTag = (name) => {
     if (!name) return;
+    const version = components[name] ?? "latest";
     const script = document.createElement("script");
     script.type = "module";
-    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}`;
     script.async = true;
-    console.info(`Loading component: ${name}`);
+    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}${
+        version === "latest" ? "" : `@${version}`
+    }`;
     document.head.appendChild(script);
 };
 
