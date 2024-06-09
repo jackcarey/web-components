@@ -20,7 +20,7 @@
     "@storybook/web-components-vite": "^8.1.6",
     "jest": "^29.7.0",
     "lit": "3.1.4",
-    "storybook": "^8.1.6",
+    "storybook": "^8.1.6"
   },
   "scripts": {
     "test": "test-storybook",

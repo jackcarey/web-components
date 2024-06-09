@@ -29,10 +29,16 @@ jobs:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
 
+            - name: Check if CODEOWNERS file exists
+              run: bash scripts/check-codeowners.sh
+
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
               with:
                   node-version: "20"
+
+            - name: Check each package has documentation and stories
+              run: node scripts/check-documentation.mjs
 
             - name: Install Playwright
               run: npx playwright install

@@ -5,7 +5,7 @@
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![update_publish workflow](https://github.com/jackcarey/web-components/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/main.yml?query=branch%3Amain)
 
-There are $count packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published as it's pwn package with a readme, license, and documentation.** They are published to [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components. 
+There are $count packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published as it's pwn package with a readme, license, and documentation.** They are published to [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components.
 
 $table
 
