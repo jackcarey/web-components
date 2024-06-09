@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -13,13 +13,27 @@
                 align-items: center;
                 text-align: center;
                 vertical-align: middle;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-                    "Segoe UI Symbol", "Noto Color Emoji";
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    Roboto,
+                    "Helvetica Neue",
+                    Arial,
+                    sans-serif,
+                    "Apple Color Emoji",
+                    "Segoe UI Emoji",
+                    "Segoe UI Symbol",
+                    "Noto Color Emoji";
             }
 
             body {
                 width: 100%;
+                margin:0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
 
             header {
@@ -28,6 +42,8 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                margin: 0;
+                padding: 0;
                 width: 100%;
                 > h1 {
                     margin-bottom: 0.5em;
@@ -36,30 +52,43 @@
 
             main {
                 width: 100%;
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 1rem;
-                font-family: sans-serif;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: center;
             }
 
-            main div {
-                margin: 0.25eml;
+            .big-link{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+                vertical-align: middle;
+            }
+            .big-link img{
+                margin-right: 0.5em;
+                object-fit: contain;
+                object-position: center;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th {
+                background-color: #eee;
+                font-weight: bold;
+                padding: 0.5em;
             }
 
-            h1 {
-                margin: 0;
+            tr:nth-child(even) {
+                background-color: #efefef;
             }
 
-            h2 {
-                margin: 0 0 1rem;
+            tr:nth-child(odd) {
+                background-color: #ffffff;
             }
-
-            p {
-                margin: 0;
+            td {
+                padding: 0 0.25em;
             }
         </style>
         <script type="module" src="packages/autoloader/index"></script>
@@ -74,113 +103,28 @@
         <header>
             <h1>@web-components</h1>
             <p>
-                GitHub:
-                <a href="https://github.com/jackcarey/web-components" target="_blank"
-                    >@jackcarey/web-components</a
-                >
+                Made with ❤️ by
+                <a href="https://jackcarey.dev" target="_blank">Jack Carey</a>
             </p>
-            <p>JSR: <a href="https://jsr.io/@web-components" target="_blank">@web-components</a></p>
         </header>
         <main>
-            <details open>
-                <summary>
-                    <h2>can-i-use</h2>
-                    <p>Check browser support for a feature</p>
-                </summary>
-                <can-i-use feature="flexbox" />
-            </details>
-            <hr />
-            <details open>
-                <summary>
-                    <h2>i-cal</h2>
-                </summary>
-                <i-cal
-                    src="/src/example.ics"
-                    events="BEGIN:VCALENDAR
-                VERSION:2.0
-                CALSCALE:GREGORIAN
-                BEGIN:VEVENT
-                SUMMARY:Signing of the Declaration of Independence
-                DTSTART;TZID=America/New_York:17760704T120000
-                DTEND;TZID=America/New_York:17760704T130000
-                LOCATION:Philadelphia, PA
-                DESCRIPTION: The signing of the Declaration of Independence.
-                STATUS:CONFIRMED
-                SEQUENCE:1
-                BEGIN:VALARM
-                TRIGGER:-PT10M
-                DESCRIPTION:Event Reminder
-                ACTION:DISPLAY
-                END:VALARM
-                END:VEVENT
-                BEGIN:VEVENT
-    SUMMARY:First Moon Landing
-    DTSTART;TZID=America/New_York:19690720T203000
-    DTEND;TZID=America/New_York:19690720T210000
-    LOCATION:Tranquility Base, Moon
-    DESCRIPTION: Neil Armstrong takes the first step on the moon.
-    STATUS:CONFIRMED
-    SEQUENCE:1
-    BEGIN:VALARM
-    TRIGGER:-PT10M
-    DESCRIPTION:Event Reminder
-    ACTION:DISPLAY
-    END:VALARM
-    END:VEVENT
-    BEGIN:VEVENT
-    SUMMARY:Fall of the Berlin Wall
-    DTSTART;TZID=Europe/Berlin:19891109T180000
-    DTEND;TZID=Europe/Berlin:19891109T190000
-    LOCATION:Berlin, Germany
-    DESCRIPTION: The Berlin Wall falls, marking the end of the Cold War.
-    STATUS:CONFIRMED
-    SEQUENCE:1
-    BEGIN:VALARM
-    TRIGGER:-PT10M
-    DESCRIPTION:Event Reminder
-    ACTION:DISPLAY
-    END:VALARM
-    END:VEVENT
-    BEGIN:VEVENT
-    SUMMARY:Invention of the World Wide Web
-    DTSTART;TZID=Europe/London:19890312T090000
-    DTEND;TZID=Europe/London:19890312T100000
-    LOCATION:CERN, Switzerland
-    DESCRIPTION: Tim Berners-Lee invents the World Wide Web.
-    STATUS:CONFIRMED
-    SEQUENCE:1
-    BEGIN:VALARM
-    TRIGGER:-PT10M
-    DESCRIPTION:Event Reminder
-    ACTION:DISPLAY
-    END:VALARM
-    END:VEVENT
-    BEGIN:VEVENT
-    SUMMARY:First Flight of the Wright Brothers
-    DTSTART;TZID=America/New_York:19031217T103000
-    DTEND;TZID=America/New_York:19031217T110000
-    LOCATION:Kitty Hawk, NC
-    DESCRIPTION: The Wright Brothers successfully fly the first powered aircraft.
-    STATUS:CONFIRMED
-    SEQUENCE:1
-    BEGIN:VALARM
-    TRIGGER:-PT10M
-    DESCRIPTION:Event Reminder
-    ACTION:DISPLAY
-    END:VALARM
-    END:VEVENT"
-                >
-                    <template>
-                        <h3><slot name="title"></slot></h3>
-                        <p><slot name="date"></slot></p>
-                        <p><slot name="location"></slot></p>
-                        <p><slot name="description"></slot></p>
-                        <p>some random content</p>
-                    </template>
-                    <p>child without slot</p>
-                </i-cal>
-            </details>
-            <hr />
+            <blockquote>
+                <p>A collection of 4 web components and utilities.</p>
+            </blockquote>
+            <div><a href="https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain"><img src="https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main" target="_blank" alt="cicd.yml workflow"></a></div>
+            <a href="/storybook-static/"
+                ><h2 class="big-link"><img src="images/storybook.png" height="32" width="32" />Read the docs (Storybook)</h2></a
+            >
+            <a href="https://jsr.io/@web-components"
+                ><h2 class="big-link"><img src="/images/jsr.png" height="32" width=""32"/>View the packages (JSR)</h2></a
+            >
+            <a href="https://github.com/jackcarey/web-components"
+                ><h2 class="big-link"><img src="/images/github.png" height="32" width=""32"/>View the code (GitHub)</h2></a
+            >
+            <aside><table><thead><tr><th>Name</th><th>Description</th><th>Version</th><th>License</th><th>Registry</th></tr></thead><tbody><tr><td><a href="/storybook-static/?path=/docs/autoloader" target="_blank">autoloader</a><br/>(<a href="https://github.com/jackcarey/web-components/tree/main/packages/autoloader" target="_blank">src</a>)</td><td><p>Automatically load the components from jackcarey/web-components</p><p><i>Utility</i></p></td><td>1.1.11</td><td><a href="https://www.tldrlegal.com/search?query=LGPL-3">LGPL-3</a></td><td><a href="https://jsr.io/@web-components/autoloader" target="_blank"><img src="https://jsr.io/badges/@web-components/autoloader" alt="autoloader"/></a> <a href="https://jsr.io/@web-components/autoloader/score"><img src="https://jsr.io/badges/@web-components/autoloader/score" alt="autoloader JSR score"/></a></td></tr>
+<tr><td><a href="/storybook-static/?path=/docs/can-i-use" target="_blank">can-i-use</a><br/>(<a href="https://github.com/jackcarey/web-components/tree/main/packages/can-i-use" target="_blank">src</a>)</td><td><p>Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component</p><p><i>Component</i></p></td><td>1.0.8</td><td><a href="https://www.tldrlegal.com/search?query=LGPL-3">LGPL-3</a></td><td><a href="https://jsr.io/@web-components/can-i-use" target="_blank"><img src="https://jsr.io/badges/@web-components/can-i-use" alt="can-i-use"/></a> <a href="https://jsr.io/@web-components/can-i-use/score"><img src="https://jsr.io/badges/@web-components/can-i-use/score" alt="can-i-use JSR score"/></a></td></tr>
+<tr><td><a href="/storybook-static/?path=/docs/i-cal" target="_blank">i-cal</a><br/>(<a href="https://github.com/jackcarey/web-components/tree/main/packages/i-cal" target="_blank">src</a>)</td><td><p>Renders ics data in a web component</p><p><i>Component</i></p></td><td>1.0.8</td><td><a href="https://www.tldrlegal.com/search?query=LGPL-3">LGPL-3</a></td><td><a href="https://jsr.io/@web-components/i-cal" target="_blank"><img src="https://jsr.io/badges/@web-components/i-cal" alt="i-cal"/></a> <a href="https://jsr.io/@web-components/i-cal/score"><img src="https://jsr.io/badges/@web-components/i-cal/score" alt="i-cal JSR score"/></a></td></tr>
+<tr><td><a href="/storybook-static/?path=/docs/query" target="_blank">query</a><br/>(<a href="https://github.com/jackcarey/web-components/tree/main/packages/query" target="_blank">src</a>)</td><td><p>A class for periodically fetching new data from a memory, OPFS, or sessionStorage.</p><p><i>Utility</i></p></td><td>1.0.1</td><td><a href="https://www.tldrlegal.com/search?query=LGPL-3">LGPL-3</a></td><td><a href="https://jsr.io/@web-components/query" target="_blank"><img src="https://jsr.io/badges/@web-components/query" alt="query"/></a> <a href="https://jsr.io/@web-components/query/score"><img src="https://jsr.io/badges/@web-components/query/score" alt="query JSR score"/></a></td></tr></tbody></table></aside>
         </main>
     </body>
 </html>

@@ -1,6 +1,6 @@
 // Custom Element names must include hyphens so the packages do too. Utility packages named without hyphens like 'autoloader' and 'query' won't be included.
 import fs from 'fs';
-import { repoRootDir, pkgDetails } from "./get-packages.mjs";
+import { repoRootDir, pkgDetails } from "./util-packages.mjs";
 
 const componentVersions = {};
 

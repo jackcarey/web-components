@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count } from "./get-packages.mjs";
+import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
 
 console.log("generating package readmes from...");
 
@@ -15,7 +15,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
   let docsStr = '';
   if (fs.existsSync(docsPath)) {
     docsStr = fs.readFileSync(docsPath, "utf8");
-    if(docsStr?.length === 0) {
+    if (docsStr?.length === 0) {
       docsStr = `See repo: [jackcarey/web-components](https://github.com/jackcarey/web-components)`;
     }
   }

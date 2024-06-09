@@ -3,7 +3,7 @@
  */
 import fs from 'fs';
 import path from "path";
-import { repoRootDir, pkgDetails } from "./get-packages.mjs";
+import { repoRootDir, pkgDetails } from "./util-packages.mjs";
 
 console.log('compiling packages for jsr from:', repoRootDir);
 
@@ -27,7 +27,6 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
         "version": version,
         "exports": entry,
     };
-    console.log('writing JSR object to:', dir, jsrPath);
     const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
     const newContent = JSON.stringify(jsrJson, null, 2);
     if (existingContent !== newContent) {

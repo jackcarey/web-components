@@ -140,7 +140,7 @@ class CanIuseComponent extends HTMLElement {
             this.#root.innerHTML = `<iframe src="https://caniuse.bitsofco.de/embed/index.html?feat=${
                 this.feature
             }&periods=${this.periods}&accessible-colours=${
-                this.accessibleColours ? "true" : "false"
+                this.accessibleColours === "true" ? "true" : "false"
             }" frameborder="0" width="100%" height="400px"></iframe>`;
         } else if (this.mode === "image") {
             this.#root.innerHTML = `<picture>
