@@ -1,11 +1,10 @@
-echo "Bumping package patch versions"
 # Find all relevant package.json files in the packages directory that are not in node_modules
 directories=$(find "$(git rev-parse --show-toplevel)/packages" -name 'package.json' -not -path '*/node_modules/*' -type f -printf '%h\n' | sort -u)
 currentBranch=$(git rev-parse --abbrev-ref HEAD)
 if [ "$currentBranch" = "main" ]; then
-    echo "Current branch is main. Checking for changes against last common commit..."
+    echo "Bumping package patch versions based on changes against last common commit..."
 else
-    echo "Current branch is not main. Checking for changes against main branch..."
+    echo "Bumping package patch versions based on changes against main branch..."
 fi
 for dir in $directories; do
     cd $dir
