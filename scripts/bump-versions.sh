@@ -9,7 +9,8 @@ else
 fi
 for dir in $directories; do
     cd $dir
-    branchChanges=$(git diff $(git merge-base origin/main HEAD -- $dir) origin/main -- $dir)
+    ancestor=$(git merge-base origin/main HEAD)
+    branchChanges=$(git diff $ancestor origin/main -- $dir)
     lastCommitChanges=$(git diff $() -- $dir)
     if [ "$currentBranch" = "main" ]; then
         if [ -z "$lastCommitChanges" ]; then
