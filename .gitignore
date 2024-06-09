@@ -1,2 +1,5 @@
 node_modules
 *storybook.log
+
+scripts/publish-jsr-dryrun.sh
+scripts/publish-jsr.sh

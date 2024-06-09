@@ -23,7 +23,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
             missingDocs.push(name);
         }
     }
-    if (name.includes('-') && !hasStories) missingStories.push(name);
+    if (!hasStories) missingStories.push(name);
 });
 
 if (missingDocs.length) {

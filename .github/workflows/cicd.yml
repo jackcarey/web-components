@@ -22,6 +22,9 @@ jobs:
         permissions:
             contents: write
             id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.publish-storybook.outputs.page_url }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -62,8 +65,8 @@ jobs:
             - name: Generate package README files
               run: node scripts/generate-pkg-readmes.mjs
 
-            - name: Generate root README file
-              run: node scripts/generate-root-readme.mjs
+            - name: Generate root README and index.html file
+              run: node scripts/generate-root-docs.mjs
 
             - name: Generate publishing scripts
               run: node scripts/generate-publish-scripts.mjs
@@ -76,11 +79,11 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Save file changes (on main)
-              if: github.ref == 'refs/heads/main'
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Update documentation" || exit 0
-                  git push
+            - name: Publish Storybook
+              id: publish-storybook
+              uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+              with:
+                  install_command: yarn install # default: npm ci
+                  build_command: yarn build-storybook:build # default: npm run build-storybook
+                  path: storybook-static # default: dist/storybook
+                  checkout: false # default: true

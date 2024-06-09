@@ -3,7 +3,7 @@
  */
 import fs from 'fs';
 import path from "path";
-import { repoRootDir, pkgDetails } from "./get-packages.mjs";
+import { repoRootDir, pkgDetails } from "./util-packages.mjs";
 
 console.log('compiling packages for jsr from:', repoRootDir);
 
