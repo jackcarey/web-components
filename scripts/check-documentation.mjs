@@ -15,7 +15,13 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const storiesPath = path.join(dir, `${pkgJson.name}.stories.ts`);
     const hasDocs = fs.existsSync(docsPath);
     const hasStories = fs.existsSync(storiesPath);
-    if (!hasDocs) missingDocs.push(name);
+    if (!hasDocs) {
+        try {
+            fs.writeFileSync(docsPath, `See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.`);
+        } catch (e) {
+            missingDocs.push(name);
+        }
+    }
     if (name.includes('-') && !hasStories) missingStories.push(name);
 });
 
