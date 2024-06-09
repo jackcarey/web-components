@@ -5,6 +5,7 @@
         "autoload",
         "autoloader",
         "caniuse",
+        "flexbox",
         "jcal",
         "opfs",
         "vevent",

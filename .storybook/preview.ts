@@ -1,11 +1,7 @@
 import type { Preview } from '@storybook/web-components';
-import { setCustomElementsManifest } from '@storybook/web-components';
-
-import customElements from '../custom-elements.json';
-
-setCustomElementsManifest(customElements);
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
