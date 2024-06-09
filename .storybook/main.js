@@ -19,5 +19,9 @@ const config = {
   core: {
     disableTelemetry: true,
   },
+  docs: {
+    defaultName: 'Documentation',
+    iframeHeight: '120px',
+  },
 };
 export default config;
