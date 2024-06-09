@@ -1,6 +1,6 @@
 # autoloader
 
-**version:** 1.1.9
+**version:** 1.1.11
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 

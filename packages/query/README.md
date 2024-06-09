@@ -1,6 +1,6 @@
 # query
 
-**version:** 1.0.0
+**version:** 1.0.1
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
