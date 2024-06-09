@@ -12,11 +12,12 @@ const missingStories = [];
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const name = pkgJson?.name;
     const docsPath = path.join(dir, 'DOCUMENTATION.md');
-    const storiesPath = path.join(dir, `${pkgJson.name}.stories.ts`);
+    const storiesPath = path.join('storybook-docs', `${pkgJson.name}.stories.ts`);
     const hasDocs = fs.existsSync(docsPath);
     const hasStories = fs.existsSync(storiesPath);
     if (!hasDocs) {
         try {
+            console.log('Creating default docs for', name);
             fs.writeFileSync(docsPath, `See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.`);
         } catch (e) {
             missingDocs.push(name);
