@@ -13,8 +13,8 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const name = pkgJson?.name;
     const docsPath = path.join(dir, 'DOCUMENTATION.md');
     const storiesPath = path.join('storybook-docs', `${pkgJson.name}.stories.ts`);
-    const hasDocs = fs.existsSync(docsPath);
-    const hasStories = fs.existsSync(storiesPath);
+    const hasDocs = fs.existsSync(docsPath) && fs.readFileSync(docsPath, 'utf8').length > 0;
+    const hasStories = fs.existsSync(storiesPath) && fs.readFileSync(storiesPath, 'utf8').length > 0;
     if (!hasDocs) {
         try {
             console.log('Creating default docs for', name);
