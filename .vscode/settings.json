@@ -1,4 +1,13 @@
 {
     "livePreview.defaultPreviewPath": "/index.html",
-    "cSpell.words": ["autoload", "autoloader", "caniuse", "jcal", "opfs", "vevent", "vevents"]
+    "cSpell.words": [
+        "autodocs",
+        "autoload",
+        "autoloader",
+        "caniuse",
+        "jcal",
+        "opfs",
+        "vevent",
+        "vevents"
+    ]
 }
