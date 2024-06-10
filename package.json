@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@npmcli/package-json": "^5.1.0"
+    "@npmcli/package-json": "^5.2.0"
   },
   "name": "web-components",
   "description": "A collection of web components for a variety purposes.",
