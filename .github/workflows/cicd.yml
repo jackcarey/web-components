@@ -87,3 +87,11 @@ jobs:
                   build_command: yarn build-storybook:build # default: npm run build-storybook
                   path: storybook-static # default: dist/storybook
                   checkout: false # default: true
+
+            - name: Save files to repository
+              run: |
+                  git config --global user.email "actions@users.noreply.github.com"
+                  git config --global user.name "github-actions[bot]"
+                  git add .
+                  git commit -m "[GH Actions] Update documentation and package files"
+                  git push
