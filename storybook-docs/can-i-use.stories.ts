@@ -1,3 +1,4 @@
+import { BindTemplate } from "./utils";
 import "../packages/can-i-use/index";
 
 export default {
@@ -10,26 +11,12 @@ export default {
     }
 };
 
+export const Default = BindTemplate("can-i-use")();
 
-const Template = (argObject) => {
-    const component = document.createElement("can-i-use");
-    Object.entries(argObject).forEach(([key, value]) => {
-        component[key] = value;
-    });
-    return component;
-}
-
-
-export const Default = Template.bind({});
-
-export const Flexbox = Template.bind({});
-
-Flexbox.args = {
+export const Flexbox = BindTemplate("can-i-use")({
     feature: "flexbox",
-};
+});
 
-export const ColorInput = Template.bind({});
-
-ColorInput.args = {
+export const ColorInput = BindTemplate("can-i-use")({
     feature: "input-color",
-};
+});
