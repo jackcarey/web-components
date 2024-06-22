@@ -1,0 +1,13 @@
+{
+  "name": "details-forced-open",
+  "version": "0.0.1",
+  "description": "Force a details tag open when it matches a media query",
+  "main": "./index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "LGPL-3"
+}
