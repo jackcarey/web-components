@@ -1,82 +1,67 @@
 class DetailsForcedOpen extends HTMLDetailsElement {
-    #mediaObserver;
+    #observer;
+    #currentWidth;
     constructor() {
         super();
     }
 
     static get observedAttributes() {
-        return ["open", "query", "mode"];
+        return ["open", "threshold"];
     }
 
-    get open() {
-        return this.hasAttribute("open");
+    get threshold() {
+        return this.getAttribute("threshold") ?? "0";
     }
 
-    set open(value) {
-        if (value) {
-            this.setAttribute("open", "");
+    set threshold(value) {
+        if (value && parseInt(value) > 0) {
+            this.setAttribute("threshold", value);
         } else {
-            this.removeAttribute("open");
+            this.removeAttribute("threshold");
         }
     }
 
-    get query() {
-        return this.getAttribute("matches");
-    }
-
-    set query(value) {
-        if (!value) {
-            this.removeAttribute("matches");
+    #updateOpenState = () => {
+        const val = parseInt(this.threshold);
+        if (isNaN(val)) {
+            this.open = true;
             return;
         }
-        this.setAttribute("matches", value ?? "");
-    }
-
-    get mode() {
-        return this.getAttribute("mode") ?? "window";
-    }
-
-    set mode(value) {
-        if (["window", "container"].includes(value)) {
-            this.setAttribute("mode", value);
+        if (this.#currentWidth >= val) {
+            this.open = true;
         } else {
-            this.removeAttribute("mode");
-        }
-    }
-
-    #updateObserver = () => {
-        if (!this.connectedCallback) return;
-        if (!this.query) return;
-        if (this.mode === "window") {
-            this.#mediaObserver = window.matchMedia(this.query);
-            this.#mediaObserver.addEventListener("change", this.#updateState);
-            this.#updateState();
-        }
-        if (this.mode === "container") {
+            this.open = false;
         }
     };
 
-    #updateState = () => {};
+    #updateObserver = () => {
+        if (!this.connectedCallback) {
+            this.#observer = null;
+            return;
+        }
+        this.#observer = new ResizeObserver((entries) => {
+            this.#currentWidth = entries[0].contentRect.width;
+            this.#updateOpenState();
+        });
+        this.#observer.observe(this);
+    };
 
     connectedCallback() {
-        if (this.mode === "window") {
-            this.#mediaObserver = window.matchMedia(this.query);
-
-            this.#mediaObserver.addEventListener("change", this.#updateState);
-            this.#updateState();
-        }
+        this.#updateObserver();
+        this.#currentWidth = this.getBoundingClientRect().width;
+        this.#updateOpenState();
     }
 
     disconnectedCallback() {
-        if (this.#mediaObserver) {
-            this.#mediaObserver.disconnect();
-            this.#mediaObserver = null;
-        }
+        this.#updateObserver();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
+        if (name === "threshold") {
+            this.#updateObserver();
+        }
         if (name === "open") {
-            this.open = true;
+            this.#updateOpenState();
         }
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -13,9 +13,19 @@
                 align-items: center;
                 text-align: center;
                 vertical-align: middle;
-                font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-                    "Segoe UI Symbol", "Noto Color Emoji";
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    Roboto,
+                    "Helvetica Neue",
+                    Arial,
+                    sans-serif,
+                    "Apple Color Emoji",
+                    "Segoe UI Emoji",
+                    "Segoe UI Symbol",
+                    "Noto Color Emoji";
             }
 
             body {
@@ -82,6 +92,20 @@
             <p>JSR: <a href="https://jsr.io/@web-components" target="_blank">@web-components</a></p>
         </header>
         <main>
+            <details is="forced-open">
+                <summary>
+                    <h2>forced-open</h2>
+                    <p>Force a details element to be open</p>
+                </summary>
+                <p>always</p>
+            </details>
+            <details is="forced-open" threshold="600">
+                <summary>
+                    <h2>forced-open</h2>
+                    <p>Force a details element to be open</p>
+                </summary>
+                <p>600px</p>
+            </details>
             <details open>
                 <summary>
                     <h2>can-i-use</h2>
