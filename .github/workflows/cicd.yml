@@ -15,7 +15,7 @@ on:
     #         - "packages/**"
     #         - "scripts/**"
     workflow_run:
-        workflows: ["repo"]
+        workflows: [Repository]
         branches: [main]
         types:
             - completed
@@ -61,7 +61,7 @@ jobs:
             - name: Generate publishing scripts
               run: node scripts/generate-publish-scripts.mjs
 
-            - name: Publish updated packages to JSR (dry-run)
+            - name: "[dry-run] Publish updated packages to JSR"
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
@@ -69,7 +69,7 @@ jobs:
               run: bash scripts/publish-jsr.sh
 
             - name: Save file changes (on main)
-              if: github.ref == 'refs/heads/main'
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: |
                   git diff
                   git config --global user.email "action@github.com"
