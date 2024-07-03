@@ -10,10 +10,10 @@ const template = fs.readFileSync(
 );
 
 // Generate the markdown content
-const relativeLink = (dir) => "" + path.relative(repoRootDir, dir);
+const pagesLink = (dir) => "https://jackcarey.co.uk/web-components/" + path.relative(repoRootDir, dir);
 const pkgToMdRow = ([dir, pkgJson]) => {
   const name = pkgJson?.name ?? "-";
-  const srcLink = `[${name}](${relativeLink(dir)})`;
+  const srcLink = `[${name}](${pagesLink(dir)})`;
   const type = name.includes("-") ? "Component" : "Utility";
   const description = `${pkgJson?.description ?? ""} - **${type}**`.trim();
   const version = pkgJson?.version ?? "-";
