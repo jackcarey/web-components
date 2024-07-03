@@ -3,11 +3,7 @@ name: Repository
 on:
     workflow_dispatch:
     push:
-        branches:
-            - main
     pull_request:
-        branches:
-            - main
 
 jobs:
     check-codeowners:
@@ -30,3 +26,5 @@ jobs:
 
             - name: Check each package has documentation file
               run: bash scripts/check-documentation.sh
+    trigger_cicd:
+        uses: ./.github/workflows/cicd.yml
