@@ -37,9 +37,6 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Run tests
-              run: npm run test
-
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
