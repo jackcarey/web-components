@@ -1,31 +1,32 @@
 name: Repository
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  check-codeowners:
-    name: CODEOWNERS file exists
-    runs-on: ubuntu-latest
+    check-codeowners:
+        name: CODEOWNERS file exists
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-      - name: Check if CODEOWNERS file exists
-        run: bash scripts/check-codeowners.sh
+            - name: Check if CODEOWNERS file exists
+              run: bash scripts/check-codeowners.sh
 
-  check-documentation:
-    name: Documentation files exist
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    check-documentation:
+        name: Documentation files exist
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-      - name: Check each package has documentation file
-        run: bash scripts/check-documentation.sh
+            - name: Check each package has documentation file
+              run: bash scripts/check-documentation.sh
