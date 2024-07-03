@@ -4,7 +4,7 @@
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
-> Automatically load the components from jackcarey/web-components
+> Automatically load components from jackcarey/web-components using esm.sh.
 
 ## Browser Use
 
