@@ -64,3 +64,7 @@ jobs:
                   git config --global user.name "GitHub Action"
                   git commit -am "[GH Actions] Update documentation" || exit 0
                   git push
+            - name: Deploy to GitHub Pages
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              id: deployment
+              uses: actions/deploy-pages@v4 # or specific "vX.X.X" version tag for this action
