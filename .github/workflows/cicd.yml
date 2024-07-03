@@ -32,11 +32,11 @@ jobs:
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
-            - name: Bump versions in package.json files
+            - name: Bump versions in changed packages
               if: github.ref == 'refs/heads/main'
               run: bash scripts/bump-versions.sh
 
-            - name: Generate JSR files from package.json
+            - name: Generate JSR config from package.json files
               run: node scripts/generate-jsr.mjs
 
             - name: Generate package README files
