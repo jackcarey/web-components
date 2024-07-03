@@ -23,6 +23,7 @@ await Promise.all(packageDirectories.map(async (dir) => {
     });
 }));
 
+//sanitises the package names and sorts them alphabetically
 const pkgDetails = Object.fromEntries(Object.entries(unsortedPkgDetails).sort(([dirA, pkgA], [dirB, pkgB]) => {
     const nameA = String(pkgA?.name ?? '').replaceAll('-', '');
     const nameB = String(pkgB?.name ?? '').replaceAll('-', '');
