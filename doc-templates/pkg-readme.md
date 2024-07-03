@@ -14,8 +14,18 @@ ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
 ```
 
-Made by [jackcarey](https://jackcarey.co.uk).
+## NPM
+
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+
+```
+npx jsr add $name
+```
 
 ## Documentation
 
 $docs
+
+---
+
+Made by [jackcarey](https://jackcarey.co.uk).
