@@ -10,7 +10,7 @@ const template = fs.readFileSync(
 );
 
 // Generate the markdown content
-const relativeLink = (dir) => "/" + path.relative(repoRootDir, dir);
+const relativeLink = (dir) => "" + path.relative(repoRootDir, dir);
 const pkgToMdRow = ([dir, pkgJson]) => {
   const name = pkgJson?.name ?? "-";
   const srcLink = `[${name}](${relativeLink(dir)})`;

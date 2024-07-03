@@ -5,6 +5,7 @@
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 [![repo workflow](https://github.com/jackcarey/web-components/actions/workflows/repo.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/repo.yml?query=branch%3Amain)
+[![pages workflow](https://github.com/jackcarey/web-components/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/pages.yml?query=branch%3Amain)
 
 - There are 4 packages in this collection. Some are web components intended for the DOM, others are utilities that components consume.
 - **Each is published as it's own package with a readme, license, and documentation.**
@@ -12,10 +13,10 @@
 
 | Name | Description | Version | License | Registry |
 | --- | --- | --- | --- | --- |
-| [autoloader](/packages/autoloader) | Automatically load components from jackcarey/web-components using esm.sh. - **Utility** | 1.1.11 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![autoloader](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader) [![score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score) |
-| [can-i-use](/packages/can-i-use) | Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component - **Component** | 1.0.8 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![can-i-use](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use) [![score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score) |
-| [i-cal](/packages/i-cal) | Renders ics data in a web component - **Component** | 1.0.8 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score) |
-| [query](/packages/query) | A class for periodically fetching new data from a memory, OPFS, or sessionStorage. - **Utility** | 1.0.1 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![query](https://jsr.io/badges/@web-components/query)](https://jsr.io/@web-components/query) [![score](https://jsr.io/badges/@web-components/query/score)](https://jsr.io/@web-components/query/score) |
+| [autoloader](packages\autoloader) | Automatically load components from jackcarey/web-components using esm.sh. - **Utility** | 1.1.11 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![autoloader](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader) [![score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score) |
+| [can-i-use](packages\can-i-use) | Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component - **Component** | 1.0.8 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![can-i-use](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use) [![score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score) |
+| [i-cal](packages\i-cal) | Renders ics data in a web component - **Component** | 1.0.8 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score) |
+| [query](packages\query) | A class for periodically fetching new data from a memory, OPFS, or sessionStorage. - **Utility** | 1.0.1 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![query](https://jsr.io/badges/@web-components/query)](https://jsr.io/@web-components/query) [![score](https://jsr.io/badges/@web-components/query/score)](https://jsr.io/@web-components/query/score) |
 
 
 
