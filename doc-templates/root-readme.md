@@ -5,6 +5,7 @@
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 [![repo workflow](https://github.com/jackcarey/web-components/actions/workflows/repo.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/repo.yml?query=branch%3Amain)
+[![pages workflow](https://github.com/jackcarey/web-components/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/pages.yml?query=branch%3Amain)
 
 - There are $count packages in this collection. Some are web components intended for the DOM, others are utilities that components consume.
 - **Each is published as it's own package with a readme, license, and documentation.**
