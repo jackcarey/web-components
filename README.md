@@ -1,11 +1,12 @@
 # web-components
 
-## This repo is currently a work-in-progress.
+## This is currently a work-in-progress.
 
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
-[![update_publish workflow](https://github.com/jackcarey/web-components/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/main.yml?query=branch%3Amain)
+[![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
+[![repo workflow](https://github.com/jackcarey/web-components/actions/workflows/repo.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/repo.yml?query=branch%3Amain)
 
-There are 4 packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published as it's pwn package with a readme, license, and documentation.** They are published to [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components. 
+There are 4 packages in this collection. Some are web components intended for the DOM, others are utilities that components consume. **Each is published as it's own package with a readme, license, and documentation.** They are distributed through [jsr.io/@web-components](https://jsr.io/@web-components). The 'autoloader' can be used to load other components from [esm.sh](https://esm.sh).
 
 | Name | Description | Version | License | Registry |
 | --- | --- | --- | --- | --- |
@@ -26,6 +27,6 @@ Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
 
 //todo
 
-## Producing documentation
+### Producing documentation
 
-Readmes, JSR config, and package documentation are updated by the files in the `/scripts` folder by GitHub Actions. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling readme files from `package.json` files and `DOCUMENTATION.md` files.
+Readmes, JSR config, and package documentation are updated using GitHub Actions to run the files in the `/scripts` folder. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling complete readme files that combine `package.json` and `DOCUMENTATION.md` files.
