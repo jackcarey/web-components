@@ -14,8 +14,18 @@ ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-
 <script src="https://esm.sh/jsr/@web-components/can-i-use" type="module"></script>
 ```
 
-Made by [jackcarey](https://jackcarey.co.uk).
+## NPM
+
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+
+```
+npx jsr add can-i-use
+```
 
 ## Documentation
 
 See repo: [jackcarey/web-components](https://github.com/jackcarey/web-components)
+
+---
+
+Made by [jackcarey](https://jackcarey.co.uk).
