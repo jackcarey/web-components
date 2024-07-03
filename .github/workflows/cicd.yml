@@ -14,7 +14,11 @@ on:
     #         - ".github/workflows/**"
     #         - "packages/**"
     #         - "scripts/**"
-    workflow_call:
+    workflow_run:
+        workflows: ["repo"]
+        branches: [main]
+        types:
+            - completed
 
 jobs:
     main:
@@ -61,7 +65,7 @@ jobs:
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
-              if: github.ref == 'refs/heads/main'
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: bash scripts/publish-jsr.sh
 
             - name: Save file changes (on main)
