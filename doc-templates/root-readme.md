@@ -13,7 +13,11 @@
 
 $table
 
+---
+
 Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
+
+---
 
 ## Using components
 
