@@ -1,7 +1,7 @@
 {
   "name": "query",
   "version": "1.0.1",
-  "description": "A class for periodically fetching new data from a memory, OPFS, or sessionStorage.",
+  "description": "3 Classes for periodically fetching new data from memory, OPFS, or sessionStorage.",
   "main": "./index.ts",
   "type": "module",
   "scripts": {
