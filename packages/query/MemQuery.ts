@@ -25,7 +25,7 @@ const defaultResult: QueryResult = {
     stale: false,
 };
 
-class Query {
+class MemQuery {
     static #queries = new Map();
     static #toKey(key: any): string {
         if (typeof key === "string" || typeof key === "number") {
@@ -43,36 +43,36 @@ class Query {
     }
 
     static has(key: any) {
-        return Query.#queries.has(this.#toKey(key));
+        return MemQuery.#queries.has(this.#toKey(key));
     }
 
     static create(key: any, fetchFn: FetchFn, options: Options) {
-        if (!Query.has(key)) {
-            Query.#queries.set(this.#toKey(key), new Query(key, fetchFn, options));
+        if (!MemQuery.has(key)) {
+            MemQuery.#queries.set(this.#toKey(key), new MemQuery(key, fetchFn, options));
         }
     }
 
     static read(key: any) {
-        return Query.#queries.get(this.#toKey(key));
+        return MemQuery.#queries.get(this.#toKey(key));
     }
 
     static update(key: any, newFetchFn: FetchFn, newOptions: Options) {
-        if (Query.has(key)) {
-            Query.delete(key);
-            Query.create(key, newFetchFn, newOptions);
+        if (MemQuery.has(key)) {
+            MemQuery.delete(key);
+            MemQuery.create(key, newFetchFn, newOptions);
         }
     }
 
     static delete(key: any) {
-        return Query.#queries.delete(this.#toKey(key));
+        return MemQuery.#queries.delete(this.#toKey(key));
     }
 
     static clear() {
-        return Query.#queries.clear();
+        return MemQuery.#queries.clear();
     }
 
     static invalidate(key: any) {
-        return Query.read(key)?.invalidate();
+        return MemQuery.read(key)?.invalidate();
     }
 
     #key: string;
@@ -84,7 +84,7 @@ class Query {
     #isOnline: boolean;
     #result: QueryResult;
     constructor(key: any, fetchFn: FetchFn, options: Options) {
-        this.#key = Query.#toKey(key);
+        this.#key = MemQuery.#toKey(key);
         this.#createdAt = new Date();
         this.#fetchFn = fetchFn;
         this.options = options;
@@ -141,8 +141,16 @@ class Query {
         );
     }
 
+    get _result(): QueryResult | undefined {
+        return this.#result;
+    }
+
+    set _result(result: QueryResult) {
+        this.#result = result;
+    }
+
     get result(): QueryResult {
-        const res = this.#result;
+        const res = this._result;
         if (this.isStale) {
             this.#refetch();
         }
@@ -171,7 +179,7 @@ class Query {
         return ttl > 0 && this.updatedAt.getTime() + ttl < Date.now();
     }
 
-    #dispatchEvent(type?: string) {
+    _dispatchEvent(type?: string) {
         new EventTarget().dispatchEvent(
             new CustomEvent(type?.length ? type : "query", {
                 bubbles: true,
@@ -195,7 +203,8 @@ class Query {
             this.#result.failureCount = 0;
         }
         this.#result.status = error ? "error" : data ? "success" : "idle";
-        this.#dispatchEvent();
+        this._result = this.#result;
+        this._dispatchEvent();
     }
 
     async #refetch() {
@@ -269,4 +278,4 @@ class Query {
     }
 }
 
-export default Query;
+export default MemQuery;
