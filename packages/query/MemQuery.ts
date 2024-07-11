@@ -141,16 +141,8 @@ class MemQuery {
         );
     }
 
-    get _result(): QueryResult | undefined {
-        return this.#result;
-    }
-
-    set _result(result: QueryResult) {
-        this.#result = result;
-    }
-
     get result(): QueryResult {
-        const res = this._result;
+        const res = this.#result;
         if (this.isStale) {
             this.#refetch();
         }
@@ -203,7 +195,6 @@ class MemQuery {
             this.#result.failureCount = 0;
         }
         this.#result.status = error ? "error" : data ? "success" : "idle";
-        this._result = this.#result;
         this._dispatchEvent();
     }
 
