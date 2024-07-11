@@ -1,5 +1,5 @@
 import MemQuery from "./MemQuery";
-import { QueryResult } from "./types";
+import type { QueryResult } from "./types";
 
 class OPFSQuery extends MemQuery {
     get #opfsRoot() {

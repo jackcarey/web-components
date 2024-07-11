@@ -1,5 +1,5 @@
 import MemQuery from "./MemQuery";
-import { QueryResult } from "./types";
+import type { QueryResult } from "./types";
 
 class SessionQuery extends MemQuery {
     get _result(): QueryResult | undefined {
