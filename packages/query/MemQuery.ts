@@ -1,4 +1,4 @@
-import { FetchFn, Options, QueryResult, Retry, RetryDelay, Status } from "./types";
+import type { FetchFn, Options, QueryResult, Retry, RetryDelay } from "./types";
 
 const defaultOptions: Options = {
     ttl: 0,
