@@ -27,6 +27,6 @@ Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
 
 //todo
 
-### Producing documentation
+### Publishing documentation
 
 Readmes, JSR config, and package documentation are updated using GitHub Actions to run the files in the `/scripts` folder. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling complete readme files that combine `package.json` and `DOCUMENTATION.md` files.
