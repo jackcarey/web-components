@@ -1,22 +1,31 @@
-import MemQuery from "./MemQuery";
-import type { QueryResult } from "./types";
+import MemQuery from './MemQuery';
+import type { QueryResult } from './types';
 
 class SessionQuery extends MemQuery {
-    get _result(): QueryResult | undefined {
-        const asStr = sessionStorage.getItem(this.key);
-        if (asStr) {
-            return JSON.parse(asStr);
+    constructor(key: any, fetchFn: any, options: any) {
+        super(key, fetchFn, options);
+        const stored = sessionStorage.getItem(key);
+        const { data, error} = JSON.parse(stored || '{}');
+        if (data|| error) {
+            this._updateState(data, error);
         }
-        return undefined;
+        if(this.isStale) {
+            this.invalidate();
+        }
     }
+  _emit(type: string = 'generic', _eventName?: string): void {
+    super._emit(type, 'query:session');
+  }
 
-    set _result(result: QueryResult) {
-        const asStr = JSON.stringify(result);
-        sessionStorage.setItem(this.key, asStr);
-    }
-    _dispatchEvent() {
-        super._dispatchEvent("query:opfs");
-    }
+  _updateState(data: any | undefined, error: Error | undefined): void {
+    super._updateState(data, error);
+    sessionStorage.setItem(this.key, JSON.stringify(this.result));
+  }
+
+  invalidate(): void {
+    sessionStorage.removeItem(this.key);
+    super.invalidate();
+  }
 }
 
 export default SessionQuery;

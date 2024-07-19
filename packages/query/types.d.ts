@@ -19,6 +19,7 @@ export type Options =
           reconnectRefetch?: boolean;
           enabled?: Enabled;
           initialData?: any;
+          emitEvents?: boolean;
       };
 
 export type Status = "idle" | "pending" | "error" | "success";
