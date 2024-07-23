@@ -25,9 +25,15 @@ type PersistOption = undefined | 'opfs' | 'sessionstorage' | PersistFunction;
 
 type RTCOption = string | ConstructorParameters<typeof RTCPeerConnection>;
 
-type WebSocketOption = string | URL;
+type WebSocketOption = string | {
+  url: string | URL;
+  options?: ConstructorParameters<typeof WebSocket>[1];
+};
 
-type ServerSentEventOption = string | URL;
+type ServerSentEventOption = string | {
+  url: string | URL;
+  options?: EventSourceInit;
+};
 
 
 enum EmitType {
