@@ -134,7 +134,7 @@ class DataLayer extends EventTarget implements Result {
     return this.#options;
   }
 
-  #revalidate = (data?: any, error?: Error) => {
+  #setData = (data?: any, error?: Error) => {
     this.#resultProxy.data = data;
     this.#resultProxy.error = error;
   };
@@ -143,7 +143,7 @@ class DataLayer extends EventTarget implements Result {
     const { data: result, lastEventId } = event;
     const repeatSSE = lastEventId && lastEventId === this.#lastSSEId;
     if (result && !repeatSSE) {
-      this.#revalidate(result.data, result.error);
+      this.#setData(result.data, result.error);
     }
   };
 
@@ -252,19 +252,31 @@ class DataLayer extends EventTarget implements Result {
     }
   };
 
+  #fetchFn = async () => {
+    if (!this.enabled) {
+      return;
+    }
+    this.#resultProxy.status = 'pending';
+    this.#options.queryFn().then((newData: any) => {
+      this.#setData(newData, undefined);
+    }).catch((error: Error) => {
+      this.#setData(undefined, error);
+    });
+  }
+
   #configureTimeouts = () => {
     if (this.#options.useInterval) {
       setInterval(() => {
-        this.#fetchData();
+        this.#fetchFn();
       }, this.#options.ttl);
     }
   };
 
   invalidate = (data?: any, error?: Error) => {
     if (this.#options.allowInvalidateOverride) {
-      this.#revalidate(data, error);
+      this.#setData(data, error);
     } else {
-      this.#revalidate();
+      this.#setData();
     }
   };
 
