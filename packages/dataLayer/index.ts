@@ -25,16 +25,19 @@ type PersistOption = undefined | 'opfs' | 'sessionstorage' | PersistFunction;
 
 type RTCOption = string | ConstructorParameters<typeof RTCPeerConnection>;
 
-type WebSocketOption = string | {
-  url: string | URL;
-  options?: ConstructorParameters<typeof WebSocket>[1];
-};
+type WebSocketOption =
+  | string
+  | {
+      url: string | URL;
+      options?: ConstructorParameters<typeof WebSocket>[1];
+    };
 
-type ServerSentEventOption = string | {
-  url: string | URL;
-  options?: EventSourceInit;
-};
-
+type ServerSentEventOption =
+  | string
+  | {
+      url: string | URL;
+      options?: EventSourceInit;
+    };
 
 enum EmitType {
   'prop',
@@ -114,80 +117,6 @@ const defaultResult: Result = {
 };
 
 class DataLayer extends EventTarget implements Result {
-  /*******************************************************************************
-   * Static properties and methods
-   ******************************************************************************/
-  static #instances: Map<string, DataLayer> = new Map();
-
-  static has(key: string): boolean {
-    return DataLayer.#instances.has(key);
-  }
-
-  static create(options: Options, update?: boolean): DataLayer | undefined {
-    const canCreate = update || !DataLayer.has(options.key);
-    if (canCreate) {
-      const instance = new DataLayer(options);
-      DataLayer.#instances.set(options.key, instance);
-      return instance;
-    } else {
-      return DataLayer.read(options.key);
-    }
-  }
-
-  static read(key: string): DataLayer | undefined {
-    return DataLayer.#instances.get(key);
-  }
-
-  static update(options: Options, create?: boolean): boolean {
-    const canUpdate = create || DataLayer.has(options.key);
-    if (!canUpdate) {
-      return false;
-    }
-    if (create) {
-      DataLayer.create(options, true);
-      return true;
-    } else if (canUpdate) {
-      DataLayer.#instances.set(options.key, new DataLayer(options));
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  static delete(key: string): boolean {
-    //todo: instead, clean-up each instance 1 by 1 so that event listeners and events are handled and garbage collected properly
-    return DataLayer.#instances.delete(key);
-  }
-
-  static clear(): void {
-    //looping allows proper clean up of event listeners and events
-    Object.keys(DataLayer.#instances).forEach((key) => {
-      DataLayer.delete(key);
-    });
-  }
-
-  static on(
-    key: string,
-    event: string,
-    listener: EventListenerOrEventListenerObject
-  ): void {
-    const instance = DataLayer.read(key);
-    if (instance) {
-      instance.addEventListener(event, listener);
-    }
-  }
-
-  static off(
-    key: string,
-    event: string,
-    listener: EventListenerOrEventListenerObject
-  ): void {
-    const instance = DataLayer.read(key);
-    if (instance) {
-      instance.removeEventListener(event, listener);
-    }
-  }
-
   /********************************************************************************
    * Instance properties and methods
    ********************************************************************************/
@@ -195,10 +124,97 @@ class DataLayer extends EventTarget implements Result {
   #resultProxy: Result;
   #options: Options;
   #broadcastChannel?: BroadcastChannel;
-  #listeners: Map<string, EventListenerOrEventListenerObject> = new Map();
+  #rtcPeerConnection?: RTCPeerConnection;
+  #rtcDataChannel?: RTCDataChannel;
+  #webSocket?: WebSocket;
+  #eventSource?: EventSource;
+  #lastSSEId?: string;
+
+  get options() {
+    return this.#options;
+  }
+
+  #revalidate = (data?: any, error?: Error) => {
+    this.#resultProxy.data = data;
+    this.#resultProxy.error = error;
+  };
+
+  #handleMessageEvent = (event: MessageEvent) => {
+    const { data: result, lastEventId } = event;
+    const repeatSSE = lastEventId && lastEventId === this.#lastSSEId;
+    if (result && !repeatSSE) {
+      this.#revalidate(result.data, result.error);
+    }
+  };
+
+  #configureBroadcastChannel = () => {
+    this.#broadcastChannel?.close();
+    if (this.options.broadcastChannel?.length) {
+      this.#broadcastChannel = new BroadcastChannel(
+        this.options.broadcastChannel
+      );
+      this.#broadcastChannel.onmessage = (event) => {
+        this.#handleMessageEvent(event);
+      };
+    }
+  };
+
+  #configureRTC = () => {
+    this.#rtcDataChannel?.close();
+    this.#rtcPeerConnection?.close();
+    if (this.options.RTCChannel) {
+      if (this.options.RTCChannel) {
+        //todo: handle custom ice servers, config etc
+        this.#rtcPeerConnection = new RTCPeerConnection();
+        //todo: make sure these options are correct
+        this.#rtcDataChannel = this.#rtcPeerConnection.createDataChannel(
+          this.options.RTCChannel as string
+        );
+        this.#rtcDataChannel.onmessage = (event) => {
+            this.#handleMessageEvent(event);
+        };
+      }
+    }
+  };
+
+  #configureServerSentEvents = () => {
+    this.#eventSource?.close();
+    if (this.options.sseURL) {
+      const url = new URL(this.options.sseURL as string);
+      this.#eventSource = new EventSource(url.toString());
+      this.#eventSource.onmessage = (event) => {
+        this.#handleMessageEvent(event);
+      };
+    }
+  };
+
+  #configureWebSocket = () => {
+    this.#webSocket?.close();
+    if (this.options.webSocketURL) {
+      const url = new URL(this.options.webSocketURL as string);
+      this.#webSocket = new WebSocket(url.toString());
+      this.#webSocket.onmessage = (event) => {
+        this.#handleMessageEvent(event);
+      };
+    }
+  };
+
+  #configureChannels = () => {
+    this.#configureBroadcastChannel();
+    this.#configureRTC();
+    this.#configureServerSentEvents();
+    this.#configureWebSocket();
+  };
+
+  set options(options: Options) {
+    //the key can never be changed
+    this.#options = { ...options, key: this.#options.key };
+    this.#configureTimeouts();
+    this.#configureChannels();
+  }
 
   #emit = (eventType: EmitType, detail: any) => {
-    if (!this.enabled) {
+    if (!this.options.enabled) {
       return;
     }
     const typedDetail = { type: eventType, detail };
@@ -208,7 +224,6 @@ class DataLayer extends EventTarget implements Result {
     }
     //todo: rtc
     //todo: ws
-    //todo: sse
   };
 
   #debounce = (fn: Function, delay: number): Function => {
@@ -245,11 +260,6 @@ class DataLayer extends EventTarget implements Result {
     }
   };
 
-  #revalidate = (data?: any, error?: Error) => {
-    this.#resultProxy.data = data;
-    this.#resultProxy.error = error;
-  };
-
   invalidate = (data?: any, error?: Error) => {
     if (this.#options.allowInvalidateOverride) {
       this.#revalidate(data, error);
@@ -260,7 +270,7 @@ class DataLayer extends EventTarget implements Result {
 
   constructor(options: Options) {
     super();
-    this.#options = options;
+    this.options = options;
     this.#resultTarget = defaultResult;
     this.#resultProxy = new Proxy(this.#resultTarget, {
       get: (target, prop, receiver) => {
@@ -274,15 +284,6 @@ class DataLayer extends EventTarget implements Result {
         return result;
       },
     });
-  }
-
-  get options() {
-    return this.#options;
-  }
-
-  set options(options: Options) {
-    //the key can never be changed
-    this.#options = { ...options, key: this.#options.key };
   }
 
   get data(): any {
@@ -356,16 +357,90 @@ class DataLayer extends EventTarget implements Result {
         acc[key] = typeof value === 'object' ? this.#sortObject(value) : value;
         return acc;
       }, {});
-   }
+  };
 
   get checksum(): number {
     const jsonString = JSON.stringify(DataLayer.#sortObject(this.#resultProxy));
     let hash = 0;
     for (let i = 0; i < jsonString.length; i++) {
-        const char = jsonString.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash |= 0; // Convert to 32-bit integer
+      const char = jsonString.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash |= 0; // Convert to 32-bit integer
     }
     return hash;
+  }
+
+  /*******************************************************************************
+   * Static properties and methods
+   ******************************************************************************/
+  static #instances: Map<string, DataLayer> = new Map();
+
+  static has(key: string): boolean {
+    return DataLayer.#instances.has(key);
+  }
+
+  static create(options: Options, update?: boolean): DataLayer | undefined {
+    const canCreate = update || !DataLayer.has(options.key);
+    if (canCreate) {
+      const instance = new DataLayer(options);
+      DataLayer.#instances.set(options.key, instance);
+      return instance;
+    } else {
+      return DataLayer.read(options.key);
+    }
+  }
+
+  static read(key: string): DataLayer | undefined {
+    return DataLayer.#instances.get(key);
+  }
+
+  static update(options: Options, create?: boolean): boolean {
+    const canUpdate = create || DataLayer.has(options.key);
+    if (!canUpdate) {
+      return false;
+    }
+    if (create) {
+      DataLayer.create(options, true);
+      return true;
+    } else if (canUpdate) {
+      DataLayer.#instances.set(options.key, new DataLayer(options));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static delete(key: string): boolean {
+    //todo: instead, clean-up each instance 1 by 1 so that event listeners and events are handled and garbage collected properly
+    return DataLayer.#instances.delete(key);
+  }
+
+  static clear(): void {
+    //looping allows proper clean up of event listeners and events
+    Object.keys(DataLayer.#instances).forEach((key) => {
+      DataLayer.delete(key);
+    });
+  }
+
+  static on(
+    key: string,
+    event: string,
+    listener: EventListenerOrEventListenerObject
+  ): void {
+    const instance = DataLayer.read(key);
+    if (instance) {
+      instance.addEventListener(event, listener);
+    }
+  }
+
+  static off(
+    key: string,
+    event: string,
+    listener: EventListenerOrEventListenerObject
+  ): void {
+    const instance = DataLayer.read(key);
+    if (instance) {
+      instance.removeEventListener(event, listener);
+    }
   }
 }
