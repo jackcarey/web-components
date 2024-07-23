@@ -23,6 +23,13 @@ type PersistFunction =
 
 type PersistOption = undefined | 'opfs' | 'sessionstorage' | PersistFunction;
 
+type RTCOption = string | ConstructorParameters<typeof RTCPeerConnection>;
+
+type WebSocketOption = string | URL;
+
+type ServerSentEventOption = string | URL;
+
+
 enum EmitType {
   'prop',
   'update',
@@ -44,9 +51,9 @@ type Options = {
   invalidate?: UpdateStateFn;
   allowInvalidateOverride?: boolean;
   broadcastChannel?: string;
-  RTCChannel?: string;
-  webSocketURL?: string | URL;
-  sseURL?: string | URL;
+  RTCChannel?: RTCOption;
+  webSocketURL?: WebSocketOption;
+  sseURL?: ServerSentEventOption;
   persist?: PersistOption;
 };
 
