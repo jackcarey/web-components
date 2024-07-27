@@ -1,0 +1,11 @@
+{
+  "name": "document-pip",
+  "version": "0.0.0",
+  "description": "A component to easily put content in and out of Document Picture-in-picture.",
+  "main": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jackcarey (jackcarey.co.uk)",
+  "license": "LGPL-3.0"
+}
