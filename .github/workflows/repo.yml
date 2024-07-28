@@ -30,6 +30,7 @@ jobs:
 
     check-license:
         name: License files exists
+        needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -40,6 +41,7 @@ jobs:
     
     check-stories:
         name: Storybook stories exist
+        needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -50,6 +52,7 @@ jobs:
     
     generate-sb-docs:
         name: Generate Storybook documentation
+        needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -73,6 +76,7 @@ jobs:
 
     check-story-results:
         name: Storybook stories test results
+        needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
