@@ -1,4 +1,6 @@
 import fs from 'fs';
 import { repoRootDir } from "./get-packages.mjs";
 
-return !fs.existsSync(`${repoRootDir}/stories/results.json`);
+const result = fs.existsSync(`${repoRootDir}/stories/results.json`);
+
+process.exit(result ? 0 : 1);
