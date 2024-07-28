@@ -3,6 +3,7 @@ const config = {
   stories: [
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../storybook-docs/**/*.mdx",
   ],
   addons: [
     "@storybook/addon-links",
@@ -13,6 +14,9 @@ const config = {
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
+  },
+  docs: {
+    defaultName: 'All Stories',
   },
 };
 export default config;
