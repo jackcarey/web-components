@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { repoRootDir, pkgDetails } from './get-packages.mjs';
 
-const result = Object.keys(pkgDetails).some((name) => {
+const allExist = Object.keys(pkgDetails).all((name) => {
   const isUtility = !name.includes('-');
   const path = `${repoRootDir}/stories/${isUtility ? 'utilities' : 'components'}/${name}.stories.ts`;
   const exists = fs.existsSync(path);
@@ -11,7 +11,7 @@ const result = Object.keys(pkgDetails).some((name) => {
   return exists;
 });
 
-if (result) {
+if (!allExist) {
   console.error('Missing stories');
   process.exit(1);
 }

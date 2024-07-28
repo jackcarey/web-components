@@ -52,11 +52,24 @@ jobs:
         name: Generate Storybook documentation
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout repository
-              uses: actions/checkout@v2
+            - name: Checkout repo
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.ref }}
+                  token: ${{ secrets.CI_PAT }}
 
             - name: Generate Storybook documentation
               run: npm i && node scripts/generate-storybook-pkg-docs.mjs
+            
+            - name: Save file changes (on main)
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              run: |
+                  git diff
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -am "[GH Actions] Update documentation" || exit 0
+                  git push
+
 
     check-story-results:
         name: Storybook stories test results
