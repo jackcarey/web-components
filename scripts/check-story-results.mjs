@@ -1,6 +1,5 @@
 import fs from 'fs';
-import { repoRootDir } from "./get-packages.mjs";
 
-const result = fs.existsSync(`${repoRootDir}/stories/results.json`);
+const result = fs.existsSync(`${process.cwd()}/stories/results.json`);
 
 process.exit(result ? 0 : 1);
