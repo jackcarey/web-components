@@ -36,7 +36,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Check if LICENSE file exists
-              run: bash scripts/check-license.sh
+              run: bash scripts/check-licenses.sh
     
     check-stories:
         name: Storybook stories exist
@@ -46,7 +46,7 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Check if Storybook stories exist
-              run: bash scripts/check-stories.sh
+              run: node scripts/check-stories.mjs
     
     generate-sb-docs:
         name: Generate Storybook documentation
@@ -67,4 +67,4 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Check if Storybook stories results exist
-              run: bash scripts/check-story-results.sh
+              run: node scripts/check-story-results.mjs
