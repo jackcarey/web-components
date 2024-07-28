@@ -45,14 +45,31 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
+            - name: build-storybook
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              run: npm run build-storybook
+            
+            - name: Install Playwright
+              needs: build-storybook
+              run: npx playwright install --with-deps
+
+            - name: Serve Storybook and run tests
+              run: |
+                npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+                "npx http-server storybook-static --port 6006 --silent" \
+                "npx wait-on tcp:6006 && npm run test"
+
             - name: Generate publishing scripts
+              id: generate-publish-scripts
               run: node scripts/generate-publish-scripts.mjs
 
             - name: "[dry-run] Publish updated packages to JSR"
+              needs: generate-publish-scripts
               if: github.ref != 'refs/heads/main'
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
+              needs: generate-publish-scripts
               if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: bash scripts/publish-jsr.sh
 
