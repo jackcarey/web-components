@@ -52,7 +52,7 @@ jobs:
     
     generate-sb-docs:
         name: Generate Storybook documentation
-        needs: check-codeowners
+        needs: check-documentation
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -75,7 +75,7 @@ jobs:
                   git push
 
     check-story-results:
-        name: Storybook stories test results
+        name: Storybook stories test results exist
         needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
