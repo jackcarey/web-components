@@ -50,7 +50,6 @@ jobs:
     
     generate-sb-docs:
         name: Generate Storybook documentation
-        needs: check-documentation
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -67,5 +66,5 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v2
 
-            - name: Check if Storybook stories results are successful
+            - name: Check if Storybook stories results exist
               run: bash scripts/check-story-results.sh

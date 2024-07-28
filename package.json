@@ -7,8 +7,7 @@
   "version": "1.0.0",
   "main": "autoloader.js",
   "scripts": {
-    "test": "test-storybook --verbose --failOnConsole",
-    "test:json": "test-storybook --json --verbose --failOnConsole",
+    "test": "test-storybook --verbose --failOnConsole --json",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -27,7 +26,10 @@
     "@storybook/test-runner": "^0.19.1",
     "@storybook/web-components": "^8.2.6",
     "@storybook/web-components-vite": "^8.2.6",
+    "concurrently": "^8.2.2",
+    "http-server": "^14.1.1",
     "lit": "^3.1.4",
-    "storybook": "^8.2.6"
+    "storybook": "^8.2.6",
+    "wait-on": "^7.2.0"
   }
 }
