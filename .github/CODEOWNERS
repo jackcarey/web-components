@@ -2,3 +2,4 @@
 /scripts/ @jackcarey
 .gitignore @jackcarey
 /packages/**/LICENSE.md @jackcarey
+CODEOWNERS @jackcarey
