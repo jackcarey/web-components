@@ -52,7 +52,7 @@ jobs:
     
     generate-sb-docs:
         name: Generate Storybook documentation
-        needs: check-documentation
+        needs: [check-documentation, check-license]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
