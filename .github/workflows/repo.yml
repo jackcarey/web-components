@@ -72,10 +72,8 @@ jobs:
                   git commit -am "[GH Actions] Update documentation" || exit 0
                   git push
 
-
     check-story-results:
         name: Storybook stories test results
-
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
