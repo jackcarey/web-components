@@ -56,6 +56,11 @@ jobs:
               if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: bash scripts/publish-jsr.sh
 
+            - name: build-storybook
+              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              run: npm run build-storybook
+
+
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: |
