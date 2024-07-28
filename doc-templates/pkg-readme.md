@@ -24,6 +24,8 @@ npx jsr add $name
 
 ## Documentation
 
+Find this package on storybook: [$name on Storybook](https://jackcarey.co.uk/web-components/storybook/?path=/docs/$name).
+
 $docs
 
 ---

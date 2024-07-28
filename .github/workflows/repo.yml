@@ -19,6 +19,7 @@ jobs:
 
     check-documentation:
         name: Documentation files exist
+        needs: check-codeowners
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
@@ -26,3 +27,45 @@ jobs:
 
             - name: Check each package has documentation file
               run: bash scripts/check-documentation.sh
+
+    check-license:
+        name: License files exists
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Check if LICENSE file exists
+              run: bash scripts/check-license.sh
+    
+    check-stories:
+        name: Storybook stories exist
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Check if Storybook stories exist
+              run: bash scripts/check-stories.sh
+    
+    generate-sb-docs:
+        name: Generate Storybook documentation
+        needs: check-documentation
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Generate Storybook documentation
+              run: node scripts/generate-storybook-pkg-docs.mjs
+
+    check-story-results:
+        name: Storybook stories test results
+
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Check if Storybook stories results are successful
+              run: bash scripts/check-story-results.sh

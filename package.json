@@ -7,9 +7,27 @@
   "version": "1.0.0",
   "main": "autoloader.js",
   "scripts": {
-    "test": "jest --config=jest.config.js --colors --passWithNoTests"
+    "test": "test-storybook --verbose --failOnConsole",
+    "test:json": "test-storybook --json --verbose --failOnConsole",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "jackcarey (jackcarey.co.uk)",
+  "license": "",
+  "packageManager": "pnpm@8.15.5+sha1.a58c038faac410c947dbdb93eb30994037d0fce2",
+  "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@storybook/addon-a11y": "^8.2.6",
+    "@storybook/addon-essentials": "^8.2.6",
+    "@storybook/addon-interactions": "^8.2.6",
+    "@storybook/addon-links": "^8.2.6",
+    "@storybook/blocks": "^8.2.6",
+    "@storybook/test": "^8.2.6",
+    "@storybook/test-runner": "^0.19.1",
+    "@storybook/web-components": "^8.2.6",
+    "@storybook/web-components-vite": "^8.2.6",
+    "lit": "^3.1.4",
+    "storybook": "^8.2.6"
+  }
 }
