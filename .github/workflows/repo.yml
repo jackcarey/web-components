@@ -59,9 +59,11 @@ jobs:
                   token: ${{ secrets.CI_PAT }}
 
             - name: Generate Storybook documentation
+              id: generate-storybook-docs
               run: npm i && node scripts/generate-storybook-pkg-docs.mjs
             
             - name: Save file changes (on main)
+              needs: generate-storybook-docs
               if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: |
                   git diff
