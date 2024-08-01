@@ -7,7 +7,6 @@
     "test": "test-storybook --verbose --failOnConsole --json --disable-telemetry",
     "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test-storybook --quiet --failOnConsole --json --disable-telemetry\"",
     "storybook": "storybook dev -p 6006",
-    "storybook:static": "storybook build --quiet",
     "build-storybook": "storybook build --quiet"
   },
   "keywords": [],
