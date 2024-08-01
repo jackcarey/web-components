@@ -5,8 +5,10 @@
   "main": "autoloader.js",
   "scripts": {
     "test": "test-storybook --verbose --failOnConsole --json",
+    "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test-storybook --quiet --failOnConsole --json\"",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook:static": "storybook build --quiet",
+    "build-storybook": "storybook build --quiet"
   },
   "keywords": [],
   "author": "jackcarey (jackcarey.co.uk)",
