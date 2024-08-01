@@ -6,53 +6,32 @@ on:
     pull_request:
 
 jobs:
-    check-codeowners:
-        name: CODEOWNERS file exists
+    check-files:
+        name: Check files - CODEOWNERS, DOCUMENTATION, LICENSE, Storybook
         runs-on: ubuntu-latest
 
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
 
-            - name: Check if CODEOWNERS file exists
+            - name: check-codeowners
               run: bash scripts/check-codeowners.sh
-
-    check-documentation:
-        name: Documentation files exist
-        needs: check-codeowners
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
 
             - name: Check each package has documentation file
               run: bash scripts/check-documentation.sh
 
-    check-license:
-        name: License files exists
-        needs: check-codeowners
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Check if LICENSE file exists
+            - name: Check if LICENSE files exist
               run: bash scripts/check-licenses.sh
-    
-    check-stories:
-        name: Storybook stories exist
-        needs: check-codeowners
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
 
             - name: Check if Storybook stories exist
               run: npm i && node scripts/check-stories.mjs
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
     
     generate-sb-docs:
         name: Generate Storybook documentation
-        needs: [check-documentation, check-license, check-stories]
+        needs: [check-files]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repo
@@ -74,13 +53,4 @@ jobs:
                   git commit -am "[GH Actions] Update documentation" || exit 0
                   git push
 
-    check-story-results:
-        name: Storybook stories test results exist
-        needs: check-codeowners
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Check if Storybook stories results exist
-              run: npm i && node scripts/check-story-results.mjs
+            

@@ -1,11 +1,10 @@
 name: CI/CD
 
 on:
-    workflow_run:
-        workflows: 
-            - Repository
-        types:
-            - completed
+  workflow_run:
+    workflows: [Repository]
+    types:
+      - completed
 
 jobs:
     main:
@@ -50,7 +49,6 @@ jobs:
               run: npm run build-storybook
             
             - name: Install Playwright
-              needs: build-storybook
               run: npx playwright install --with-deps
 
             - name: Serve Storybook and run tests
@@ -64,12 +62,10 @@ jobs:
               run: node scripts/generate-publish-scripts.mjs
 
             - name: "[dry-run] Publish updated packages to JSR"
-              needs: generate-publish-scripts
               if: github.ref != 'refs/heads/main'
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
-              needs: generate-publish-scripts
               if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
               run: bash scripts/publish-jsr.sh
 
