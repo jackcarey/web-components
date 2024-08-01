@@ -2,8 +2,8 @@ name: CI/CD
 
 on:
     workflow_run:
-        workflows: [Repository]
-        branches: [main]
+        workflows: 
+            - Repository
         types:
             - completed
 
