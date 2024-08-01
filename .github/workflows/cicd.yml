@@ -1,17 +1,12 @@
-name: CICD
+name: CI/CD
 
 on:
-  workflow_run:
-    workflows: [Repository]
-    branches-ignore:
-      - "canary"
-    types:
-      - completed
+    push:
+    pull_request:
 
 jobs:
     main:
         name: Test, build, and publish
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -22,6 +17,25 @@ jobs:
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
+
+            # Check repo
+          
+            - name: check-codeowners
+              run: bash scripts/check-codeowners.sh
+
+            - name: Check each package has documentation file
+              run: bash scripts/check-documentation.sh
+
+            - name: Check if LICENSE files exist
+              run: bash scripts/check-licenses.sh
+
+            - name: Check if Storybook stories exist
+              run: npm i && node scripts/check-stories.mjs
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
+
+            # Build
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -46,10 +60,16 @@ jobs:
 
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
+            
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
 
             - name: build-storybook
-              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              if: github.ref == 'refs/heads/main'
               run: npm run build-storybook
+
+            # Test
             
             - name: Install Playwright
               run: npx playwright install --with-deps
@@ -60,6 +80,8 @@ jobs:
                 "npx http-server storybook-static --port 6006 --silent" \
                 "npx wait-on tcp:6006 && npm run test"
 
+            # Publish
+
             - name: Generate publishing scripts
               id: generate-publish-scripts
               run: node scripts/generate-publish-scripts.mjs
@@ -69,11 +91,13 @@ jobs:
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
-              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
+            # Save file changes
+
             - name: Save file changes (on main)
-              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
+              if: github.ref == 'refs/heads/main'
               run: |
                   git diff
                   git config --global user.email "action@github.com"
