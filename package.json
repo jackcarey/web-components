@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "autoloader.js",
   "scripts": {
-    "test": "test-storybook --verbose --failOnConsole --json --disable-telemetry",
-    "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test-storybook --quiet --failOnConsole --json --disable-telemetry\"",
+    "test": "test-storybook --verbose --failOnConsole --json",
+    "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npm run build-storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test-storybook --quiet --failOnConsole --json\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --quiet"
   },
