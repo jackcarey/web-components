@@ -3,7 +3,8 @@ name: CICD
 on:
   workflow_run:
     workflows: [Repository]
-    branches: ['main', '**']
+    branches-ignore:
+      - "canary"
     types:
       - completed
 
