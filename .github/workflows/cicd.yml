@@ -3,6 +3,7 @@ name: CICD
 on:
   workflow_run:
     workflows: [Repository]
+    branches: [main, **]
     types:
       - completed
 
