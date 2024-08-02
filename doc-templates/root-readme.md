@@ -8,7 +8,7 @@
 
 ---
 
-You can find documentation on [Storybook](htttps://jackcarey.co.uk/web-components/).
+You can find documentation on [Storybook](htttps://jackcarey.co.uk/web-components/storybook-static/).
 
 ---
 
@@ -20,4 +20,4 @@ $table
 
 ---
 
-Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
+Made by [jackcarey](https://jackcarey.co.uk/)
