@@ -24,6 +24,8 @@ npx jsr add i-cal
 
 ## Documentation
 
+Find this package on storybook: [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook/?path=/docs/i-cal).
+
 See repo: [jackcarey/web-components](https://github.com/jackcarey/web-components)
 
 ---

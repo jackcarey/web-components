@@ -24,7 +24,13 @@ npx jsr add can-i-use
 
 ## Documentation
 
-See repo: [jackcarey/web-components](https://github.com/jackcarey/web-components)
+Find this package on storybook: [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook/?path=/docs/can-i-use).
+
+## Attributes
+
+- `feature`: a string from the caniuse feature list.
+- `mode`: `iframe` or `image`. Optional. Default: `iframe`.
+- `accessibleColors`: `"true"` or `"false"`. Optional. Default: `"false"`.
 
 ---
 
