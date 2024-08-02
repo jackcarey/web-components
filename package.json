@@ -5,7 +5,7 @@
   "main": "autoloader.js",
   "scripts": {
     "test": "test-storybook --verbose --failOnConsole --json",
-    "test:ci": "npm run build-storybook --quiet && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test-storybook --quiet --failOnConsole --json\"",
+    "test:ci": "npm run build-storybook --quiet && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test --quiet\"",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --quiet"
   },
