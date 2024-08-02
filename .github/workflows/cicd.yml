@@ -95,5 +95,5 @@ jobs:
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Update documentation" || exit 0
+                  git commit -a -m "[GH Actions] Update documentation" || exit 0
                   git push
