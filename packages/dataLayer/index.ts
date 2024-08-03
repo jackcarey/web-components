@@ -120,6 +120,7 @@ class DataLayer extends EventTarget implements Result {
   /********************************************************************************
    * Instance properties and methods
    ********************************************************************************/
+  #checksum: string;
   #resultTarget: Result;
   #resultProxy: Result;
   #options: Options;
@@ -171,7 +172,7 @@ class DataLayer extends EventTarget implements Result {
           this.options.RTCChannel as string
         );
         this.#rtcDataChannel.onmessage = (event) => {
-            this.#handleMessageEvent(event);
+          this.#handleMessageEvent(event);
         };
       }
     }
@@ -257,12 +258,15 @@ class DataLayer extends EventTarget implements Result {
       return;
     }
     this.#resultProxy.status = 'pending';
-    this.#options.queryFn().then((newData: any) => {
-      this.#setData(newData, undefined);
-    }).catch((error: Error) => {
-      this.#setData(undefined, error);
-    });
-  }
+    this.#options
+      .queryFn()
+      .then((newData: any) => {
+        this.#setData(newData, undefined);
+      })
+      .catch((error: Error) => {
+        this.#setData(undefined, error);
+      });
+  };      
 
   #configureTimeouts = () => {
     if (this.#options.useInterval) {
@@ -280,6 +284,16 @@ class DataLayer extends EventTarget implements Result {
     }
   };
 
+  #setChecksum = async () => {
+    const jsonString = JSON.stringify(DataLayer.#sortObject(this.#resultProxy));
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(jsonString);
+    await crypto.subtle.digest('SHA-1', data).then((hash) => {
+      this.#checksum = String(Array.from(new Uint8Array(hash)));
+    });
+  };
+
   constructor(options: Options) {
     super();
     this.options = options;
@@ -291,7 +305,9 @@ class DataLayer extends EventTarget implements Result {
       set: (target, prop, value, receiver) => {
         const result = Reflect.set(target, prop, value, receiver);
         if (result) {
-          this.#publishPropChange(prop as string, value);
+          this.#setChecksum().then(() => {
+            this.#publishPropChange(prop as string, value);
+          });
         }
         return result;
       },
@@ -349,7 +365,7 @@ class DataLayer extends EventTarget implements Result {
   get enabled() {
     return typeof this.#options.enabled === 'function'
       ? this.#options.enabled(this.#resultProxy)
-      : this.#options.enabled ?? false;
+      : (this.#options.enabled ?? false);
   }
 
   get updatedAt(): Date {
@@ -361,26 +377,23 @@ class DataLayer extends EventTarget implements Result {
     );
   }
 
-  static #sortObject = (obj: any) => {
+  static #sortObject = (obj: object) => {
     return Object.keys(obj)
       .sort()
       .reduce((acc, key) => {
         const value = obj[key];
-        acc[key] = typeof value === 'object' ? this.#sortObject(value) : value;
+        const valueType = typeof value;
+        const isArray = Array.isArray(value);
+        acc[key] =
+          valueType !== 'object'
+            ? value
+            : isArray
+              ? value.sort()
+              : this.#sortObject(value);
         return acc;
       }, {});
   };
 
-  get checksum(): number {
-    const jsonString = JSON.stringify(DataLayer.#sortObject(this.#resultProxy));
-    let hash = 0;
-    for (let i = 0; i < jsonString.length; i++) {
-      const char = jsonString.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash |= 0; // Convert to 32-bit integer
-    }
-    return hash;
-  }
 
   /*******************************************************************************
    * Static properties and methods
