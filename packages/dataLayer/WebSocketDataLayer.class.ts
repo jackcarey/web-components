@@ -1,6 +1,6 @@
 import { BaseDataLayer } from './BaseDataLayer.class';
-import { BroadcastDataLayerOptions } from './BroadcastDataLayer.class';
-import { AnyEvent, EmitNamesDataLayer, QueryFn } from './types';
+import type { BroadcastDataLayerOptions } from './BroadcastDataLayer.class';
+import type { AnyEvent, EmitNamesDataLayer, QueryFn } from './types';
 
 export type WebSocketDataLayerOptions = BroadcastDataLayerOptions & {
   wsURL?: string | URL;

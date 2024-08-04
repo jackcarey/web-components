@@ -1,5 +1,5 @@
-import BroadcastDataLayer, { BroadcastDataLayerOptions } from "./BroadcastDataLayer.class";
-import { QueryFn } from "./types";
+import BroadcastDataLayer, { type BroadcastDataLayerOptions } from "./BroadcastDataLayer.class";
+import type { QueryFn } from "./types";
 
 type SSEDataLayerOptions = BroadcastDataLayerOptions & {
     sseURL?: string | URL;

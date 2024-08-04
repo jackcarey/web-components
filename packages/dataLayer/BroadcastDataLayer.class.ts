@@ -1,5 +1,5 @@
 import BaseDataLayer from './BaseDataLayer.class';
-import { AnyEvent, BaseOptions, EmitNamesDataLayer, QueryFn } from './types';
+import type { AnyEvent, BaseOptions, EmitNamesDataLayer, QueryFn } from './types';
 
 export type BroadcastDataLayerOptions = Partial<BaseOptions> & {
   channelName: string;

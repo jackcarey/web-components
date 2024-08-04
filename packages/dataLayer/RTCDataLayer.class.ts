@@ -1,7 +1,7 @@
 import BroadcastDataLayer, {
-  BroadcastDataLayerOptions,
+  type BroadcastDataLayerOptions,
 } from './BroadcastDataLayer.class';
-import { AnyEvent, EmitNamesDataLayer, QueryFn } from './types';
+import type { AnyEvent, EmitNamesDataLayer, QueryFn } from './types';
 
 export type RTCDataLayerOptions = BroadcastDataLayerOptions & {
   peerConnection?: ConstructorParameters<typeof RTCPeerConnection>[0];

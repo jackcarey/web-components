@@ -1,5 +1,5 @@
 import ExpiringData from './ExpiringData.class';
-import {
+import type {
   BaseOptions,
   EmitEventDetail,
   EmitNamesDataLayer,
