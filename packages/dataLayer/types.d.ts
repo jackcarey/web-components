@@ -1,3 +1,4 @@
+import BaseDataLayer from "./BaseDataLayer.class";
 import ExpiringData from "./ExpiringData.class";
 
 export type AnyEvent = Event | CustomEvent;
@@ -15,7 +16,7 @@ export type EmitEventDetail = {
 export enum EmitNamesExpiringData {
     stale = 'stale',
     update = 'update',
-};
+}
 
 export enum EmitNamesDataLayer {
     status = 'status',
@@ -35,6 +36,8 @@ export type ExpiringDataNumberFn = (
   expiringData: ExpiringData
 ) => number;
 
+export type PersistOption = 'opfs' | 'session' | undefined | ((newObject?: ExpiringData) => Promise<ExpiringData>); 
+
 export type BaseOptions = {
     //standard options
     ttlMs: number;
@@ -46,7 +49,9 @@ export type BaseOptions = {
     retryDelay: number | ExpiringDataNumberFn;  
     backgroundFetch?: boolean | ExpiringDataBooleanFn;
     focusFetch: boolean | ExpiringDataBooleanFn;
-    reconnectFetch?: boolean | ExpiringDataBooleanFn;
+    reconnectFetch: boolean | ExpiringDataBooleanFn;
+    //persist options
+    persist: PersistOption;
 };
 
 export enum Status {

@@ -24,6 +24,7 @@ export class BaseDataLayer extends EventTarget {
     backgroundFetch: false,
     focusFetch: true,
     reconnectFetch: true,
+    persist: 'session',
   };
 
   protected emitEvent = (emitType: EmitNamesDataLayer) => {
@@ -81,6 +82,36 @@ export class BaseDataLayer extends EventTarget {
     return this.#options.retryDelay ?? 100;
   }
 
+  private async loadPersist(newObject?: ExpiringData) {
+    const { persist } = this.#options;
+    if (persist) {
+      //save the new object if it is provided
+      if (newObject) {
+        if (typeof persist === 'function') {
+          persist(this.#expiringData);
+        } else if (persist === 'session') {
+          sessionStorage.setItem(this.#key, JSON.stringify(this.#expiringData));
+        } else if (persist === 'opfs') {
+          //todo: replace this with actual opfs
+          localStorage.setItem(this.#key, JSON.stringify(this.#expiringData));
+        }
+      }
+      //load the object
+      if (persist === 'session') {
+        const sessionData = sessionStorage.getItem(this.#key);
+        return sessionData ? JSON.parse(sessionData) : newObject;
+      } else if (persist === 'opfs') {
+        // todo: replace this with actual opfs
+        const opfsData = localStorage.getItem(this.#key);
+        return opfsData ? JSON.parse(opfsData) : newObject;
+      } else if(typeof persist === 'function') {
+        return persist();
+      }
+    } else {
+      return undefined;
+    }
+  }
+
   protected executeQuery = async () => {
     if (!this.enabled) {
       this.status = Status.idle;
@@ -91,11 +122,15 @@ export class BaseDataLayer extends EventTarget {
         const data = await this.#queryFn();
         this.#failureCount = 0;
         this.status = Status.success;
-        this.update(data);
+        return await this.update(data).then(() => {
+          this.loadPersist(this.#expiringData);
+          });
       } catch (error) {
         this.#failureCount++;
         this.status = Status.error;
-        this.update(undefined, error);
+        await this.update(undefined, error).then(() => {
+          this.loadPersist(this.#expiringData);
+        });
         if (this.shouldRetry) {
           this.timeoutId = setTimeout(this.executeQuery, this.retryDelay);
         }
@@ -110,13 +145,19 @@ export class BaseDataLayer extends EventTarget {
   };
 
   protected handleMessage = (evt: MessageEvent) => {
-    const { type, detail } = evt.data;
+    const { detail } = evt.data;
     const matchingKey = this.key === detail.key;
     const somethingHasChanged = this.checksum !== detail.checksum;
     const isStale = this.isStale;
     const isMoreRecent = this.updatedAt < detail.updatedAt;
     const isPreviousData = detail.isPreviousData;
-    if (matchingKey && somethingHasChanged && isMoreRecent && !isPreviousData) {
+    if (
+      matchingKey &&
+      somethingHasChanged &&
+      isMoreRecent &&
+      !isStale &&
+      !isPreviousData
+    ) {
       const { data, error } = detail;
       const avoidQuery = data || error;
       if (avoidQuery) {
@@ -125,7 +166,6 @@ export class BaseDataLayer extends EventTarget {
         this.executeQuery();
       }
     }
-    this.update();
   };
 
   private handleExpiringDataEvent = (evt: Event | CustomEvent) => {
