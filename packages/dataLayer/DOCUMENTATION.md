@@ -1,0 +1,1 @@
+//todo - a wrapper around MessageEvent handlers, useful for syncing data between tabs, clients, server.
