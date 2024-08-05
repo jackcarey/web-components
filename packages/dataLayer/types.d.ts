@@ -1,4 +1,3 @@
-import BaseDataLayer from "./BaseDataLayer.class";
 import ExpiringData from "./ExpiringData.class";
 
 export type AnyEvent = Event | CustomEvent;
@@ -35,6 +34,10 @@ export type ExpiringDataNumberFn = (
   failureCount: number,
   expiringData: ExpiringData
 ) => number;
+
+export type DataLayerEventDetail = {};
+
+export type DataLayerEvent = CustomEvent<DataLayerEventDetail>;
 
 export type PersistOption = 'opfs' | 'session' | undefined | ((newObject?: ExpiringData) => Promise<ExpiringData>); 
 
