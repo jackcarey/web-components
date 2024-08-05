@@ -1,27 +1,18 @@
 import ExpiringData from "./ExpiringData.class";
 
-export type AnyEvent = Event | CustomEvent;
-
-export type EmitEventDetail = {
-    key: string;
-    updatedAt: Date | undefined;
-    status: Status,
-    isStale: boolean,
-    isError: boolean
-    isPreviousData: boolean,
-    checksum: string,
-  };
-
-export enum EmitNamesExpiringData {
-    stale = 'stale',
-    update = 'update',
-}
-
 export enum EmitNamesDataLayer {
     status = 'status',
     stale = 'stale', 
     update = 'update',
     checksum = 'checksum',
+}
+
+export enum Status {
+    idle = 'idle',
+    pending = 'pending',
+    retrying = 'retrying',
+    success = 'success',
+    error = 'error',
 }
 
 export type QueryFn = (() => Promise<any>) | (() => any);
@@ -35,13 +26,22 @@ export type ExpiringDataNumberFn = (
   expiringData: ExpiringData
 ) => number;
 
-export type DataLayerEventDetail = {};
+export type DataLayerEventDetail = {
+  key: string;
+  updatedAt: Date | undefined;
+  status: Status,
+  isStale: boolean,
+  expiresAt: Date | undefined,
+  isError: boolean
+  isPreviousData: boolean,
+  checksum: string,
+  data?: any,
+  error?: Error,
+};
 
 export type DataLayerEvent = CustomEvent<DataLayerEventDetail>;
 
-export type PersistOption = 'opfs' | 'session' | undefined | ((newObject?: ExpiringData) => Promise<ExpiringData>); 
-
-export type BaseOptions = {
+export type DataLayerOptions = {
     //standard options
     ttlMs: number;
     useInterval: number;
@@ -53,13 +53,4 @@ export type BaseOptions = {
     backgroundFetch?: boolean | ExpiringDataBooleanFn;
     focusFetch: boolean | ExpiringDataBooleanFn;
     reconnectFetch: boolean | ExpiringDataBooleanFn;
-    //persist options
-    persist: PersistOption;
 };
-
-export enum Status {
-    idle = 'idle',
-    pending = 'pending',
-    success = 'success',
-    error = 'error',
-}

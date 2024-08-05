@@ -1,10 +1,12 @@
-import { EmitNamesExpiringData } from './types';
-
 type ExpiringDataInner = {
   data: any | undefined;
   error?: Error | undefined;
 };
 
+export enum EmitNamesExpiringData {
+  stale = 'stale',
+  update = 'update',
+}
 export default class ExpiringData extends EventTarget {
   #data: any | undefined;
   #error: Error | undefined;
@@ -16,6 +18,11 @@ export default class ExpiringData extends EventTarget {
   #timeoutId: ReturnType<typeof setTimeout> | undefined;
   #checksum: string = '';
 
+  /*
+   * Sorts the object recursively by keys
+   * @param obj - Object to be sorted
+   * @returns - Sorted object
+   */
   #sortObject = (obj: ExpiringDataInner) => {
     if (obj === null || typeof obj !== 'object') {
       return obj;
@@ -31,6 +38,13 @@ export default class ExpiringData extends EventTarget {
     return result;
   };
 
+  /**
+   * Creates a checksum of the data and error
+   * @param data - Data to be checksummed
+   * @param error - Error to be checksummed
+   * @returns - Checksum
+   * @throws - Error if checksum cannot be created
+   */
   #createChecksum = async (data?: any, error?: Error) => {
     const sortedString = JSON.stringify(this.#sortObject({ data, error }));
     const encoder = new TextEncoder();
@@ -51,22 +65,27 @@ export default class ExpiringData extends EventTarget {
     );
   }
 
+  public invalidate() {
+    // the data hasn't actually changed, but we can force a re-fetch by code that consumes this object
+    this.#emitEvent(EmitNamesExpiringData.stale);
+  }
+
   #createTimeout() {
     if (this.#timeoutId) {
       clearTimeout(this.#timeoutId);
     }
     if (this.#ttlMs > 0) {
-      this.#timeoutId = setTimeout(() => {
-        this.#emitEvent(EmitNamesExpiringData.stale);
-      }, this.#ttlMs);
+      this.#timeoutId = setTimeout(this.invalidate, this.#ttlMs);
     }
   }
 
   update(data: any | undefined, error?: Error) {
-    const usingData = this.#keepPreviousData ? (data ?? this.#previousData) : data;
+    const usingData = this.#keepPreviousData
+      ? (data ?? this.#previousData)
+      : data;
     this.#createChecksum(usingData, error)
       .then((checksum) => {
-        if (checksum !== this.#checksum) {
+        if (checksum && checksum !== this.#checksum) {
           this.#checksum = checksum;
           this.#data = usingData;
           this.#error = error;
@@ -78,7 +97,12 @@ export default class ExpiringData extends EventTarget {
       .catch(console.error);
   }
 
-  constructor(data: any | undefined, error?: Error, ttlMs?: number, keepPreviousData?: boolean) {
+  constructor(
+    data: any | undefined,
+    error?: Error,
+    ttlMs?: number,
+    keepPreviousData?: boolean
+  ) {
     super();
     this.#ttlMs = ttlMs && ttlMs > 0 ? ttlMs : 0;
     this.#keepPreviousData = keepPreviousData ?? true;
@@ -129,10 +153,12 @@ export default class ExpiringData extends EventTarget {
   }
 
   get isPreviousData(): boolean {
-    return this.#keepPreviousData && this.#previousData !== undefined && !this.#data;
+    return (
+      this.#keepPreviousData && this.#previousData !== undefined && !this.#data
+    );
   }
 
-  expiresAt(): Date | undefined {
+  get expiresAt(): Date | undefined {
     if (this.#ttlMs === 0) {
       return undefined;
     }
