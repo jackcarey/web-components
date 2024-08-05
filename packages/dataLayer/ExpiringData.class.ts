@@ -1,4 +1,4 @@
-import type { EmitNamesExpiringData } from './types';
+import { EmitNamesExpiringData } from './types';
 
 type ExpiringDataInner = {
   data: any | undefined;
