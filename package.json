@@ -21,14 +21,14 @@
     "@storybook/addon-interactions": "^8.2.6",
     "@storybook/addon-links": "^8.2.6",
     "@storybook/blocks": "^8.2.6",
-    "@storybook/test": "^8.2.6",
+    "@storybook/test": "^8.2.7",
     "@storybook/test-runner": "^0.19.1",
     "@storybook/web-components": "^8.2.6",
     "@storybook/web-components-vite": "^8.2.6",
     "concurrently": "^8.2.2",
     "http-server": "^14.1.1",
     "lit": "^3.1.4",
-    "storybook": "^8.2.6",
+    "storybook": "^8.2.7",
     "wait-on": "^7.2.0"
   }
 }
