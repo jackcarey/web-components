@@ -22,9 +22,6 @@ const config = {
     disableTelemetry: true,
   },
   docs: {
-    defaultName: 'Documentation',
-    iframeHeight: '120px',
-  docs: {
     defaultName: 'All Stories',
   },
 },
