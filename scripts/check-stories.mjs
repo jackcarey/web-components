@@ -1,7 +1,7 @@
 import fs from 'fs';
-import { repoRootDir, pkgDetails } from './get-packages.mjs';
+import { repoRootDir, pkgDetails } from './util-packages.mjs';
 
-const allExist = Object.values(pkgDetails).every(({name}) => {
+const allExist = Object.values(pkgDetails).every(({ name }) => {
   const isUtility = !name.includes('-');
   const path = `${repoRootDir}/stories/${isUtility ? 'utilities' : 'components'}/${name}.stories.ts`;
   const exists = fs.existsSync(path);
