@@ -10,6 +10,7 @@ on:
 jobs:
     main:
         name: Test, build, and publish
+        timeout-minutes: 60
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -48,9 +49,8 @@ jobs:
             - name: Install Playwright
               run: npx playwright install --with-deps
 
-            - name: Run tests
-              run: npm run test
-
+              - name: Run tests
+              run: npm run test:ci
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
