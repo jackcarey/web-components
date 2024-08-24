@@ -7,7 +7,7 @@ const allExist = Object.values(pkgDetails).every(({ name }) => {
   const exists = fs.existsSync(path);
   if (!exists) {
     console.error(
-      `No stories for ${isUtility ? 'utility' : 'component'} ${name}`
+      `No stories for ${isUtility ? 'utility' : 'component'} ${name} \n  - @ ${path}`
     );
   }
   return exists;
