@@ -27,6 +27,14 @@ jobs:
             - name: Check if CODEOWNERS file exists
               run: bash scripts/check-codeowners.sh
 
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Install dependencies
+              run: npm install
+
             # Check repo
 
             - name: check-codeowners
@@ -40,16 +48,8 @@ jobs:
 
             # Build
 
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-
             - name: Install Playwright
               run: npx playwright install
-
-            - name: Install dependencies
-              run: npm install
 
             - name: Check each package has documentation and stories
               run: node scripts/check-documentation.mjs
