@@ -12,6 +12,7 @@ const missingStories = [];
 
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const name = pkgJson?.name;
+    const isUtility = !name.includes('-');
     const docsPath = path.join(dir, 'DOCUMENTATION.md');
     const licensePath = path.join(dir, 'LICENSE.md');
     const storiesPath = path.join(repoRootDir, "stories", isUtility ? 'utilities' : 'components', name, ".stories.ts");
