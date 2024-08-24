@@ -49,8 +49,9 @@ jobs:
             - name: Install Playwright
               run: npx playwright install --with-deps
 
-              - name: Run tests
+            - name: Run tests
               run: npm run test:ci
+
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
