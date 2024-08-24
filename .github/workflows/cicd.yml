@@ -30,7 +30,7 @@ jobs:
               run: bash scripts/check-codeowners.sh
 
             - name: Check each package has documentation, license, and Storybook files
-              run: bash scripts/check-documentation-files.sh
+              run: bash scripts/check-documentation-files.mjs
 
             - name: Check if Storybook stories results exist
               run: npm i && node scripts/check-story-results.mjs
