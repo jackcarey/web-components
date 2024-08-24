@@ -24,6 +24,8 @@ jobs:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
 
+            # Check repo
+
             - name: Check if CODEOWNERS file exists
               run: bash scripts/check-codeowners.sh
 
@@ -34,11 +36,6 @@ jobs:
 
             - name: Install dependencies
               run: npm install
-
-            # Check repo
-
-            - name: check-codeowners
-              run: bash scripts/check-codeowners.sh
 
             - name: Check each package has documentation, license, and Storybook files
               run: bash scripts/check-documentation-files.mjs
@@ -51,14 +48,8 @@ jobs:
             - name: Install Playwright
               run: npx playwright install
 
-            - name: Check each package has documentation and stories
-              run: node scripts/check-documentation.mjs
-
             - name: Run tests
               run: npm run test
-
-            - name: Install dependencies
-              run: npm install
 
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
