@@ -38,10 +38,10 @@ jobs:
               run: npm install
 
             - name: Check each package has documentation, license, and Storybook files
-              run: bash scripts/check-documentation-files.mjs
+              run: node scripts/check-documentation-files.mjs
 
             - name: Check if Storybook stories results exist
-              run: npm i && node scripts/check-story-results.mjs
+              run: node scripts/check-story-results.mjs
 
             # Build
 
