@@ -25,18 +25,12 @@ jobs:
               run: bash scripts/check-codeowners.sh
 
             # Check repo
-          
+
             - name: check-codeowners
               run: bash scripts/check-codeowners.sh
 
-            - name: Check each package has documentation file
-              run: bash scripts/check-documentation.sh
-
-            - name: Check if LICENSE files exist
-              run: bash scripts/check-licenses.sh
-
-            - name: Check if Storybook stories exist
-              run: npm i && node scripts/check-stories.mjs
+            - name: Check each package has documentation, license, and Storybook files
+              run: bash scripts/check-documentation-files.sh
 
             - name: Check if Storybook stories results exist
               run: npm i && node scripts/check-story-results.mjs
@@ -80,13 +74,13 @@ jobs:
               run: node scripts/generate-root-docs.mjs
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
-            
+
             - name: Generate Storybook documentation
               id: generate-storybook-docs
               run: npm i && node scripts/generate-storybook-pkg-docs.mjs
 
             # Test
-            
+
             - name: Install Playwright
               run: npx playwright install --with-deps
 
