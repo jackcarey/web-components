@@ -24,11 +24,11 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
             console.log('Creating default docs for', name);
             fs.writeFileSync(docsPath, `See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.`);
         } catch (e) {
-            missingDocs.push(name);
+            missingDocs.push(name + " - " + docsPath);
         }
     }
-    if (!hasLicense) missingLicense.push(name);
-    if (!hasStories) missingStories.push(name);
+    if (!hasLicense) missingLicense.push(name + " - " + licensePath);
+    if (!hasStories) missingStories.push(name + " - " + storiesPath);
 });
 
 if (missingDocs.length) {
