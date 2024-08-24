@@ -87,6 +87,14 @@ jobs:
             - name: Install Playwright
               run: npx playwright install --with-deps
 
+            - name: Save dependencies cache
+              id: cache-primes-save
+              uses: actions/cache/save@v4
+              with:
+                  path: |
+                      node_modules
+                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
+
             - name: Build, serve, and test Storybook
               run: npm run test:ci
 
@@ -115,14 +123,6 @@ jobs:
                   build_command: yarn build-storybook:build # default: npm run build-storybook
                   path: storybook-static # default: dist/storybook
                   checkout: false # default: true
-
-            - name: Save dependencies cache
-              id: cache-primes-save
-              uses: actions/cache/save@v4
-              with:
-                  path: |
-                      node_modules
-                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
