@@ -1,19 +1,8 @@
 name: CI/CD
 
 on:
-    workflow_dispatch:
     push:
-        branches:
-            - main
-        paths:
-            - ".github/workflows/**"
-            - "packages/**"
-            - "scripts/**"
     pull_request:
-        paths:
-            - ".github/workflows/**"
-            - "packages/**"
-            - "scripts/**"
 
 jobs:
     main:
@@ -35,6 +24,25 @@ jobs:
             - name: Check if CODEOWNERS file exists
               run: bash scripts/check-codeowners.sh
 
+            # Check repo
+          
+            - name: check-codeowners
+              run: bash scripts/check-codeowners.sh
+
+            - name: Check each package has documentation file
+              run: bash scripts/check-documentation.sh
+
+            - name: Check if LICENSE files exist
+              run: bash scripts/check-licenses.sh
+
+            - name: Check if Storybook stories exist
+              run: npm i && node scripts/check-stories.mjs
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
+
+            # Build
+
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
               with:
@@ -52,6 +60,9 @@ jobs:
             - name: Run tests
               run: npm run test
 
+            - name: Install dependencies
+              run: npm install
+
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
 
@@ -67,11 +78,31 @@ jobs:
 
             - name: Generate root README and index.html file
               run: node scripts/generate-root-docs.mjs
+            - name: Generate root README file
+              run: node scripts/generate-root-readme.mjs
+            
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
+
+            # Test
+            
+            - name: Install Playwright
+              run: npx playwright install --with-deps
+
+            - name: Build, serve, and test Storybook
+              run: npm run test:ci
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
+
+            # Publish
 
             - name: Generate publishing scripts
+              id: generate-publish-scripts
               run: node scripts/generate-publish-scripts.mjs
 
-            - name: Publish updated packages to JSR (dry-run)
+            - name: "[dry-run] Publish updated packages to JSR"
               if: github.ref != 'refs/heads/main'
               run: bash scripts/publish-jsr-dryrun.sh
 
@@ -88,10 +119,11 @@ jobs:
                   path: storybook-static # default: dist/storybook
                   checkout: false # default: true
 
-            - name: Save files to repository
+            - name: Save file changes (on main)
+              if: github.ref == 'refs/heads/main'
               run: |
-                  git config --global user.email "actions@users.noreply.github.com"
-                  git config --global user.name "github-actions[bot]"
-                  git add .
-                  git commit -m "[GH Actions] Update documentation and package files"
+                  git diff
+                  git config --global user.email "action@github.com"
+                  git config --global user.name "GitHub Action"
+                  git commit -a -m "[GH Actions] Update documentation and package files" || exit 0
                   git push

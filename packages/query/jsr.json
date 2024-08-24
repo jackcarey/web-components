@@ -1,5 +1,0 @@
-{
-  "name": "@web-components/query",
-  "version": "1.0.1",
-  "exports": "./index.ts"
-}

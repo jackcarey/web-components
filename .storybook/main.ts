@@ -4,6 +4,8 @@ const config = {
     "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../storybook-docs/**/*.mdx",
     "../storybook-docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../stories/**/*.mdx",
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-links",
@@ -22,6 +24,9 @@ const config = {
   docs: {
     defaultName: 'Documentation',
     iframeHeight: '120px',
+  docs: {
+    defaultName: 'All Stories',
   },
+},
 };
 export default config;
