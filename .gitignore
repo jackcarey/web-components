@@ -1,3 +1,6 @@
 node_modules
 coverage/
 *storybook.log
+
+# using pnpm lock instead
+package-lock.json
