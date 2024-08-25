@@ -52,13 +52,26 @@ jobs:
             - name: Check if Storybook stories results exist
               run: node scripts/check-story-results.mjs
 
-            # Build
+            # Test
 
             - name: Install Playwright
               run: npx playwright install --with-deps
 
+            - name: Save dependencies cache
+              id: cache-primes-save
+              uses: actions/cache/save@v4
+              with:
+                  path: |
+                      node_modules
+                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
+
             - name: Run tests
               run: npm run test:ci
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
+
+            # Build
 
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
@@ -81,25 +94,6 @@ jobs:
             - name: Generate Storybook documentation
               id: generate-storybook-docs
               run: npm i && node scripts/generate-storybook-pkg-docs.mjs
-
-            # Test
-
-            - name: Install Playwright
-              run: npx playwright install --with-deps
-
-            - name: Save dependencies cache
-              id: cache-primes-save
-              uses: actions/cache/save@v4
-              with:
-                  path: |
-                      node_modules
-                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
-
-            - name: Build, serve, and test Storybook
-              run: npm run test:ci
-
-            - name: Check if Storybook stories results exist
-              run: npm i && node scripts/check-story-results.mjs
 
             # Publish
 
