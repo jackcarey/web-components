@@ -1,9 +1,11 @@
 {
     "livePreview.defaultPreviewPath": "/index.html",
     "cSpell.words": [
-        "autodocs",
         "autoload",
         "autoloader",
+        "caniuse",
+        "eventhandlers",
+        "autodocs",
         "caniuse",
         "flexbox",
         "jcal",
