@@ -4,6 +4,7 @@ import { html } from "lit";
 export const CreateComponentDecorators = (component: string) => {
     return [
         (story) => {
+            import(`../packages/${component}/index.ts`);
             return html`${story()}`;
         },
     ];
