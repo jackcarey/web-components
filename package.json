@@ -21,7 +21,7 @@
     "@storybook/addon-interactions": "^8.2.6",
     "@storybook/addon-links": "^8.2.6",
     "@storybook/blocks": "^8.2.9",
-    "@storybook/test": "^8.2.7",
+    "@storybook/test": "^8.2.9",
     "@storybook/test-runner": "^0.19.1",
     "@storybook/web-components": "^8.2.9",
     "@storybook/web-components-vite": "^8.2.9",
