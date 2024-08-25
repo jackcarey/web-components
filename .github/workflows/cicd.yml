@@ -109,7 +109,8 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Publish Storybook
+            - name: Publish Storybook (on main)
+              if: github.ref == 'refs/heads/main'
               id: publish-storybook
               uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
               with:
