@@ -86,8 +86,6 @@ jobs:
             - name: Generate package README files
               run: node scripts/generate-pkg-readmes.mjs
 
-            - name: Generate root README and index.html file
-              run: node scripts/generate-root-docs.mjs
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
