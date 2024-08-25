@@ -1,6 +1,6 @@
 node_modules
+coverage/
 *storybook.log
 
-scripts/publish-jsr-dryrun.sh
-scripts/publish-jsr.sh
-coverage/
+# using pnpm lock instead
+package-lock.json
