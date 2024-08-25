@@ -9,7 +9,7 @@ There are $count packages in this collection. Some are web components intended f
 
 ---
 
-You can find documentation on [Storybook](htttps://jackcarey.co.uk/web-components/storybook-static/).
+You can find documentation on [Storybook](https://jackcarey.co.uk/web-components/storybook-static/).
 
 ---
 
@@ -17,15 +17,4 @@ $table
 
 ---
 
-## Using components
-
-Checkout the [Storybook documentation](https://jackcarey.co.uk/web-components/storybook-static/)
-
-## Developing components
-
-Checkout the [Storybook documentation](https://jackcarey.co.uk/web-components/storybook-static/)
-
-## Producing documentation
-
-Readmes, JSR config, and package documentation are updated by the files in the `/scripts` folder by GitHub Actions. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling readme files from `package.json` files and `DOCUMENTATION.md` files.
 Made by [jackcarey](https://jackcarey.co.uk/)

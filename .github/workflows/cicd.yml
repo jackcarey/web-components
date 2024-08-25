@@ -31,7 +31,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.json') }}
 
             # Check repo
 
@@ -57,13 +57,13 @@ jobs:
             - name: Install Playwright
               run: npx playwright install --with-deps
 
-            - name: Save dependencies cache
+            - name: Save deps to cache
               id: cache-primes-save
               uses: actions/cache/save@v4
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-main-${{ hashFiles('**/package-lock.json') }}-deps
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.json') }}
 
             - name: Run tests
               run: npm run test:ci
