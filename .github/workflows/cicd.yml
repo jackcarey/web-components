@@ -52,7 +52,7 @@ jobs:
             - name: Check if Storybook stories results exist
               run: node scripts/check-story-results.mjs
 
-            # Test
+            # Cache Deps
 
             - name: Install Playwright
               run: npx playwright install --with-deps
@@ -64,6 +64,12 @@ jobs:
                   path: |
                       node_modules
                   key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+            # Test
+
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
 
             - name: Run tests
               run: npm run test:ci
@@ -88,10 +94,6 @@ jobs:
 
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
-
-            - name: Generate Storybook documentation
-              id: generate-storybook-docs
-              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
 
             # Publish
 
