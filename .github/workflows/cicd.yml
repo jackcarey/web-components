@@ -2,15 +2,22 @@ name: CI/CD
 
 on:
     push:
+        branches:
+            - main
+            - develop
     pull_request:
 
 jobs:
     main:
         name: Test, build, and publish
+        timeout-minutes: 60
         runs-on: ubuntu-latest
         permissions:
             contents: write
             id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.publish-storybook.outputs.page_url }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -18,24 +25,18 @@ jobs:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
 
+            - name: Restore cached deps
+              id: cache-primes-restore
+              uses: actions/cache/restore@v4
+              with:
+                  path: |
+                      node_modules
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+
             # Check repo
-          
-            - name: check-codeowners
+
+            - name: Check if CODEOWNERS file exists
               run: bash scripts/check-codeowners.sh
-
-            - name: Check each package has documentation file
-              run: bash scripts/check-documentation.sh
-
-            - name: Check if LICENSE files exist
-              run: bash scripts/check-licenses.sh
-
-            - name: Check if Storybook stories exist
-              run: npm i && node scripts/check-stories.mjs
-
-            - name: Check if Storybook stories results exist
-              run: npm i && node scripts/check-story-results.mjs
-
-            # Build
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -44,6 +45,39 @@ jobs:
 
             - name: Install dependencies
               run: npm install
+
+            - name: Check each package has documentation, license, and Storybook files
+              run: node scripts/check-documentation-files.mjs
+
+            - name: Check if Storybook stories results exist
+              run: node scripts/check-story-results.mjs
+
+            # Cache Deps
+
+            - name: Install Playwright
+              run: npx playwright install --with-deps
+
+            - name: Save deps to cache
+              id: cache-primes-save
+              uses: actions/cache/save@v4
+              with:
+                  path: |
+                      node_modules
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+            # Test
+
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
+
+            - name: Run tests
+              run: npm run test:ci
+
+            - name: Check if Storybook stories results exist
+              run: npm i && node scripts/check-story-results.mjs
+
+            # Build
 
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
@@ -60,18 +94,6 @@ jobs:
 
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
-            
-            - name: Generate Storybook documentation
-              id: generate-storybook-docs
-              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
-
-            # Test
-            
-            - name: Install Playwright
-              run: npx playwright install --with-deps
-
-            - name: Build, serve, and test Storybook
-              run: npm run test:ci
 
             # Publish
 
@@ -87,7 +109,15 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            # Save file changes
+            - name: Publish Storybook (on main)
+              if: github.ref == 'refs/heads/main'
+              id: publish-storybook
+              uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+              with:
+                  install_command: yarn install # default: npm ci
+                  build_command: yarn build-storybook:build # default: npm run build-storybook
+                  path: storybook-static # default: dist/storybook
+                  checkout: false # default: true
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
@@ -95,5 +125,5 @@ jobs:
                   git diff
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
-                  git commit -a -m "[GH Actions] Update documentation" || exit 0
+                  git commit -a -m "[GH Actions] Update documentation and package files" || exit 0
                   git push

@@ -1,4 +1,4 @@
-import { pkgDetails, repoRootDir } from './get-packages.mjs';
+import { pkgDetails, repoRootDir } from './util-packages.mjs';
 import fs from 'fs';
 
 //find all packages with documentation
@@ -11,7 +11,7 @@ docPaths.forEach(([pkgName, docPath]) => {
   const hasMdContent = mdContent.length > 0;
   const isUtility = !pkgName.includes('-');
   const sbPath = `${repoRootDir}/storybook-docs/${isUtility ? 'utilities' : 'components'}/${pkgName}.mdx`;
-  const newComponentContent = `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${docPath}?raw";\n\n<Meta title="${isUtility?"utilities":"components"}/${pkgName}/Documentation"/>\n<Markdown>{Docs}</Markdown>`;
+  const newComponentContent = `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${docPath}?raw";\n\n<Meta title="${isUtility ? "utilities" : "components"}/${pkgName}/Documentation"/>\n<Markdown>{Docs}</Markdown>`;
   const newUtilityContent = `# ${pkgName}\n\n ${mdContent}`;
   const newSbContent = isUtility ? newUtilityContent : newComponentContent;
   let existingSbContent = '';
