@@ -1,18 +1,32 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
+
+const storyLocations = [
+    "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../storybook-docs/**/*.mdx",
+    "../storybook-docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../stories/**/*.mdx",
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+];
+
+const coverageConfig = {
+    istanbul: {
+        include: storyLocations,
+        exclude: ["**/exampleDirectory/**"],
+    },
+};
+
 const config = {
-    stories: [
-        "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-        "../storybook-docs/**/*.mdx",
-        "../storybook-docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-        "../stories/**/*.mdx",
-        "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    ],
+    stories: storyLocations,
     addons: [
         "@storybook/addon-links",
         "@storybook/addon-essentials",
         "@storybook/addon-a11y",
         "@storybook/addon-interactions",
         "@storybook/addon-themes",
+        {
+            name: "@storybook/addon-coverage",
+            options: coverageConfig,
+        },
     ],
     framework: {
         name: "@storybook/web-components-vite",
