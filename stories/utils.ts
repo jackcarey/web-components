@@ -11,8 +11,12 @@ export const CreateComponentDecorators = (component: string) => {
 };
 
 export const CreateComponentStoryMeta = (component: string): Meta => {
-    return ({
+    return {
+        title: component,
         component,
         decorators: CreateComponentDecorators(component),
-      });
-}
+        parameters: {
+            controls: { expanded: true },
+        },
+    };
+};
