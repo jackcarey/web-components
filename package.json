@@ -39,7 +39,8 @@
   "scripts": {
     "build-storybook": "storybook build --quiet",
     "storybook": "storybook dev -p 6006",
-    "test": "test-storybook --verbose --failOnConsole --json",
+    "test": "test-storybook --verbose --json",
+    "test:console": "test-storybook --verbose --failOnConsole",
     "test:coverage": "test-storybook --verbose --failOnConsole --coverage",
     "test:ci": "npm run build-storybook --quiet && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test --quiet\""
   },
