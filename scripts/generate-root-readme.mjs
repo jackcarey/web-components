@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count } from "./get-packages.mjs";
+import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
 
 console.log("compiling packages for root readme from:", repoRootDir);
 

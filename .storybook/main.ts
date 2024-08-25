@@ -1,22 +1,42 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
-const config = {
-  stories: [
+
+const storyLocations = [
+    "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../storybook-docs/**/*.mdx",
+    "../storybook-docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../storybook-docs/**/*.mdx",
-  ],
-  addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    '@storybook/addon-a11y',
-    '@storybook/addon-interactions',
-  ],
-  framework: {
-    name: "@storybook/web-components-vite",
-    options: {},
-  },
-  docs: {
-    defaultName: 'All Stories',
-  },
+];
+
+const coverageConfig = {
+    istanbul: {
+        include: storyLocations,
+        exclude: ["**/exampleDirectory/**"],
+    },
+};
+
+const config = {
+    stories: storyLocations,
+    addons: [
+        "@storybook/addon-links",
+        "@storybook/addon-essentials",
+        "@storybook/addon-a11y",
+        "@storybook/addon-interactions",
+        "@storybook/addon-themes",
+        {
+            name: "@storybook/addon-coverage",
+            options: coverageConfig,
+        },
+    ],
+    framework: {
+        name: "@storybook/web-components-vite",
+        options: {},
+    },
+    core: {
+        disableTelemetry: true,
+    },
+    docs: {
+        defaultName: "All Stories",
+    },
 };
 export default config;

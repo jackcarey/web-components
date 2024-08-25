@@ -1,4 +1,4 @@
-import { pkgDetails } from './get-packages.mjs';
+import { pkgDetails } from './util-packages.mjs';
 import fs from 'fs';
 
 const dryRunString = Object.entries(pkgDetails).map(([dir]) => `cd "${dir}"\nnpx jsr publish --allow-dirty --dry-run`).join('\n');
