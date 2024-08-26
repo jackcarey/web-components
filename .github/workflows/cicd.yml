@@ -49,7 +49,7 @@ jobs:
             - name: Check each package has documentation, license, and Storybook files
               run: node scripts/check-documentation-files.mjs
 
-            - name: Check if Storybook stories results exist
+            - name: Check if Storybook test results exist (not removed)
               run: node scripts/check-story-results.mjs
 
             # Cache Deps
@@ -74,7 +74,7 @@ jobs:
             - name: Run tests
               run: npm run test:ci
 
-            - name: Check if Storybook stories results exist
+            - name: Check if Storybook test results exist (after testing)
               run: npm i && node scripts/check-story-results.mjs
 
             # Build
