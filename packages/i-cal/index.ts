@@ -1,24 +1,41 @@
 /**
-   * @module
-   * This module contains a custom elment to render ical data
-   *
-+  * @example
-+  * ```html
-+  * <script src="https://esm.sh/jsr/@web-components/i-cal"></script>
-+  * <i-cal src="https://example.com/calendar.ics"></can-i-use>
-+  * ```
-   */
+ * @module
+ * This module contains a custom elment to render ical data
+ *
+ * @example
+ * ```html
+ * <script src="https://esm.sh/jsr/@web-components/i-cal"></script>
+ * <i-cal src="https://example.com/calendar.ics"></can-i-use>
+ * ```
+ */
+
+import ICAL from "ical.js";
+
+const internalTemplateHTML = `
+                 <ul>
+                   <style></style>
+                   <li part="summary"><slot name="summary"></slot></li>
+                   <li part="description"><slot name="description"></slot></li>
+                   <li part="location"><slot name="location"></slot></li>
+                   <li part="startDate"><time><slot name="startDate"></slot></time></li>
+                   <li part="endDate"><time><slot name="endDate"></slot></time></li>
+                   <li><slot name="duration"></slot></li>
+                   <li><slot name="organizer"></slot></li>
+                   <li><slot name="attendees"></slot></li>
+                 </ul>
+             `;
 
 /**
  * Represents a custom web component for displaying iCal events.
  */
 class ICalComponent extends HTMLElement {
-    #refreshInterval: number | undefined;
-    #eventsList = [];
-    #lastFetched = null;
+    #refreshInterval: ReturnType<typeof setTimeout> | number | undefined;
+    #determinedCalScale: string = "gregory";
+    #eventsList: any[] = [];
+    #error: Error | string | undefined;
     #root;
 
-    static #validRefreshInterval = (val) =>
+    static #validRefreshSeconds = (val) =>
         val && !isNaN(parseInt(val)) && val > 0 ? parseInt(val) : 0;
 
     #clearRefreshInterval() {
@@ -29,19 +46,53 @@ class ICalComponent extends HTMLElement {
     }
     #setRefreshInterval(seconds) {
         this.#clearRefreshInterval();
-        seconds = ICalComponent.#validRefreshInterval(seconds);
-        if (!seconds) return;
-        this.#refreshInterval = setInterval(() => {
+        const useSeconds = ICalComponent.#validRefreshSeconds(seconds);
+        if (!useSeconds) return;
+        if (this.src) {
+            // set up future refreshes
+            this.#refreshInterval = setInterval(() => {
+                this.#fetchEvents().then(() => this.#render());
+            }, useSeconds * 1000);
+            // set up immediate refresh
             this.#fetchEvents().then(() => this.#render());
-        }, seconds * 1000);
+        }
     }
 
-    static #parseICalData(data) {
-        const jcal = window.ICAL.parse(data);
-        const comp = new ICAL.Component(jcal);
-        const vevents = comp.getAllSubcomponents("vevent");
-        console.log({ vevents });
-        return vevents;
+    #parseICalData(data) {
+        try {
+            // https://github.com/kewisch/ical.js/wiki#item-model-layer
+            const jcalData = ICAL.parse(data);
+            const comp = new ICAL.Component(jcalData);
+            const calScale = comp.getFirstPropertyValue("calscale") ?? "gregory";
+            console.debug(`calScale: ${calScale}`);
+            if (calScale === "GREGORIAN") {
+                this.#determinedCalScale = "gregory";
+            } else {
+                this.#determinedCalScale = String(calScale).toLowerCase();
+            }
+            const vevents = comp.getAllSubcomponents("vevent");
+            const events = vevents.map((vevent) => new ICAL.Event(vevent));
+            console.debug(events);
+            return events;
+        } catch (e) {
+            console.warn(`Couldn't parse ical data: ${e?.message ?? JSON.stringify(e)}`);
+            return [];
+        }
+    }
+
+    static #extractAllValues(obj) {
+        const proto = Object.getPrototypeOf(obj);
+        const props = Object.getOwnPropertyNames(proto).filter((name) => {
+            if (name.startsWith("_")) return false;
+            if (["constructor"].includes(name)) return false;
+            if (typeof obj[name] === "function") return false;
+            return true;
+        });
+        return Object.fromEntries(props.map((name) => [name, obj[name]]));
+    }
+
+    static get observedAttributes() {
+        return ["src", "events", "refresh", "since", "until", "locales", "localeOptions"];
     }
 
     constructor() {
@@ -49,17 +100,18 @@ class ICalComponent extends HTMLElement {
         this.#root = this.attachShadow({ mode: "open" });
     }
 
-    static get observedAttributes() {
-        return ["src", "events", "refresh"];
-    }
-
     connectedCallback() {
-        console.log("connected");
-        if (this.src && !this.events) {
+        if (this.refresh) {
+            this.#setRefreshInterval(this.refresh);
+        } else if (this.src && !this.events) {
             this.#fetchEvents().then(() => this.#render());
         } else {
             this.#render();
         }
+    }
+
+    disconnectedCallback() {
+        this.#clearRefreshInterval();
     }
 
     get src() {
@@ -86,126 +138,233 @@ class ICalComponent extends HTMLElement {
         }
     }
 
-    get refresh() {
-        return ICalComponent.#validRefreshInterval(this.getAttribute("refresh"));
+    setEventsList(newVal) {
+        this.#eventsList = newVal;
+        this.#render();
     }
-    set refresh(newVal) {
-        newVal = ICalComponent.#validRefreshInterval(newValue);
+
+    get filteredEvents() {
+        let startDt: Date | undefined = undefined;
+        // if the date values cannot be parsed they will be ignored
+        if (this.since) {
+            try {
+                startDt = this.since ? new Date(this.since) : undefined;
+            } catch (_) {}
+        }
+        let endDt: Date | undefined = undefined;
+        if (this.until) {
+            try {
+                endDt = this.until ? new Date(this.until) : undefined;
+            } catch (_) {}
+        }
+        const filteredEvents =
+            this.#eventsList?.filter((event) => {
+                //remove events that are outside the date range
+                const start = event.startDate.toJSDate();
+                const end = event.endDate.toJSDate();
+                if (startDt && start < startDt) return false;
+                if (endDt && end > endDt) return false;
+                return true;
+            }) ?? [];
+        return filteredEvents;
+    }
+
+    get until() {
+        return this.getAttribute("until");
+    }
+
+    set until(newVal) {
         if (newVal) {
-            this.setAttribute("refresh", newValue);
+            this.setAttribute("until", newVal);
+        } else {
+            this.removeAttribute("until");
+        }
+    }
+
+    get since() {
+        return this.getAttribute("since");
+    }
+
+    set since(newVal) {
+        if (newVal) {
+            this.setAttribute("since", newVal);
+        } else {
+            this.removeAttribute("since");
+        }
+    }
+
+    get calScale() {
+        return this.#determinedCalScale.toLowerCase();
+    }
+
+    get locales() {
+        return this.getAttribute("locales")?.split(",") ?? [];
+    }
+
+    set locales(newVal) {
+        if (newVal) {
+            this.setAttribute("locales", Array.isArray(newVal) ? newVal.join(",") : newVal);
+        } else {
+            this.removeAttribute("locales");
+        }
+    }
+
+    get localeOptions() {
+        const parsed = JSON.parse(this.getAttribute("localeOptions") ?? "{}");
+        return { calendar: this.calScale, ...parsed };
+    }
+
+    set localeOptions(newVal) {
+        if (newVal) {
+            this.setAttribute("localeOptions", JSON.stringify(newVal));
+        } else {
+            this.removeAttribute("localeOptions");
+        }
+    }
+
+    get refresh(): number {
+        return ICalComponent.#validRefreshSeconds(this.getAttribute("refresh"));
+    }
+    set refresh(newVal: number | string) {
+        newVal = ICalComponent.#validRefreshSeconds(newVal);
+        if (newVal) {
+            this.setAttribute("refresh", String(newVal));
         } else {
             this.removeAttribute("refresh");
         }
     }
 
     get hasFixedEvents() {
-        const attrStr = this.getAttribute("events");
-        return attrStr && attrStr.trim()?.length > 0 ? true : false;
+        return !this.src || this.src.trim().length === 0;
     }
 
     async #fetchEvents() {
-        return await fetch(this.src).then(async (resp) => {
-            if (resp.ok) {
-                const data = await resp.text();
-                this.#lastFetched = Date.now();
-                this.#eventsList = ICalComponent.#parseICalData(data);
-            } else {
-                console.error(
-                    `Failed to fetch iCal data from ${this.src}`,
-                    resp.status,
-                    resp.statusText
-                );
-            }
-        });
+        if (this.src) {
+            return await fetch(this.src)
+                .then(async (resp) => {
+                    if (resp.ok) {
+                        const data = await resp.text();
+                        this.#eventsList = this.#parseICalData(data);
+                        this.#error = undefined;
+                    } else {
+                        this.#error = `${resp.status} ${resp.statusText}`.trim();
+                    }
+                })
+                .catch((e) => {
+                    this.#error = `${e?.message ?? JSON.stringify(e)}`.trim();
+                });
+        }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue === newValue) return;
-        console.log(`attributeChanged`, { name, oldValue, newValue });
-        if (name === "src" && !newValue) {
-            this.#clearRefreshInterval();
-        }
-        if (name === "refresh") {
-            this.#setRefreshInterval();
-        }
-        if (name === "events") {
-            //todo": parse the events string and store it in the eventsList
-            if (newValue) {
-                this.#eventsList = ICalComponent.#parseICalData(newValue);
+        if (oldValue == newValue) return;
+        switch (name) {
+            case "src": {
+                if (!newValue) {
+                    this.#clearRefreshInterval();
+                } else {
+                    this.#setRefreshInterval(this.refresh);
+                }
+                break;
             }
-            if (this.hasFixedEvents) {
-                this.#clearRefreshInterval();
+            case "refresh": {
+                this.#setRefreshInterval(this.refresh);
+                break;
+            }
+            case "events": {
+                if (newValue) {
+                    try {
+                        this.#eventsList = this.#parseICalData(newValue);
+                    } catch (e) {
+                        this.#error = `Failed to parse events: ${e?.message ?? JSON.stringify(e)}`;
+                    }
+                } else {
+                    this.#eventsList = [];
+                }
+                if (this.hasFixedEvents) {
+                    this.#clearRefreshInterval();
+                }
+                this.#render();
+            }
+            default: {
+                this.#render();
+                break;
             }
         }
-        this.#render();
     }
 
     async #render() {
-        console.log("rendering");
-        const refreshMs = this.refresh * 1000;
-        const staleBefore = Date.now() - refreshMs;
-        const hasEvents = this.events && this.events.length > 0;
-        const isOld =
-            !this.hasFixedEvents &&
-            this.src &&
-            this.#lastFetched &&
-            this.#lastFetched <= staleBefore;
-        if (!hasEvents || isOld) {
-        }
-
         let templateNode = this.querySelector("template");
         if (!templateNode) {
             templateNode = document.createElement("template");
-            templateNode.innerHTML = `
-                 <style></style>
-                 <p><slot name="title"></slot></p>
-                 <p><slot name="start"></slot></p>
-                 <p><slot name="end"></slot></p>
-                 <p><slot name="description"></slot></p>
-             `;
+            templateNode.innerHTML = internalTemplateHTML;
         }
-        //make sure to use only one style tag
+        //make sure to use only one style tag across all event items
         const templateStyle = templateNode.querySelector("style");
-        let styleClone = null;
+        let styleClone: Element | undefined = undefined;
         if (templateStyle) {
-            styleClone = templateStyle.cloneNode(true);
+            styleClone = templateStyle.cloneNode(true) as Element;
             templateNode.removeChild(templateStyle);
         }
-        this.#root.innerHTML = `<p>${this.hasFixedEvents ? "fixed" : "fetch"}</p>${
-            styleClone ? styleClone.outerHTML : ""
-        }${this.#eventsList
-            .map((eventStr) => {
-                //todo: properly render event objects inside the template
-                const clone = templateNode?.content?.cloneNode(true);
-                if (clone) {
-                    const eventAttrs = ["title", "start", "end", "description"];
-                    eventAttrs.forEach((attr) => {
-                        const slot = clone.querySelector(`slot[name="${attr}"]`);
-                        if (slot) {
-                            slot.innerHTML = eventStr[attr];
+        const otherChildrenSlot = `<slot></slot>`;
+        if (this.#error) {
+            this.#root.innerHTML = `${styleClone?.outerHTML ?? ""}<slot name="error" class="error"><p class="error">${this.#error}</p></slot>${otherChildrenSlot}`;
+        } else if (this.filteredEvents.length == 0) {
+            this.#root.innerHTML = `${styleClone?.outerHTML ?? ""}<slot name="empty" class="empty"></slot>${otherChildrenSlot}`;
+        } else {
+            this.#root.innerHTML = `${styleClone?.outerHTML ?? ""}<ol>${this.filteredEvents
+                .map((event) => {
+                    const thisEventNode = templateNode.content.cloneNode(true) as Element;
+                    const allValuesEvent = ICalComponent.#extractAllValues(event);
+                    Object.entries(allValuesEvent).forEach(([key, value]) => {
+                        if (value || value === 0) {
+                            console.debug(`looking for slots`, key, value);
+                            thisEventNode
+                                .querySelectorAll(`slot[name="${key}"]`)
+                                .forEach((slot: Element) => {
+                                    console.debug(`- found slot`, key, value);
+                                    const slotParent = slot.parentElement;
+                                    if (slotParent && ["startDate", "endDate"].includes(key)) {
+                                        const jsDate = (value as any).toJSDate() as Date;
+                                        const machineDate = jsDate.toISOString();
+                                        const readableDate = jsDate.toLocaleString(
+                                            this.locales,
+                                            this.localeOptions
+                                        );
+                                        try {
+                                            (slotParent as HTMLTimeElement).dateTime = machineDate;
+                                        } catch (e) {}
+                                        slotParent.innerHTML = readableDate;
+                                    } else {
+                                        slot.replaceWith(String(value));
+                                    }
+                                });
                         }
                     });
-                    return clone.outerHTML;
-                } else {
-                }
-                return `<div>${eventStr}</div>`;
-            })
-            .join("")}<slot></slot>`;
-        this.#root.appendChild(clone);
+                    console.debug(`thisEventNode`, thisEventNode, String(thisEventNode));
+                    const li = document.createElement("li");
+                    li.appendChild(thisEventNode);
+                    return li.outerHTML;
+                })
+                .join("")}</ol>${otherChildrenSlot}`;
+        }
+    }
+
+    valueOf() {
+        return this.#eventsList;
+    }
+
+    toJSON() {
+        return this.#eventsList;
+    }
+
+    toString() {
+        return JSON.stringify(this.#eventsList);
     }
 }
 
-customElements.whenDefined("jc-cal").then(() => {
-    console.log("jc-cal defined");
-});
-
 window.addEventListener("DOMContentLoaded", () => {
-    const icalDep = "https://unpkg.com/ical.js/dist/ical.es5.cjs";
-    if (!window.ICAL) {
-        console.log("loading ical.js");
-        const script = document.createElement("script");
-        script.src = icalDep;
-        document.head.appendChild(script);
+    if (!customElements.get("i-cal")) {
+        customElements.define("i-cal", ICalComponent);
     }
-    customElements.define("i-cal", ICalComponent);
 });

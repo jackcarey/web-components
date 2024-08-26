@@ -1,11 +1,13 @@
 import { Meta } from "@storybook/web-components";
 import { html } from "lit";
 
-export const CreateComponentDecorators = (component: string) => {
+export const CreateComponentDecorators = (component: string, styles?: string) => {
     return [
         (story) => {
             import(`../packages/${component}/index.ts`);
-            return html`${story()}`;
+            return html`<style>
+                    ${styles ?? ""}</style
+                >${story()}`;
         },
     ];
 };
