@@ -77,9 +77,10 @@ export const ExternalStyles: Story = {
 export const CustomTemplate: Story = {
     args: {
         events: exampleICS,
+        locales: "en-GB",
     },
     render: (args) =>
-        html`<i-cal id="custom" events=${args.events}>
+        html`<i-cal id="custom" events=${args.events} locales="${args.locales}">
             <template>
                 <style>
                     * {
@@ -89,6 +90,7 @@ export const CustomTemplate: Story = {
                 </style>
                 <h2><slot name="summary"></slot></h2>
                 <p><slot name="description"></slot><br /><slot name="location"></slot></p>
+                <p><time><slot name="startDate"></slot></time> - <time><slot name="endDate"></time></slot></p>
             </template>
         </i-cal>`,
 };
