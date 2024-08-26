@@ -112,10 +112,22 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Save file changes (on main)
+            - name: Check file diff
+              id: check-file-diff
               if: github.ref == 'refs/heads/main'
               run: |
-                  git diff
+                  # Diff HEAD with the previous commit
+                  $diff = git diff --name-only HEAD^ HEAD
+                  # ignore the storybook-static/project.json file
+                  $SourceDiff = $diff | Where-Object { $_ -ne '/storybook-static/project.json' }
+                  $HasDiff = $SourceDiff.Length -gt 0
+                  # Set the output named "files_changed"
+                  Write-Host "::set-output name=files_changed::$HasDiff"
+
+            - name: Save file changes (on main)
+              if: github.ref == 'refs/heads/main' && steps.check-file-diff.outputs.files_changed == 'true'
+              run: |
+                  $diff = git diff --name-only HEAD^ HEAD
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
                   git commit -a -m "[GH Actions] Update documentation and package files" || exit 0
