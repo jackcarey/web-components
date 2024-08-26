@@ -34,7 +34,7 @@
   "main": "autoloader.js",
   "name": "web-components",
   "scripts": {
-    "build-storybook": "storybook build --quiet",
+    "storybook:build": "storybook build",
     "storybook": "storybook dev -p 6006",
     "test": "test-storybook --verbose --json --failOnConsole",
     "test:coverage": "test --coverage",
