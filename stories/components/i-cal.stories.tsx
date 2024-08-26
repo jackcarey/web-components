@@ -49,6 +49,7 @@ export const KoreanLocale = {
 
 const externalStyles = `
 i-cal#styled{
+    background-color: #e0e0e0;
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -56,15 +57,6 @@ i-cal#styled{
     justify-content: center;
     align-items: center;
     text-align: center;
-    list-style: none;
-}
-i-cal#styled ol,ul{
-    background-color: red;
-}
-i-cal#styled li{
-    list-style: none;
-    border: 1px solid #ccc;
-    margin: 0.5rem;
 }
 i-cal#styled::part(summary) { font-weight: bold; }
 i-cal#styled::part(description) { font-style: italic; }
@@ -89,6 +81,12 @@ export const CustomTemplate: Story = {
     render: (args) =>
         html`<i-cal id="custom" events=${args.events}>
             <template>
+                <style>
+                    * {
+                        list-style: none;
+                        font-family: sans-serif;
+                    }
+                </style>
                 <h2><slot name="summary"></slot></h2>
                 <p><slot name="description"></slot><br /><slot name="location"></slot></p>
             </template>
