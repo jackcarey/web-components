@@ -31,7 +31,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('**/package.json') }}
 
             # Check repo
 
@@ -43,7 +43,7 @@ jobs:
               with:
                   node-version: "20"
 
-            - name: Install dependencies
+            - name: Install root dependencies
               run: npm install
 
             - name: Check each package has documentation, license, and Storybook files
@@ -54,6 +54,9 @@ jobs:
 
             # Cache Deps
 
+            - name: Install package dependencies at root level (for Storybook)
+              run: node scripts/install-deps-at-root.mjs
+
             - name: Install Playwright
               run: npx playwright install --with-deps
 
@@ -63,19 +66,19 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('**/package.json') }}
 
             # Test
 
             - name: Generate Storybook documentation
               id: generate-storybook-docs
-              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
+              run: npm install && node scripts/generate-storybook-pkg-docs.mjs
 
             - name: Run tests
               run: npm run test:ci
 
             - name: Check if Storybook test results exist (after testing)
-              run: npm i && node scripts/check-story-results.mjs
+              run: npm install && node scripts/check-story-results.mjs
 
             # Build
 
@@ -108,16 +111,6 @@ jobs:
             - name: Publish updated packages to JSR (on main)
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
-
-            - name: Publish Storybook (on main)
-              if: github.ref == 'refs/heads/main'
-              id: publish-storybook
-              uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
-              with:
-                  install_command: yarn install # default: npm ci
-                  build_command: yarn build-storybook:build # default: npm run build-storybook
-                  path: storybook-static # default: dist/storybook
-                  checkout: false # default: true
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'

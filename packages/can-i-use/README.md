@@ -28,9 +28,10 @@ Find this package on storybook: [can-i-use on Storybook](https://jackcarey.co.uk
 
 ## Attributes
 
-- `feature`: a string from the caniuse feature list.
-- `mode`: `iframe` or `image`. Optional. Default: `iframe`.
-- `accessibleColors`: `"true"` or `"false"`. Optional. Default: `"false"`.
+-   `feature`: a string from the caniuse feature list.
+-   `mode`: `iframe` or `image`. Optional. Default: `iframe`.
+-   `accessible-colors`: `"true"` or `"false"`. Optional. Default: `"false"`.
+
 
 ---
 
