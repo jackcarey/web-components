@@ -10,15 +10,18 @@ const missingDocs = [];
 const missingLicense = [];
 const missingStories = [];
 
+const existsWithContent = (path) => fs.existsSync(path) && fs.readFileSync(path, 'utf8').length > 0;
+
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const name = pkgJson?.name;
     const isUtility = !name.includes('-');
     const docsPath = path.join(dir, 'DOCUMENTATION.md');
     const licensePath = path.join(dir, 'LICENSE.md');
-    const storiesPath = path.join(repoRootDir, "stories", isUtility ? 'utilities' : 'components', `${name}.stories.ts`);
-    const hasDocs = fs.existsSync(docsPath) && fs.readFileSync(docsPath, 'utf8').length > 0;
-    const hasLicense = fs.existsSync(licensePath) && fs.readFileSync(licensePath, 'utf8').length > 0;
-    const hasStories = fs.existsSync(storiesPath) && fs.readFileSync(storiesPath, 'utf8').length > 0;
+    const storiesTSPath = path.join(repoRootDir, "stories", isUtility ? 'utilities' : 'components', `${name}.stories.ts`);
+    const storiesTSXPath = path.join(repoRootDir, "stories", isUtility ? 'utilities' : 'components', `${name}.stories.tsx`);
+    const hasDocs = existsWithContent(docsPath);
+    const hasLicense = existsWithContent(licensePath);
+    const hasStories = existsWithContent(storiesTSPath) || existsWithContent(storiesTSXPath);
     if (!hasDocs) {
         try {
             console.log('Creating default docs for', name);
@@ -28,7 +31,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
         }
     }
     if (!hasLicense) missingLicense.push(name + " - " + licensePath);
-    if (!hasStories) missingStories.push(name + " - " + storiesPath);
+    if (!hasStories) missingStories.push(name + " - " + storiesTSPath);
 });
 
 if (missingDocs.length) {
