@@ -1,6 +1,6 @@
 {
   "name": "datalayer",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Background handling of data updates",
   "main": "./index.ts",
   "scripts": {
