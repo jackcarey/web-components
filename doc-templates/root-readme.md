@@ -1,7 +1,6 @@
 # web-components
 
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
-
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 [![pages-build-deployment](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment)
 
