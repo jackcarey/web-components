@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import PackageJson from '@npmcli/package-json';
-import { exec } from 'child_process';
+import { execSync } from 'child_process';
 
 // Get the root directory of the repository
 const repoRootDir = process.cwd();
@@ -37,7 +37,7 @@ const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
     const deps = pkgJson.dependencies;
     const allDeps = { ...peerDeps, ...devDeps, ...deps };
     const installString = Object.entries(allDeps).map(([dep, version]) => `${dep}@${version}`).join(' ');
-    exec(`npm install --prefix ${repoRootDir} ${installString}`, (err, stdout, stderr) => {
+    execSync(`npm install --prefix ${repoRootDir} ${installString}`, (err, stdout, stderr) => {
         if (err) {
             console.error(err);
             return;
