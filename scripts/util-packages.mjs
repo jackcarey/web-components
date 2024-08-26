@@ -37,7 +37,7 @@ const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
     const deps = pkgJson.dependencies;
     const allDeps = { ...peerDeps, ...devDeps, ...deps };
     const installString = Object.entries(allDeps).map(([dep, version]) => `${dep}@${version}`).join(' ');
-    exec(`pnpm install --prefix ${repoRootDir} ${installString}`, (err, stdout, stderr) => {
+    exec(`npm install --prefix ${repoRootDir} ${installString}`, (err, stdout, stderr) => {
         if (err) {
             console.error(err);
             return;
