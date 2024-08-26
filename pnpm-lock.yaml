@@ -17,6 +17,9 @@ dependencies:
   '@storybook/test-runner':
     specifier: ^0.18.2
     version: 0.18.2(storybook@8.2.9)
+  ical.js:
+    specifier: ^2.0.1
+    version: 2.0.1
 
 devDependencies:
   '@chromatic-com/storybook':
@@ -4646,6 +4649,10 @@ packages:
   /human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
+
+  /ical.js@2.0.1:
+    resolution: {integrity: sha512-uYYb1CwTXbd9NP/xTtgQZ5ivv6bpUjQu9VM98s3X78L3XRu00uJW5ZtmnLwyxhztpf5fSiRyDpFW7ZNCePlaPw==}
+    dev: false
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
