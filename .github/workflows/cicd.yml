@@ -31,7 +31,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json,**/package.json') }}
 
             # Check repo
 
@@ -66,7 +66,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json,**/package.json') }}
 
             # Test
 
