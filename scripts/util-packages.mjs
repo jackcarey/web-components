@@ -37,13 +37,8 @@ const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
     const deps = pkgJson.dependencies;
     const allDeps = { ...peerDeps, ...devDeps, ...deps };
     const installString = Object.entries(allDeps).map(([dep, version]) => `${dep}@${version}`).join(' ');
-    execSync(`npm install --prefix ${repoRootDir} ${installString}`, (err, stdout, stderr) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(stdout);
-    });
+    const stdBuffer = execSync(`npm install --prefix ${repoRootDir} ${installString}`);
+    console.log(stdBuffer.toString());
 });
 
 export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot };

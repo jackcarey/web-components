@@ -13,11 +13,28 @@ try {
 
     if (hasChangedFiles) {
         console.log('Changes detected. Committing and pushing...');
-        execSync(`git config --global user.email "action@github.com"`);
-        execSync(`git config --global user.name "GitHub Action"`);
-        execSync(`git commit -a -m "[GH Actions] Update documentation and package files" || exit 0`);
-        execSync(`git push`);
-        console.log(`Successfully pushed changes.`);
+        try {
+            const configEmailBuffer = execSync(`git config --global user.email "action@github.com"`);
+            if (configEmailBuffer.length > 0) {
+                console.log(configEmailBuffer.toString());
+            }
+            const configNameBuffer = execSync(`git config --global user.name "GitHub Action"`);
+            if (configNameBuffer.length > 0) {
+                console.log(configNameBuffer.toString());
+            }
+            const commitBuffer = execSync(`git commit -a -m "[GH Actions] Update documentation and package files" || exit 0`);
+            if (commitBuffer.length > 0) {
+                console.log(commitBuffer.toString());
+            }
+            const pushBuffer = execSync(`git push`);
+            if (pushBuffer.length > 0) {
+                console.log(pushBuffer.toString());
+            }
+            console.log(`Successfully pushed changes.`);
+        } catch (e) {
+            console.error('An error occurred:', e);
+            throw e;
+        }
     } else {
         console.log('No changes to be saved.');
     }
