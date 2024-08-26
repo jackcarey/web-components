@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import PackageJson from '@npmcli/package-json';
+import { exec } from 'child_process';
 
 // Get the root directory of the repository
 const repoRootDir = process.cwd();
@@ -30,5 +31,14 @@ const pkgDetails = Object.fromEntries(Object.entries(unsortedPkgDetails).sort(([
     return nameA.localeCompare(nameB);
 }));
 
-export { repoRootDir, pkgRootDir, pkgDetails, count };
+const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
+    const peerDeps = pkgJson.peerDependencies;
+    const devDeps = pkgJson.devDependencies;
+    const deps = pkgJson.dependencies;
+    const allDeps = { ...peerDeps, ...devDeps, ...deps };
+    const installString = Object.entries(allDeps).map(([dep, version]) => `${dep}@${version}`).join(' ');
+    exec(`pnpm install --prefix ${repoRootDir} ${installString}`);
+});
+
+export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot };
 export default unsortedPkgDetails;

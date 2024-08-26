@@ -43,8 +43,11 @@ jobs:
               with:
                   node-version: "20"
 
-            - name: Install dependencies
+            - name: Install root dependencies
               run: npm install
+
+            - name: Install package dependencies at root level (for Storybook)
+              run: node scripts/install-deps-at-root.mjs
 
             - name: Check each package has documentation, license, and Storybook files
               run: node scripts/check-documentation-files.mjs
