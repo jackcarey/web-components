@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 
 try {
     // Get the list of changed files in the latest commit
-    const changedFiles = execSync('git diff --name-only HEAD~1..HEAD').toString().split('\n');
+    const changedFiles = execSync('git diff --name-only').toString().split('\n');
 
     if (changedFiles.length > 0) {
         console.log(changedFiles);
