@@ -17,7 +17,6 @@ jobs:
             id-token: write
         environment:
             name: github-pages
-            url: ${{ steps.publish-storybook.outputs.page_url }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -127,7 +126,6 @@ jobs:
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main' && steps.check-file-diff.outputs.files_changed == 'true'
               run: |
-                  $diff = git diff --name-only HEAD^ HEAD
                   git config --global user.email "action@github.com"
                   git config --global user.name "GitHub Action"
                   git commit -a -m "[GH Actions] Update documentation and package files" || exit 0
