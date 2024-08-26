@@ -1,7 +1,7 @@
-import { addons } from '@storybook/manager-api';
+import { addons } from "@storybook/manager-api";
 
 addons.setConfig({
     sidebar: {
-      showRoots: true,
+        showRoots: true,
     },
-  });
+});

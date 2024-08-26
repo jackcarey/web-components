@@ -105,19 +105,22 @@ class CanIuseComponent extends HTMLElement {
      * Gets the value of the "accessible-colours" attribute.
      * @returns The value of the "accessible-colours" attribute, or "false" if not set.
      */
-    get accessibleColours(): string {
-        return this.getAttribute("accessible-colours") ?? "false";
+    get accessibleColors(): boolean {
+        return (
+            this.hasAttribute("accessible-colors") &&
+            this.getAttribute("accessible-colors") !== "false"
+        );
     }
 
     /**
      * Sets the value of the "accessible-colours" attribute.
      * @param value - The new value for the "accessible-colours" attribute.
      */
-    set accessibleColours(value: string) {
-        if (!value) {
-            this.removeAttribute("accessible-colours");
+    set accessibleColors(value: boolean | string) {
+        if (!value || value === "false") {
+            this.removeAttribute("accessible-colors");
         } else {
-            this.setAttribute("accessible-colours", String(value ? true : false));
+            this.setAttribute("accessible-colors", String(value ? true : false));
         }
     }
 
@@ -140,7 +143,7 @@ class CanIuseComponent extends HTMLElement {
             this.#root.innerHTML = `<iframe src="https://caniuse.bitsofco.de/embed/index.html?feat=${
                 this.feature
             }&periods=${this.periods}&accessible-colours=${
-                this.accessibleColours === "true" ? "true" : "false"
+                this.accessibleColors ? "true" : "false"
             }" frameborder="0" width="100%" height="400px"></iframe>`;
         } else if (this.mode === "image") {
             this.#root.innerHTML = `<picture>

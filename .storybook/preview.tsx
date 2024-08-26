@@ -1,31 +1,34 @@
-import { Preview } from '@storybook/web-components';
+import { Preview } from "@storybook/web-components";
 /** @type { import('@storybook/web-components').Preview } */
 const preview: Preview = {
-  parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
+    parameters: {
+        actions: { argTypesRegex: "^on[A-Z].*" },
+        controls: {
+            matchers: {
+                color: /(background|color)$/i,
+                date: /Date$/i,
+            },
+        },
+        docs: {
+            toc: true,
+        },
+        options: {
+            // The `a` and `b` arguments in this function have a type of `import('@storybook/types').IndexEntry`. Remember that the function is executed in a JavaScript environment, so use JSDoc for IntelliSense to introspect it.
+            storySort: {
+                order: [
+                    "Overview",
+                    "about",
+                    "About/*",
+                    "components",
+                    "Components/*",
+                    "utilities",
+                    "Utilities/*",
+                    "Development/*",
+                ],
+            },
+        },
     },
-    docs: {
-      toc: true,
-    },
-    options: {
-      // The `a` and `b` arguments in this function have a type of `import('@storybook/types').IndexEntry`. Remember that the function is executed in a JavaScript environment, so use JSDoc for IntelliSense to introspect it.
-      storySort: (a, b) => {
-        const topDocumentNames = ['Documentation', 'All Stories'];
-        if (topDocumentNames.includes(a.name) && !topDocumentNames.includes(b.name)) {
-          return -1;
-        }
-        if(!topDocumentNames.includes(a.name) && topDocumentNames.includes(b.name)) {
-          return 1;
-        }
-        return a.id === b.id ? 0 : a.id.localeCompare(b.id, undefined, { numeric: true });
-      }
-    },
-  },
-  tags: ['autodocs'],
+    tags: ["autodocs"],
 };
 
 export default preview;
