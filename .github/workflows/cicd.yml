@@ -111,7 +111,7 @@ jobs:
               if: github.ref == 'refs/heads/main'
               run: bash scripts/publish-jsr.sh
 
-            - name: Check file diff
+            - name: Check file diff (on main)
               id: check-file-diff
               if: github.ref == 'refs/heads/main'
               run: |
