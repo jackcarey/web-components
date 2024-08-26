@@ -4,10 +4,15 @@
         "autodocs",
         "autoload",
         "autoloader",
+        "calscale",
         "caniuse",
         "flexbox",
+        "ICAL",
+        "icalts",
         "jcal",
         "opfs",
+        "Subcomponents",
+        "VCALENDAR",
         "vevent",
         "vevents"
     ]

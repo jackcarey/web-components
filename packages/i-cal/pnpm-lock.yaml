@@ -1,0 +1,45 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  ical.js:
+    specifier: ^2.0.1
+    version: 2.0.1
+
+devDependencies:
+  '@types/ical':
+    specifier: ^0.8.3
+    version: 0.8.3
+
+packages:
+
+  /@types/ical@0.8.3:
+    resolution: {integrity: sha512-qPejGORaXOstmqyKzp0Qw9nXDPiWiahiJJcx4zMB0zJVg0rLfJ6bDip/naqagEqYTjKl/LI91399hR8zFwRJ5A==}
+    dependencies:
+      rrule: 2.6.4
+    dev: true
+
+  /ical.js@2.0.1:
+    resolution: {integrity: sha512-uYYb1CwTXbd9NP/xTtgQZ5ivv6bpUjQu9VM98s3X78L3XRu00uJW5ZtmnLwyxhztpf5fSiRyDpFW7ZNCePlaPw==}
+    dev: false
+
+  /luxon@1.28.1:
+    resolution: {integrity: sha512-gYHAa180mKrNIUJCbwpmD0aTu9kV0dREDrwNnuyFAsO1Wt0EVYSZelPnJlbj9HplzXX/YWXHFTL45kvZ53M0pw==}
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /rrule@2.6.4:
+    resolution: {integrity: sha512-sLdnh4lmjUqq8liFiOUXD5kWp/FcnbDLPwq5YAc/RrN6120XOPb86Ae5zxF7ttBVq8O3LxjjORMEit1baluahA==}
+    dependencies:
+      tslib: 1.14.1
+    optionalDependencies:
+      luxon: 1.28.1
+    dev: true
+
+  /tslib@1.14.1:
+    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: true
