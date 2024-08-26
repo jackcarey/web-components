@@ -30,7 +30,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('**/package.json') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('packages/**/package.json') }}
 
             # Check repo
 
@@ -65,7 +65,7 @@ jobs:
               with:
                   path: |
                       node_modules
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('**/package.json') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('packages/**/package.json') }}
 
             # Test
 
