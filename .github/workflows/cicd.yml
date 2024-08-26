@@ -43,11 +43,11 @@ jobs:
               with:
                   node-version: "20"
 
+            - name: Install root dependencies
+              run: pnpm install
+
             - name: Install package dependencies at root level (for Storybook)
               run: node scripts/install-deps-at-root.mjs
-
-            - name: Install root dependencies
-              run: npm install
 
             - name: Check each package has documentation, license, and Storybook files
               run: node scripts/check-documentation-files.mjs
@@ -72,13 +72,13 @@ jobs:
 
             - name: Generate Storybook documentation
               id: generate-storybook-docs
-              run: npm i && node scripts/generate-storybook-pkg-docs.mjs
+              run: pnpm install && node scripts/generate-storybook-pkg-docs.mjs
 
             - name: Run tests
-              run: npm run test:ci
+              run: pnpm run test:ci
 
             - name: Check if Storybook test results exist (after testing)
-              run: npm i && node scripts/check-story-results.mjs
+              run: pnpm install && node scripts/check-story-results.mjs
 
             # Build
 
@@ -117,8 +117,8 @@ jobs:
               id: publish-storybook
               uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
               with:
-                  install_command: npm install # default: npm ci
-                  build_command: npm build-storybook # default: npm run build-storybook
+                  install_command: pnpm install # default: npm ci
+                  build_command: pnpm run build-storybook # default: npm run build-storybook
                   path: storybook-static # default: dist/storybook
                   checkout: false # default: true
 
