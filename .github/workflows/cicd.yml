@@ -9,6 +9,7 @@ on:
 
 permissions:
     contents: read
+    attestations: write
     pages: write
     id-token: write
 
