@@ -15,7 +15,7 @@ try {
 
     if (changedFiles.length > 0) {
         console.log(changedFiles);
-        console.log('Changes detected. Committing and pushing...');
+        console.log('Changes detected.');
         try {
             logExecSync(`git config --global user.email "action@github.com"`);
             logExecSync(`git config --global user.name "[GitHub Action]"`);
