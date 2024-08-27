@@ -11,20 +11,20 @@ const saveToStorybookFolder = (content, folder, fileName) => {
   }
   if (pathExists) {
     if (!content) {
-      console.log(`Removing storybook documentation for ${path}`);
+      console.log(`Removing storybook documentation from ${fullPath}`);
       fs.unlinkSync(fullPath);
     }
     const hasChanged = existingSbContent !== content;
     if (hasChanged) {
       fs.writeFileSync(fullPath, content, 'utf8');
-      console.debug(`Updated storybook documentation for ${fileName}`);
+      console.debug(`Updated storybook documentation for ${fileName} at ${fullPath}`);
     } else {
       console.debug(`No changes to storybook documentation for ${fileName}`);
     }
   } else {
     if (content) {
       fs.writeFileSync(fullPath, content, 'utf8');
-      console.debug(`Created storybook documentation for ${fileName}`);
+      console.debug(`Created storybook documentation for ${fileName} at ${fullPath}`);
     }
   }
 }
