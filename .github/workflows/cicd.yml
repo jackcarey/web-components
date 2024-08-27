@@ -131,3 +131,4 @@ jobs:
                   checkout: false
                   install_command: npm install && node scripts/install-deps-at-root.mjs
                   build_command: npm run storybook:build
+                  path: storybook-static
