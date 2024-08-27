@@ -8,9 +8,13 @@ try {
         console.log(changedFiles);
     }
 
-    // Check if any file other than /storybook-static/project.json has changed
-    const hasChangedFiles = changedFiles.some(file => file !== '/storybook-static/project.json');
+    const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
 
+    // Check if any of the changed files are not in the excluded paths
+    const hasChangedFiles = changedFiles.some(file => !excludedPaths.includes(file.toLowerCase()));
+
+    console.log('diffed files:');
+    console.log(changedFiles.join('\n'));
     if (hasChangedFiles) {
         console.log('Changes detected. Committing and pushing...');
         try {
@@ -18,11 +22,15 @@ try {
             if (configEmailBuffer.length > 0) {
                 console.log(configEmailBuffer.toString());
             }
-            const configNameBuffer = execSync(`git config --global user.name "GitHub Action"`);
+            const configNameBuffer = execSync(`git config --global user.name "[GitHub Action]"`);
             if (configNameBuffer.length > 0) {
                 console.log(configNameBuffer.toString());
             }
-            const commitBuffer = execSync(`git commit -a -m "[GH Actions] Update documentation and package files" || exit 0`);
+            const addBuffer = execSync(`git add .`);
+            if (addBuffer.length > 0) {
+                console.log(addBuffer.toString());
+            }
+            const commitBuffer = execSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
             if (commitBuffer.length > 0) {
                 console.log(commitBuffer.toString());
             }
