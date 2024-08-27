@@ -1,43 +1,27 @@
 import { execSync } from 'child_process';
 
+const logExecSync = (command) => {
+    const buffer = execSync(command);
+    if (buffer.length > 0) {
+        console.log(buffer.toString());
+    }
+}
+
 try {
-    // Get the list of changed files in the latest commit
-    const changedFiles = execSync('git diff --name-only').toString().split('\n');
+    const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
+
+    // Get the list of changed files in the latest commit that we want to watch
+    const changedFiles = execSync('git diff --name-only').toString().split('\n').filter(file => file.length > 0 && !excludedPaths.includes(file.toLowerCase()));
 
     if (changedFiles.length > 0) {
         console.log(changedFiles);
-    }
-
-    const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
-
-    // Check if any of the changed files are not in the excluded paths
-    const hasChangedFiles = changedFiles.some(file => !excludedPaths.includes(file.toLowerCase()));
-
-    console.log('diffed files:');
-    console.log(changedFiles.join('\n'));
-    if (hasChangedFiles) {
         console.log('Changes detected. Committing and pushing...');
         try {
-            const configEmailBuffer = execSync(`git config --global user.email "action@github.com"`);
-            if (configEmailBuffer.length > 0) {
-                console.log(configEmailBuffer.toString());
-            }
-            const configNameBuffer = execSync(`git config --global user.name "[GitHub Action]"`);
-            if (configNameBuffer.length > 0) {
-                console.log(configNameBuffer.toString());
-            }
-            const addBuffer = execSync(`git add .`);
-            if (addBuffer.length > 0) {
-                console.log(addBuffer.toString());
-            }
-            const commitBuffer = execSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
-            if (commitBuffer.length > 0) {
-                console.log(commitBuffer.toString());
-            }
-            const pushBuffer = execSync(`git push`);
-            if (pushBuffer.length > 0) {
-                console.log(pushBuffer.toString());
-            }
+            logExecSync(`git config --global user.email "action@github.com"`);
+            logExecSync(`git config --global user.name "[GitHub Action]"`);
+            logExecSync(`git add .`);
+            logExecSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
+            logExecSync(`git push`);
             console.log(`Successfully pushed changes.`);
         } catch (e) {
             console.error('An error occurred:', e);
