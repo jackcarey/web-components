@@ -10,6 +10,7 @@ on:
 permissions:
     contents: read
     attestations: write
+    deployments: write
     pages: write
     id-token: write
 
