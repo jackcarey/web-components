@@ -16,14 +16,11 @@ permissions:
 jobs:
     main:
         name: Test, build, and publish
-        timeout-minutes: 60
+        timeout-minutes: 15
         runs-on: ubuntu-latest
         permissions:
-            contents: write
+            contents: read
             id-token: write
-        environment:
-            name: github-pages
-            url: ${{ steps.publish-storybook.outputs.page_url }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
@@ -123,12 +120,3 @@ jobs:
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
               run: node scripts/commit-push-diffs.mjs
-
-            - name: Publish Storybook to GitHub Pages
-              id: publish-storybook
-              if: github.ref == 'refs/heads/main'
-              uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
-              with:
-                  checkout: false
-                  build_command: npm run storybook:build
-                  path: storybook-static
