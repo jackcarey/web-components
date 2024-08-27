@@ -81,7 +81,7 @@ jobs:
 
             - name: Generate Storybook documentation
               id: generate-storybook-docs
-              run: npm install && node scripts/generate-storybook-pkg-docs.mjs
+              run: npm install && node scripts/generate-storybook-docs.mjs
 
             - name: Run tests
               run: npm run test:ci
