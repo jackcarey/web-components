@@ -13,7 +13,7 @@ try {
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = execSync('git diff --name-only').toString().split('\n');
 
-    console.log(allChanges.join('\n'));
+    console.log(`All changes:\n${allChanges.join('\n')}`);
 
     const changedFiles = allChanges.filter(file => file.length > 0 && !excludedPaths.includes(file.toLowerCase()));
 
