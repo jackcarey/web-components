@@ -8,8 +8,7 @@ on:
     pull_request:
 
 permissions:
-    contents: read
-    attestations: write
+    contents: write
     deployments: write
     pages: write
     id-token: write
@@ -131,6 +130,5 @@ jobs:
               uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
               with:
                   checkout: false
-                  install_command: npm install && node scripts/install-deps-at-root.mjs
                   build_command: npm run storybook:build
                   path: storybook-static
