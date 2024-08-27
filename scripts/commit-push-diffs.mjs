@@ -11,10 +11,13 @@ try {
     const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
-    const changedFiles = execSync('git diff --name-only').toString().split('\n').filter(file => file.length > 0 && !excludedPaths.includes(file.toLowerCase()));
+    const allChanges = execSync('git diff --name-only').toString().split('\n');
+
+    console.log(allChanges.join('\n'));
+
+    const changedFiles = allChanges.filter(file => file.length > 0 && !excludedPaths.includes(file.toLowerCase()));
 
     if (changedFiles.length > 0) {
-        console.log(changedFiles);
         console.log('Changes detected.');
         try {
             logExecSync(`git config --global user.email "action@github.com"`);
