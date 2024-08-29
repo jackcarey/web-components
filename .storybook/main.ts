@@ -41,6 +41,8 @@ const config = {
     async viteFinal(config,{configType}) {
         // Merge custom configuration into the default config
         const { mergeConfig } = await import('vite');
+
+        console.debug('configType', configType);
      
         return mergeConfig(config, {
           // Add dependencies to pre-optimization
