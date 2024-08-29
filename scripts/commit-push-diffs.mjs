@@ -8,7 +8,7 @@ const logExecSync = (command) => {
 }
 
 try {
-    const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = execSync('git diff --name-only').toString().split('\n');
