@@ -38,5 +38,17 @@ const config = {
     docs: {
         defaultName: "All Stories",
     },
+    async viteFinal(config,{configType}) {
+        // Merge custom configuration into the default config
+        const { mergeConfig } = await import('vite');
+     
+        return mergeConfig(config, {
+          // Add dependencies to pre-optimization
+          optimizeDeps: {
+            include: ['ical.js'],
+          },
+          base: './',
+        });
+    }
 };
 export default config;
