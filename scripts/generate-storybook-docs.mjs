@@ -1,6 +1,15 @@
 import { pkgDetails, repoRootDir } from './util-packages.mjs';
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const mdToSbMdx = (docPath,title) => {
+  return `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${docPath}?raw";\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
+};
+
+const createRelativeSBDocPath = (pathStr) => {
+  // this is reliant upon the pathStr being in root/storybook-docs/[some folder name] 
+  return pathStr.replace(repoRootDir, '../..');
+};
 
 const saveToStorybookFolder = (content, folder, fileName) => {
   const fullPath = path.join(repoRootDir, "storybook-docs", folder, fileName);
@@ -37,12 +46,12 @@ const docPaths = Object.entries(pkgDetails)
 docPaths.forEach(([pkgName, docPath]) => {
   const mdContent = fs.readFileSync(docPath, 'utf8');
   const isUtility = !pkgName.includes('-');
-  const newComponentContent = `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${docPath}?raw";\n\n<Meta title="${isUtility ? "utilities" : "components"}/${pkgName}/Documentation"/>\n<Markdown>{Docs}</Markdown>`;
+  const relativePath = createRelativeSBDocPath(docPath);
+  const newComponentContent = mdToSbMdx(relativePath, `${isUtility ? "utilities" : "components"}/${pkgName}/Documentation`);
   const newUtilityContent = `# ${pkgName}\n\n ${mdContent}`;
   const newSbContent = isUtility ? newUtilityContent : newComponentContent;
   saveToStorybookFolder(newSbContent, isUtility ? 'utilities' : 'components', `${pkgName}.mdx`);
 });
 
-const readmePath = `${repoRootDir}/README.md`;
-const readmeContent = fs.readFileSync(readmePath, 'utf8');
-saveToStorybookFolder(readmeContent, 'about', 'about.mdx');
+const readmePath = createRelativeSBDocPath(`${repoRootDir}/README.md`);
+saveToStorybookFolder(mdToSbMdx(readmePath,"About"), 'about', 'about.mdx');
