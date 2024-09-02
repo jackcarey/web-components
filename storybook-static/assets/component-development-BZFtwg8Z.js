@@ -1,4 +1,0 @@
-import{j as t}from"./jsx-runtime-j_jdvEMj.js";import{useMDXComponents as m}from"./index-BSj771as.js";import{ae as r}from"./index-BPfEJMvv.js";import"./index-B-o1Wr-g.js";import"./_commonjsHelpers-Cpj98o6Y.js";import"./iframe-DzH55vx9.js";import"../sb-preview/runtime.js";import"./index-D-8MO0q_.js";import"./index-DxKRhftL.js";import"./index-DrFu-skq.js";function e(o){const n={h1:"h1",p:"p",...m(),...o.components};return t.jsxs(t.Fragment,{children:[t.jsx(r,{title:"Development/Components"}),`
-`,t.jsx(n.h1,{id:"component-development",children:"Component Development"}),`
-`,t.jsx(n.p,{children:"//to-do"})]})}function h(o={}){const{wrapper:n}={...m(),...o.components};return n?t.jsx(n,{...o,children:t.jsx(e,{...o})}):e(o)}export{h as default};
-//# sourceMappingURL=component-development-BZFtwg8Z.js.map
