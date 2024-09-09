@@ -17,8 +17,8 @@ dependencies:
 
 devDependencies:
   '@chromatic-com/storybook':
-    specifier: ^1.8.0
-    version: 1.8.0(react@18.3.1)
+    specifier: ^2.0.0
+    version: 2.0.0(react@18.3.1)(storybook@8.2.9)
   '@custom-elements-manifest/analyzer':
     specifier: ^0.10.3
     version: 0.10.3
@@ -1433,14 +1433,17 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@chromatic-com/storybook@1.8.0(react@18.3.1):
-    resolution: {integrity: sha512-vkB9dPVmM2Yvqc/0DJ4MYwOGY1MOjd/KbB9TXTMGN+qshaEyiZtSOgbz9u0ExFALEgDKLmtUnWyUtoGb0pCzUg==}
+  /@chromatic-com/storybook@2.0.0(react@18.3.1)(storybook@8.2.9):
+    resolution: {integrity: sha512-9sG8BVdf4ipEbX9OGNFX/USvnpi3SffEuRiIn1Qzsp/dM263EVdCAPcS9GOAZz6zOgcgaScdyvjTQozBYJrIVA==}
     engines: {node: '>=16.0.0', yarn: '>=1.22.18'}
+    peerDependencies:
+      storybook: ^8.2.0
     dependencies:
       chromatic: 11.7.1
       filesize: 10.1.4
       jsonfile: 6.1.0
       react-confetti: 6.1.0(react@18.3.1)
+      storybook: 8.2.9
       strip-ansi: 7.1.0
     transitivePeerDependencies:
       - '@chromatic-com/cypress'
