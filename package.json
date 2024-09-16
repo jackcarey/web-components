@@ -3,7 +3,7 @@
   "dependencies": {
     "@npmcli/package-json": "^5.2.0",
     "@types/ical": "^0.8.3",
-    "ical.js": "^2.0.1"
+    "ical.js": "^2.1.0"
   },
   "description": "A collection of web components for a variety purposes.",
   "devDependencies": {
