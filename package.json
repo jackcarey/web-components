@@ -28,7 +28,7 @@
     "jest": "^29.7.0",
     "lit": "^3.2.0",
     "storybook": "^8.2.9",
-    "wait-on": "^8.0.0"
+    "wait-on": "^8.0.1"
   },
   "keywords": [],
   "license": "ISC",
