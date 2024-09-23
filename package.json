@@ -11,7 +11,7 @@
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@jest/globals": "^29.7.0",
     "@npmcli/package-json": "^5.2.0",
-    "@storybook/addon-a11y": "^8.2.9",
+    "@storybook/addon-a11y": "^8.3.1",
     "@storybook/addon-coverage": "^1.0.4",
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/addon-interactions": "^8.2.9",
