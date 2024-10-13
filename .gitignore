@@ -8,3 +8,6 @@ scripts/publish-jsr.sh
 
 # using pnpm lock instead
 package-lock.json
+
+# OS files
+.DS_Store
