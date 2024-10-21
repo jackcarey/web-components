@@ -81,7 +81,7 @@ export namespace NGValidator {
         );
     }
 
-    export function NGRegistrar(value?: Element | null): value is NGRegistrar {
+    export function Registrar(value?: any): value is NGRegistrar {
         const defs = value?.["nodeGraph"]?.["definitions"];
         return (
             Boolean(value) &&
