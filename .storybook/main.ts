@@ -34,23 +34,29 @@ const config = {
     },
     core: {
         disableTelemetry: true,
+        builder: "@storybook/builder-vite",
     },
     docs: {
         defaultName: "All Stories",
     },
-    async viteFinal(config,{configType}) {
+    async viteFinal(config, { configType }) {
         // Merge custom configuration into the default config
-        const { mergeConfig } = await import('vite');
+        const { mergeConfig } = await import("vite");
 
-        console.debug('configType', configType);
-     
+        console.debug("configType", configType);
+
         return mergeConfig(config, {
-          // Add dependencies to pre-optimization
-          optimizeDeps: {
-            include: ['ical.js'],
-          },
-          base: './',
+            // Add dependencies to pre-optimization
+            optimizeDeps: {
+                include: ["storybook-dark-mode", "ical.js"],
+            },
+            base: "./",
+            server: {
+                fs: {
+                    strict: false,
+                },
+            },
         });
-    }
+    },
 };
 export default config;
