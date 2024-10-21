@@ -98,7 +98,18 @@ class ICalComponent extends HTMLElement {
     constructor() {
         super();
         this.#root = this.attachShadow({ mode: "open" });
+        this.#upgradeAllProperties();
     }
+    #upgradeProperty(prop) {
+        if (this.hasOwnProperty(prop)) {
+          let value = this[prop];
+          delete this[prop];
+          this[prop] = value;
+        }
+      }
+      #upgradeAllProperties() {
+        ICalComponent.observedAttributes.forEach(this.#upgradeProperty);
+      }
 
     connectedCallback() {
         if (this.refresh) {

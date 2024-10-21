@@ -18,7 +18,7 @@ import list from "./feature-list";
 /**
  * Represents a custom web component that displays information about browser support for a specific feature.
  */
-class CanIuseComponent extends HTMLElement {
+class CanIUseComponent extends HTMLElement {
     /**
      * Returns the list of attributes that the component observes for changes.
      */
@@ -36,7 +36,18 @@ class CanIuseComponent extends HTMLElement {
             this.#root = this.attachShadow({ mode: "open" });
         }
         this.#render();
+        this.#upgradeAllProperties();
     }
+    #upgradeProperty(prop) {
+        if (this.hasOwnProperty(prop)) {
+          let value = this[prop];
+          delete this[prop];
+          this[prop] = value;
+        }
+      }
+      #upgradeAllProperties() {
+        CanIUseComponent.observedAttributes.forEach(this.#upgradeProperty);
+      }
 
     /**
      * Called when the component is disconnected from the DOM.
@@ -155,6 +166,6 @@ class CanIuseComponent extends HTMLElement {
     }
 }
 
-customElements.define("can-i-use", CanIuseComponent);
+customElements.define("can-i-use", CanIUseComponent);
 
-export default CanIuseComponent;
+export default CanIUseComponent;

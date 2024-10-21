@@ -8,14 +8,26 @@ const logExecSync = (command) => {
 }
 
 try {
-    const excludedPaths = ['/storybook-static/project.json'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = execSync('git diff --name-only').toString().split('\n');
 
-    console.log(allChanges.join('\n'));
+    console.log(`All changes:\n${allChanges.join('\n')}`);
 
-    const changedFiles = allChanges.filter(file => file.length > 0 && !excludedPaths.includes(file.toLowerCase()));
+    const changedFiles = allChanges.filter(file => {
+        file = file.toLowerCase();
+        if(file.length === 0) {
+            return false;
+        }
+        if(excludedPaths.includes(file)) {
+            return false;
+        }
+        if(excludedPaths.some(path => path.endsWith(file))) {
+            return false;
+        }
+        return true;
+    });
 
     if (changedFiles.length > 0) {
         console.log('Changes detected.');
