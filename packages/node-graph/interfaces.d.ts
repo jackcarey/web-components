@@ -1,3 +1,5 @@
+import NodeGraph from "./components/node-graph";
+
 export interface NGEnvironment {
     id: string;
     label: string;
@@ -50,7 +52,7 @@ export interface NGEdge {
 export interface NGNodeGraph {
     title: string;
     description?: string;
-    definitions: NGNodeDefinition[];
+    definitions: { [key: string]: NGNodeDefinition };
     nodes: NGBaseNode[];
     edges: NGEdge[];
     metadata?: {
@@ -58,6 +60,8 @@ export interface NGNodeGraph {
     };
 }
 
-export interface NGRegistrar extends HTMLElement {
+export interface NGRegistrar {
     nodeGraph: NGNodeGraph;
+    addDefinitions(definitions: NGNodeDefinition[]): void;
+    removeDefinitions(definitionIds: string[]): void;
 }
