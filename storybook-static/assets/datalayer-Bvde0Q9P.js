@@ -1,3 +1,0 @@
-import{j as n}from"./jsx-runtime-j_jdvEMj.js";import{useMDXComponents as r}from"./index-BSj771as.js";import"./index-B-o1Wr-g.js";import"./_commonjsHelpers-Cpj98o6Y.js";function o(e){const t={a:"a",h1:"h1",p:"p",...r(),...e.components};return n.jsxs(n.Fragment,{children:[n.jsx(t.h1,{id:"datalayer",children:"datalayer"}),`
-`,n.jsxs(t.p,{children:["See ",n.jsx(t.a,{href:"https://github.com/jackcarey/web-components",rel:"nofollow",children:"jackcarey/web-components"})," on GitHub."]})]})}function m(e={}){const{wrapper:t}={...r(),...e.components};return t?n.jsx(t,{...e,children:n.jsx(o,{...e})}):o(e)}export{m as default};
-//# sourceMappingURL=datalayer-Bvde0Q9P.js.map
