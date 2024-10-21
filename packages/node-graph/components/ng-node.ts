@@ -51,7 +51,7 @@ export class NGBaseElement extends HTMLElement implements NGBaseNode {
         return this.fullDefinition?.properties ?? {};
     }
 
-    set properties(value) {
+    set properties(value: { [key: string]: NGProperty }) {
         if (Array.isArray(value) && value.length > 0 && value.every(NGValidator.Property)) {
             this.#setProperties(value);
         }
@@ -126,11 +126,13 @@ export class NGBaseElement extends HTMLElement implements NGBaseNode {
 
     connectedCallback() {
         this.updateMutationObserver();
+        this.dispatchEvent(new CustomEvent(NGEvents.NodeConnected, { detail: this.ngNode }));
         this.#render();
     }
 
     disconnectedCallback() {
         this.#mutationObserver?.disconnect();
+        this.dispatchEvent(new CustomEvent(NGEvents.NodeDisconnected, { detail: this.ngNode }));
     }
 }
 
