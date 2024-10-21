@@ -61,7 +61,7 @@ if (missingStories.length) {
   console.error(missingStories.length, 'Missing stories files:');
   missingStories.forEach((stories) => console.error('-', stories));
 }
-if (missingDoc.length || missingLicense.length || missingStories.length) {
+if (missingDocs.length || missingLicense.length || missingStories.length) {
   process.exit(1);
 }
 console.log('All packages have documentation and stories');
