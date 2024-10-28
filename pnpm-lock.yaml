@@ -17,8 +17,8 @@ dependencies:
 
 devDependencies:
   '@chromatic-com/storybook':
-    specifier: ^2.0.2
-    version: 2.0.2(react@18.3.1)
+    specifier: ^3.2.0
+    version: 3.2.0(react@18.3.1)(storybook@8.3.1)
   '@custom-elements-manifest/analyzer':
     specifier: ^0.10.3
     version: 0.10.3
@@ -435,14 +435,20 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@chromatic-com/storybook@2.0.2(react@18.3.1):
-    resolution: {integrity: sha512-7bPIliISedeIpnVKbzktysFYW5n56bN91kxuOj1XXKixmjbUHRUMvcXd4K2liN6MiR5ZqJtmtcPsZ6CebbGlEA==}
+  /@chromatic-com/storybook@3.2.0(react@18.3.1)(storybook@8.3.1):
+    resolution: {integrity: sha512-gnD29KvZ1yeAYNeo8PdpZLE94W6YynyIuqZ1+mFIhDKcSGf84jllqt2sXtwzXodrT38NWlM5kijTS9Hpo0Pf9w==}
     engines: {node: '>=16.0.0', yarn: '>=1.22.18'}
+    peerDependencies:
+      storybook: '*'
     dependencies:
-      chromatic: 11.7.1
+      '@storybook/channels': 8.3.6(storybook@8.3.1)
+      '@storybook/telemetry': 8.3.6(storybook@8.3.1)
+      '@storybook/types': 8.3.6(storybook@8.3.1)
+      chromatic: 11.16.1
       filesize: 10.1.4
       jsonfile: 6.1.0
       react-confetti: 6.1.0(react@18.3.1)
+      storybook: 8.3.1
       strip-ansi: 7.1.0
     transitivePeerDependencies:
       - '@chromatic-com/cypress'
@@ -1488,6 +1494,14 @@ packages:
       - supports-color
     dev: true
 
+  /@storybook/channels@8.3.6(storybook@8.3.1):
+    resolution: {integrity: sha512-6ahY0n1A19diR5cI63lhDEpMaDsq7LFtMOgWab2NwCsdXoEAl6anvDptyPWW60umN3HrDzSKFdpRx4imOEjlWw==}
+    peerDependencies:
+      storybook: ^8.3.6
+    dependencies:
+      storybook: 8.3.1
+    dev: true
+
   /@storybook/components@8.2.9(storybook@8.3.1):
     resolution: {integrity: sha512-OkkcZ/f/6o3GdFEEK9ZHKIGHWUHmavZUYs5xaSgU64bOrA2aqEFtfeWWitZYTv3Euhk8MVLWfyEMDfez0AlvDg==}
     peerDependencies:
@@ -1636,6 +1650,14 @@ packages:
       storybook: 8.3.1
     dev: true
 
+  /@storybook/telemetry@8.3.6(storybook@8.3.1):
+    resolution: {integrity: sha512-fhpbZok7mPeujjFxAKo2vuqhfjhv5BO/mHH7Z8QtgsYqeR7px56arDRgV6CngBZWgFvrQ2wBS0HPV4nB6YWvJQ==}
+    peerDependencies:
+      storybook: ^8.3.6
+    dependencies:
+      storybook: 8.3.1
+    dev: true
+
   /@storybook/test-runner@0.19.1(storybook@8.3.1):
     resolution: {integrity: sha512-Nc4djXw3Lv3AAXg6TJ7yVTeuMryjMsTDd8GCbE/PStU602rpe8syEqElz78GPoJqB1VYWQ3T9pcu93MKyHT+xQ==}
     engines: {node: ^16.10.0 || ^18.0.0 || >=20.0.0}
@@ -1703,6 +1725,14 @@ packages:
     resolution: {integrity: sha512-JXAVc08Tlbu4GTTMGNmwUy69lShqSpJixAJc4bvWTnNAtPTRltiNJCg/KJ0GauEyRFk8ZR2Ha4KhN3DB1felNQ==}
     peerDependencies:
       storybook: ^8.3.2
+    dependencies:
+      storybook: 8.3.1
+    dev: true
+
+  /@storybook/types@8.3.6(storybook@8.3.1):
+    resolution: {integrity: sha512-EY+bjIxxmKkFrL7CyDQb3EXbmy0+Y9OieaPrNNM7QXTfGgp81lXhfqMX3HLMMjplk+rcxVJLyzXSBx0nIn91fQ==}
+    peerDependencies:
+      storybook: ^8.3.6
     dependencies:
       storybook: 8.3.1
     dev: true
@@ -2654,8 +2684,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /chromatic@11.7.1:
-    resolution: {integrity: sha512-LvgPimdQdnQB07ZDxLEC2KtxgYeqTw0X71GA7fi3zhgtKLxZcE+BSZ/5I9rrQp1V8ydmfElfw0ZwnUH4fVgUAQ==}
+  /chromatic@11.16.1:
+    resolution: {integrity: sha512-pdpURz0tLp2EJSwfDUHJAf8xufkL/FGZmNuyebv03WkTOZPUAxBMZ19/Y6sFST6MQvUGy/2VI5eNWnfWLDLwhQ==}
     hasBin: true
     peerDependencies:
       '@chromatic-com/cypress': ^0.*.* || ^1.0.0
