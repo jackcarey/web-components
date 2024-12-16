@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^8.3.1
     version: 8.3.1(storybook@8.4.7)
   '@storybook/addon-interactions':
-    specifier: ^8.3.1
-    version: 8.3.1(storybook@8.4.7)
+    specifier: ^8.4.7
+    version: 8.4.7(storybook@8.4.7)
   '@storybook/addon-links':
     specifier: ^8.2.9
     version: 8.2.9(react@18.3.1)(storybook@8.4.7)
@@ -99,7 +99,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.24.7
-      picocolors: 1.1.0
+      picocolors: 1.1.1
     dev: true
 
   /@babel/compat-data@7.25.4:
@@ -221,7 +221,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.1.0
+      picocolors: 1.1.1
     dev: true
 
   /@babel/parser@7.25.6:
@@ -1362,14 +1362,14 @@ packages:
       storybook: 8.4.7
     dev: true
 
-  /@storybook/addon-interactions@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-EQiemx7ZvI9r4WrWmKB7hvoh9XO+YJh61LNEBLrdnSnRITJKGFrJtqnfuSrvQXWxFVi6U1PtSqDzCV8z0IwK2g==}
+  /@storybook/addon-interactions@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-fnufT3ym8ht3HHUIRVXAH47iOJW/QOb0VSM+j269gDuvyDcY03D1civCu1v+eZLGaXPKJ8vtjr0L8zKQ/4P0JQ==}
     peerDependencies:
-      storybook: ^8.3.1
+      storybook: ^8.4.7
     dependencies:
       '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.3.1(storybook@8.4.7)
-      '@storybook/test': 8.3.1(storybook@8.4.7)
+      '@storybook/instrumenter': 8.4.7(storybook@8.4.7)
+      '@storybook/test': 8.4.7(storybook@8.4.7)
       polished: 4.3.1
       storybook: 8.4.7
       ts-dedent: 2.2.0
@@ -1620,6 +1620,16 @@ packages:
       util: 0.12.5
     dev: true
 
+  /@storybook/instrumenter@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-k6NSD3jaRCCHAFtqXZ7tw8jAzD/yTEWXGya+REgZqq5RCkmJ+9S4Ytp/6OhQMPtPFX23gAuJJzTQVLcCr+gjRg==}
+    peerDependencies:
+      storybook: ^8.4.7
+    dependencies:
+      '@storybook/global': 5.0.0
+      '@vitest/utils': 2.1.1
+      storybook: 8.4.7
+    dev: true
+
   /@storybook/manager-api@8.3.2(storybook@8.4.7):
     resolution: {integrity: sha512-8FuwE3BGsLPF0H154+1X/4krSbvmH5xu5YmaVTVDV8DRPlBeRIlNV0HDiZfBvftF4EB7fRYolzghXQplHIX8Fg==}
     peerDependencies:
@@ -1709,6 +1719,22 @@ packages:
       '@vitest/spy': 2.0.5
       storybook: 8.4.7
       util: 0.12.5
+    dev: true
+
+  /@storybook/test@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-AhvJsu5zl3uG40itSQVuSy5WByp3UVhS6xAnme4FWRwgSxhvZjATJ3AZkkHWOYjnnk+P2/sbz/XuPli1FVCWoQ==}
+    peerDependencies:
+      storybook: ^8.4.7
+    dependencies:
+      '@storybook/csf': 0.1.11
+      '@storybook/global': 5.0.0
+      '@storybook/instrumenter': 8.4.7(storybook@8.4.7)
+      '@testing-library/dom': 10.4.0
+      '@testing-library/jest-dom': 6.5.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/expect': 2.0.5
+      '@vitest/spy': 2.0.5
+      storybook: 8.4.7
     dev: true
 
   /@storybook/theming@8.3.2(storybook@8.4.7):
@@ -5047,10 +5073,6 @@ packages:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
     dev: true
 
-  /picocolors@1.1.0:
-    resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
-    dev: true
-
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
     dev: true
@@ -5967,7 +5989,7 @@ packages:
     dependencies:
       browserslist: 4.23.3
       escalade: 3.2.0
-      picocolors: 1.1.0
+      picocolors: 1.1.1
     dev: true
 
   /uri-js@4.4.1:
