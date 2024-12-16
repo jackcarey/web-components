@@ -7,7 +7,7 @@
   },
   "description": "A collection of web components for a variety purposes.",
   "devDependencies": {
-    "@chromatic-com/storybook": "^2.0.2",
+    "@chromatic-com/storybook": "^3.2.2",
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@jest/globals": "^29.7.0",
     "@npmcli/package-json": "^5.2.0",
