@@ -39,7 +39,7 @@ class CanIUseComponent extends HTMLElement {
         this.#upgradeAllProperties();
     }
     #upgradeProperty(prop) {
-        if (this.hasOwnProperty(prop)) {
+        if (this && this.hasOwnProperty(prop)) {
           let value = this[prop];
           delete this[prop];
           this[prop] = value;
