@@ -51,7 +51,7 @@ const config = {
             optimizeDeps: {
                 include: ["storybook-dark-mode", "ical.js"],
             },
-            base: "./",
+            base: "",
             server: {
                 fs: {
                     strict: false,
