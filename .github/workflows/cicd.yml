@@ -38,7 +38,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ env.CACHE_KEY }}
+                  key: $CACHE_KEY
 
             # Check repo
 
@@ -74,7 +74,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ env.CACHE_KEY }}
+                  key: $CACHE_KEY
 
             # Test
 
