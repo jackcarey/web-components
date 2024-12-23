@@ -39,7 +39,7 @@ class CanIUseComponent extends HTMLElement {
         this.#upgradeAllProperties();
     }
     #upgradeProperty(prop) {
-        if (this.hasOwnProperty(prop)) {
+        if (this && this.hasOwnProperty(prop)) {
           let value = this[prop];
           delete this[prop];
           this[prop] = value;
@@ -151,7 +151,7 @@ class CanIUseComponent extends HTMLElement {
     #render(): void {
         if (!this.#root) return;
         if (this.mode === "iframe") {
-            this.#root.innerHTML = `<iframe src="https://caniuse.bitsofco.de/embed/index.html?feat=${
+            this.#root.innerHTML = `<iframe title="Can I Use data embed for '${this.feature}'" src="https://caniuse.bitsofco.de/embed/index.html?feat=${
                 this.feature
             }&periods=${this.periods}&accessible-colours=${
                 this.accessibleColors ? "true" : "false"
@@ -160,7 +160,7 @@ class CanIUseComponent extends HTMLElement {
             this.#root.innerHTML = `<picture>
               <source type="image/webp" srcset="https://caniuse.bitsofco.de/image/${this.feature}.webp">
               <source type="image/png" srcset="https://caniuse.bitsofco.de/image/${this.feature}.png">
-              <img src="https://caniuse.bitsofco.de/image/${this.feature}.jpg" alt="Data on support for the ${this.feature} feature across the major browsers from caniuse.com">
+              <img src="https://caniuse.bitsofco.de/image/${this.feature}.jpg" alt="Data on support for the '${this.feature}' feature across the major browsers from caniuse.com">
               </picture>`;
         }
     }

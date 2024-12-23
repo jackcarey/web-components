@@ -4,7 +4,7 @@ import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
 
 console.log("generating package readmes from...");
 
-const changedPkgCount = 0;
+let changedPkgCount = 0;
 const template = fs.readFileSync(
   path.join(repoRootDir, "doc-templates", "pkg-readme.md"),
   "utf8"

@@ -11,6 +11,7 @@
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@jest/globals": "^29.7.0",
     "@npmcli/package-json": "^5.2.0",
+    "@playwright/test": "^1.49.1",
     "@storybook/addon-a11y": "^8.3.1",
     "@storybook/addon-coverage": "^1.0.4",
     "@storybook/addon-essentials": "^8.3.1",
@@ -22,6 +23,7 @@
     "@storybook/test-runner": "^0.19.1",
     "@storybook/web-components": "^8.3.1",
     "@storybook/web-components-vite": "^8.4.7",
+    "axe-playwright": "^2.0.3",
     "concurrently": "^9.1.0",
     "custom-elements-manifest": "^2.1.0",
     "http-server": "^14.1.1",
@@ -37,9 +39,9 @@
   "scripts": {
     "storybook:build": "storybook build",
     "storybook": "storybook dev -p 6006",
-    "test": "test-storybook --verbose --json --failOnConsole",
+    "test": "test-storybook --ci --json --failOnConsole --includeTags=\"test,a11y-minor,a11y-major,a11y-serious,a11y-critical\" --excludeTags=\"skip\"",
     "test:coverage": "test --coverage",
-    "test:ci": "npm run storybook:build && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && npm run test:coverage\"",
+    "test:ci": "npm run storybook:build && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006\" \"wait-on tcp:6006 && npm run test\"",
     "build:docs": "npm i && node scripts/install-deps-at-root.mjs && node scripts/generate-storybook-docs.mjs && node scripts/generate-pkg-readmes.mjs && node scripts/generate-root-readme.mjs && storybook build",
     "serve:ci": "npm run build:docs && npm run storybook"
   },
