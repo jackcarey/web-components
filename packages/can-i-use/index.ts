@@ -151,7 +151,7 @@ class CanIUseComponent extends HTMLElement {
     #render(): void {
         if (!this.#root) return;
         if (this.mode === "iframe") {
-            this.#root.innerHTML = `<iframe src="https://caniuse.bitsofco.de/embed/index.html?feat=${
+            this.#root.innerHTML = `<iframe title="Can I Use data embed for '${this.feature}'" src="https://caniuse.bitsofco.de/embed/index.html?feat=${
                 this.feature
             }&periods=${this.periods}&accessible-colours=${
                 this.accessibleColors ? "true" : "false"
