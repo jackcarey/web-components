@@ -160,7 +160,7 @@ class CanIUseComponent extends HTMLElement {
             this.#root.innerHTML = `<picture>
               <source type="image/webp" srcset="https://caniuse.bitsofco.de/image/${this.feature}.webp">
               <source type="image/png" srcset="https://caniuse.bitsofco.de/image/${this.feature}.png">
-              <img src="https://caniuse.bitsofco.de/image/${this.feature}.jpg" alt="Data on support for the ${this.feature} feature across the major browsers from caniuse.com">
+              <img src="https://caniuse.bitsofco.de/image/${this.feature}.jpg" alt="Data on support for the '${this.feature}' feature across the major browsers from caniuse.com">
               </picture>`;
         }
     }
