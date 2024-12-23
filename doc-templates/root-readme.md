@@ -9,7 +9,7 @@ There are $count packages in this collection. Some are web components intended f
 
 ---
 
-You can find documentation on [Storybook](https://jackcarey.co.uk/web-components/storybook-static/).
+## You can find documentation on how to use packages and create more on [Storybook](https://jackcarey.co.uk/web-components/storybook-static/).
 
 ---
 
