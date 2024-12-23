@@ -27,6 +27,9 @@ jobs:
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
+          
+            - name: Add cache key to environment
+              run: echo "CACHE_KEY=${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('packages/**/package.json') }}"
 
             - name: Restore cached deps
               id: cache-primes-restore
@@ -35,7 +38,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('packages/**/package.json') }}
+                  key: ${{ env.CACHE_KEY }}
 
             # Check repo
 
@@ -71,7 +74,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}
+                  key: ${{ env.CACHE_KEY }}
 
             # Test
 
