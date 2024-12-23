@@ -39,6 +39,9 @@ jobs:
 
             # Check repo
 
+            - name: Save commit hash
+              run: node scripts/store-commit-hash.mjs
+
             - name: Check if CODEOWNERS file exists
               run: bash scripts/check-codeowners.sh
 
@@ -55,9 +58,6 @@ jobs:
 
             - name: Check if Storybook test results exist (not removed)
               run: node scripts/check-story-results.mjs
-
-            - name: Save commit hash
-              run: node scripts/store-commit-hash.mjs
 
             # Cache Deps
 
