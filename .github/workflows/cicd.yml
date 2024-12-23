@@ -56,6 +56,9 @@ jobs:
             - name: Check if Storybook test results exist (not removed)
               run: node scripts/check-story-results.mjs
 
+            - name: Save commit hash
+              run: node scripts/store-commit-hash.mjs
+
             # Cache Deps
 
             - name: Install package dependencies at root level (for Storybook)
