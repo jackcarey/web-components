@@ -17,6 +17,6 @@ addons.register(addonId, () => {
   addons.add(addonId, {
     title: 'Commit Label',
     type: types.TOOL,
-    render: () => (commitHash ? `<span>${commitHash}</span>` : null),
+    render: () => (commitHash ? `<span id="commit-label">${commitHash}</span>` : null),
   });
 });
