@@ -1,6 +1,6 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync }from 'child_process's;
+import fs from 'fs';
+import path from 'path';
 
 // Get the last commit hash
 const commitHash = execSync('git rev-parse HEAD').toString().trim();
