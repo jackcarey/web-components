@@ -1,6 +1,7 @@
 # web-components
 
-[![Open on Github](https://github.com/jackcarey/web-components)](https://img.shields.io/badge/open%20on-github-black?logo=github)
+[Open on Github](https://github.com/jackcarey/web-components)
+
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 [![CodeQL](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql)
