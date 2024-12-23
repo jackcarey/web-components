@@ -15,6 +15,7 @@ export const InputColor: Story = {
     args: {
         feature: "input-color",
     },
+    tags: ['a11y-serious'],
 };
 
 export const AccessibleColors = {
