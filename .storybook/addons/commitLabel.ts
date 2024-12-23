@@ -9,14 +9,21 @@ const commitHash = fs.existsSync(commitHashPath)
 
 const addonId = 'commitLabel';
 
-if(!commitHash) {
-    console.info('No commit hash found. It will not be displayed in the UI. Make sure to run the `store-commit-hash` script before starting the Storybook server.');
+if (!commitHash) {
+  console.info(
+    'No commit hash found. Make sure to run the `store-commit-hash` script before starting the Storybook server.'
+  );
+} else {
+  console.info(`Commit hash found for the UI: '${commitHash}'`);
 }
 
 addons.register(addonId, () => {
   addons.add(addonId, {
     title: 'Commit Label',
     type: types.TOOL,
-    render: () => (commitHash ? `<span id="commit-label">${commitHash}</span>` : null),
+    render: () => {
+      console.error('Rendering commit label: ' + commitHash);
+      return `<span>${commitHash}</span>`;
+    },
   });
 });
