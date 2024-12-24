@@ -1,4 +1,4 @@
-# web-components
+import{j as e}from"./index-CpnDKoW4.js";import{useMDXComponents as n}from"./index-Bo01w_M0.js";import{ae as c,al as a}from"./index-BZZkyvpD.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-D8MulGGK.js";import"../sb-preview/runtime.js";import"./index-D-8MO0q_.js";import"./index-DPS9-N-h.js";import"./index-DrFu-skq.js";const r=`# web-components
 
 [Open on Github](https://github.com/jackcarey/web-components)
 
@@ -26,3 +26,6 @@ There are currently 3 packages in this collection. Some are web components inten
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk/).
+`;function s(o){return e.jsxs(e.Fragment,{children:[e.jsx(c,{title:"About"}),`
+`,e.jsx(a,{children:r})]})}function g(o={}){const{wrapper:t}={...n(),...o.components};return t?e.jsx(t,{...o,children:e.jsx(s,{...o})}):s()}export{g as default};
+//# sourceMappingURL=about-zyTpUIa9.js.map
