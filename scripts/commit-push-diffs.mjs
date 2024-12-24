@@ -8,13 +8,14 @@ const logExecSync = (command) => {
 }
 
 try {
-    const excludedPaths = ['storybook-static/project.json'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json','.storybook/last-commit-hash.txt'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = execSync('git diff --name-only').toString().split('\n');
 
     console.log(`All changes:\n${allChanges.join('\n')}`);
 
+    //keep only the files that we want to watch
     const changedFiles = allChanges.filter(file => {
         file = file.toLowerCase();
         if(file.length === 0) {
@@ -30,7 +31,7 @@ try {
     });
 
     if (changedFiles.length > 0) {
-        console.log('Changes detected.');
+        console.log('Relevant changes detected.');
         try {
             logExecSync(`git config --global user.email "action@github.com"`);
             logExecSync(`git config --global user.name "[GitHub Action]"`);
@@ -43,7 +44,7 @@ try {
             throw e;
         }
     } else {
-        console.log('No changes to be saved.');
+        console.log('No relevant changes to be saved.');
     }
 } catch (error) {
     console.error('An error occurred:', error);
