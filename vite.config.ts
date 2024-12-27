@@ -1,7 +1,7 @@
 export default {
     build: {
         rollupOptions: {
-            external: ["ical.js"],
+            external: ["**/**/DOCUMENTATION.md", "**/README.md"],
         },
     },
 };
