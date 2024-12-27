@@ -24,7 +24,7 @@ npx jsr add can-i-use
 
 ## Documentation
 
-Find this package on storybook: [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook/?path=/docs/can-i-use).
+Find this package on storybook: [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
 
 ## Attributes
 

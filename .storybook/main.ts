@@ -27,6 +27,7 @@ const config = {
             name: "@storybook/addon-coverage",
             options: coverageConfig,
         },
+        './addons/commitLabel.ts',
     ],
     framework: {
         name: "@storybook/web-components-vite",
@@ -50,7 +51,7 @@ const config = {
             optimizeDeps: {
                 include: ["storybook-dark-mode", "ical.js"],
             },
-            base: "./",
+            base: "",
             server: {
                 fs: {
                     strict: false,

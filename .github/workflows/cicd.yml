@@ -35,7 +35,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package.json') }}-${{hashFiles('packages/**/package.json') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             # Check repo
 
@@ -49,6 +49,9 @@ jobs:
 
             - name: Install root dependencies
               run: npm install
+
+            - name: Save commit hash
+              run: node scripts/store-commit-hash.mjs
 
             - name: Check each package has documentation, license, and Storybook files
               run: node scripts/check-documentation-files.mjs
@@ -71,7 +74,7 @@ jobs:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}
+                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             # Test
 

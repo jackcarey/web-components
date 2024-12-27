@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
+import { CreateComponentStoryMeta } from "../utils";
 import exampleICS from "./example.ics";
-import React from "react";
 import { html } from "lit";
 
 // This default export determines where your story goes in the story list
@@ -18,6 +17,7 @@ export const FixedEvents: Story = {
     args: {
         events: exampleICS,
     },
+    tags: ['a11y-serious'],
 };
 
 export const FetchEvents: Story = {
