@@ -1,14 +1,7 @@
-import { execSync } from 'child_process';
-
-const logExecSync = (command) => {
-    const buffer = execSync(command);
-    if (buffer.length > 0) {
-        console.log(buffer.toString());
-    }
-}
+import { logExecSync } from './util-packages.mjs';
 
 try {
-    const excludedPaths = ['storybook-static/project.json','.storybook/last-commit-hash.txt'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json', '.storybook/last-commit-hash.txt'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = execSync('git diff --name-only').toString().split('\n');
@@ -18,13 +11,13 @@ try {
     //keep only the files that we want to watch
     const changedFiles = allChanges.filter(file => {
         file = file.toLowerCase();
-        if(file.length === 0) {
+        if (file.length === 0) {
             return false;
         }
-        if(excludedPaths.includes(file)) {
+        if (excludedPaths.includes(file)) {
             return false;
         }
-        if(excludedPaths.some(path => path.endsWith(file))) {
+        if (excludedPaths.some(path => path.endsWith(file))) {
             return false;
         }
         return true;

@@ -108,16 +108,9 @@ jobs:
 
             # Publish
 
-            - name: Generate publishing scripts
-              id: generate-publish-scripts
-              run: node scripts/generate-publish-scripts.mjs
-
-            - name: "[dry-run] Publish updated packages to JSR"
-              run: bash scripts/publish-jsr-dryrun.sh
-
-            - name: Publish updated packages to JSR (on main)
+            - name: Publish updated packages to JSR (dry-run, then push on main)
               if: github.ref == 'refs/heads/main'
-              run: bash scripts/publish-jsr.sh
+              run: bash scripts/publish-jsr.mjs
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'

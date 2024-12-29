@@ -51,5 +51,19 @@ const getJSRMarkdown = (name, scope = 'web-components') => {
     return `${jsrVersionMd} ${jsrScoreMd}`;
 };
 
-export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot, getJSRMarkdown };
+const logExecSync = (command) => {
+    try {
+        const buffer = execSync(command);
+        if (buffer.length > 0) {
+            console.log(buffer.toString());
+        }
+        return buffer;
+    } catch (e) {
+        const msg = e?.stdout ?? e?.stderr ?? e.message;
+        console.error(msg, e);
+        throw e;
+    }
+};
+
+export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot, getJSRMarkdown, logExecSync };
 export default unsortedPkgDetails;
