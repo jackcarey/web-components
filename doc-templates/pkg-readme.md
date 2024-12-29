@@ -19,7 +19,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-comp
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-npx jsr add $name
+npx jsr add @web-components/$name
 ```
 
 ## Documentation
