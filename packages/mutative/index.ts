@@ -42,7 +42,9 @@ export default class Mutative {
         obj[name] = fn;
         Mutative.#addSelectorObj(obj);
     }
-    //Observe at least 1 CSS selector for changes
+    /**
+     * Observe at least 1 CSS selector for changes
+     */
     static observe(selectors?: string | string[], callback?: Function): void {
         if (!Mutative.#isObserving) {
             Mutative.#isObserving = true;
@@ -84,7 +86,9 @@ export default class Mutative {
             }
         }
     }
-    //stop observing at least 1 CSS selector for changes
+    /**
+     * stop observing at least 1 CSS selector for changes
+     */
     static disconnect(...selectors: string[]): void {
         //finish mutation callbacks before removing selectors
         Mutative.#mutationFn(Mutative.#bodyObserver.takeRecords());
