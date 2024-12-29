@@ -1,7 +1,18 @@
+/**
+ * A custom HTML element that truncates text in the middle to fit within a specified limit.
+ * @module middle-truncate
+ * @class MiddleTruncate
+ * @extends HTMLElement
+ * 
+ * @attribute {string} value - The text content to be truncated.
+ * @attribute {number} limit - The maximum number of characters to display.
+ * @attribute {string} dir - The text direction, either 'ltr' (left-to-right) or 'rtl' (right-to-left).
+ * 
+ */
 class MiddleTruncate extends HTMLElement {
 
     static get observedAttributes() {
-        return ['value', 'limit'];
+        return ['value', 'limit', 'dir'];
     }
 
     attributeChangedCallback(name) {
