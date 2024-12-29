@@ -36,7 +36,7 @@ npx jsr add @web-components/$name
 
 ## Documentation
 
-Find this package on storybook: [$name on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [$name on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
 
 $docs
 
