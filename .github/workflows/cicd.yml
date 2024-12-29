@@ -36,7 +36,7 @@ jobs:
                       node_modules
                       ~/.cache/ms-playwright
                       /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             # Check repo
 
@@ -76,7 +76,7 @@ jobs:
                       node_modules
                       ~/.cache/ms-playwright
                       /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             # Test
 
