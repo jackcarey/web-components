@@ -23,5 +23,5 @@ if (branch === 'main') {
     });
     console.log('Publish complete!');
 } else {
-    console.log('Not on main branch, skipping publish');
+    console.log('Not on main branch, skipping publish.');
 }

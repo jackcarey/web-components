@@ -112,7 +112,7 @@ jobs:
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
               if: github.ref == 'refs/heads/main'
-              run: bash scripts/publish-jsr.mjs
+              run: node scripts/publish-jsr.mjs
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
