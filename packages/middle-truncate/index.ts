@@ -6,25 +6,25 @@ class MiddleTruncate extends HTMLElement {
 
     attributeChangedCallback(name) {
         if (name === 'value' || name === 'limit') {
-            this.adjustSecondHalfWidth();
             this.render();
         }
     }
 
     connectedCallback() {
         this.render();
-        this.adjustSecondHalfWidth();
     }
 
     render() {
         const text = this.getAttribute('value') || '';
-        const attrLimit = parseInt(this.getAttribute('limit'), 10);
+        const limitAttr = this.getAttribute('limit');
+        const attrLimit = limitAttr ? parseInt(limitAttr, 10) : text.length;
+
         const { fontSize, width } = window.getComputedStyle(this);
-        const chWidth = fontSize / 2;
-        const elWidthCh = width / chWidth;
+        const chWidth = parseFloat(fontSize) / 2; //the width of a single character
+        const elWidthCh = parseFloat(width) / chWidth; // the width of the element in characters
         const maxWidth = Math.min(attrLimit, elWidthCh);
 
-        const isRTL = document.dir === 'rtl';
+        const isRTL = this.dir === 'rtl';
         const halfLength = Math.floor(maxWidth / 2);
         const secondHalf = text.substring(text.length - halfLength);
 
