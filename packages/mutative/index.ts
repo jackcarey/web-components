@@ -8,6 +8,9 @@
  * ```
  */
 
+/**
+ * Control CSS selector mutation observers.
+ */
 export default class Mutative {
     static #isObserving = false;
     static #observerList: Record<string, Function> = {};
@@ -39,6 +42,7 @@ export default class Mutative {
         obj[name] = fn;
         Mutative.#addSelectorObj(obj);
     }
+    //Observe at least 1 CSS selector for changes
     static observe(selectors?: string | string[], callback?: Function): void {
         if (!Mutative.#isObserving) {
             Mutative.#isObserving = true;
@@ -80,6 +84,7 @@ export default class Mutative {
             }
         }
     }
+    //stop observing at least 1 CSS selector for changes
     static disconnect(...selectors: string[]): void {
         //finish mutation callbacks before removing selectors
         Mutative.#mutationFn(Mutative.#bodyObserver.takeRecords());
@@ -114,9 +119,24 @@ export default class Mutative {
             Mutative.#bodyObserver.disconnect();
         }
     }
+
+    /**
+     * Takes and returns a list of mutation records from the body observer.
+     *
+     * This method retrieves all the mutation records that have been queued up 
+     * by the body observer and returns them as an array. The record queue is emptied in the process.
+     *
+     * @returns {MutationRecord[]} An array of MutationRecord objects.
+     */
     static takeRecords(): MutationRecord[] {
         return Array.from(Mutative.#bodyObserver.takeRecords());
     }
+
+    /**
+     * Indicates whether the Mutative class is currently observing changes.
+     * 
+     * @returns {Boolean} True if observing, false otherwise.
+     */
     static get isObserving(): Boolean {
         return Mutative.#isObserving;
     }
