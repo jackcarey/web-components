@@ -1,5 +1,6 @@
 {
   "name": "@web-components/mutative",
-  "version": "0.0.1",
-  "exports": "./index.ts"
+  "version": "0.0.2",
+  "exports": "./index.ts",
+  "license": "LGPL-3.0"
 }
