@@ -27,6 +27,8 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
         "version": version,
         "exports": entry,
     };
+    if (pkgJson?.license) jsrJson.license = pkgJson.license;
+
     const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
     const newContent = JSON.stringify(jsrJson, null, 2);
     if (existingContent !== newContent) {
