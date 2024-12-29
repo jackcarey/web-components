@@ -1,6 +1,7 @@
 # web-components
 
-[Open on Github](https://github.com/jackcarey/web-components)
+-   [Open Storybook documentation](https://jackcarey.co.uk/web-components/storybook-static/)
+-   [Open Github source](https://github.com/jackcarey/web-components)
 
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
@@ -14,7 +15,7 @@
 
 ---
 
-## You can find documentation on how to use packages and create more on [Storybook](https://jackcarey.co.uk/web-components/storybook-static/).
+## You can find documentation on how to use packages and create more on x.
 
 ---
 
