@@ -1,4 +1,4 @@
-# web-components
+import{j as e}from"./index-CpnDKoW4.js";import{useMDXComponents as s}from"./index-Bo01w_M0.js";import{ae as c,al as a}from"./index-o1UUKAdv.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-CK2VBKig.js";import"../sb-preview/runtime.js";import"./index-D-8MO0q_.js";import"./index-DPS9-N-h.js";import"./index-DrFu-skq.js";const r=`# web-components
 
 -   [Open Storybook documentation](https://jackcarey.co.uk/web-components/storybook-static/)
 -   [Open Github source](https://github.com/jackcarey/web-components)
@@ -30,3 +30,6 @@
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk/).
+`;function n(o){return e.jsxs(e.Fragment,{children:[e.jsx(c,{title:"About"}),`
+`,e.jsx(a,{children:r})]})}function g(o={}){const{wrapper:t}={...s(),...o.components};return t?e.jsx(t,{...o,children:e.jsx(n,{...o})}):n()}export{g as default};
+//# sourceMappingURL=about-Cda0gjHy.js.map
