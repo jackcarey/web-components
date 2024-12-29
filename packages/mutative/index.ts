@@ -1,3 +1,13 @@
+/**
+ * @module
+ * This module contains a utility to constantly monitor specific CSS selectors for changes
+ *
+ * @example
+ * ```javascript
+ * Mutative.observe("p", (record) => console.log(record));
+ * ```
+ */
+
 export default class Mutative {
     static #isObserving = false;
     static #observerList: Record<string, Function> = {};
