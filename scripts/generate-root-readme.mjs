@@ -25,7 +25,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
-)
+).filter(([dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)
   .join("\n")}\n\n`;
 
