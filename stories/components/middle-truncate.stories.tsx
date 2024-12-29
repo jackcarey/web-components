@@ -20,14 +20,14 @@ export const WithValue: Story = {
 export const WithLimit: Story = {
     args: {
         value: "The quick brown fox jumps over the lazy dog.",
-        limit: 5,
+        limit: 10,
     },
 };
 
 export const RTLDir: Story = {
     args: {
         value: "The quick brown fox jumps over the lazy dog.",
-        limit: 5,
+        limit: 10,
         dir: "rtl",
     },
 };
