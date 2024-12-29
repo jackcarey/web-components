@@ -1,10 +1,12 @@
 # i-cal
 
+[![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score)
+
+> Renders ics data in a web component.
+
 **version:** 1.1.8
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
-
-> Renders ics data in a web component.
 
 ## Using this package
 
@@ -16,12 +18,20 @@ ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### Deno
 
 ```
+deno add jsr:@web-components/i-cal
+```
+
+### NPM
+
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). If your environment doesn't support JSR directly then this is probably what you need. You can install this package with:
+
+```
+
 npx jsr add @web-components/i-cal
+
 ```
 
 ## Documentation
@@ -71,3 +81,7 @@ The default template displays all event attributes in an unordered list. Each li
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk).
+
+```
+
+```
