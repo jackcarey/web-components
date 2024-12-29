@@ -15,8 +15,8 @@ class MiddleTruncate extends HTMLElement {
         return ['value', 'limit', 'dir'];
     }
 
-    attributeChangedCallback(name) {
-        if (name === 'value' || name === 'limit') {
+    attributeChangedCallback(_name, oldValue, newValue) {
+        if (oldValue !== newValue) {
             this.render();
         }
     }
@@ -25,43 +25,87 @@ class MiddleTruncate extends HTMLElement {
         this.render();
     }
 
+    get value() {
+        return this.getAttribute('value');
+    }
+    set value(val) {
+        if (val === null) {
+            this.removeAttribute('value');
+            return;
+        }
+        this.setAttribute('value', val);
+    }
+    get limit() {
+        const limit = this.getAttribute('limit');
+        try {
+
+            return limit === null ? undefined : parseInt(limit);
+        } catch (e) {
+            return undefined;
+        }
+    }
+    set limit(val: string | number | undefined | null) {
+        try {
+            if (val === null) {
+                this.removeAttribute('limit');
+                return;
+            }
+            const asNumber = !val ? undefined : typeof val === 'string' ? parseInt(val) : val;
+            this.setAttribute('limit', String(asNumber));
+        } catch (e) {
+            //do nothing, the new value is invalid so it will be ignored
+        }
+    }
+
     render() {
+        const { fontSize } = window.getComputedStyle(this);
+        const width = this.getBoundingClientRect().width;
+        const isRTL = this.dir === 'rtl';
+
         const text = this.getAttribute('value') || '';
         const limitAttr = this.getAttribute('limit');
-        const attrLimit = limitAttr ? parseInt(limitAttr, 10) : text.length;
+        const actualLimit = limitAttr ? parseInt(limitAttr, 10) : text.length;
 
-        const { fontSize, width } = window.getComputedStyle(this);
-        const chWidth = parseFloat(fontSize) / 2; //the width of a single character
-        const elWidthCh = parseFloat(width) / chWidth; // the width of the element in characters
-        const maxWidth = Math.min(attrLimit, elWidthCh);
-
-        const isRTL = this.dir === 'rtl';
+        const fontSizeNumStr = fontSize.replace('px', '');
+        const chWidth = parseFloat(fontSizeNumStr) / 2; //the width of a single character
+        const elWidthNumCh = width / chWidth; // the width of the element in characters
+        const maxWidth = Math.min(actualLimit, elWidthNumCh);
         const halfLength = Math.floor(maxWidth / 2);
         const secondHalf = text.substring(text.length - halfLength);
 
+        const shouldTruncateOnLimit = actualLimit < text.length;
+        const shouldTruncateOnWidth = maxWidth < text.length;
+        const shouldTruncateAtAll = shouldTruncateOnLimit || shouldTruncateOnWidth;
 
-        this.innerHTML = `
-        <style>
-        .middle-truncate > * {
-            display: inline-block;
-            white-space: nowrap;
-            max-width: ${halfLength}ch;
-            vertical-align: bottom;
+        console.log({ text, limitAttr, actualLimit, fontSize, width, chWidth, elWidthNumCh, maxWidth, halfLength, secondHalf, shouldTruncateOnLimit, shouldTruncateOnWidth, shouldTruncateAtAll });
+
+        if (!shouldTruncateAtAll) {
+            this.innerHTML = text;
+        } else {
+            this.innerHTML = `
+                <style>
+                .middle-truncate > * {
+                    display: inline-block;
+                    white-space: nowrap;
+                    width: max-content;
+                    ${actualLimit <= text.length ? `max-width: ${halfLength}ch;` : ''}
+                    vertical-align: bottom;
+                }
+                .middle-truncate .${isRTL ? 'end' : 'start'}{
+                    overflow: clip;
+                    text-overflow: ellipsis;
+                    }
+                    .middle-truncate .${isRTL ? 'start' : 'end'}{
+                        overflow: hidden;
+                        margin-left: -0.5ch;
+                    }
+                    </style>
+              <span class="middle-truncate" title="${text}">
+                <span class="start">${isRTL ? secondHalf : text}</span>
+                <span class="end" aria-hidden="true">${isRTL ? text : secondHalf}</span>
+              </span>
+            `;
         }
-        .middle-truncate .${isRTL ? 'end' : 'start'}{
-            overflow: clip;
-            text-overflow: ellipsis;
-            }
-            .middle-truncate .${isRTL ? 'start' : 'end'}{
-                overflow: hidden;
-                margin-left: -0.5ch;
-            }
-            </style>
-      <span class="middle-truncate" title="${text}">
-        <span class="start">${isRTL ? secondHalf : text}</span>
-        <span class="end" aria-hidden="true">${isRTL ? text : secondHalf}</span>
-      </span>
-    `;
     }
 }
 
