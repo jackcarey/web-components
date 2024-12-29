@@ -29,7 +29,7 @@ export default class Mutative {
         obj[name] = fn;
         Mutative.#addSelectorObj(obj);
     }
-    static observe(selectors, callback): void {
+    static observe(selectors?: string | string[], callback?: Function): void {
         if (!Mutative.#isObserving) {
             Mutative.#isObserving = true;
             Mutative.#bodyObserver.observe(document.body, {
@@ -70,7 +70,7 @@ export default class Mutative {
             }
         }
     }
-    static disconnect(...selectors): void {
+    static disconnect(...selectors: string[]): void {
         //finish mutation callbacks before removing selectors
         Mutative.#mutationFn(Mutative.#bodyObserver.takeRecords());
         if (selectors) {
