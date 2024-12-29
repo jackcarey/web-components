@@ -18,6 +18,7 @@ export default class Mutative {
         if (Mutative.#isObserving) {
             Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
                 mutationList.forEach((mutationRecord: MutationRecord) => {
+                    // call the callback function on every change, no matter its type
                     [
                         ...Array.from(mutationRecord?.addedNodes),
                         ...Array.from(mutationRecord?.removedNodes),
