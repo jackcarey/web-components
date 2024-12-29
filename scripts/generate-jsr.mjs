@@ -13,7 +13,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const jsrPath = path.join(dir, 'jsr.json');
     const isPrivate = pkgJson?.private;
     if (isPrivate) {
-        fs.unlinkSync(jsrPath);
+        fs.rmSync(jsrPath, { force: true });
         console.log('JSR file deleted:', jsrPath);
         return;
     }
