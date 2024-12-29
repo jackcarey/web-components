@@ -1,4 +1,4 @@
-# web-components
+import{j as o}from"./index-CpnDKoW4.js";import{useMDXComponents as s}from"./index-Bo01w_M0.js";import{ae as c,al as a}from"./index-mJUtkvTq.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-C7HRIcbP.js";import"../sb-preview/runtime.js";import"./index-D-8MO0q_.js";import"./index-DPS9-N-h.js";import"./index-DrFu-skq.js";const r=`# web-components
 
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
@@ -31,3 +31,6 @@
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk/).
+`;function n(e){return o.jsxs(o.Fragment,{children:[o.jsx(c,{title:"About"}),`
+`,o.jsx(a,{children:r})]})}function g(e={}){const{wrapper:t}={...s(),...e.components};return t?o.jsx(t,{...e,children:o.jsx(n,{...e})}):n()}export{g as default};
+//# sourceMappingURL=about-D7Q1SEdL.js.map
