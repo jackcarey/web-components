@@ -6,7 +6,9 @@
 
 > Renders ics data in a web component.
 
-## Browser Use
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal)
 
@@ -14,7 +16,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
-## NPM
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 

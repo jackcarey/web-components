@@ -6,7 +6,9 @@
 
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 
-## Browser Use
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use)
 
@@ -14,7 +16,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-
 <script src="https://esm.sh/jsr/@web-components/can-i-use" type="module"></script>
 ```
 
-## NPM
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 

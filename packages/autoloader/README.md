@@ -6,7 +6,9 @@
 
 > Automatically load components from jackcarey/web-components using esm.sh.
 
-## Browser Use
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web-components/autoloader)
 
@@ -14,7 +16,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web
 <script src="https://esm.sh/jsr/@web-components/autoloader" type="module"></script>
 ```
 
-## NPM
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
