@@ -1,10 +1,12 @@
 # autoloader
 
+[![autoloader](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader) [![score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score)
+
+> Automatically load components from jackcarey/web-components using esm.sh.
+
 **version:** 1.1.12
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
-
-> Automatically load components from jackcarey/web-components using esm.sh.
 
 ## Using this package
 
@@ -16,12 +18,20 @@ ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web
 <script src="https://esm.sh/jsr/@web-components/autoloader" type="module"></script>
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### Deno
 
 ```
+deno add jsr:@web-components/autoloader
+```
+
+### NPM
+
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). If your environment doesn't support JSR directly then this is probably what you need. You can install this package with:
+
+```
+
 npx jsr add @web-components/autoloader
+
 ```
 
 ## Documentation
@@ -34,3 +44,7 @@ The 'autoloader' has no options. Component script tags are added to the head of 
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk).
+
+```
+
+```
