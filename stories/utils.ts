@@ -12,12 +12,13 @@ export const CreateComponentDecorators = (component: string, styles?: string) =>
     ];
 };
 
-export const CreateComponentStoryMeta = (component: string): Meta => {
+export const CreateComponentStoryMeta = (component: string, overrides?: Meta): Meta => {
     return {
         component,
         decorators: CreateComponentDecorators(component),
         parameters: {
             controls: { expanded: true },
         },
+        ...overrides,
     };
 };
