@@ -1,8 +1,8 @@
 # $name
 
-$jsrBadges
-
 $description
+
+$jsrBadges
 
 **version:** $version
 
@@ -26,12 +26,10 @@ deno add jsr:@web-components/$name
 
 ### NPM
 
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). If your environment doesn't support JSR directly then this is probably what you need. You can install this package with:
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-
 npx jsr add @web-components/$name
-
 ```
 
 ## Documentation
@@ -43,7 +41,3 @@ $docs
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk).
-
-```
-
-```
