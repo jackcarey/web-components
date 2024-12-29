@@ -1,8 +1,8 @@
 import { pkgDetails } from './util-packages.mjs';
 import fs from 'fs';
 
-const dryRunString = Object.entries(pkgDetails).map(([dir]) => `cd "${dir}"\nnpx jsr publish --allow-dirty --dry-run`).join('\n');
-const publishString = Object.entries(pkgDetails).map(([dir]) => `cd "${dir}"\nnpx jsr publish --allow-dirty`).join('\n');
+const dryRunString = Object.entries(pkgDetails).filter(pkg => !pkg["private"]).map(([dir]) => `cd "${dir}"\nnpx jsr publish --allow-dirty --dry-run`).join('\n');
+const publishString = Object.entries(pkgDetails).filter(pkg => !pkg["private"]).map(([dir]) => `cd "${dir}"\nnpx jsr publish --allow-dirty`).join('\n');
 
 const dryRunPath = './scripts/publish-jsr-dryrun.sh';
 const existingDryContent = fs.readFileSync(dryRunPath, 'utf8');
