@@ -1,8 +1,8 @@
 # can-i-use
 
-[![can-i-use](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use) [![score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
-
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
+
+[![can-i-use](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use) [![score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
 
 **version:** 1.0.8
 
@@ -26,12 +26,10 @@ deno add jsr:@web-components/can-i-use
 
 ### NPM
 
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). If your environment doesn't support JSR directly then this is probably what you need. You can install this package with:
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-
 npx jsr add @web-components/can-i-use
-
 ```
 
 ## Documentation
@@ -48,7 +46,3 @@ npx jsr add @web-components/can-i-use
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk).
-
-```
-
-```
