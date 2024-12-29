@@ -10,6 +10,7 @@ Object.entries(pkgDetails).forEach(([dir, pkg]) => {
     }
 });
 console.log('Dry runs complete!');
+console.log('-'.repeat(80));
 
 const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
