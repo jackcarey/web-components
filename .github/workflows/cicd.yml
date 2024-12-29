@@ -113,7 +113,6 @@ jobs:
               run: node scripts/generate-publish-scripts.mjs
 
             - name: "[dry-run] Publish updated packages to JSR"
-              if: github.ref != 'refs/heads/main'
               run: bash scripts/publish-jsr-dryrun.sh
 
             - name: Publish updated packages to JSR (on main)
