@@ -6,7 +6,9 @@
 
 $description
 
-## Browser Use
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
@@ -14,7 +16,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
 ```
 
-## NPM
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
