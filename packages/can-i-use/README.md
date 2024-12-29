@@ -36,7 +36,7 @@ npx jsr add @web-components/can-i-use
 
 ## Documentation
 
-Find this package on storybook: [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
 
 ## Attributes
 
