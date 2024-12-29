@@ -19,7 +19,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-comp
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-npx jsr add i-cal
+npx jsr add @web-components/i-cal
 ```
 
 ## Documentation

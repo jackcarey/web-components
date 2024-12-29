@@ -19,7 +19,7 @@ ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-npx jsr add autoloader
+npx jsr add @web-components/autoloader
 ```
 
 ## Documentation
