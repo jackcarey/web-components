@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
+import { repoRootDir, pkgDetails, count, getJSRMarkdown } from "./util-packages.mjs";
 
 console.log("compiling packages for root readme from:", repoRootDir);
 
@@ -21,14 +21,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
   const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
     licenseName
   )})`;
-  const jsrScope = "web-components";
-  const jsrBadgeUrl = `https://jsr.io/badges/@${jsrScope}/${name}`;
-  const jsrVersionBadgeMd = `![${name}](${jsrBadgeUrl})`;
-  const jsrLinkUrl = `https://jsr.io/@${jsrScope}/${name}`;
-  const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
-  const jsrScoreUrl = `${jsrBadgeUrl}/score`;
-  const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
-  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${jsrVersionMd} ${jsrScoreMd} |`;
+  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getJSRMarkdown(name)} |`;
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails

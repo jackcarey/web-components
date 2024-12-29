@@ -1,10 +1,12 @@
 # $name
 
+$jsrBadges
+
+$description
+
 **version:** $version
 
 **license:** [$license](https://www.tldrlegal.com/search?query=$encodedLicense)
-
-$description
 
 ## Using this package
 
@@ -16,12 +18,20 @@ ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### Deno
 
 ```
+deno add jsr:@web-components/$name
+```
+
+### NPM
+
+JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). If your environment doesn't support JSR directly then this is probably what you need. You can install this package with:
+
+```
+
 npx jsr add @web-components/$name
+
 ```
 
 ## Documentation
@@ -33,3 +43,7 @@ $docs
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk).
+
+```
+
+```

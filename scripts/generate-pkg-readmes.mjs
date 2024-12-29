@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
+import { repoRootDir, pkgDetails, count, getJSRMarkdown } from "./util-packages.mjs";
 
 console.log("generating package readmes from...");
 
@@ -27,6 +27,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     $license: pkgJson.license ?? "unlicensed",
     $encodedLicense: encodeURIComponent(pkgJson.license) ?? "",
     $docs: docsStr,
+    $jsrBadges: getJSRMarkdown(pkgJson.name),
   };
   const readmeContent = Object.entries(replacements).reduce(
     (acc, [key, value]) => acc.replaceAll(key, value),
