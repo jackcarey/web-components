@@ -25,7 +25,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
-)
+).filter(([dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)
   .join("\n")}\n\n`;
 
@@ -51,12 +51,11 @@ const readmeContent = Object.entries(replacements).reduce(
   template
 );
 const readmePath = path.join(repoRootDir, "README.md");
-if (
-  !fs.existsSync(readmePath) ||
-  fs.readFileSync(readmePath, "utf8") !== readmeContent
-) {
+const exists = fs.existsSync(readmePath);
+const contentChanged = !exists || fs.readFileSync(readmePath, "utf8") !== readmeContent;
+if (contentChanged) {
   fs.writeFileSync(readmePath, readmeContent);
-  console.log(`README.md created at ${repoRootDir}`);
+  console.log(`README.md ${exists ? 'updated' : 'created'} at ${repoRootDir}`);
 } else {
   console.log(`No changes to README.md at ${repoRootDir}`);
 }

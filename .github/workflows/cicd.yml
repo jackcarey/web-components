@@ -28,16 +28,6 @@ jobs:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
 
-            - name: Restore cached deps
-              id: cache-primes-restore
-              uses: actions/cache/restore@v4
-              with:
-                  path: |
-                      node_modules
-                      ~/.cache/ms-playwright
-                      /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
-
             # Check repo
 
             - name: Check if CODEOWNERS file exists
@@ -46,7 +36,17 @@ jobs:
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
               with:
-                  node-version: "20"
+                  node-version: "22"
+
+            - name: Restore cached deps
+              id: cache-primes-restore
+              uses: actions/cache/restore@v4
+              with:
+                  path: |
+                      node_modules
+                      ~/.cache/ms-playwright
+                      /home/runner/.cache/ms-playwright
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
               run: npm install
@@ -76,7 +76,7 @@ jobs:
                       node_modules
                       ~/.cache/ms-playwright
                       /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-${{github.ref}}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             # Test
 

@@ -3,7 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const mdToSbMdx = (docPath, title) => {
-  return `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${docPath}?raw";\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
+  const sanitizedPath = docPath.replace(/\\/g, '/');
+  return `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${sanitizedPath}?raw";\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
 };
 
 const saveToStorybookFolder = (content, folder, fileName) => {
