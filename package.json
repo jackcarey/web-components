@@ -12,7 +12,7 @@
     "@jest/globals": "^29.7.0",
     "@npmcli/package-json": "^5.2.0",
     "@playwright/test": "^1.49.1",
-    "@storybook/addon-a11y": "^8.3.1",
+    "@storybook/addon-a11y": "^8.4.7",
     "@storybook/addon-coverage": "^1.0.4",
     "@storybook/addon-essentials": "^8.3.1",
     "@storybook/addon-interactions": "^8.4.7",
