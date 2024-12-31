@@ -11,23 +11,24 @@ export const Default: Story = {
     args: {},
 };
 
-export const WithValue: Story = {
+const placeholderText = "The quick brown fox jumps over the lazy dog.";
+
+export const WithTitle: Story = {
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
+        title: placeholderText,
     },
 };
 
-export const WithLimit: Story = {
+export const LongText: Story = {
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
-        limit: 10,
+        title: placeholderText.repeat(10),
     },
 };
 
 export const RTLDir: Story = {
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
-        limit: 10,
+        title: placeholderText,
+        limit: Math.floor(placeholderText.length * 0.8),
         dir: "rtl",
     },
 };

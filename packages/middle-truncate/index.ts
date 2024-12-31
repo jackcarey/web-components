@@ -10,102 +10,105 @@
  * 
  */
 class MiddleTruncate extends HTMLElement {
+    #resizeEntry: ResizeObserverEntry | undefined;
+    #segments: unknown[] | undefined;
+    #resizeObserver: ResizeObserver | undefined;
 
     static get observedAttributes() {
-        return ['value', 'limit', 'dir'];
+        return ['title', 'at'];
     }
 
-    attributeChangedCallback(_name, oldValue, newValue) {
-        if (oldValue !== newValue) {
-            this.render();
+    #resizeCallback = (entries: ResizeObserverEntry[]) => {
+        this.#resizeEntry = entries.find(e => e.target === this);
+        console.log(`resize`, { entries, resizeEntry: this.#resizeEntry });
+        this.#render();
+    };
+
+    #disconnectedObserver = () => {
+        if (this.#resizeObserver) {
+            this.#resizeObserver.unobserve(this);
         }
     }
 
     connectedCallback() {
-        this.render();
+        if (!this.#resizeObserver) {
+            this.#resizeObserver = new ResizeObserver(this.#resizeCallback);
+        }
+        this.#resizeObserver.observe(this);
+        this.#render();
     }
 
-    get value() {
-        return this.getAttribute('value');
+    disconnectedCallback() {
+        this.#disconnectedObserver();
     }
-    set value(val) {
-        if (val === null) {
-            this.removeAttribute('value');
-            return;
-        }
-        this.setAttribute('value', val);
-    }
-    get limit() {
-        const limit = this.getAttribute('limit');
-        try {
 
-            return limit === null ? undefined : parseInt(limit);
-        } catch (e) {
-            return undefined;
-        }
+    attributeChangedCallback() {
+        this.#render();
     }
-    set limit(val: string | number | undefined | null) {
-        try {
-            if (val === null) {
-                this.removeAttribute('limit');
-                return;
+
+    /**
+     * The percentage of text to show the truncation at.
+     */
+    get at(): number {
+        if (this.hasAttribute('at')) {
+            try {
+                return parseInt(this.getAttribute('at') || '50');
+            } catch (e) {
+                return 50;
             }
-            const asNumber = !val ? undefined : typeof val === 'string' ? parseInt(val) : val;
-            this.setAttribute('limit', String(asNumber));
-        } catch (e) {
-            //do nothing, the new value is invalid so it will be ignored
+        }
+        return 50;
+    }
+
+    /**
+     * The percentage of text to show the truncation at.
+     */
+    set at(val: string | number | undefined | null) {
+        if (!val) {
+            this.removeAttribute('at');
+        } else {
+            const asNum = Math.max(0, Math.min(100, parseInt(String(val))));
+            if (asNum) {
+                this.setAttribute('at', String(asNum));
+            }
         }
     }
 
-    render() {
-        const { fontSize } = window.getComputedStyle(this);
-        const width = this.getBoundingClientRect().width;
-        const isRTL = this.dir === 'rtl';
-
-        const text = this.getAttribute('value') || '';
-        const limitAttr = this.getAttribute('limit');
-        const actualLimit = limitAttr ? parseInt(limitAttr, 10) : text.length;
-
-        const fontSizeNumStr = fontSize.replace('px', '');
-        const chWidth = parseFloat(fontSizeNumStr) / 2; //the width of a single character
-        const elWidthNumCh = width / chWidth; // the width of the element in characters
-        const maxWidth = Math.min(actualLimit, elWidthNumCh);
-        const halfLength = Math.floor(maxWidth / 2);
-        const secondHalf = text.substring(text.length - halfLength);
-
-        const shouldTruncateOnLimit = actualLimit < text.length;
-        const shouldTruncateOnWidth = maxWidth < text.length;
-        const shouldTruncateAtAll = shouldTruncateOnLimit || shouldTruncateOnWidth;
-
-        console.log({ text, limitAttr, actualLimit, fontSize, width, chWidth, elWidthNumCh, maxWidth, halfLength, secondHalf, shouldTruncateOnLimit, shouldTruncateOnWidth, shouldTruncateAtAll });
-
-        if (!shouldTruncateAtAll) {
-            this.innerHTML = text;
-        } else {
-            this.innerHTML = `
-                <style>
-                .middle-truncate > * {
-                    display: inline-block;
-                    white-space: nowrap;
-                    width: max-content;
-                    ${actualLimit <= text.length ? `max-width: ${halfLength}ch;` : ''}
-                    vertical-align: bottom;
-                }
-                .middle-truncate .${isRTL ? 'end' : 'start'}{
-                    overflow: clip;
-                    text-overflow: ellipsis;
-                    }
-                    .middle-truncate .${isRTL ? 'start' : 'end'}{
-                        overflow: hidden;
-                        margin-left: -0.5ch;
-                    }
-                    </style>
-              <span class="middle-truncate" title="${text}">
-                <span class="start">${isRTL ? secondHalf : text}</span>
-                <span class="end" aria-hidden="true">${isRTL ? text : secondHalf}</span>
-              </span>
-            `;
+    #render() {
+        const isLtr = this.dir === "ltr";
+        this.innerHTML = `<style>
+        .container,.start,.end{
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0;
+            padding: 0;
         }
+        .container{
+            width: 100%;
+            max-width: ${this.title.length}ch;
+        }
+        .start{
+            text-overflow: ellipsis;
+            text-align: start;
+            max-width: calc(${this.at}% + 3em);
+        }
+        .end {
+            display: inline-block;
+            width: calc(${100 - this.at}% - 3em);
+            transform: scaleX(-1);
+            text-overflow: ellipsis;
+            padding: 0;
+            margin: 0;
+            }
+            .end-inner{
+                display: inline-block;
+                transform: scaleX(-1);
+                text-align: start;
+                text-overflow: ellipsis;
+                padding: 0;
+                margin: 0;
+        }</style><span class="container"><span class="start">${this.title}</span><span class="end" aria-hidden="true"}><span class="end-inner">${this.title}<span></span></span>`;
     }
 }
 
