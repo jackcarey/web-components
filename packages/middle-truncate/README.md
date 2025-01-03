@@ -6,7 +6,7 @@
 
 **version:** 0.1.1
 
-**license:** [LGPL-3.0](https://www.tldrlegal.com/search?query=LGPL-3.0)
+**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
 ## Using this package
 
