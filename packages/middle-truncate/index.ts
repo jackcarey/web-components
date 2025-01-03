@@ -148,6 +148,7 @@ class MiddleTruncate extends HTMLElement {
 
     attributeChangedCallback(attrName, _oldVal, newVal) {
         if (attrName === 'title') {
+            this.ariaLabel = newVal;
             if (!this.#segmenter) {
                 this.#segmenter = new Intl.Segmenter();
             }
