@@ -6,7 +6,7 @@ $jsrBadges
 
 **version:** $version
 
-**license:** [$license](https://www.tldrlegal.com/search?query=$encodedLicense)
+**license:** [$license](./LICENSE.md)
 
 ## Using this package
 
