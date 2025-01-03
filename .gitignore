@@ -5,6 +5,3 @@ coverage/
 # these only exist during CI runs
 scripts/publish-jsr-dryrun.sh
 scripts/publish-jsr.sh
-
-# using pnpm lock instead
-package-lock.json
