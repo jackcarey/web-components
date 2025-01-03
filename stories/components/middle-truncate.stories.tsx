@@ -6,7 +6,7 @@ import { html } from "lit";
 const meta: Meta = {
     ...CreateComponentStoryMeta(
         "middle-truncate",
-        "middle-truncate{text-overflow: clip;overflow:hidden;max-height: min-content;}"
+        "middle-truncate{width:fit-content;height:fit-content;}"
     ),
 };
 
@@ -17,52 +17,64 @@ export const Default: Story = {
     args: {},
 };
 
-const placeholderText = "The quick brown fox jumps over the lazy dog.";
+const textStrings = {
+    en: "The quick brown fox jumps over the lazy dog.",
+    fa: "روباه قهوه ای سریع از روی سگ تنبل می پرد.", //persian
+    jp: "素早い茶色のキツネが怠け者の犬を飛び越えます。",
+};
 
 export const WithTitle: Story = {
     args: {
-        title: placeholderText,
+        title: textStrings.en,
     },
 };
 
 export const At0Percent: Story = {
     args: {
-        title: placeholderText,
+        title: textStrings.en,
         at: 0,
     },
 };
 
 export const At10Percent: Story = {
     args: {
-        title: placeholderText,
+        title: textStrings.en,
         at: 10,
     },
 };
 
 export const At30Percent: Story = {
     args: {
-        title: placeholderText,
+        title: textStrings.en,
         at: 30,
     },
 };
 
-export const At90Percent: Story = {
+export const At80Percent: Story = {
     args: {
-        title: placeholderText,
-        at: 90,
+        title: textStrings.en,
+        at: 80,
     },
 };
 
 export const LongText: Story = {
     args: {
-        title: placeholderText.repeat(10),
+        title: textStrings.en.repeat(10),
     },
 };
 
 export const RTLDir: Story = {
+    name: "RTL Text (Persian)",
     args: {
-        title: placeholderText,
-        limit: Math.floor(placeholderText.length * 0.8),
+        title: textStrings.fa,
         dir: "rtl",
     },
+};
+
+export const VerticalWritingMode: Story = CreateComponentStoryMeta(
+    "middle-truncate",
+    "middle-truncate{writing-mode:sideways-rl}"
+);
+VerticalWritingMode.args = {
+    title: textStrings.en,
 };
