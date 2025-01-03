@@ -4,7 +4,7 @@
 
 [![autoloader](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader) [![score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score)
 
-**version:** 1.1.13
+**version:** 1.1.14
 
 **license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
 
