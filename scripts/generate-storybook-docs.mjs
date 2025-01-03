@@ -51,7 +51,7 @@ docPaths.forEach(([pkgName, docPath]) => {
     `${isUtility ? 'utilities' : 'components'}/${pkgName}/Documentation`
   );
   const newUtilityContent = `# ${pkgName}\n\n ${mdContent}`;
-  const headerContent = `# ${pkgName}\n\n${getJSRMarkdown(pkgName)}`;
+  const headerContent = `# ${pkgName}\n${getJSRMarkdown(pkgName)}`;
   const newSbContent = `${headerContent}\n${isUtility ? newUtilityContent : newComponentContent}`;
   saveToStorybookFolder(
     newSbContent,
