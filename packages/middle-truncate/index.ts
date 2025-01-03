@@ -6,12 +6,14 @@ class DimensionProxy {
     #elLen: number;
     #dividerLen: number;
     #maxTextLen: number;
+    #maxChLen: number;
     #onChange: (object: DimensionProxy) => void;
     constructor(onChange: (object: DimensionProxy) => void, initialValue?: object) {
-        const { elLen = 0, dividerLen = 0, maxTextLen = 0 } = (initialValue as DimensionProxy) ?? {};
+        const { elLen = 0, dividerLen = 0, maxTextLen = 0, maxChLen = 0 } = (initialValue as DimensionProxy) ?? {};
         this.#elLen = elLen;
         this.#dividerLen = dividerLen;
         this.#maxTextLen = maxTextLen;
+        this.#maxChLen = maxChLen;
         this.#onChange = onChange;
     }
     get elLen(): number {
@@ -38,6 +40,15 @@ class DimensionProxy {
     set maxTextLen(val) {
         if (val !== this.#maxTextLen) {
             this.#maxTextLen = val;
+            this.#onChange(this);
+        }
+    }
+    get maxChLen() {
+        return this.#maxChLen;
+    }
+    set maxChLen(val) {
+        if (val !== this.#maxChLen) {
+            this.#maxChLen = val;
             this.#onChange(this);
         }
     }
@@ -274,7 +285,8 @@ class MiddleTruncate extends HTMLElement {
                     updateInnerText(this.divider);
                     return;
                 }
-                const availableSpace = Math.floor(this.#dimensions.elLen - this.#dimensions.dividerLen);
+                console.log(this.#dimensions);
+                const availableSpace = Math.floor(this.#dimensions.elLen - this.#dimensions.dividerLen - this.#dimensions.maxChLen);
                 const startMaxPx = Math.floor(availableSpace * (this.at / 100));
                 const endMaxPx = Math.floor(availableSpace - startMaxPx);
                 const startIdx = this.#segments.filter(({ length: segLen }, idx, arr) => {
@@ -321,6 +333,7 @@ class MiddleTruncate extends HTMLElement {
                 const dim = Math.ceil(getDim());
                 fullTextLen += dim;
                 this.#segments[idx].length = dim;
+                this.#dimensions.maxChLen = Math.max(dim, this.#dimensions.maxChLen);
             });
             this.#dimensions.maxTextLen = fullTextLen;
 
