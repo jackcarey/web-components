@@ -6,7 +6,7 @@
 
 **version:** 1.0.8
 
-**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
+**license:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
