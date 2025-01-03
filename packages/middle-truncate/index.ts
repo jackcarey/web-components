@@ -301,18 +301,24 @@ class MiddleTruncate extends HTMLElement {
             const currentText = this.innerText;
             const { writingMode } = getComputedStyle(this);
             const isVertical = writingMode.startsWith('vertical');
+            const isSideways = writingMode.startsWith('sideways');
+            const useHeight = isVertical || isSideways;
+
+            const getDim = () => {
+                const { width, height } = this.getBoundingClientRect();
+                return useHeight ? height : width;
+            };
 
             this.#defaultDivider = isVertical ? '︙' : '…'; //unicode FE19 and 2026
             this.innerText = this.divider;
-            const { width: dividerWidth, height: dividerHeight } = this.getBoundingClientRect();
-            this.#dimensions.dividerLen = Math.ceil(isVertical ? dividerHeight : dividerWidth);
+            // const { width: dividerWidth, height: dividerHeight } = this.getBoundingClientRect();
+            this.#dimensions.dividerLen = Math.ceil(getDim());
 
             //determine the dimensions of the text by summing the length and width of each rendered segment
             let fullTextLen = 0;
             this.#segments.forEach((segData, idx) => {
                 this.innerText = segData.segment;
-                const { width, height } = this.getBoundingClientRect();
-                const dim = Math.ceil(isVertical ? height : width);
+                const dim = Math.ceil(getDim());
                 fullTextLen += dim;
                 this.#segments[idx].length = dim;
             });
@@ -320,8 +326,7 @@ class MiddleTruncate extends HTMLElement {
 
             this.innerText = this.title;
             //determine the correct element dimensions to use for the next render
-            const { width: elWidth, height: elHeight } = this.getBoundingClientRect();
-            this.#dimensions.elLen = Math.floor(isVertical ? elHeight : elWidth);
+            this.#dimensions.elLen = Math.floor(getDim());
 
             //then restore the correct text
             this.innerText = currentText;
