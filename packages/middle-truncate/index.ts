@@ -178,7 +178,7 @@ class MiddleTruncate extends HTMLElement {
      * The percentage of text to show the truncation at.
      */
     set at(val: string | number | undefined | null) {
-        if (!val) {
+        if (val === undefined || val === null) {
             this.removeAttribute('at');
         } else {
             const asNum = Math.max(0, Math.min(100, parseInt(String(val))));
@@ -249,15 +249,12 @@ class MiddleTruncate extends HTMLElement {
             cancelAnimationFrame(this.#redrawLock);
             this.#redrawLock = undefined;
         }
-        const updateInnerText = (newText: string) => {
+        const updateInnerText = (newText: string): boolean => {
             if (this.innerText !== newText) {
-                if (newText.length > this.title.length) {
-                    this.innerText = this.title;
-                } else {
-                    this.innerText = newText ?? '';
-                }
-                this.#redrawLock = undefined;
+                this.innerText = newText ?? '';
+                return true;
             };
+            return false;
         };
         const redraw = () => {
             if (this && (!this.isConnected || this.hasAttribute('disabled'))) {
@@ -279,13 +276,13 @@ class MiddleTruncate extends HTMLElement {
                 }
                 const availableSpace = Math.floor(this.#dimensions.elLen - this.#dimensions.dividerLen);
                 const startMaxPx = Math.floor(availableSpace * (this.at / 100));
-                const endMaxPx = availableSpace - startMaxPx;
+                const endMaxPx = Math.floor(availableSpace - startMaxPx);
                 const startIdx = this.#segments.filter(({ length: segLen }, idx, arr) => {
-                    const sumLen = arr.slice(0, idx).reduce((prev, curr) => prev + curr.length, 0) + segLen;
+                    const sumLen = Math.ceil(arr.slice(0, idx).reduce((prev, curr) => prev + curr.length, 0) + segLen);
                     return sumLen < startMaxPx;
                 }).length;
                 const endIdx = this.#segments.filter(({ length: segLen }, idx, arr) => {
-                    const sumLen = arr.slice(-idx).reduce((prev, curr) => prev + curr.length, 0) + segLen;
+                    const sumLen = Math.ceil(arr.slice(-idx).reduce((prev, curr) => prev + curr.length, 0) + segLen);
                     return sumLen > endMaxPx;
                 }).length;
                 const startStr = this.title.slice(0, startIdx);
@@ -293,7 +290,6 @@ class MiddleTruncate extends HTMLElement {
                 updateInnerText(`${startStr}${this.divider}${endStr}`);
             };
         }
-        redraw();
         this.#redrawLock = requestAnimationFrame(redraw);
     }
 
@@ -316,11 +312,11 @@ class MiddleTruncate extends HTMLElement {
             this.#segments.forEach((segData, idx) => {
                 this.innerText = segData.segment;
                 const { width, height } = this.getBoundingClientRect();
-                const dim = isVertical ? height : width;
+                const dim = Math.ceil(isVertical ? height : width);
                 fullTextLen += dim;
                 this.#segments[idx].length = dim;
             });
-            this.#dimensions.maxTextLen = Math.ceil(fullTextLen);
+            this.#dimensions.maxTextLen = fullTextLen;
 
             this.innerText = this.title;
             //determine the correct element dimensions to use for the next render
