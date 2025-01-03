@@ -1,7 +1,3 @@
 node_modules
 coverage/
 *storybook.log
-
-# these only exist during CI runs
-scripts/publish-jsr-dryrun.sh
-scripts/publish-jsr.sh
