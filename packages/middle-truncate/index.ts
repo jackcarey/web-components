@@ -285,7 +285,6 @@ class MiddleTruncate extends HTMLElement {
                     updateInnerText(this.divider);
                     return;
                 }
-                console.log(this.#dimensions);
                 const availableSpace = Math.floor(this.#dimensions.elLen - this.#dimensions.dividerLen - this.#dimensions.maxChLen);
                 const startMaxPx = Math.floor(availableSpace * (this.at / 100));
                 const endMaxPx = Math.floor(availableSpace - startMaxPx);
