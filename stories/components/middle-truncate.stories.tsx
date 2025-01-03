@@ -4,7 +4,10 @@ import { html } from "lit";
 
 // This default export determines where your story goes in the story list
 const meta: Meta = {
-    ...CreateComponentStoryMeta("middle-truncate", "*{overflow: ellipsis}"),
+    ...CreateComponentStoryMeta(
+        "middle-truncate",
+        "middle-truncate{text-overflow: clip;overflow:hidden;max-height: min-content;}"
+    ),
 };
 
 export default meta;
@@ -22,6 +25,34 @@ export const WithTitle: Story = {
     },
 };
 
+export const At0Percent: Story = {
+    args: {
+        title: placeholderText,
+        at: 0,
+    },
+};
+
+export const At10Percent: Story = {
+    args: {
+        title: placeholderText,
+        at: 10,
+    },
+};
+
+export const At30Percent: Story = {
+    args: {
+        title: placeholderText,
+        at: 30,
+    },
+};
+
+export const At90Percent: Story = {
+    args: {
+        title: placeholderText,
+        at: 90,
+    },
+};
+
 export const LongText: Story = {
     args: {
         title: placeholderText.repeat(10),
@@ -35,44 +66,3 @@ export const RTLDir: Story = {
         dir: "rtl",
     },
 };
-
-const resizingDecorator: Decorator = (...args: Parameters<Decorator>) => {
-    const [story, _context] = args;
-    return html`<script>
-            const startTime = Date.now();
-            const resizeElements = (timestamp) => {
-                const duration = timestamp - startTime;
-                document.querySelectorAll(".container").forEach((el) => {
-                    const rect = el.getBoundingClientRect();
-                    const isTooBig =
-                        rect.right >= window.innerWidth || rect.bottom >= window.innerHeight;
-                    const isTooSmall = rect.width <= 1 || rect.height <= 1;
-                    const isGrowing = isTooSmall || !isTooBig;
-                    if (isGrowing) {
-                        el.offsetWidth += 1;
-                    } else {
-                        el.offsetWidth -= 1;
-                    }
-                });
-                if (duration < 5000) {
-                    requestAnimationFrame(resizeElements);
-                }
-            };
-            requestAnimationFrame(resizeElements);
-        </script>
-        <style>
-            .container {
-                border: 1px dashed red;
-                min-width: min-content;
-                width: fit-content;
-                resize: horizontal;
-                overflow: clip;
-            }
-        </style>
-        <div class="container">${story()}</div>`;
-};
-
-export const Resizing: Story = CreateComponentStoryMeta("middle-truncation", "", {
-    args: { title: placeholderText },
-    decorators: [resizingDecorator, ...CreateComponentDecorators("middle-truncate")],
-});
