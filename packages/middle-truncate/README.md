@@ -4,7 +4,7 @@
 
 [![middle-truncate](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate) [![score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score)
 
-**version:** 0.0.1
+**version:** 0.1.1
 
 **license:** [LGPL-3.0](https://www.tldrlegal.com/search?query=LGPL-3.0)
 
@@ -40,8 +40,10 @@ This package is still being developed.
 
 **Attributes:**
 
--   `value` - The text to be truncated.
--   `limit` - The maximum number of characters to show.
+-   `title` - The text to be truncated.
+-   `disabled` - Disable truncation, display the full text string.
+-   `at` - The percentage into the string to truncate at.
+-   `truncated` - Read-only. Whether or not the text is truncated.
 
 
 ---
