@@ -1,3 +1,48 @@
+type SegmentDataWithLength = Intl.SegmentData & {
+    length: number;
+};
+
+class DimensionProxy {
+    #elLen: number;
+    #dividerLen: number;
+    #maxTextLen: number;
+    #onChange: (object: DimensionProxy) => void;
+    constructor(onChange: (object: DimensionProxy) => void, initialValue?: object) {
+        const { elLen = 0, dividerLen = 0, maxTextLen = 0 } = (initialValue as DimensionProxy) ?? {};
+        this.#elLen = elLen;
+        this.#dividerLen = dividerLen;
+        this.#maxTextLen = maxTextLen;
+        this.#onChange = onChange;
+    }
+    get elLen(): number {
+        return this.#elLen;
+    };
+    set elLen(val: number) {
+        if (val !== this.#elLen) {
+            this.#elLen = val;
+            this.#onChange(this);
+        }
+    }
+    get dividerLen() {
+        return this.#dividerLen;
+    }
+    set dividerLen(val) {
+        if (val !== this.#dividerLen) {
+            this.#dividerLen = val;
+            this.#onChange(this);
+        }
+    }
+    get maxTextLen() {
+        return this.#maxTextLen;
+    }
+    set maxTextLen(val) {
+        if (val !== this.#maxTextLen) {
+            this.#maxTextLen = val;
+            this.#onChange(this);
+        }
+    }
+}
+
 /**
  * A custom HTML element that truncates text in the middle to fit within a specified limit.
  * @module middle-truncate
@@ -10,39 +55,107 @@
  * 
  */
 class MiddleTruncate extends HTMLElement {
-    #resizeEntry: ResizeObserverEntry | undefined;
-    #segments: unknown[] | undefined;
+    #segmenter: Intl.Segmenter;
+    #segments: SegmentDataWithLength[] = [];
+    #dimensionUpdateLockId: ReturnType<typeof requestIdleCallback> | undefined;
+    #redrawLock: ReturnType<typeof requestAnimationFrame> | undefined;
+    #isTruncated = false;
+    #defaultDivider: string = '…';
+    #windowFocused = true;
     #resizeObserver: ResizeObserver | undefined;
+    #dimensions: DimensionProxy;
 
     static get observedAttributes() {
-        return ['title', 'at'];
+        return ['title', 'at', 'divider', 'disabled', 'ms', 'truncated'];
     }
 
-    #resizeCallback = (entries: ResizeObserverEntry[]) => {
-        this.#resizeEntry = entries.find(e => e.target === this);
-        console.log(`resize`, { entries, resizeEntry: this.#resizeEntry });
-        this.#render();
-    };
+    constructor() {
+        super();
+        window.addEventListener("resize", () => {
+            this.#render();
+        });
+        window.addEventListener("focus", () => {
+            this.#windowFocused = true;
+            this.#render();
+        });
+        window.addEventListener("blur", () => {
+            this.#windowFocused = false;
+            this.#cancelNextRender();
+        });
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                this.#cancelNextRender();
+            } else {
+                this.#render();
+            }
+        });
+        this.#dimensions = new DimensionProxy((_dimProxy) => {
+            this.#redraw();
+        });
+    }
 
-    #disconnectedObserver = () => {
-        if (this.#resizeObserver) {
-            this.#resizeObserver.unobserve(this);
+    get #canUpdate() {
+        if (!this || !this.#windowFocused || !this.isConnected || document.hidden) return false;
+        const rect = this.getBoundingClientRect();
+        //this isVisible check has a pixel buffer around the screen size
+        const bufferPx = 10;
+        const isVisible = rect.top >= -bufferPx && rect.bottom <= window.innerHeight + bufferPx && rect.left >= -bufferPx && rect.right <= window.innerWidth + bufferPx;
+        return isVisible;
+    }
+
+    #cancelNextRender() {
+        if (this.#dimensionUpdateLockId) {
+            cancelIdleCallback(this.#dimensionUpdateLockId);
+            this.#dimensionUpdateLockId = undefined;
+        }
+        if (this.#redrawLock) {
+            cancelAnimationFrame(this.#redrawLock);
+            this.#redrawLock = undefined;
         }
     }
 
     connectedCallback() {
         if (!this.#resizeObserver) {
-            this.#resizeObserver = new ResizeObserver(this.#resizeCallback);
+            this.#resizeObserver = new ResizeObserver((entries) => {
+                const { contentBoxSize } = entries[0];
+                const { inlineSize } = contentBoxSize[0];
+                if (inlineSize) {
+                    this.#dimensions.elLen = inlineSize;
+                }
+            });
         }
         this.#resizeObserver.observe(this);
         this.#render();
     }
 
     disconnectedCallback() {
-        this.#disconnectedObserver();
+        this.#cancelNextRender();
+        if (this.#resizeObserver) {
+            this.#resizeObserver.disconnect();
+        }
     }
 
-    attributeChangedCallback() {
+    attributeChangedCallback(attrName, _oldVal, newVal) {
+        if (attrName === 'title') {
+            if (!this.#segmenter) {
+                this.#segmenter = new Intl.Segmenter();
+            }
+            if (!newVal) {
+                this.#segments = [];
+            } else {
+                Array.from(this.#segmenter.segment(newVal)).forEach((segData, idx) => {
+                    this.#segments[idx] = {
+                        ...segData,
+                        input: '', //the input is stored in this.title. No need to duplicate it in memory here
+                        length: this.#segments[idx]?.length ?? 0
+                    };
+                });
+            }
+        }
+        // 'truncated' is read-only and should always match the internal value
+        if (attrName === 'truncated') {
+            this.#setTruncated(this.#isTruncated);
+        }
         this.#render();
     }
 
@@ -50,14 +163,15 @@ class MiddleTruncate extends HTMLElement {
      * The percentage of text to show the truncation at.
      */
     get at(): number {
+        const fallback = 50;
         if (this.hasAttribute('at')) {
             try {
-                return parseInt(this.getAttribute('at') || '50');
+                return parseInt(String(this.getAttribute('at')));
             } catch (e) {
-                return 50;
+                return fallback;
             }
         }
-        return 50;
+        return fallback;
     }
 
     /**
@@ -74,41 +188,151 @@ class MiddleTruncate extends HTMLElement {
         }
     }
 
-    #render() {
-        const isLtr = this.dir === "ltr";
-        this.innerHTML = `<style>
-        .container,.start,.end{
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0;
-            padding: 0;
-        }
-        .container{
-            width: 100%;
-            max-width: ${this.title.length}ch;
-        }
-        .start{
-            text-overflow: ellipsis;
-            text-align: start;
-            max-width: calc(${this.at}% + 3em);
-        }
-        .end {
-            display: inline-block;
-            width: calc(${100 - this.at}% - 3em);
-            transform: scaleX(-1);
-            text-overflow: ellipsis;
-            padding: 0;
-            margin: 0;
+    /**
+ * The maximum number of milliseconds to wait before recalculating dimensions
+ */
+    get ms(): number {
+        const fallback = 16; //at 60fps 16ms is roughly 1 frame
+        if (this.hasAttribute('at')) {
+            try {
+                return parseInt(String(this.getAttribute('at')));
+            } catch (e) {
+                return fallback;
             }
-            .end-inner{
-                display: inline-block;
-                transform: scaleX(-1);
-                text-align: start;
-                text-overflow: ellipsis;
-                padding: 0;
-                margin: 0;
-        }</style><span class="container"><span class="start">${this.title}</span><span class="end" aria-hidden="true"}><span class="end-inner">${this.title}<span></span></span>`;
+        }
+        return fallback;
+    }
+
+    /**
+     * The maximum number of milliseconds to wait before recalculating dimensions
+     */
+    set ms(val: string | number | undefined | null) {
+        if (!val) {
+            this.removeAttribute('ms');
+        } else {
+            const asNum = Math.max(0, parseInt(String(val)));
+            if (asNum) {
+                this.setAttribute('ms', String(asNum));
+            }
+        }
+    }
+
+    get divider() {
+        return this.getAttribute('divider') ?? this.#defaultDivider;
+    }
+
+    set divider(val) {
+        if (!val?.length) {
+            this.removeAttribute('divider');
+        } else {
+            this.setAttribute('divider', val);
+        }
+    }
+
+    get truncated() {
+        return this.#isTruncated;
+    }
+
+    #setTruncated(isTruncated: boolean) {
+        if (isTruncated === this.#isTruncated) return;
+        this.#isTruncated = isTruncated;
+        if (isTruncated && !this.hasAttribute('truncated')) {
+            this.setAttribute('truncated', '');
+        } else if (this.hasAttribute('truncated')) {
+            this.removeAttribute('truncated');
+        }
+    }
+
+    #redraw() {
+        //this is the latest update, it's the only one that should be applied.
+        if (this.#redrawLock) {
+            cancelAnimationFrame(this.#redrawLock);
+            this.#redrawLock = undefined;
+        }
+        const updateInnerText = (newText: string) => {
+            if (this.innerText !== newText) {
+                if (newText.length > this.title.length) {
+                    this.innerText = this.title;
+                } else {
+                    this.innerText = newText ?? '';
+                }
+                this.#redrawLock = undefined;
+            };
+        };
+        const redraw = () => {
+            if (this && (!this.isConnected || this.hasAttribute('disabled'))) {
+                updateInnerText(this.title);
+            } else {
+                //there's no point rendering elements that aren't seen, so only continue while the element is in view
+                if (!this.#canUpdate) return;
+                const noTitle = !this.title || !this.#segments?.length;
+                this.#setTruncated(this.#dimensions.elLen < this.#dimensions.maxTextLen);
+                const useFullText = noTitle || !this.#dimensions.elLen || !this.truncated;
+                if (useFullText) {
+                    updateInnerText(this.title);
+                    return;
+                }
+                //if the text is too small to display  anything more than the divider
+                if (this.#dimensions.elLen <= this.#dimensions.dividerLen) {
+                    updateInnerText(this.divider);
+                    return;
+                }
+                const availableSpace = Math.floor(this.#dimensions.elLen - this.#dimensions.dividerLen);
+                const startMaxPx = Math.floor(availableSpace * (this.at / 100));
+                const endMaxPx = availableSpace - startMaxPx;
+                const startIdx = this.#segments.filter(({ length: segLen }, idx, arr) => {
+                    const sumLen = arr.slice(0, idx).reduce((prev, curr) => prev + curr.length, 0) + segLen;
+                    return sumLen < startMaxPx;
+                }).length;
+                const endIdx = this.#segments.filter(({ length: segLen }, idx, arr) => {
+                    const sumLen = arr.slice(-idx).reduce((prev, curr) => prev + curr.length, 0) + segLen;
+                    return sumLen > endMaxPx;
+                }).length;
+                const startStr = this.title.slice(0, startIdx);
+                const endStr = this.title.slice(endIdx);
+                updateInnerText(`${startStr}${this.divider}${endStr}`);
+            };
+        }
+        redraw();
+        this.#redrawLock = requestAnimationFrame(redraw);
+    }
+
+    #render() {
+        if (!this) return;
+        //there's an update pending, let it finish
+        if (this.#dimensionUpdateLockId) return;
+        const updateDimensions = () => {
+            const currentText = this.innerText;
+            const { writingMode } = getComputedStyle(this);
+            const isVertical = writingMode.startsWith('vertical');
+
+            this.#defaultDivider = isVertical ? '︙' : '…'; //unicode FE19 and 2026
+            this.innerText = this.divider;
+            const { width: dividerWidth, height: dividerHeight } = this.getBoundingClientRect();
+            this.#dimensions.dividerLen = Math.ceil(isVertical ? dividerHeight : dividerWidth);
+
+            //determine the dimensions of the text by summing the length and width of each rendered segment
+            let fullTextLen = 0;
+            this.#segments.forEach((segData, idx) => {
+                this.innerText = segData.segment;
+                const { width, height } = this.getBoundingClientRect();
+                const dim = isVertical ? height : width;
+                fullTextLen += dim;
+                this.#segments[idx].length = dim;
+            });
+            this.#dimensions.maxTextLen = Math.ceil(fullTextLen);
+
+            this.innerText = this.title;
+            //determine the correct element dimensions to use for the next render
+            const { width: elWidth, height: elHeight } = this.getBoundingClientRect();
+            this.#dimensions.elLen = Math.floor(isVertical ? elHeight : elWidth);
+
+            //then restore the correct text
+            this.innerText = currentText;
+            // and remove the lock on updating dimensions
+            this.#dimensionUpdateLockId = undefined;
+        };
+        this.#dimensionUpdateLockId = requestIdleCallback(updateDimensions, { timeout: this.ms });
     }
 }
 

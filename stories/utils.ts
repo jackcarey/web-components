@@ -8,17 +8,17 @@ export const CreateComponentDecorators = (component: string, styles?: string) =>
             return html`<style>
                     ${styles ?? ""}</style
                 >${story()}`;
-        },
+        }
     ];
 };
 
-export const CreateComponentStoryMeta = (component: string, overrides?: Meta): Meta => {
+export const CreateComponentStoryMeta = (component: string, styles?: string, overrides?: Meta): Meta => {
     return {
         component,
-        decorators: CreateComponentDecorators(component),
         parameters: {
             controls: { expanded: true },
         },
+        decorators: CreateComponentDecorators(component, styles),
         ...overrides,
     };
 };
