@@ -1,0 +1,19 @@
+{
+  "name": "signal",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackcarey/web-components.git"
+  },
+  "author": "jackcarey",
+  "license": "LGPL-3",
+  "bugs": {
+    "url": "https://github.com/jackcarey/web-components/issues"
+  },
+  "homepage": "https://github.com/jackcarey/web-components#readme"
+}

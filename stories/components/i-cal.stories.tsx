@@ -17,7 +17,7 @@ export const FixedEvents: Story = {
     args: {
         events: exampleICS,
     },
-    tags: ['a11y-serious'],
+    tags: ["a11y-serious"],
 };
 
 export const FetchEvents: Story = {

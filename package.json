@@ -42,7 +42,7 @@
     "storybook": "storybook dev -p 6006",
     "test": "test-storybook --ci --json --failOnConsole --includeTags=\"test,a11y-minor,a11y-major,a11y-serious,a11y-critical\" --excludeTags=\"skip\"",
     "test:coverage": "test --coverage",
-    "test:ci": "npm run storybook:build && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006\" \"wait-on tcp:6006 && npm run test\"",
+    "test:ci": "npm run storybook:build && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --silent --port 6006\" \"wait-on tcp:6006 && npm run test\"",
     "build:docs": "npm i && node scripts/install-deps-at-root.mjs && node scripts/generate-storybook-docs.mjs && node scripts/generate-pkg-readmes.mjs && node scripts/generate-root-readme.mjs && storybook build",
     "serve:ci": "npm run build:docs && npm run storybook"
   },

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj, Decorator } from "@storybook/web-components";
-import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
-import { html } from "lit";
+import { CreateComponentStoryMeta } from "../utils";
 
 // This default export determines where your story goes in the story list
 const meta: Meta = {

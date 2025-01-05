@@ -39,7 +39,7 @@ jobs:
                   node-version: "22"
 
             - name: Restore cached deps
-              id: cache-primes-restore
+              id: cache-deps-restore
               uses: actions/cache/restore@v4
               with:
                   path: |
@@ -69,8 +69,9 @@ jobs:
               run: npx playwright install --with-deps
 
             - name: Save deps to cache
-              id: cache-primes-save
+              id: cache-deps-save
               uses: actions/cache/save@v4
+              if: steps.cache-deps-restore.outcome == 'failure'
               with:
                   path: |
                       node_modules
@@ -111,7 +112,6 @@ jobs:
             # Publish
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
-              if: github.ref == 'refs/heads/main'
               run: node scripts/publish-jsr.mjs
 
             - name: Save file changes (on main)
