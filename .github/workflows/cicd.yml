@@ -90,12 +90,12 @@ jobs:
 
             # Build
 
-            - name: Build the autoloader package list
-              run: node scripts/generate-autoloader-list.mjs
-
             - name: Bump versions in package.json files
               if: github.ref == 'refs/heads/main'
               run: bash scripts/bump-versions.sh
+
+            - name: Build the autoloader package list
+              run: node scripts/generate-autoloader-list.mjs
 
             - name: Generate JSR files from package.json
               run: node scripts/generate-jsr.mjs
