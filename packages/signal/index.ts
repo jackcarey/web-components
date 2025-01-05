@@ -40,10 +40,12 @@ export default class Signal<T extends Object> extends EventTarget implements Pro
         const detail = { ...args, name, timestamp, data: this.data };
         const event = new CustomEvent(eventName, { bubbles, cancelable, detail });
         const tgt = this.options?.target;
-        if (tgt) {
-            return tgt.dispatchEvent(event);
+        const tgtCanContinue = tgt?.dispatchEvent(event) ?? true;
+        let superResult: boolean | undefined = undefined;
+        if (tgtCanContinue) {
+            superResult = super.dispatchEvent(event);
         }
-        return super.dispatchEvent(event);
+        return tgtCanContinue ? (superResult ?? true) : false;
     }
 
     get(_target: T, property: string | symbol, receiver: any) {
