@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^1.49.1
     version: 1.49.1
   '@storybook/addon-a11y':
-    specifier: ^8.3.1
-    version: 8.3.1(storybook@8.4.7)
+    specifier: ^8.4.7
+    version: 8.4.7(storybook@8.4.7)
   '@storybook/addon-coverage':
     specifier: ^1.0.4
     version: 1.0.4
@@ -1274,12 +1274,12 @@ packages:
       '@sinonjs/commons': 3.0.1
     dev: true
 
-  /@storybook/addon-a11y@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-/Xu0v6kk2xugXdB4EJCbrVZDEt/rtJwHDb+MHhxsxp2FYF/ZRDKHinJzyUMMM4BIoJVZQ8BgFjp7P1hprS7yug==}
+  /@storybook/addon-a11y@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-GpUvXp6n25U1ZSv+hmDC+05BEqxWdlWjQTb/GaboRXZQeMBlze6zckpVb66spjmmtQAIISo0eZxX1+mGcVR7lA==}
     peerDependencies:
-      storybook: ^8.3.1
+      storybook: ^8.4.7
     dependencies:
-      '@storybook/addon-highlight': 8.3.1(storybook@8.4.7)
+      '@storybook/addon-highlight': 8.4.7(storybook@8.4.7)
       axe-core: 4.10.0
       storybook: 8.4.7
     dev: true
@@ -1377,6 +1377,15 @@ packages:
     resolution: {integrity: sha512-hEB4O1a76SGEJypjPwjvBT8e9+pWptAD6VY995gtsOrMLaV0213DJV8aEGJRXhELEk2sr8WUaoYhzxxtgD97KA==}
     peerDependencies:
       storybook: ^8.3.1
+    dependencies:
+      '@storybook/global': 5.0.0
+      storybook: 8.4.7
+    dev: true
+
+  /@storybook/addon-highlight@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-whQIDBd3PfVwcUCrRXvCUHWClXe9mQ7XkTPCdPo4B/tZ6Z9c6zD8JUHT76ddyHivixFLowMnA8PxMU6kCMAiNw==}
+    peerDependencies:
+      storybook: ^8.4.7
     dependencies:
       '@storybook/global': 5.0.0
       storybook: 8.4.7
@@ -4853,10 +4862,6 @@ packages:
     engines: {node: '>= 14.16'}
     dev: true
 
-  /picocolors@1.0.1:
-    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
-    dev: true
-
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
     dev: true
@@ -5769,7 +5774,7 @@ packages:
     dependencies:
       '@istanbuljs/load-nyc-config': 1.1.0
       istanbul-lib-instrument: 5.2.1
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       test-exclude: 6.0.0
     transitivePeerDependencies:
       - supports-color
