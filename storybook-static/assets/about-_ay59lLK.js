@@ -1,4 +1,4 @@
-# web-components
+import{j as e}from"./index-CpnDKoW4.js";import{useMDXComponents as n}from"./index-Bo01w_M0.js";import{ae as c,al as a}from"./index-Cs268th3.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-BU4T6YJ9.js";import"../sb-preview/runtime.js";import"./index-D-8MO0q_.js";import"./index-DPS9-N-h.js";import"./index-DrFu-skq.js";const r=`# web-components
 
 [![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
@@ -27,10 +27,13 @@
 | [i-cal](https://jackcarey.co.uk/web-components/packages/i-cal) | Renders ics data in a web component. - **Component** | 1.1.8 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score) |
 | [middle-truncate](https://jackcarey.co.uk/web-components/packages/middle-truncate) | Truncate text in the middle - **Component** | 0.1.1 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![middle-truncate](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate) [![score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score) |
 | [mutative](https://jackcarey.co.uk/web-components/packages/mutative) | Persistent DOM mutation observations based on CSS query selectors - **Utility** | 0.0.3 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![mutative](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative) [![score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score) |
-| [signal](https://jackcarey.co.uk/web-components/packages/signal) | A reactive data object that emits events on itself and other EventTargets when its value changes. - **Utility** | 1.0.1 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![signal](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal) [![score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score) |
+| [signal](https://jackcarey.co.uk/web-components/packages/signal) | - **Utility** | 1.0.1 | [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3) | [![signal](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal) [![score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score) |
 
 
 
 ---
 
 Made by [jackcarey](https://jackcarey.co.uk/).
+`;function s(t){return e.jsxs(e.Fragment,{children:[e.jsx(c,{title:"About"}),`
+`,e.jsx(a,{children:r})]})}function g(t={}){const{wrapper:o}={...n(),...t.components};return o?e.jsx(o,{...t,children:e.jsx(s,{...t})}):s()}export{g as default};
+//# sourceMappingURL=about-_ay59lLK.js.map
