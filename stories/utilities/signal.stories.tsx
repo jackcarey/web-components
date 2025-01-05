@@ -26,7 +26,6 @@ export const Default: Story = {
             s.addEventListener("signal", (evt) => console.log("listener on signal", evt));
             s.fizz = "bang";
             s.bang = "fizz";
-            s.dispatchEvent(new Event("some random event"));
             return signalHtml(context, s);
         },
     ],
@@ -42,7 +41,6 @@ export const WithDocumentTarget: Story = {
             s.addEventListener("signal", (evt) => console.log("listener on signal", evt));
             s.fizz = "bang";
             s.bang = "fizz";
-            s.dispatchEvent(new Event("some random event"));
             return signalHtml(
                 context,
                 s,
