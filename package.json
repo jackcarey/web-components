@@ -1,7 +1,7 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
-    "@npmcli/package-json": "^5.2.0",
+    "@npmcli/package-json": "^6.1.0",
     "@types/ical": "^0.8.3",
     "ical.js": "^2.1.0"
   },
@@ -10,7 +10,7 @@
     "@chromatic-com/storybook": "^3.2.3",
     "@custom-elements-manifest/analyzer": "^0.10.4",
     "@jest/globals": "^29.7.0",
-    "@npmcli/package-json": "^5.2.0",
+    "@npmcli/package-json": "^6.1.0",
     "@playwright/test": "^1.49.1",
     "@storybook/addon-a11y": "^8.4.7",
     "@storybook/addon-coverage": "^1.0.4",
