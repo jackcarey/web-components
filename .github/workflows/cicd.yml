@@ -92,7 +92,7 @@ jobs:
 
             - name: Bump versions in package.json files
               if: github.ref == 'refs/heads/main'
-              run: bash scripts/bump-versions.sh
+              run: node scripts/bump-versions.mjs
 
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
