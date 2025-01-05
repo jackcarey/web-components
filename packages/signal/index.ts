@@ -21,14 +21,14 @@ type EmitArgs<T> = { action: "set", prop: string | symbol, oldValue: any, value:
     | { action: "setPrototypeOf", prototype: object | null }
     | { action: "data" };
 
-export default class Signal<T extends Object> extends EventTarget implements ProxyHandler<T> {
+export default class Signal<T extends Object = object> extends EventTarget implements ProxyHandler<T> {
     [x: string | number | symbol]: any; //allows for any key to be dynamically defined
     private data: T;
     private options: SignalOptions | undefined;
 
     constructor(data: T, options?: SignalOptions) {
         super();
-        this.data = data;
+        this.data = data ?? {};
         this.options = options;
         return new Proxy(this.data, this) as unknown as T & Signal<T>;
     }
