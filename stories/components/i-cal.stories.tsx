@@ -4,7 +4,7 @@ import exampleICS from "./example.ics";
 import { html } from "lit";
 
 // This default export determines where your story goes in the story list
-const meta: Meta = { ...CreateComponentStoryMeta("i-cal") };
+const meta: Meta = CreateComponentStoryMeta("i-cal");
 
 export default meta;
 type Story = StoryObj;
