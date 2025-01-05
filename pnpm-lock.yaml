@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^8.4.7
     version: 8.4.7(storybook@8.4.7)(vite@5.4.11)
   '@storybook/test':
-    specifier: ^8.3.1
-    version: 8.3.1(storybook@8.4.7)
+    specifier: ^8.4.7
+    version: 8.4.7(storybook@8.4.7)
   '@storybook/test-runner':
     specifier: ^0.19.1
     version: 0.19.1(storybook@8.4.7)
@@ -1629,17 +1629,6 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@storybook/instrumenter@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-TtECvALgEPLafdy+YHXz2+xBPobiSMHj532nS7tkqxD9aRD1+Ocy6pWWNaP9+iiWWnHIWlTQ0M/7UEoCxV+Ksg==}
-    peerDependencies:
-      storybook: ^8.3.1
-    dependencies:
-      '@storybook/global': 5.0.0
-      '@vitest/utils': 2.1.1
-      storybook: 8.4.7
-      util: 0.12.5
-    dev: true
-
   /@storybook/instrumenter@8.4.7(storybook@8.4.7):
     resolution: {integrity: sha512-k6NSD3jaRCCHAFtqXZ7tw8jAzD/yTEWXGya+REgZqq5RCkmJ+9S4Ytp/6OhQMPtPFX23gAuJJzTQVLcCr+gjRg==}
     peerDependencies:
@@ -1722,23 +1711,6 @@ packages:
       - storybook
       - supports-color
       - ts-node
-    dev: true
-
-  /@storybook/test@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-/ZZFZHr+jsO7oBrLFrrCkgkJrh1/AgHBqO8QR0zdTiR0NK0vo2l9v9FXat/VFhSaYTIpVU/NQdNKiPGTKIfAVw==}
-    peerDependencies:
-      storybook: ^8.3.1
-    dependencies:
-      '@storybook/csf': 0.1.11
-      '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.3.1(storybook@8.4.7)
-      '@testing-library/dom': 10.4.0
-      '@testing-library/jest-dom': 6.5.0
-      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/expect': 2.0.5
-      '@vitest/spy': 2.0.5
-      storybook: 8.4.7
-      util: 0.12.5
     dev: true
 
   /@storybook/test@8.4.7(storybook@8.4.7):
