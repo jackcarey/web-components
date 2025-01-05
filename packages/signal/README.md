@@ -4,7 +4,7 @@
 
 [![signal](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal) [![score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
 
-**version:** 0.0.1
+**version:** 1.0.1
 
 **license:** [LGPL-3](./LICENSE.md)
 
