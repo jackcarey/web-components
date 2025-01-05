@@ -40,7 +40,7 @@ export default class Signal<T extends Object = object> extends EventTarget imple
         const detail = { ...args, name, timestamp, data: this.data };
         const event = new CustomEvent(eventName, { bubbles, cancelable, detail });
         const tgt = this.options?.target;
-        const tgtCanContinue = ((tgt && tgt["dispatchEvent"]) ? tgt?.dispatchEvent(event) : false);
+        const tgtCanContinue = (tgt && tgt["dispatchEvent"]) ? tgt?.dispatchEvent(event) : false;
         let superResult: boolean | undefined = undefined;
         if (tgtCanContinue) {
             superResult = super.dispatchEvent(event);
