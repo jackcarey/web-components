@@ -70,11 +70,11 @@ class MiddleTruncate extends HTMLElement {
     #segments: SegmentDataWithLength[] = [];
     #dimensionUpdateLockId: ReturnType<typeof requestIdleCallback> | undefined;
     #redrawLock: ReturnType<typeof requestAnimationFrame> | undefined;
-    #isTruncated = false;
     #defaultDivider: string = '…';
     #windowFocused = true;
     #resizeObserver: ResizeObserver | undefined;
     #dimensions: DimensionProxy;
+    #internals: ElementInternals;
 
     static get observedAttributes() {
         return ['title', 'at', 'divider', 'disabled', 'ms', 'truncated'];
@@ -103,6 +103,9 @@ class MiddleTruncate extends HTMLElement {
         this.#dimensions = new DimensionProxy((_dimProxy) => {
             this.#redraw();
         });
+
+        // Attach an ElementInternals to get states property
+        this.#internals = this.attachInternals();
     }
 
     get #canUpdate() {
@@ -166,7 +169,7 @@ class MiddleTruncate extends HTMLElement {
         }
         // 'truncated' is read-only and should always match the internal value
         if (attrName === 'truncated') {
-            this.#setTruncated(this.#isTruncated);
+            this.#setTruncated(this.truncated);
         }
         this.#render();
     }
@@ -242,13 +245,18 @@ class MiddleTruncate extends HTMLElement {
     }
 
     get truncated() {
-        return this.#isTruncated;
+        return this.#internals.states.has('truncated');
     }
 
     #setTruncated(isTruncated: boolean) {
-        if (isTruncated === this.#isTruncated) return;
-        this.#isTruncated = isTruncated;
-        if (isTruncated && !this.hasAttribute('truncated')) {
+        const hasInternal = this.#internals.states.has('truncated');
+        const hasAttr = this.hasAttribute('truncated');
+        if (isTruncated && !hasInternal) {
+            this.#internals.states.add('truncated');
+        } else {
+            this.#internals.states.delete('truncated');
+        }
+        if (isTruncated && !hasAttr) {
             this.setAttribute('truncated', '');
         } else if (this.hasAttribute('truncated')) {
             this.removeAttribute('truncated');
