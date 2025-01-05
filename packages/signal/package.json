@@ -1,7 +1,7 @@
 {
   "name": "signal",
   "version": "1.0.1",
-  "description": "",
+  "description": "A reactive data object that emits events on itself and other EventTargets when its value changes.",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
