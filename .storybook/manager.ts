@@ -1,11 +1,12 @@
 import { addons } from "@storybook/manager-api";
-import { create } from "@storybook/theming";
+import { create } from "@storybook/theming/create";
+import renderLabel from "./renderLabel";
 
 const theme = create({
     base: "light",
     brandTitle: "Web Components",
-    brandUrl: "https://jackcarey.co.uk",
-    brandImage: "./images/open-graph.png",
+    brandUrl: "https://jackcarey.co.uk/web-components",
+    brandImage: "../images/open-graph.png",
     brandTarget: "_self",
 
     // Typography
@@ -17,5 +18,6 @@ addons.setConfig({
     theme,
     sidebar: {
         showRoots: true,
+        renderLabel,
     },
 });

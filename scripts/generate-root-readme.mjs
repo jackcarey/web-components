@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count } from "./util-packages.mjs";
+import { repoRootDir, pkgDetails, count, getJSRMarkdown } from "./util-packages.mjs";
 
 console.log("compiling packages for root readme from:", repoRootDir);
 
@@ -21,18 +21,11 @@ const pkgToMdRow = ([dir, pkgJson]) => {
   const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
     licenseName
   )})`;
-  const jsrScope = "web-components";
-  const jsrBadgeUrl = `https://jsr.io/badges/@${jsrScope}/${name}`;
-  const jsrVersionBadgeMd = `![${name}](${jsrBadgeUrl})`;
-  const jsrLinkUrl = `https://jsr.io/@${jsrScope}/${name}`;
-  const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
-  const jsrScoreUrl = `${jsrBadgeUrl}/score`;
-  const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
-  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${jsrVersionMd} ${jsrScoreMd} |`;
+  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getJSRMarkdown(name)} |`;
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
-)
+).filter(([dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)
   .join("\n")}\n\n`;
 
@@ -58,12 +51,11 @@ const readmeContent = Object.entries(replacements).reduce(
   template
 );
 const readmePath = path.join(repoRootDir, "README.md");
-if (
-  !fs.existsSync(readmePath) ||
-  fs.readFileSync(readmePath, "utf8") !== readmeContent
-) {
+const exists = fs.existsSync(readmePath);
+const contentChanged = !exists || fs.readFileSync(readmePath, "utf8") !== readmeContent;
+if (contentChanged) {
   fs.writeFileSync(readmePath, readmeContent);
-  console.log(`README.md created at ${repoRootDir}`);
+  console.log(`README.md ${exists ? 'updated' : 'created'} at ${repoRootDir}`);
 } else {
   console.log(`No changes to README.md at ${repoRootDir}`);
 }

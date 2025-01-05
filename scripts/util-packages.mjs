@@ -41,5 +41,29 @@ const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
     console.log(stdBuffer.toString());
 });
 
-export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot };
+const getJSRMarkdown = (name, scope = 'web-components') => {
+    const jsrBadgeUrl = `https://jsr.io/badges/@${scope}/${name}`;
+    const jsrVersionBadgeMd = `![${name}](${jsrBadgeUrl})`;
+    const jsrLinkUrl = `https://jsr.io/@${scope}/${name}`;
+    const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
+    const jsrScoreUrl = `${jsrBadgeUrl}/score`;
+    const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
+    return `${jsrVersionMd} ${jsrScoreMd}`;
+};
+
+const logExecSync = (command) => {
+    try {
+        const buffer = execSync(command);
+        if (buffer.length > 0) {
+            console.log(buffer.toString());
+        }
+        return buffer;
+    } catch (e) {
+        const msg = e?.stdout ?? e?.stderr ?? e.message;
+        console.error(msg, e);
+        throw e;
+    }
+};
+
+export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot, getJSRMarkdown, logExecSync };
 export default unsortedPkgDetails;

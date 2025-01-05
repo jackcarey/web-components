@@ -15,7 +15,7 @@ const autoLoaderContent = `const components = ${JSON.stringify(componentVersions
 
 if (!fs.existsSync(autoloaderPath) || fs.readFileSync(autoloaderPath, 'utf8') !== autoLoaderContent) {
     fs.writeFileSync(autoloaderPath, autoLoaderContent);
-    console.log('Autoloader list updated');
+    console.log('Autoloader list updated', autoLoaderContent);
 } else {
     console.log('No changes to autoloader list');
 }

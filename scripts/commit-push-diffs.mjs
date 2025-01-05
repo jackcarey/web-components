@@ -1,36 +1,30 @@
-import { execSync } from 'child_process';
-
-const logExecSync = (command) => {
-    const buffer = execSync(command);
-    if (buffer.length > 0) {
-        console.log(buffer.toString());
-    }
-}
+import { logExecSync } from './util-packages.mjs';
 
 try {
-    const excludedPaths = ['storybook-static/project.json'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json', '.storybook/last-commit-hash.txt'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
-    const allChanges = execSync('git diff --name-only').toString().split('\n');
+    const allChanges = logExecSync('git diff --name-only').toString().split('\n');
 
     console.log(`All changes:\n${allChanges.join('\n')}`);
 
+    //keep only the files that we want to watch
     const changedFiles = allChanges.filter(file => {
         file = file.toLowerCase();
-        if(file.length === 0) {
+        if (file.length === 0) {
             return false;
         }
-        if(excludedPaths.includes(file)) {
+        if (excludedPaths.includes(file)) {
             return false;
         }
-        if(excludedPaths.some(path => path.endsWith(file))) {
+        if (excludedPaths.some(path => path.endsWith(file))) {
             return false;
         }
         return true;
     });
 
     if (changedFiles.length > 0) {
-        console.log('Changes detected.');
+        console.log('Relevant changes detected.');
         try {
             logExecSync(`git config --global user.email "action@github.com"`);
             logExecSync(`git config --global user.name "[GitHub Action]"`);
@@ -43,8 +37,9 @@ try {
             throw e;
         }
     } else {
-        console.log('No changes to be saved.');
+        console.log('No relevant changes to be saved.');
     }
 } catch (error) {
     console.error('An error occurred:', error);
+    throw error;
 }
