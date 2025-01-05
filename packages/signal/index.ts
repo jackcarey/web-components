@@ -12,6 +12,7 @@ export type SignalOptions = {
     useSuffix?: boolean;
     bubbles?: boolean;
     cancelable?: boolean;
+    target?: EventTarget;
 };
 type ProxyValue<T> = (string extends keyof T ? T[keyof T & string] : any) | (symbol extends keyof T ? T[keyof T & symbol] : any);
 type EmitArgs<T> = { action: "set", prop: string | symbol, oldValue: any, value: any }
@@ -38,6 +39,10 @@ export default class Signal<T extends Object> extends EventTarget implements Pro
         const eventName = `signal${(useSuffix && name?.length) ? `-${name}` : ''}`;
         const detail = { ...args, name, timestamp, data: this.data };
         const event = new CustomEvent(eventName, { bubbles, cancelable, detail });
+        const tgt = this.options?.target;
+        if (tgt) {
+            return tgt.dispatchEvent(event);
+        }
         return super.dispatchEvent(event);
     }
 
