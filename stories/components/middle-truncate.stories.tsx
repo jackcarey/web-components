@@ -1,10 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
-import { CreateComponentStoryMeta } from "../utils";
-import exampleICS from "./example.ics";
+import type { Meta, StoryObj, Decorator } from "@storybook/web-components";
+import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
 import { html } from "lit";
 
 // This default export determines where your story goes in the story list
-const meta: Meta = { ...CreateComponentStoryMeta("middle-truncate") };
+const meta: Meta = {
+    ...CreateComponentStoryMeta(
+        "middle-truncate",
+        "middle-truncate{width:fit-content;height:fit-content;}"
+    ),
+};
 
 export default meta;
 type Story = StoryObj;
@@ -13,23 +17,64 @@ export const Default: Story = {
     args: {},
 };
 
-export const WithValue: Story = {
+const textStrings = {
+    en: "The quick brown fox jumps over the lazy dog.",
+    fa: "روباه قهوه ای سریع از روی سگ تنبل می پرد.", //persian
+    jp: "素早い茶色のキツネが怠け者の犬を飛び越えます。",
+};
+
+export const WithTitle: Story = {
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
+        title: textStrings.en,
     },
 };
 
-export const WithLimit: Story = {
+export const At0Percent: Story = {
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
-        limit: 5,
+        title: textStrings.en,
+        at: 0,
+    },
+};
+
+export const At10Percent: Story = {
+    args: {
+        title: textStrings.en,
+        at: 10,
+    },
+};
+
+export const At30Percent: Story = {
+    args: {
+        title: textStrings.en,
+        at: 30,
+    },
+};
+
+export const At80Percent: Story = {
+    args: {
+        title: textStrings.en,
+        at: 80,
+    },
+};
+
+export const LongText: Story = {
+    args: {
+        title: textStrings.en.repeat(10),
     },
 };
 
 export const RTLDir: Story = {
+    name: "RTL Text (Persian)",
     args: {
-        value: "The quick brown fox jumps over the lazy dog.",
-        limit: 5,
+        title: textStrings.fa,
         dir: "rtl",
     },
+};
+
+export const VerticalWritingMode: Story = CreateComponentStoryMeta(
+    "middle-truncate",
+    "middle-truncate{writing-mode:sideways-rl}"
+);
+VerticalWritingMode.args = {
+    title: textStrings.en,
 };
