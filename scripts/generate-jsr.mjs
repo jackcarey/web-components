@@ -12,9 +12,14 @@ const jsrScope = 'web-components';
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     const jsrPath = path.join(dir, 'jsr.json');
     const isPrivate = pkgJson?.private;
+    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
     if (isPrivate) {
-        fs.unlinkSync(jsrPath);
-        console.log('JSR file deleted:', jsrPath);
+        if (existingContent) {
+            fs.rmSync(jsrPath, { force: true });
+            console.log('JSR file deleted for private package:', jsrPath);
+        } else {
+            console.log('Skipping JSR creation for private package:', jsrPath);
+        }
         return;
     }
     const name = pkgJson?.name;
@@ -27,7 +32,8 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
         "version": version,
         "exports": entry,
     };
-    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
+    if (pkgJson?.license) jsrJson.license = pkgJson.license;
+
     const newContent = JSON.stringify(jsrJson, null, 2);
     if (existingContent !== newContent) {
         fs.writeFileSync(jsrPath, newContent);

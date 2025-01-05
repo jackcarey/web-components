@@ -1,12 +1,16 @@
 # i-cal
 
-**version:** 1.1.8
-
-**license:** [LGPL-3](https://www.tldrlegal.com/search?query=LGPL-3)
-
 > Renders ics data in a web component.
 
-## Browser Use
+[![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score)
+
+**version:** 1.1.8
+
+**license:** [LGPL-3](./LICENSE.md)
+
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal)
 
@@ -14,17 +18,23 @@ ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
-## NPM
+### Deno
+
+```
+deno add jsr:@web-components/i-cal
+```
+
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-npx jsr add i-cal
+npx jsr add @web-components/i-cal
 ```
 
 ## Documentation
 
-Find this package on storybook: [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
 
 The `i-cal` component renders ics formatted text as an ordered list. It has the following attributes:
 

@@ -1,12 +1,16 @@
 # $name
 
-**version:** $version
-
-**license:** [$license](https://www.tldrlegal.com/search?query=$encodedLicense)
-
 $description
 
-## Browser Use
+$jsrBadges
+
+**version:** $version
+
+**license:** [$license](./LICENSE.md)
+
+## Using this package
+
+### Browser
 
 ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
@@ -14,17 +18,23 @@ ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-comp
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
 ```
 
-## NPM
+### Deno
+
+```
+deno add jsr:@web-components/$name
+```
+
+### NPM
 
 JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
-npx jsr add $name
+npx jsr add @web-components/$name
 ```
 
 ## Documentation
 
-Find this package on storybook: [$name on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [$name on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
 
 $docs
 

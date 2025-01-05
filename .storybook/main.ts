@@ -1,4 +1,5 @@
-/** @type { import('@storybook/web-components-vite').StorybookConfig } */
+import { type StorybookConfig } from "@storybook/web-components-vite";
+import { type InlineConfig } from "vite";
 
 const storyLocations = [
     "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
@@ -15,7 +16,7 @@ const coverageConfig = {
     },
 };
 
-const config = {
+const config: StorybookConfig = {
     stories: storyLocations,
     addons: [
         "@storybook/addon-links",
@@ -27,10 +28,13 @@ const config = {
             name: "@storybook/addon-coverage",
             options: coverageConfig,
         },
+        './addons/commitLabel.ts',
     ],
     framework: {
         name: "@storybook/web-components-vite",
-        options: {},
+        options: {
+
+        },
     },
     core: {
         disableTelemetry: true,
@@ -39,24 +43,26 @@ const config = {
     docs: {
         defaultName: "All Stories",
     },
-    async viteFinal(config, { configType }) {
+    async viteFinal(config: InlineConfig, { configType }) {
+        console.debug("configType", configType);
+
         // Merge custom configuration into the default config
         const { mergeConfig } = await import("vite");
 
-        console.debug("configType", configType);
-
-        return mergeConfig(config, {
+        const configExtras: InlineConfig = {
             // Add dependencies to pre-optimization
             optimizeDeps: {
                 include: ["storybook-dark-mode", "ical.js"],
             },
-            base: "./",
+            base: "",
             server: {
                 fs: {
                     strict: false,
                 },
             },
-        });
+        };
+
+        return mergeConfig(config, configExtras);
     },
 };
 export default config;
