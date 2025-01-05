@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^1.49.1
     version: 1.49.1
   '@storybook/addon-a11y':
-    specifier: ^8.3.1
-    version: 8.3.1(storybook@8.4.7)
+    specifier: ^8.4.7
+    version: 8.4.7(storybook@8.4.7)
   '@storybook/addon-coverage':
     specifier: ^1.0.4
     version: 1.0.4
@@ -53,8 +53,8 @@ devDependencies:
     specifier: ^8.4.7
     version: 8.4.7(storybook@8.4.7)(vite@5.4.11)
   '@storybook/test':
-    specifier: ^8.3.1
-    version: 8.3.1(storybook@8.4.7)
+    specifier: ^8.4.7
+    version: 8.4.7(storybook@8.4.7)
   '@storybook/test-runner':
     specifier: ^0.19.1
     version: 0.19.1(storybook@8.4.7)
@@ -1273,12 +1273,12 @@ packages:
       '@sinonjs/commons': 3.0.1
     dev: true
 
-  /@storybook/addon-a11y@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-/Xu0v6kk2xugXdB4EJCbrVZDEt/rtJwHDb+MHhxsxp2FYF/ZRDKHinJzyUMMM4BIoJVZQ8BgFjp7P1hprS7yug==}
+  /@storybook/addon-a11y@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-GpUvXp6n25U1ZSv+hmDC+05BEqxWdlWjQTb/GaboRXZQeMBlze6zckpVb66spjmmtQAIISo0eZxX1+mGcVR7lA==}
     peerDependencies:
-      storybook: ^8.3.1
+      storybook: ^8.4.7
     dependencies:
-      '@storybook/addon-highlight': 8.3.1(storybook@8.4.7)
+      '@storybook/addon-highlight': 8.4.7(storybook@8.4.7)
       axe-core: 4.10.0
       storybook: 8.4.7
     dev: true
@@ -1376,6 +1376,15 @@ packages:
     resolution: {integrity: sha512-hEB4O1a76SGEJypjPwjvBT8e9+pWptAD6VY995gtsOrMLaV0213DJV8aEGJRXhELEk2sr8WUaoYhzxxtgD97KA==}
     peerDependencies:
       storybook: ^8.3.1
+    dependencies:
+      '@storybook/global': 5.0.0
+      storybook: 8.4.7
+    dev: true
+
+  /@storybook/addon-highlight@8.4.7(storybook@8.4.7):
+    resolution: {integrity: sha512-whQIDBd3PfVwcUCrRXvCUHWClXe9mQ7XkTPCdPo4B/tZ6Z9c6zD8JUHT76ddyHivixFLowMnA8PxMU6kCMAiNw==}
+    peerDependencies:
+      storybook: ^8.4.7
     dependencies:
       '@storybook/global': 5.0.0
       storybook: 8.4.7
@@ -1619,17 +1628,6 @@ packages:
       react-dom: 18.3.1(react@18.3.1)
     dev: true
 
-  /@storybook/instrumenter@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-TtECvALgEPLafdy+YHXz2+xBPobiSMHj532nS7tkqxD9aRD1+Ocy6pWWNaP9+iiWWnHIWlTQ0M/7UEoCxV+Ksg==}
-    peerDependencies:
-      storybook: ^8.3.1
-    dependencies:
-      '@storybook/global': 5.0.0
-      '@vitest/utils': 2.1.1
-      storybook: 8.4.7
-      util: 0.12.5
-    dev: true
-
   /@storybook/instrumenter@8.4.7(storybook@8.4.7):
     resolution: {integrity: sha512-k6NSD3jaRCCHAFtqXZ7tw8jAzD/yTEWXGya+REgZqq5RCkmJ+9S4Ytp/6OhQMPtPFX23gAuJJzTQVLcCr+gjRg==}
     peerDependencies:
@@ -1712,23 +1710,6 @@ packages:
       - storybook
       - supports-color
       - ts-node
-    dev: true
-
-  /@storybook/test@8.3.1(storybook@8.4.7):
-    resolution: {integrity: sha512-/ZZFZHr+jsO7oBrLFrrCkgkJrh1/AgHBqO8QR0zdTiR0NK0vo2l9v9FXat/VFhSaYTIpVU/NQdNKiPGTKIfAVw==}
-    peerDependencies:
-      storybook: ^8.3.1
-    dependencies:
-      '@storybook/csf': 0.1.11
-      '@storybook/global': 5.0.0
-      '@storybook/instrumenter': 8.3.1(storybook@8.4.7)
-      '@testing-library/dom': 10.4.0
-      '@testing-library/jest-dom': 6.5.0
-      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/expect': 2.0.5
-      '@vitest/spy': 2.0.5
-      storybook: 8.4.7
-      util: 0.12.5
     dev: true
 
   /@storybook/test@8.4.7(storybook@8.4.7):
@@ -4880,10 +4861,6 @@ packages:
     engines: {node: '>= 14.16'}
     dev: true
 
-  /picocolors@1.0.1:
-    resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
-    dev: true
-
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
     dev: true
@@ -5796,7 +5773,7 @@ packages:
     dependencies:
       '@istanbuljs/load-nyc-config': 1.1.0
       istanbul-lib-instrument: 5.2.1
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       test-exclude: 6.0.0
     transitivePeerDependencies:
       - supports-color
