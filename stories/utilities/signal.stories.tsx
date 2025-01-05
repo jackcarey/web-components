@@ -8,13 +8,14 @@ const meta: Meta = {};
 export default meta;
 type Story = StoryObj;
 
-const signalHtml = (context: StoryContext, s?: object) => {
+const signalHtml = (context: StoryContext, s?: object, storySpecificText?: string) => {
     const id = `signal-${Math.floor(Math.random() * 1000)}`;
     const cssId = `#${id}`;
     return html`<div id="${cssId}"><p>
             Story '<code>${context.name}</code>' | If the DOM does not update below, check the
             browser console.
         </p>
+        ${storySpecificText ? html`<p>${storySpecificText}</p>` : ""}
         <pre><output>${s ? JSON.stringify(s, null, 2) : ""}<output></pre></div>`;
 };
 
@@ -42,7 +43,11 @@ export const WithDocumentTarget: Story = {
             s.fizz = "bang";
             s.bang = "fizz";
             s.dispatchEvent(new Event("some random event"));
-            return signalHtml(context, s);
+            return signalHtml(
+                context,
+                s,
+                "This story adds the 'document' as the EventTarget for the Signal"
+            );
         },
     ],
 };
@@ -68,15 +73,43 @@ export const Interval: Story = {
             s.addEventListener("signal", (evt) => console.log("listener on signal", evt));
             let i = 0;
             const intervalId = setInterval(() => {
-                const rnd = Math.floor(Math.random() * 10000);
-                const key = `prop${rnd}`;
                 s[i] = performance.now();
                 i += 1;
             }, 500);
             setTimeout(() => {
                 clearInterval(intervalId);
             }, 10000);
-            return signalHtml(context, s);
+            return signalHtml(
+                context,
+                s,
+                "New events are triggered every 500ms for 10 seconds. The DOM will not change."
+            );
+        },
+    ],
+};
+
+export const UseSuffix = {
+    decorators: [
+        (_story, context) => {
+            const signalName = "customName";
+            const s = new Signal({}, { name: signalName, useSuffix: true });
+            s.addEventListener("signal", (evt) => console.error(`This should never trigger!`, evt));
+            s.addEventListener(`signal-${signalName}`, (evt) =>
+                console.log(`listener for signal-${signalName}`, evt)
+            );
+            let i = 0;
+            const intervalId = setInterval(() => {
+                s[i] = performance.now();
+                i += 1;
+            }, 500);
+            setTimeout(() => {
+                clearInterval(intervalId);
+            }, 3000);
+            return signalHtml(
+                context,
+                s,
+                "The 'useSuffix' option appends the signal name to the end of the emitted event type, should you wish to change it."
+            );
         },
     ],
 };
