@@ -15,7 +15,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
   const name = pkgJson?.name ?? "-";
   const srcLink = `[${name}](${pagesLink(dir)})`;
   const type = name.includes("-") ? "Component" : "Utility";
-  const description = `${pkgJson?.description ?? ""} - **${type}**`.trim();
+  const description = `${pkgJson?.description ?? ""} - **${type}**`.trim() ?? name;
   const version = pkgJson?.version ?? "-";
   const licenseName = pkgJson?.license ?? "unlicensed";
   const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
@@ -25,7 +25,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
 };
 const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
-).filter(([dir, pkgJson]) => !pkgJson.private)
+).filter(([_dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)
   .join("\n")}\n\n`;
 
