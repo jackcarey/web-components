@@ -48,13 +48,10 @@ export default class Signal<T extends Object = object> extends EventTarget imple
         return tgtCanContinue ? (superResult ?? true) : false;
     }
 
-    get(_target: T, property: string | symbol, receiver: any) {
+    get(_target: T, property: string | symbol, receiver: any): ProxyValue<T> {
         if (property === "addEventListener" || property === "removeEventListener") {
             return Reflect.get(EventTarget.prototype, property, this).bind(this);
-        } else if (property === "dispatchEvent") {
-            // event from signals are controlled, so trying to emit something here just sends out the data without affecting the passed event
-            return (_evt: Event) => this.emit({ action: "data" });
-        }
+        } else { }
         return Reflect.get(this.data, property, receiver);
     }
 
