@@ -2,10 +2,12 @@ import type { Meta, StoryObj, Decorator } from "@storybook/web-components";
 import { CreateComponentStoryMeta } from "../utils";
 
 // This default export determines where your story goes in the story list
-const meta: Meta = CreateComponentStoryMeta(
-    "middle-truncate",
-    "middle-truncate{width:fit-content;height:fit-content;}"
-);
+const meta: Meta = {
+    ...CreateComponentStoryMeta(
+        "middle-truncate",
+        "middle-truncate{width:fit-content;height:fit-content;}"
+    ),
+};
 
 export default meta;
 type Story = StoryObj;

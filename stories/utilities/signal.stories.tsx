@@ -18,15 +18,27 @@ const signalHtml = (context: StoryContext, s: object) => {
 export const Default: Story = {
     decorators: [
         (_story, context) => {
-            document.body.addEventListener("signal", (evt) =>
-                console.log(`document story signal`, context.name, evt)
-            );
             const s = new Signal({ foo: "bar" });
             s.addEventListener("signal", (evt) => console.log("listener on signal", evt));
             s.fizz = "bang";
             s.bang = "fizz";
             s.dispatchEvent(new Event("some random event"));
-            console.log("story finished", s);
+            return signalHtml(context, s);
+        },
+    ],
+};
+
+export const WithDocumentTarget: Story = {
+    decorators: [
+        (_story, context) => {
+            document.addEventListener("signal", (evt) =>
+                console.log(`document story signal`, context.name, evt)
+            );
+            const s = new Signal({ foo: "bar" }, { target: document });
+            s.addEventListener("signal", (evt) => console.log("listener on signal", evt));
+            s.fizz = "bang";
+            s.bang = "fizz";
+            s.dispatchEvent(new Event("some random event"));
             return signalHtml(context, s);
         },
     ],
