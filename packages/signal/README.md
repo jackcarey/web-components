@@ -1,6 +1,6 @@
 # signal
 
-> 
+> A reactive data object that emits events on itself and other EventTargets when its value changes.
 
 [![signal](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal) [![score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
 
