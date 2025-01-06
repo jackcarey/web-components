@@ -16,7 +16,7 @@
     "@storybook/addon-coverage": "^1.0.4",
     "@storybook/addon-essentials": "^8.4.7",
     "@storybook/addon-interactions": "^8.4.7",
-    "@storybook/addon-links": "^8.2.9",
+    "@storybook/addon-links": "^8.4.7",
     "@storybook/addon-themes": "^8.4.7",
     "@storybook/blocks": "^8.2.9",
     "@storybook/builder-vite": "^8.4.7",
