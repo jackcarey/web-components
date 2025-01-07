@@ -5,7 +5,7 @@ import { CreateComponentStoryMeta } from "../utils";
 const meta: Meta = {
     ...CreateComponentStoryMeta(
         "middle-truncate",
-        "middle-truncate{width:fit-content;height:fit-content;}"
+        "middle-truncate{border:1px solid red;}"
     ),
 };
 
@@ -31,7 +31,7 @@ export const WithTitle: Story = {
 export const At0Percent: Story = {
     args: {
         title: textStrings.en,
-        at: 0,
+        at: '0',
     },
 };
 
@@ -70,10 +70,17 @@ export const RTLDir: Story = {
     },
 };
 
+export const JPText: Story = {
+    name: "Japanese Text",
+    args: {
+        title: textStrings.jp,
+    },
+};
+
 export const VerticalWritingMode: Story = CreateComponentStoryMeta(
     "middle-truncate",
-    "middle-truncate{writing-mode:sideways-rl}"
+    "middle-truncate{writing-mode:vertical-rl}"
 );
 VerticalWritingMode.args = {
-    title: textStrings.en,
+    title: textStrings.jp,
 };
