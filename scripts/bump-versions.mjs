@@ -3,7 +3,7 @@ import { pkgDetails } from './util-packages.mjs';
 import path from 'path';
 
 Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
-    const result = execSync(`git diff --name-only HEAD~1 HEAD -- ${pkgPath}`).toString().split('\n');
+    const result = execSync(`git diff --name-only HEAD^ HEAD -- ${pkgPath}`).toString().split('\n');
 
     console.log(`All changed for ${pkg.name}:`, result);
 
