@@ -1,15 +1,14 @@
 import { execSync } from 'child_process';
 import { pkgDetails } from './util-packages.mjs';
-import path from 'path';
+
 
 Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
-    const result = execSync(`git diff --name-only HEAD HEAD~1 ${pkgPath}`).toString().split('\n');
-
-    console.log(`All changed for ${pkg.name}:`, result);
+    const allChangedInPkg = execSync(`git diff --name-only HEAD~1 ${pkgPath}`).toString().split('\n');
+    console.log(`All changed for ${pkg.name}:`, allChangedInPkg);
 
     const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
     //keep only the files that we want to watch
-    const changedFiles = result.filter(filePath => {
+    const changedFiles = allChangedInPkg.filter(filePath => {
         filePath = filePath.toLowerCase();
         if (filePath.length === 0) {
             return false;
@@ -23,12 +22,12 @@ Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
         return true;
     });
     if (changedFiles.length > 0) {
-        console.log(`Package ${pkg.name} has changed files:`);
+        console.log(`Package '${pkg.name}' has changed files:`);
         console.log(changedFiles);
         execSync(`cd ${pkgPath}`);
         const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
         console.log(bumpResult);
     } else {
-        console.log(`Package ${pkg.name} has no changes since the last commit.`);
+        console.log(`Package '${pkg.name}' has no changes since the last commit.`);
     }
 });
