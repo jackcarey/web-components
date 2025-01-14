@@ -3,7 +3,7 @@ import { pkgDetails } from './util-packages.mjs';
 
 
 Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
-    const allChangedInPkg = execSync(`git diff --name-only HEAD~1 ${pkgPath}`).toString().split('\n');
+    const allChangedInPkg = execSync(`git diff --name-only HEAD~1 -- ${pkgPath}`).toString().split('\n');
     console.log(`All changed for ${pkg.name}:`, allChangedInPkg);
 
     const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
