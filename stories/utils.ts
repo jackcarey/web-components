@@ -5,9 +5,8 @@ export const CreateComponentDecorators = (component: string, styles?: string) =>
     return [
         (story) => {
             import(`../packages/${component}/index.ts`);
-            return html`<style>
-                    ${styles ?? ""}</style
-                >${story()}`;
+            const styleHtml = html`<style>${styles ?? ""}</style>`;
+            return html`${styleHtml}${story()}`;
         }
     ];
 };
@@ -17,6 +16,7 @@ export const CreateComponentStoryMeta = (component: string, styles?: string, ove
         component,
         parameters: {
             controls: { expanded: true },
+            layout: 'fullscreen',
         },
         decorators: CreateComponentDecorators(component, styles),
         ...overrides,
@@ -42,7 +42,8 @@ export const CreateUtilityStoryMeta = (utility: string, overrides?: Meta): Meta 
     return {
         component: utility,
         parameters: {
-            controls: { expanded: true }
+            controls: { expanded: true },
+            layout: 'fullscreen',
         },
         decorators: CreateUtilityStoryDecorators(utility),
         ...overrides

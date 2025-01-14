@@ -5,6 +5,7 @@
 [![CodeQL](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql)
 [![pages-build-deployment](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment)
 
+-   **This repository is in the beta stage, there are problems with the Storybook docuemntation.**
 -   **Documentation**
     -   [Storybook examples](https://jackcarey.co.uk/web-components/storybook-static/)
     -   [Github source](https://github.com/jackcarey/web-components)
