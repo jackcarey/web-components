@@ -2,6 +2,10 @@ import { execSync } from 'child_process';
 import { pkgDetails, repoRootDir } from './util-packages.mjs';
 import path from "path";
 
+//this script could do with checking against the commit of the last version bump for each package
+// but for now it will do a simple check against the last commit
+// thi should be changed in the future
+
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
 const allChanges = execSync(`git diff --name-only HEAD~1`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
     const pathLower = filePath.toLowerCase();
