@@ -1,4 +1,4 @@
-This package is still being developed.
+This package is a work-in-progress. It has issues with vertical text.
 
 **Attributes:**
 
