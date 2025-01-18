@@ -1,7 +1,7 @@
 import { logExecSync } from './util-packages.mjs';
 
 try {
-    const excludedPaths = ['storybook-static/project.json', '.storybook/last-commit-hash.txt'].map(path => path.toLowerCase());
+    const excludedPaths = ['storybook-static/project.json', '.storybook/last-commit-hash.txt', 'last-commit-hash.txt'].map(path => path.toLowerCase());
 
     // Get the list of changed files in the latest commit that we want to watch
     const allChanges = logExecSync('git diff --name-only').toString().split('\n');
