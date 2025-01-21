@@ -51,7 +51,7 @@ devDependencies:
     version: 8.4.7(react-dom@19.0.0)(react@18.3.1)(storybook@8.4.7)
   '@storybook/builder-vite':
     specifier: ^8.4.7
-    version: 8.4.7(storybook@8.4.7)(vite@6.0.7)
+    version: 8.4.7(storybook@8.4.7)(vite@6.0.11)
   '@storybook/test':
     specifier: ^8.4.7
     version: 8.4.7(storybook@8.4.7)
@@ -63,7 +63,7 @@ devDependencies:
     version: 8.4.7(lit@3.2.0)(storybook@8.4.7)
   '@storybook/web-components-vite':
     specifier: ^8.4.7
-    version: 8.4.7(lit@3.2.0)(storybook@8.4.7)(vite@6.0.7)
+    version: 8.4.7(lit@3.2.0)(storybook@8.4.7)(vite@6.0.11)
   axe-playwright:
     specifier: ^2.0.3
     version: 2.0.3(playwright@1.49.1)
@@ -1723,7 +1723,7 @@ packages:
       ts-dedent: 2.2.0
     dev: true
 
-  /@storybook/builder-vite@8.4.7(storybook@8.4.7)(vite@6.0.7):
+  /@storybook/builder-vite@8.4.7(storybook@8.4.7)(vite@6.0.11):
     resolution: {integrity: sha512-LovyXG5VM0w7CovI/k56ZZyWCveQFVDl0m7WwetpmMh2mmFJ+uPQ35BBsgTvTfc8RHi+9Q3F58qP1MQSByXi9g==}
     peerDependencies:
       storybook: ^8.4.7
@@ -1733,7 +1733,7 @@ packages:
       browser-assert: 1.2.1
       storybook: 8.4.7
       ts-dedent: 2.2.0
-      vite: 6.0.7
+      vite: 6.0.11
     dev: true
 
   /@storybook/components@8.4.7(storybook@8.4.7):
@@ -1915,13 +1915,13 @@ packages:
       storybook: 8.4.7
     dev: true
 
-  /@storybook/web-components-vite@8.4.7(lit@3.2.0)(storybook@8.4.7)(vite@6.0.7):
+  /@storybook/web-components-vite@8.4.7(lit@3.2.0)(storybook@8.4.7)(vite@6.0.11):
     resolution: {integrity: sha512-+EKnJeSc7TB5cw+EEvCfCaHNEN3pRqf9e4YdQYQrd/Qtb2vYknyDD9HSPZqT/92eE+PaRKsg9CYPlqY6T+7HLg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       storybook: ^8.4.7
     dependencies:
-      '@storybook/builder-vite': 8.4.7(storybook@8.4.7)(vite@6.0.7)
+      '@storybook/builder-vite': 8.4.7(storybook@8.4.7)(vite@6.0.11)
       '@storybook/web-components': 8.4.7(lit@3.2.0)(storybook@8.4.7)
       magic-string: 0.30.11
       storybook: 8.4.7
@@ -5893,8 +5893,8 @@ packages:
       - supports-color
     dev: true
 
-  /vite@6.0.7:
-    resolution: {integrity: sha512-RDt8r/7qx9940f8FcOIAH9PTViRrghKaK2K1jY3RaAURrEUbm9Du1mJ72G+jlhtG3WwodnfzY8ORQZbBavZEAQ==}
+  /vite@6.0.11:
+    resolution: {integrity: sha512-4VL9mQPKoHy4+FE0NnRE/kbY51TOfaknxAjt3fJbGJxhIpBZiqVzlZDEesWWsuREXHwNdAoOFZ9MkPEVXczHwg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
