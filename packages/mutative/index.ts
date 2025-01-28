@@ -8,34 +8,70 @@
  * ```
  */
 
+type ObserverRecord = Record<string, (record: MutationRecord) => (boolean | void)>;
+
 /**
  * Control CSS selector mutation observers.
  */
 export default class Mutative {
     static #isObserving = false;
-    static #observerList: Record<string, Function> = {};
+    static #observerList: ObserverRecord = {};
     static #mutationFn = (mutationList: MutationRecord[]): void => {
         if (Mutative.#isObserving) {
             Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
                 mutationList.forEach((mutationRecord: MutationRecord) => {
-                    // call the callback function on every change, no matter its type
+                    // void or undefined values are not treated as false when checking validity
+                    let isValid: boolean = true;
+                    // call the callback function on every change, no matter its type, the passed function can filter it out
+                    // every callback will be called even if a previous one declares the change invalid
                     [
                         ...Array.from(mutationRecord?.addedNodes),
                         ...Array.from(mutationRecord?.removedNodes),
                         mutationRecord?.target,
                     ].forEach((el: Node) => {
                         if (el instanceof Element && el.matches(selector)) {
-                            callback(mutationRecord);
+                            const callbackIsValid = callback(mutationRecord) !== false;
+                            isValid = !isValid ? false : callbackIsValid;
                         }
                     });
+                    //@ts-expect-error isValid is boolean
+                    if (isValid === false) {
+                        const { target, type } = mutationRecord;
+                        if (type === "characterData") {
+                            mutationRecord.target.textContent = mutationRecord.oldValue;
+                        }
+                        if (type === "attributes") {
+                            const { attributeName, oldValue } = mutationRecord;
+                            if (attributeName) {
+                                if (oldValue) {
+                                    (target as Element).setAttribute(attributeName, oldValue);
+                                } else {
+                                    (target as Element).removeAttribute(attributeName);
+                                }
+                            }
+                        }
+                        if (type === "childList") {
+                            const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
+                            addedNodes?.forEach(node => {
+                                target.removeChild(node);
+                            });
+                            if (nextSibling) {
+                                removedNodes?.forEach(node => {
+                                    target.insertBefore(nextSibling, node);
+                                });
+                            } else if (previousSibling && previousSibling.nextSibling) {
+                                removedNodes?.forEach(node => {
+                                    target.insertBefore(previousSibling.nextSibling!, node);
+                                });
+                            }
+                        }
+                    }
                 });
             });
         }
     };
     static #bodyObserver = new MutationObserver(Mutative.#mutationFn);
-    static #addSelectorObj(newObj): void {
-        // const obj = Object.create(mutative.#observerList);
-        // mutative.#observerList = { ...obj, ...newObj };
+    static #addSelectorObj(newObj: ObserverRecord): void {
         Object.assign(Mutative.#observerList, newObj);
     }
     static #addSelectorFnPair(name, fn): void {
@@ -94,7 +130,7 @@ export default class Mutative {
         //finish mutation callbacks before removing selectors
         Mutative.#mutationFn(Mutative.#bodyObserver.takeRecords());
         if (selectors) {
-            let items = [];
+            let items: Array<string> = [];
             //allow many types of selectors to be passed to this function
             const addItems = (selectorQueries) => {
                 selectorQueries.forEach((s) => {
