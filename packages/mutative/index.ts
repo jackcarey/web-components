@@ -1,6 +1,7 @@
 /**
  * @module
  * This module contains a utility to constantly monitor specific CSS selectors for changes
+ * Callback functions may return a boolean to declare whether or not the mutation is valid. Invalid mutations will be reverted after all callbacks for the change have executed.
  *
  * @example
  * ```javascript
