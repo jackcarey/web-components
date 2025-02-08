@@ -17,57 +17,59 @@ type ObserverRecord = Record<string, (record: MutationRecord) => (boolean | void
 export default class Mutative {
     static #isObserving = false;
     static #observerList: ObserverRecord = {};
-    static #mutationFn = (mutationList: MutationRecord[]): void => {
+    static #mutationFn = (listOfChanges: MutationRecord[]): void => {
         if (Mutative.#isObserving) {
-            Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
-                mutationList.forEach((mutationRecord: MutationRecord) => {
-                    // void or undefined values are not treated as false when checking validity
-                    let isValid: boolean = true;
-                    // call the callback function on every change, no matter its type, the passed function can filter it out
-                    // every callback will be called even if a previous one declares the change invalid
-                    [
-                        ...Array.from(mutationRecord?.addedNodes),
-                        ...Array.from(mutationRecord?.removedNodes),
-                        mutationRecord?.target, //the target handles attribute and characterData changes
-                    ].forEach((el: Node) => {
-                        if (el instanceof Element && el.matches(selector)) {
-                            const callbackIsValid = callback(mutationRecord) !== false;
-                            isValid = !isValid ? false : callbackIsValid;
-                        }
-                    });
-                    //@ts-expect-error isValid is boolean
-                    if (isValid === false) {
-                        const { target, type } = mutationRecord;
-                        if (type === "characterData") {
-                            mutationRecord.target.textContent = mutationRecord.oldValue;
-                        }
-                        if (type === "attributes") {
-                            const { attributeName, oldValue } = mutationRecord;
-                            if (attributeName) {
-                                if (oldValue) {
-                                    (target as Element).setAttribute(attributeName, oldValue);
-                                } else {
-                                    (target as Element).removeAttribute(attributeName);
-                                }
-                            }
-                        }
-                        if (type === "childList") {
-                            const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
-                            addedNodes?.forEach(node => {
-                                target.removeChild(node);
-                            });
-                            if (nextSibling) {
-                                removedNodes?.forEach(node => {
-                                    target.insertBefore(nextSibling, node);
-                                });
-                            } else if (previousSibling && previousSibling.nextSibling) {
-                                removedNodes?.forEach(node => {
-                                    target.insertBefore(previousSibling.nextSibling!, node);
-                                });
-                            }
+            listOfChanges.forEach((mutationRecord: MutationRecord) => {
+                const affectedNodes = [
+                    ...Array.from(mutationRecord?.addedNodes),
+                    ...Array.from(mutationRecord?.removedNodes),
+                    //the target handles attribute and characterData changes
+                    mutationRecord?.target,
+                    // a characterData change won't have a selector since it is text, so the parent is used instead
+                    mutationRecord.type === 'characterData' ? mutationRecord.target?.parentElement : undefined,
+                ];
+                let isValidChange: boolean = true;
+                Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
+                    const changeMatchesSelector = affectedNodes.some(node => node instanceof Element && node.matches(selector));
+                    if (changeMatchesSelector) {
+                        const callbackResult = callback(mutationRecord);
+                        // void or undefined values are not treated as false when checking validity
+                        if (callbackResult === false) {
+                            isValidChange = false;
                         }
                     }
                 });
+                if (!isValidChange) {
+                    const { target, type } = mutationRecord;
+                    if (type === "characterData") {
+                        mutationRecord.target.textContent = mutationRecord.oldValue;
+                    }
+                    if (type === "attributes") {
+                        const { attributeName, oldValue } = mutationRecord;
+                        if (attributeName) {
+                            if (oldValue) {
+                                (target as Element).setAttribute(attributeName, oldValue);
+                            } else {
+                                (target as Element).removeAttribute(attributeName);
+                            }
+                        }
+                    }
+                    if (type === "childList") {
+                        const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
+                        addedNodes?.forEach(node => {
+                            target.removeChild(node);
+                        });
+                        if (nextSibling) {
+                            removedNodes?.forEach(node => {
+                                target.insertBefore(nextSibling, node);
+                            });
+                        } else if (previousSibling && previousSibling.nextSibling) {
+                            removedNodes?.forEach(node => {
+                                target.insertBefore(previousSibling.nextSibling!, node);
+                            });
+                        }
+                    }
+                }
             });
         }
     };
