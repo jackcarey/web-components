@@ -1,6 +1,7 @@
 /**
  * @module
  * This module contains a utility to constantly monitor specific CSS selectors for changes
+ * Callback functions may return a boolean to declare whether or not the mutation is valid. Invalid mutations will be reverted after all callbacks for the change have executed.
  *
  * @example
  * ```javascript
@@ -8,34 +9,81 @@
  * ```
  */
 
+type ObserverRecord = Record<string, (record: MutationRecord) => (boolean | void)>;
+
 /**
  * Control CSS selector mutation observers.
  */
 export default class Mutative {
     static #isObserving = false;
-    static #observerList: Record<string, Function> = {};
-    static #mutationFn = (mutationList: MutationRecord[]): void => {
+    static #observerList: ObserverRecord = {};
+    static #mutationFn = (listOfChanges: MutationRecord[]): void => {
         if (Mutative.#isObserving) {
-            Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
-                mutationList.forEach((mutationRecord: MutationRecord) => {
-                    // call the callback function on every change, no matter its type
-                    [
-                        ...Array.from(mutationRecord?.addedNodes),
-                        ...Array.from(mutationRecord?.removedNodes),
-                        mutationRecord?.target,
-                    ].forEach((el: Node) => {
-                        if (el instanceof Element && el.matches(selector)) {
-                            callback(mutationRecord);
+            listOfChanges.forEach((mutationRecord: MutationRecord) => {
+                const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
+                const affectedNodes = [
+                    ...Array.from(addedNodes),
+                    ...Array.from(removedNodes),
+                    //the target handles attribute and characterData changes
+                    mutationRecord?.target,
+                    // a characterData change won't have a selector since it is text, so the parent is used instead
+                    mutationRecord.type === 'characterData' ? mutationRecord.target?.parentElement : undefined,
+                ];
+                let isValidChange: boolean = true;
+                //every callback is run before changes are potentially undone
+                Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
+                    const changeMatchesSelector = affectedNodes.some(node => node instanceof Element && node.matches(selector));
+                    if (changeMatchesSelector) {
+                        const callbackResult = callback(mutationRecord);
+                        // void or undefined values are not treated as false when checking validity
+                        if (callbackResult === false) {
+                            isValidChange = false;
                         }
-                    });
+                    }
                 });
+                //undo invalid changes
+                if (!isValidChange) {
+                    const { target, type } = mutationRecord;
+                    if (type === "characterData") {
+                        mutationRecord.target.textContent = mutationRecord.oldValue;
+                    }
+                    if (type === "attributes") {
+                        const { attributeName, oldValue } = mutationRecord;
+                        if (attributeName) {
+                            if (oldValue) {
+                                (target as Element).setAttribute(attributeName, oldValue);
+                            } else {
+                                (target as Element).removeAttribute(attributeName);
+                            }
+                        }
+                    }
+                    if (type === "childList") {
+                        addedNodes?.forEach(node => {
+                            target.removeChild(node);
+                        });
+                        if (nextSibling) {
+                            //the removed node was not the last within its parent
+                            removedNodes?.forEach(node => {
+                                target.insertBefore(nextSibling, node);
+                            });
+                        } else if (previousSibling && previousSibling.nextSibling) {
+                            //the removed node was not the first within its parent
+                            removedNodes?.forEach(node => {
+                                target.insertBefore(previousSibling.nextSibling!, node);
+                            });
+                        } else {
+                            //the removed node was the only child within its parent
+                            removedNodes?.forEach(node => {
+                                target.appendChild(node);
+                            });
+                        }
+                    }
+                }
             });
         }
     };
     static #bodyObserver = new MutationObserver(Mutative.#mutationFn);
-    static #addSelectorObj(newObj): void {
-        // const obj = Object.create(mutative.#observerList);
-        // mutative.#observerList = { ...obj, ...newObj };
+    static #addSelectorObj(newObj: ObserverRecord): void {
         Object.assign(Mutative.#observerList, newObj);
     }
     static #addSelectorFnPair(name, fn): void {
@@ -94,7 +142,7 @@ export default class Mutative {
         //finish mutation callbacks before removing selectors
         Mutative.#mutationFn(Mutative.#bodyObserver.takeRecords());
         if (selectors) {
-            let items = [];
+            let items: Array<string> = [];
             //allow many types of selectors to be passed to this function
             const addItems = (selectorQueries) => {
                 selectorQueries.forEach((s) => {
