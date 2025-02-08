@@ -41,6 +41,7 @@ export default class Mutative {
                         }
                     }
                 });
+                //undo invalid changes
                 if (!isValidChange) {
                     const { target, type } = mutationRecord;
                     if (type === "characterData") {
