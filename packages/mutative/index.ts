@@ -29,6 +29,7 @@ export default class Mutative {
                     mutationRecord.type === 'characterData' ? mutationRecord.target?.parentElement : undefined,
                 ];
                 let isValidChange: boolean = true;
+                //every callback is run before changes are potentially undone
                 Object.entries(Mutative.#observerList).forEach(([selector, callback]) => {
                     const changeMatchesSelector = affectedNodes.some(node => node instanceof Element && node.matches(selector));
                     if (changeMatchesSelector) {
