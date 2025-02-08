@@ -20,9 +20,10 @@ export default class Mutative {
     static #mutationFn = (listOfChanges: MutationRecord[]): void => {
         if (Mutative.#isObserving) {
             listOfChanges.forEach((mutationRecord: MutationRecord) => {
+                const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
                 const affectedNodes = [
-                    ...Array.from(mutationRecord?.addedNodes),
-                    ...Array.from(mutationRecord?.removedNodes),
+                    ...Array.from(addedNodes),
+                    ...Array.from(removedNodes),
                     //the target handles attribute and characterData changes
                     mutationRecord?.target,
                     // a characterData change won't have a selector since it is text, so the parent is used instead
@@ -56,17 +57,23 @@ export default class Mutative {
                         }
                     }
                     if (type === "childList") {
-                        const { addedNodes, removedNodes, nextSibling, previousSibling } = mutationRecord;
                         addedNodes?.forEach(node => {
                             target.removeChild(node);
                         });
                         if (nextSibling) {
+                            //the removed node was not the last within its parent
                             removedNodes?.forEach(node => {
                                 target.insertBefore(nextSibling, node);
                             });
                         } else if (previousSibling && previousSibling.nextSibling) {
+                            //the removed node was not the first within its parent
                             removedNodes?.forEach(node => {
                                 target.insertBefore(previousSibling.nextSibling!, node);
+                            });
+                        } else {
+                            //the removed node was the only child within its parent
+                            removedNodes?.forEach(node => {
+                                target.appendChild(node);
                             });
                         }
                     }
