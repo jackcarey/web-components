@@ -28,7 +28,7 @@ export default class Mutative {
                     [
                         ...Array.from(mutationRecord?.addedNodes),
                         ...Array.from(mutationRecord?.removedNodes),
-                        mutationRecord?.target,
+                        mutationRecord?.target, //the target handles attribute and characterData changes
                     ].forEach((el: Node) => {
                         if (el instanceof Element && el.matches(selector)) {
                             const callbackIsValid = callback(mutationRecord) !== false;
