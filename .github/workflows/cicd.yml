@@ -108,6 +108,7 @@ jobs:
             # Publish
 
             - name: Run Chromatic
+              if: github.ref == 'refs/heads/main'
               uses: chromaui/action@latest
               with:
                   projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
