@@ -1,3 +1,6 @@
+const defaultAriaDatasetKey = 'searchDomAriaHidden';
+const defaultDisplayDatasetKey = 'searchDomDisplay';
+
 /**
  * A custom element that wraps an input and filters other DOM elements when its value changes.
  * @param target ['ul'] - A CSS selector for the parent element containing items.
@@ -30,30 +33,51 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
             }));
             const inputVal = this.#inputEl?.value;
             document.querySelectorAll(tgtSelector).forEach(tgtEl => {
+                this.dispatchEvent(new CustomEvent("search-dom", {
+                    detail: {
+                        type: "target",
+                        value: tgtEl
+                    }
+                }));
                 tgtEl.querySelectorAll(itemSelector).forEach(itemEl => {
-                    this.dispatchEvent(new CustomEvent("search-dom", {
-                        detail: {
-                            type: "target",
-                            value: tgtEl
-                        }
-                    }));
+
+                    let storedAriaHiddenValue = (itemEl as HTMLElement).dataset[defaultAriaDatasetKey];
+                    let storedDisplayValue = (itemEl as HTMLElement).dataset[defaultDisplayDatasetKey];
+
+                    if(!storedAriaHiddenValue){
+                        (itemEl as HTMLElement).dataset[defaultAriaDatasetKey] = String(Boolean(itemEl.ariaHidden));
+                    }
+                    if(!storedDisplayValue){   
+                        (itemEl as HTMLElement).dataset[defaultDisplayDatasetKey] = getComputedStyle(itemEl).display;
+                    }
+
+                    storedAriaHiddenValue = (itemEl as HTMLElement).dataset[defaultAriaDatasetKey];
+                    storedDisplayValue = (itemEl as HTMLElement).dataset[defaultDisplayDatasetKey];
+
                     const hasInputVal = Boolean(inputVal?.length);
+
                     const testContent = this.mode === "matchCase" ? itemEl.textContent : itemEl.textContent?.toLowerCase();
                     const testVal = this.mode === "matchCase" ? inputVal : inputVal?.toLowerCase();
                     const hasMatch = Boolean(testContent?.includes(String(testVal)));
                     const isHidden = hasInputVal && !hasMatch;
-                    itemEl.ariaHidden = String(isHidden);
-                    const currentDisplayValue = getComputedStyle(itemEl).display;
-                    const storedDisplayValue = (itemEl as HTMLElement).dataset['sdDisplay'];
+                    
                     if (isHidden) {
                         //hide the element
-                        (itemEl as HTMLElement).dataset['sdDisplay'] = currentDisplayValue;
+                        itemEl.ariaHidden = "true";
                         (itemEl as HTMLElement).style.display = 'none';
                     } else {
                         //unhide the element
-                        const setTo = storedDisplayValue ?? 'inherit';
-                        (itemEl as HTMLElement).style.display = setTo;
+                        if(storedAriaHiddenValue==="false"){
+                            itemEl.removeAttribute('aria-hidden');
+                        }else{
+                            itemEl.ariaHidden = storedAriaHiddenValue ?? "false";
+                        }
+                        (itemEl as HTMLElement).style.display = storedDisplayValue ?? 'inherit';
+                        if (itemEl.getAttribute('style') === `display: ${storedDisplayValue};`) {
+                            itemEl.removeAttribute('style');
+                        }
                     }
+
                     this.dispatchEvent(new CustomEvent("search-dom", {
                         detail: {
                             type: "item",
