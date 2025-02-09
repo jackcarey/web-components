@@ -39,6 +39,7 @@
   "main": "autoloader.js",
   "name": "web-components",
   "scripts": {
+    "build-storybook": "storybook build",
     "storybook:build": "storybook build",
     "storybook": "storybook dev -p 6006",
     "test": "test-storybook --ci --json --failOnConsole --includeTags=\"test,a11y-minor,a11y-major,a11y-serious,a11y-critical\" --excludeTags=\"skip\"",
