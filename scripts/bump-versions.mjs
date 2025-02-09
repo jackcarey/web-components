@@ -27,7 +27,13 @@ console.log(`Changed packages:\n\n- ${changedPackages.join("\n- ")}\n`);
 Object.entries(pkgDetails).filter(([_, pkg]) => {
     return changedPackages.includes(pkg.name);
 }).forEach(([pkgPath, pkg]) => {
-    execSync(`cd ${pkgPath}`);
-    const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
-    console.log(bumpResult);
+    try{
+
+        execSync(`cd ${pkgPath}`);
+        const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
+        console.log(bumpResult.toString());
+    }catch(e){
+        console.error(`Failed to bump version for package: ${pkg.name}`);
+        console.error(e);
+    }
 });
