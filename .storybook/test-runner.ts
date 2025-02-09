@@ -54,11 +54,12 @@ const config: TestRunnerConfig = {
                 const message = `Accessibility violations found in story "${fullContext.name}".\nID: ${fullContext.id}.\nTags: ${a11yTags.join(',')}.`;
                 const jsonStr = JSON.stringify(relevantViolations, null, 2);
                 throw new Error(`${message}\n${jsonStr}`);
-            } else {
-                console.log(
-                    `No relevant accessibility violations found in story "${fullContext.name}".\nID: ${fullContext.id}.\nTags: ${a11yTags.join(',')}.`,
-                );
             }
+            //  else {
+            //     console.log(
+            //         `No relevant accessibility violations found in story "${fullContext.name}".\nID: ${fullContext.id}.\nTags: ${a11yTags.join(',')}.`,
+            //     );
+            // }
         }
     },
 };
