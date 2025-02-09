@@ -68,7 +68,6 @@ jobs:
             - name: Save deps to cache
               id: cache-deps-save
               uses: actions/cache/save@v4
-              if: steps.cache-deps-restore.outcome == 'failure'
               with:
                   path: |
                       node_modules
