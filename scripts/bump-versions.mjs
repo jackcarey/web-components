@@ -7,7 +7,7 @@ import fs from 'fs';
 // thi should be changed in the future
 
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
-const lastPackageChangesCommit = fs.readSync(path.join(repoRootDir, '/.storybook/last-commit-hash.txt'), 'utf8').trim();
+const lastPackageChangesCommit = fs.readFileSync(path.join(repoRootDir, '/.storybook/last-commit-hash.txt'), 'utf8').trim();
 console.log(`Looking for changes since commit: ${lastPackageChangesCommit}`);
 const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n');
 const relevantChanges = allChanges.filter(filePath => {
@@ -16,25 +16,18 @@ const relevantChanges = allChanges.filter(filePath => {
     const isWithinPkg = pathLower.startsWith('packages/');
     const isExcludedCompletely = excludedFileNames.includes(pathLower);
     const isDocumentExcluded = excludedFileNames.some(p => p.endsWith(pathLower));
-    const isExcluded = !isWithinPkg || isExcludedCompletely || isDocumentExcluded;
     
-    return !isExcluded;
+    return isWithinPkg && !isExcludedCompletely && !isDocumentExcluded;
 });
-console.log(`Within packages/, excluding: ${excludedFileNames.join(", ")}`);
-console.log(`All relevant changes across all packages:\n\n- ${allChanges.join("\n- ")}\n`);
+const changedPackages = Array.from(new Set(relevantChanges.map(filePath => {
+    return filePath.split('/')[1];
+})));
+console.log(`Changed packages:\n\n- ${changedPackages.join("\n- ")}\n`);
 
-Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
-    const relPath = path.relative(repoRootDir, pkgPath).replaceAll("\\", "/");
-
-    //keep only the files for this package
-    const changedFiles = relevantChanges.filter(x => x.startsWith(relPath));
-    if (changedFiles.length > 0) {
-        console.log(`Package '${pkg.name}' has changed files:`);
-        console.log("-", changedFiles.join("\n"));
-        execSync(`cd ${pkgPath}`);
-        const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
-        console.log(bumpResult);
-    } else {
-        console.log(`Package '${pkg.name}' has no changes since the last commit.`);
-    }
+Object.entries(pkgDetails).filter(([pkgPath,pkg]) => {
+    return changedPackages.includes(pkg.name);
+}).forEach(([pkgPath,pkg]) => {
+    execSync(`cd ${pkgPath}`);
+    const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
+    console.log(bumpResult);
 });
