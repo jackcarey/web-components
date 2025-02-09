@@ -1,17 +1,17 @@
 import { execSync } from 'child_process';
 import { pkgDetails, repoRootDir } from './util-packages.mjs';
 import path from "path";
-
+import fs from 'fs';
 //this script could do with checking against the commit of the last version bump for each package
 // but for now it will do a simple check against the last commit
 // thi should be changed in the future
 
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
-const ancestorCommit = execSync('git merge-base HEAD~1 HEAD');
-const allChanges = execSync(`git diff ${ancestorCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
+const lastPackageChangesCommit = fs.readSync(path.join(repoRootDir, '/.storybook/last-commit-hash.txt'), 'utf8').trim();
+const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
     const pathLower = filePath.toLowerCase();
     if (!pathLower.length) return false;
-    const isWithinPkg = pathLower.startsWith('package');
+    const isWithinPkg = pathLower.startsWith('packages/');
     if (!isWithinPkg) return false;
     const isExcludedCompletely = excludedFileNames.includes(pathLower);
     if (isExcludedCompletely) return false;
