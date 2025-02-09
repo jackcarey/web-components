@@ -10,23 +10,19 @@
 
 ## Using this package
 
-### Browser
-
-ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal)
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal) 
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
-### Deno
+#### Deno
 
 ```
 deno add jsr:@web-components/i-cal
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/i-cal
@@ -34,7 +30,7 @@ npx jsr add @web-components/i-cal
 
 ## Documentation
 
--   [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal).
+- **Open [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
 
 The `i-cal` component renders ics formatted text as an ordered list. It has the following attributes:
 

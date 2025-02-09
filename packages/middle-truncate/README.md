@@ -10,23 +10,19 @@
 
 ## Using this package
 
-### Browser
-
-ESM CDN: [https://esm.sh/jsr/@web-components/middle-truncate](https://esm.sh/jsr/@web-components/middle-truncate)
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/middle-truncate](https://esm.sh/jsr/@web-components/middle-truncate) 
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/middle-truncate" type="module"></script>
 ```
 
-### Deno
+#### Deno
 
 ```
 deno add jsr:@web-components/middle-truncate
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/middle-truncate
@@ -34,7 +30,7 @@ npx jsr add @web-components/middle-truncate
 
 ## Documentation
 
--   [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate).
+- **Open [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate)**.
 
 This package is a work-in-progress. It does not yet work with vertical text.
 

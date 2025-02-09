@@ -10,23 +10,19 @@
 
 ## Using this package
 
-### Browser
-
-ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal)
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal) 
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/signal" type="module"></script>
 ```
 
-### Deno
+#### Deno
 
 ```
 deno add jsr:@web-components/signal
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/signal
@@ -34,7 +30,7 @@ npx jsr add @web-components/signal
 
 ## Documentation
 
--   [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal).
+- **Open [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
 
 //todo
 

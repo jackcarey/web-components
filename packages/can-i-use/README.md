@@ -10,23 +10,19 @@
 
 ## Using this package
 
-### Browser
-
-ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use)
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use) 
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/can-i-use" type="module"></script>
 ```
 
-### Deno
+#### Deno
 
 ```
 deno add jsr:@web-components/can-i-use
 ```
 
-### NPM
-
-JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/can-i-use
@@ -34,7 +30,7 @@ npx jsr add @web-components/can-i-use
 
 ## Documentation
 
--   [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use).
+- **Open [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use)**.
 
 ## Attributes
 
