@@ -7,7 +7,7 @@
 
 -   **This repository is in the beta stage, there are problems with the Storybook docuemntation.**
 -   **Documentation**
-    -   [Storybook examples](https://jackcarey.co.uk/web-components/storybook-static/)
+    -   [Storybook examples](https://main--67352607574d35385334da84.chromatic.com)
     -   [Github source](https://github.com/jackcarey/web-components)
 -   **Information**
     -   There are currently $count packages in this collection. Some are web components intended for the DOM, others are utilities that components may consume.

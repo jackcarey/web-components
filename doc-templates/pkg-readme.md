@@ -34,7 +34,7 @@ npx jsr add @web-components/$name
 
 ## Documentation
 
--   [$name on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [$name on Storybook]($storybookLink).
 
 $docs
 
