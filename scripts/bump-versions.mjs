@@ -7,7 +7,8 @@ import path from "path";
 // thi should be changed in the future
 
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
-const allChanges = execSync(`git diff --name-only HEAD~1`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
+const ancestorCommit = execSync('git merge-base origin/main HEAD');
+const allChanges = execSync(`git diff ${ancestorCommit} origin/main --name-only`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
     const pathLower = filePath.toLowerCase();
     if (!pathLower.length) return false;
     const isWithinPkg = pathLower.startsWith('package');
