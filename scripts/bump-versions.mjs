@@ -30,7 +30,7 @@ Object.entries(pkgDetails).filter(([_, pkg]) => {
     try{
 
         execSync(`cd ${pkgPath}`);
-        const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}" --git-tag-version false`);
+        const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}" --no-git-tag-version`);
         console.log(bumpResult.toString());
     }catch(e){
         console.error(`Failed to bump version for package: ${pkg.name}`);
