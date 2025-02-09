@@ -1,6 +1,5 @@
 {
   "name": "@web-components/search-dom",
   "version": "0.0.1",
-  "exports": "./index.ts",
-  "license": "LGPL-3"
+  "exports": "./index.ts"
 }

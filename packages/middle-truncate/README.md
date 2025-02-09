@@ -34,7 +34,7 @@ npx jsr add @web-components/middle-truncate
 
 ## Documentation
 
--   [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate).
 
 This package is a work-in-progress. It does not yet work with vertical text.
 

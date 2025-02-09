@@ -34,7 +34,7 @@ npx jsr add @web-components/search-dom
 
 ## Documentation
 
--   [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom).
 
 A component that filters the DOM when an inner search input changes.
 
