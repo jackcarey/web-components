@@ -8,18 +8,17 @@ import fs from 'fs';
 
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
 const lastPackageChangesCommit = fs.readSync(path.join(repoRootDir, '/.storybook/last-commit-hash.txt'), 'utf8').trim();
-const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n').filter(filePath => {
+console.log(`Looking for changes since commit: ${lastPackageChangesCommit}`);
+const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n');
+const relevantChanges = allChanges.filter(filePath => {
     const pathLower = filePath.toLowerCase();
-    if (!pathLower.length) return false;
+
     const isWithinPkg = pathLower.startsWith('packages/');
-    if (!isWithinPkg) return false;
     const isExcludedCompletely = excludedFileNames.includes(pathLower);
-    if (isExcludedCompletely) return false;
     const isDocumentExcluded = excludedFileNames.some(p => p.endsWith(pathLower));
-    if (isDocumentExcluded) {
-        return pathLength && false;
-    }
-    return true;
+    const isExcluded = !isWithinPkg || isExcludedCompletely || isDocumentExcluded;
+    
+    return !isExcluded;
 });
 console.log(`Within packages/, excluding: ${excludedFileNames.join(", ")}`);
 console.log(`All relevant changes across all packages:\n\n- ${allChanges.join("\n- ")}\n`);
@@ -28,7 +27,7 @@ Object.entries(pkgDetails).forEach(([pkgPath, pkg]) => {
     const relPath = path.relative(repoRootDir, pkgPath).replaceAll("\\", "/");
 
     //keep only the files for this package
-    const changedFiles = allChanges.filter(x => x.startsWith(relPath));
+    const changedFiles = relevantChanges.filter(x => x.startsWith(relPath));
     if (changedFiles.length > 0) {
         console.log(`Package '${pkg.name}' has changed files:`);
         console.log("-", changedFiles.join("\n"));
