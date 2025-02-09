@@ -28,8 +28,7 @@ Object.entries(pkgDetails).filter(([_, pkg]) => {
     return changedPackages.includes(pkg.name);
 }).forEach(([pkgPath, pkg]) => {
     try{
-
-        execSync(`cd ${pkgPath}`);
+        process.chdir(pkgPath);
         const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}" --no-git-tag-version`);
         console.log(bumpResult.toString());
     }catch(e){
