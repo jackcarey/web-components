@@ -83,7 +83,7 @@ jobs:
               run: npm install && node scripts/generate-storybook-docs.mjs
 
             - name: Run tests
-              run: npm run test:ci
+              run: npm run test-ci
 
             - name: Check if Storybook test results exist after testing
               run: npm install && node scripts/check-story-results.mjs
