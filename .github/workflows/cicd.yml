@@ -50,7 +50,7 @@ jobs:
                   key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
-              run: npm install
+              run: npm ci
 
             - name: Save commit hash
               run: node scripts/store-commit-hash.mjs
@@ -80,13 +80,13 @@ jobs:
 
             - name: Generate Storybook documentation
               id: generate-storybook-docs
-              run: npm install && node scripts/generate-storybook-docs.mjs
+              run: npm ci && node scripts/generate-storybook-docs.mjs
 
             - name: Run tests
               run: npm run test-ci
 
             - name: Check if Storybook test results exist after testing
-              run: npm install && node scripts/check-story-results.mjs
+              run: npm ci && node scripts/check-story-results.mjs
 
             # Build
 
