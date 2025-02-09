@@ -16,7 +16,7 @@ const relevantChanges = allChanges.filter(filePath => {
     const isWithinPkg = pathLower.startsWith('packages/');
     const isExcludedCompletely = excludedFileNames.includes(pathLower);
     const isDocumentExcluded = excludedFileNames.some(p => p.endsWith(pathLower));
-    
+
     return isWithinPkg && !isExcludedCompletely && !isDocumentExcluded;
 });
 const changedPackages = Array.from(new Set(relevantChanges.map(filePath => {
@@ -24,9 +24,9 @@ const changedPackages = Array.from(new Set(relevantChanges.map(filePath => {
 })));
 console.log(`Changed packages:\n\n- ${changedPackages.join("\n- ")}\n`);
 
-Object.entries(pkgDetails).filter(([pkgPath,pkg]) => {
+Object.entries(pkgDetails).filter(([_, pkg]) => {
     return changedPackages.includes(pkg.name);
-}).forEach(([pkgPath,pkg]) => {
+}).forEach(([pkgPath, pkg]) => {
     execSync(`cd ${pkgPath}`);
     const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}"`);
     console.log(bumpResult);
