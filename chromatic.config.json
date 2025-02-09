@@ -1,3 +1,6 @@
 {
-    "exitOnceUploaded": true
+  "exitOnceUploaded": true,
+  "onlyChanged": true,
+  "projectId": "Project:67352607574d35385334da84",
+  "zip": true
 }
