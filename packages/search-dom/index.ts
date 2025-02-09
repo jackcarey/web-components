@@ -44,10 +44,10 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
                     let storedAriaHiddenValue = (itemEl as HTMLElement).dataset[defaultAriaDatasetKey];
                     let storedDisplayValue = (itemEl as HTMLElement).dataset[defaultDisplayDatasetKey];
 
-                    if(!storedAriaHiddenValue){
+                    if (!storedAriaHiddenValue) {
                         (itemEl as HTMLElement).dataset[defaultAriaDatasetKey] = String(Boolean(itemEl.ariaHidden));
                     }
-                    if(!storedDisplayValue){   
+                    if (!storedDisplayValue) {
                         (itemEl as HTMLElement).dataset[defaultDisplayDatasetKey] = getComputedStyle(itemEl).display;
                     }
 
@@ -60,16 +60,16 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
                     const testVal = this.mode === "matchCase" ? inputVal : inputVal?.toLowerCase();
                     const hasMatch = Boolean(testContent?.includes(String(testVal)));
                     const isHidden = hasInputVal && !hasMatch;
-                    
+
                     if (isHidden) {
                         //hide the element
                         itemEl.ariaHidden = "true";
                         (itemEl as HTMLElement).style.display = 'none';
                     } else {
                         //unhide the element
-                        if(storedAriaHiddenValue==="false"){
+                        if (storedAriaHiddenValue === "false") {
                             itemEl.removeAttribute('aria-hidden');
-                        }else{
+                        } else {
                             itemEl.ariaHidden = storedAriaHiddenValue ?? "false";
                         }
                         (itemEl as HTMLElement).style.display = storedDisplayValue ?? 'inherit';
@@ -126,7 +126,7 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
         this.#inputListener(new Event("input", {}));
     }
 
-    get target() {
+    get target(): string | null {
         return this.getAttribute("target");
     }
 
@@ -138,7 +138,7 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
         }
     }
 
-    get items() {
+    get items(): string | null {
         return this.getAttribute("target");
     }
 
@@ -150,7 +150,7 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
         }
     }
 
-    get mode() {
+    get mode(): string | null {
         return this.getAttribute("mode") ?? "normal";
     }
 
