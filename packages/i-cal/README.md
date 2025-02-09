@@ -34,7 +34,7 @@ npx jsr add @web-components/i-cal
 
 ## Documentation
 
--   [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal).
 
 The `i-cal` component renders ics formatted text as an ordered list. It has the following attributes:
 

@@ -34,7 +34,7 @@ npx jsr add @web-components/can-i-use
 
 ## Documentation
 
--   [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/about--all-stories).
+-   [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use).
 
 ## Attributes
 
