@@ -4,7 +4,7 @@
 
 [![mutative](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative) [![score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score)
 
-**version:** 0.0.3
+**version:** 1.0.3
 
 **license:** [LGPL-3](./LICENSE.md)
 
