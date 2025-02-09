@@ -28,7 +28,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     $encodedLicense: encodeURIComponent(pkgJson.license) ?? "",
     $docs: docsStr,
     $jsrBadges: getJSRMarkdown(pkgJson.name),
-    $storybookLink: `https://main--67352607574d35385334da84.chromatic.com/?path=/docs/${pkgJson.name.includes('-')?'components':'utilities'}-${pkgJson.name}`
+    $storybookLink: `https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/${pkgJson.name.includes('-')?'components':'utilities'}-${pkgJson.name}`
   };
   const readmeContent = Object.entries(replacements).reduce(
     (acc, [key, value]) => acc.replaceAll(key, value),

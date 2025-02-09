@@ -1,6 +1,3 @@
 node_modules
 coverage/
 *storybook.log
-storybook-static
-storybook-static/
-storybook-static/*

@@ -108,11 +108,11 @@ jobs:
 
             # Publish
 
-            - name: Run Chromatic
-              if: github.ref == 'refs/heads/main'
-              uses: chromaui/action@latest
-              with:
-                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+            # - name: Run Chromatic
+            #   if: github.ref == 'refs/heads/main'
+            #   uses: chromaui/action@latest
+            #   with:
+            #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
               run: node scripts/publish-jsr.mjs
