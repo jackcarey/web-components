@@ -25,6 +25,7 @@
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-vite": "^8.4.7",
     "axe-playwright": "^2.0.3",
+    "chromatic": "^11.25.2",
     "concurrently": "^9.1.2",
     "custom-elements-manifest": "^2.1.0",
     "http-server": "^14.1.1",
@@ -38,7 +39,7 @@
   "main": "autoloader.js",
   "name": "web-components",
   "scripts": {
-    "storybook:build": "storybook build && touch ./storybook-static/.nojekyll",
+    "storybook:build": "storybook build",
     "storybook": "storybook dev -p 6006",
     "test": "test-storybook --ci --json --failOnConsole --includeTags=\"test,a11y-minor,a11y-major,a11y-serious,a11y-critical\" --excludeTags=\"skip\"",
     "test:coverage": "test --coverage",
