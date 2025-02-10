@@ -44,8 +44,8 @@ devDependencies:
     specifier: ^8.2.9
     version: 8.2.9(react@19.0.0)(storybook@8.5.3)
   '@storybook/addon-themes':
-    specifier: ^8.4.7
-    version: 8.4.7(storybook@8.5.3)
+    specifier: ^8.5.3
+    version: 8.5.3(storybook@8.5.3)
   '@storybook/blocks':
     specifier: ^8.4.7
     version: 8.4.7(react-dom@19.0.0)(react@19.0.0)(storybook@8.5.3)
@@ -67,6 +67,9 @@ devDependencies:
   axe-playwright:
     specifier: ^2.0.3
     version: 2.0.3(playwright@1.50.1)
+  chromatic:
+    specifier: ^11.25.2
+    version: 11.25.2
   concurrently:
     specifier: ^9.1.2
     version: 9.1.2
@@ -1450,10 +1453,10 @@ packages:
       ts-dedent: 2.2.0
     dev: true
 
-  /@storybook/addon-themes@8.4.7(storybook@8.5.3):
-    resolution: {integrity: sha512-MZa3eWTz0b3BQvF71WqLqvEYzDtbMhQx1IIluWBMMGzJ4sWBzLX85LoNMUlHsNd4EhEmAZ1xQQFIJpDWTBx0nQ==}
+  /@storybook/addon-themes@8.5.3(storybook@8.5.3):
+    resolution: {integrity: sha512-wGlrAxU/9WF/CA4EV9VDzWbi4fPKdUweHmAPcnuiU0xG/zEIIL4o2fDr0+9tTctjJfVHgkrsHk74BpP14j+p9g==}
     peerDependencies:
-      storybook: ^8.4.7
+      storybook: ^8.5.3
     dependencies:
       storybook: 8.5.3
       ts-dedent: 2.2.0
