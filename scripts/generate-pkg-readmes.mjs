@@ -34,13 +34,14 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     (acc, [key, value]) => acc.replaceAll(key, value),
     template
   );
+  const fileExists = fs.existsSync(readmePath);
   if (
-    !fs.existsSync(readmePath) ||
+    !fileExists ||
     fs.readFileSync(readmePath, "utf8") !== readmeContent
   ) {
     fs.writeFileSync(readmePath, readmeContent);
     changedPkgCount++;
-    console.log(`README.md created at ${dir}`);
+    console.log(`README.md ${fileExists ? "updated" : "created"} at ${dir}`);
   } else {
     console.log(`No changes to README.md at ${dir}`);
   }

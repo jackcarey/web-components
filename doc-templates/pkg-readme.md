@@ -1,8 +1,8 @@
 # $name
 
-$description
-
 $badges
+
+$description
 
 **version:** $version
 

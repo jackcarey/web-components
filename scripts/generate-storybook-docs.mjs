@@ -47,7 +47,7 @@ const saveToStorybookFolder = (content, folder, fileName) => {
 
 //find all packages with documentation
 const docPaths = Object.entries(pkgDetails)
-  .map(([dir, pkgDetails]) => [pkgDetails.name, `${dir}/DOCUMENTATION.md`])
+  .map(([dir, pkgDetails]) => [pkgDetails.name, `${dir}/README.md`])
   .filter(([_, docPath]) => fs.existsSync(docPath));
 
 docPaths.forEach(([pkgName, docPath]) => {
