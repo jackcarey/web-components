@@ -29,7 +29,7 @@ const config: StorybookConfig = {
             options: coverageConfig,
         },
         './addons/commitLabel.ts',
-        "@chromatic-com/storybook"
+        // "@chromatic-com/storybook"
     ],
     framework: {
         name: "@storybook/web-components-vite",

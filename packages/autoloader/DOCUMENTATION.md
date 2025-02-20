@@ -1,1 +1,1 @@
-The 'autoloader' has no options. Component script tags are added to the head of the document using the [esm.sh CDN](https://esm.sh/) with [async loading](https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement/async).
+The 'autoloader' has no options. Component script tags are added to the head of the document using the [esm.sh CDN](https://esm.sh/) with [async loading](https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement/async). Utilities are not loaded with the autoloader.

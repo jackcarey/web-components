@@ -1,12 +1,11 @@
 # $name
 
+$badges
+
 $description
 
-$jsrBadges
-
-**version:** $version
-
-**license:** [$license](./LICENSE.md)
+- **Version:** $version
+- **License:** [$license](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/$name
 npx jsr add @web-components/$name
 ```
 
-## Documentation
+# Documentation
 
-- **Open [$name on Storybook]($storybookLink)**.
+- **Open examples for [$name on Storybook]($storybookLink)**.
 
 $docs
 

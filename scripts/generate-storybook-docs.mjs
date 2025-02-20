@@ -1,4 +1,4 @@
-import { getJSRMarkdown, pkgDetails, repoRootDir } from './util-packages.mjs';
+import { getBadges, pkgDetails, repoRootDir } from './util-packages.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -47,20 +47,18 @@ const saveToStorybookFolder = (content, folder, fileName) => {
 
 //find all packages with documentation
 const docPaths = Object.entries(pkgDetails)
-  .map(([dir, pkgDetails]) => [pkgDetails.name, `${dir}/DOCUMENTATION.md`])
+  .map(([dir, pkgDetails]) => [pkgDetails.name, `${dir}/README.md`])
   .filter(([_, docPath]) => fs.existsSync(docPath));
 
 docPaths.forEach(([pkgName, docPath]) => {
   const mdContent = fs.readFileSync(docPath, 'utf8');
   const isUtility = !pkgName.includes('-');
   const categoryStr = isUtility ? 'utilities' : 'components';
-  const newComponentContent = mdToSbMdx(
+  const newSbContent = isUtility ? mdContent : mdToSbMdx(
     docPath,
     categoryStr,
     `${categoryStr}/${pkgName}/Documentation`
   );
-  const newUtilityContent = `# ${pkgName}\n${getJSRMarkdown(pkgName)}\n\n ${mdContent}`;
-  const newSbContent = isUtility ? newUtilityContent : newComponentContent;
   saveToStorybookFolder(
     newSbContent,
     categoryStr,
