@@ -30,7 +30,7 @@ npx jsr add @web-components/$name
 
 ## Documentation
 
-- **Open [$name on Storybook]($storybookLink)**.
+- **Open examples for [$name on Storybook]($storybookLink)**.
 
 $docs
 
