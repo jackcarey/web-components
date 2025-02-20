@@ -41,16 +41,16 @@ const installDepsAtRoot = () => Object.values(pkgDetails).forEach(pkgJson => {
     console.log(stdBuffer.toString());
 });
 
-const getSbLink = (name) => `https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/${ !name?.length ? '' : name.includes('-') ? "components" : "utilities"}-${name}`;
+const getSbLink = (name) => `https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/${!name?.length ? '' : name.includes('-') ? "components" : "utilities"}-${name}`;
 
 const getBadges = (name, scope = 'web-components') => {
     const jsrBadgeUrl = `https://jsr.io/badges/@${scope}/${name}`;
-    const jsrVersionBadgeMd = `![${name}](${jsrBadgeUrl})`;
+    const jsrVersionBadgeMd = `![${name} version on JSR](${jsrBadgeUrl})`;
     const jsrLinkUrl = `https://jsr.io/@${scope}/${name}`;
-    const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl})`;
+    const jsrVersionMd = `[${jsrVersionBadgeMd}](${jsrLinkUrl}/versions)`;
     const jsrScoreUrl = `${jsrBadgeUrl}/score`;
-    const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
-    const sbBadge = `[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](${getSbLink(name)})`;
+    const jsrScoreMd = `[![JSR score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
+    const sbBadge = `[![${name} ${name.includes("-") ? "component" : "utility"} on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](${getSbLink(name)})`;
     return `${sbBadge} ${jsrVersionMd} ${jsrScoreMd}`;
 };
 
