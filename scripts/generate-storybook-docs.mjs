@@ -54,13 +54,11 @@ docPaths.forEach(([pkgName, docPath]) => {
   const mdContent = fs.readFileSync(docPath, 'utf8');
   const isUtility = !pkgName.includes('-');
   const categoryStr = isUtility ? 'utilities' : 'components';
-  const newComponentContent = mdToSbMdx(
+  const newSbContent = isUtility ? mdContent : mdToSbMdx(
     docPath,
     categoryStr,
     `${categoryStr}/${pkgName}/Documentation`
   );
-  const newUtilityContent = `# ${pkgName}\n${getBadges(pkgName)}\n\n ${mdContent}`;
-  const newSbContent = isUtility ? newUtilityContent : newComponentContent;
   saveToStorybookFolder(
     newSbContent,
     categoryStr,
