@@ -9,9 +9,13 @@ const theme = create({
     brandImage: "../images/open-graph.png",
     brandTarget: "_self",
 
+
     // Typography
     fontBase: '"Open Sans", sans-serif',
     fontCode: "Fira Code, monospace",
+
+    // Sidebar
+    appBg: "#ffffff",
 });
 
 addons.setConfig({
