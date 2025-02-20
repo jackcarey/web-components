@@ -15,6 +15,7 @@
     -   **Each is published with a separate package, readme, license, and documentation.**
     -   They are published to [jsr.io/@web-components](https://jsr.io/@web-components).
     -   The 'autoloader' can be used to load other components from [esm.sh](https://esm.sh/).
+    
 ---
 
 $table
