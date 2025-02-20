@@ -51,7 +51,7 @@ const getBadges = (name, scope = 'web-components') => {
     const jsrScoreUrl = `${jsrBadgeUrl}/score`;
     const jsrScoreMd = `[![score](${jsrScoreUrl})](${jsrLinkUrl}/score)`;
     const sbBadge = `[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](${getSbLink(name)})`;
-    return `${sbBadge}${jsrVersionMd} ${jsrScoreMd}`;
+    return `${sbBadge} ${jsrVersionMd} ${jsrScoreMd}`;
 };
 
 const logExecSync = (command) => {
