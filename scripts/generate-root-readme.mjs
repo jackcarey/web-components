@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count, getJSRMarkdown } from "./util-packages.mjs";
+import { repoRootDir, pkgDetails, count, getBadges } from "./util-packages.mjs";
 
 console.log("compiling packages for root readme from:", repoRootDir);
 
@@ -21,9 +21,9 @@ const pkgToMdRow = ([dir, pkgJson]) => {
   const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
     licenseName
   )})`;
-  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getJSRMarkdown(name)} |`;
+  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getBadges(name)} |`;
 };
-const mdBody = `| Name | Description | Version | License | Registry |\n| --- | --- | --- | --- | --- |\n${Object.entries(
+const mdBody = `| Name | Description | Version | License | Links |\n| --- | --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
 ).filter(([_dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)

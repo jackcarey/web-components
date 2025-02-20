@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { repoRootDir, pkgDetails, count, getJSRMarkdown } from "./util-packages.mjs";
+import { repoRootDir, pkgDetails, getBadges } from "./util-packages.mjs";
 
 console.log("generating package readmes from...");
 
@@ -27,7 +27,7 @@ Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
     $license: pkgJson.license ?? "unlicensed",
     $encodedLicense: encodeURIComponent(pkgJson.license) ?? "",
     $docs: docsStr,
-    $jsrBadges: getJSRMarkdown(pkgJson.name),
+    $badges: getBadges(pkgJson.name),
     $storybookLink: `https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/${pkgJson.name.includes('-')?'components':'utilities'}-${pkgJson.name}`
   };
   const readmeContent = Object.entries(replacements).reduce(

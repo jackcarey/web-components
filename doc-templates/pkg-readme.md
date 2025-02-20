@@ -2,7 +2,7 @@
 
 $description
 
-$jsrBadges
+$badges
 
 **version:** $version
 
