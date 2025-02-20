@@ -7,7 +7,11 @@ const getSbDocsFolderPath = (folder) => path.join(repoRootDir, 'storybook-docs',
 const mdToSbMdx = (absoluteDocPath, folder, title) => {
   const sanitizedPath = absoluteDocPath.replace(/\\/g, '/');
   const relativePath = path.relative(getSbDocsFolderPath(folder), sanitizedPath);
-  return `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${relativePath}?raw";\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
+  const imports = [
+    `import { Meta, Markdown } from "@storybook/blocks";`,
+    `import Docs from "${relativePath}?raw";`
+  ].join('\n');
+  return `${imports}\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
 };
 
 const saveToStorybookFolder = (content, folder, fileName) => { 
