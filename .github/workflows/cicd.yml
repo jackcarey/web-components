@@ -78,10 +78,6 @@ jobs:
 
             # Test
 
-            - name: Generate Storybook documentation
-              id: generate-storybook-docs
-              run: node scripts/generate-storybook-docs.mjs
-
             - name: Run tests
               run: npm run test-ci
 
@@ -106,13 +102,11 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            # Publish
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: node scripts/generate-storybook-docs.mjs
 
-            # - name: Run Chromatic
-            #   if: github.ref == 'refs/heads/main'
-            #   uses: chromaui/action@latest
-            #   with:
-            #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+            # Publish
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
               run: node scripts/publish-jsr.mjs
