@@ -2,13 +2,20 @@ import { getJSRMarkdown, pkgDetails, repoRootDir } from './util-packages.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const mdToSbMdx = (docPath, title) => {
-  const sanitizedPath = docPath.replace(/\\/g, '/');
-  return `import { Meta, Markdown } from "@storybook/blocks";\nimport Docs from "${sanitizedPath}?raw";\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
+const getSbDocsFolderPath = (folder) => path.join(repoRootDir, 'storybook-docs', folder);
+
+const mdToSbMdx = (absoluteDocPath, folder, title) => {
+  const sanitizedPath = absoluteDocPath.replace(/\\/g, '/');
+  const relativePath = path.relative(getSbDocsFolderPath(folder), sanitizedPath);
+  const imports = [
+    `import { Meta, Markdown } from "@storybook/blocks";`,
+    `import Docs from "${relativePath}?raw";`
+  ].join('\n');
+  return `${imports}\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
 };
 
-const saveToStorybookFolder = (content, folder, fileName) => {
-  const fullPath = path.join(repoRootDir, 'storybook-docs', folder, fileName);
+const saveToStorybookFolder = (content, folder, fileName) => { 
+  const fullPath = path.join(getSbDocsFolderPath(folder), fileName);
   const pathExists = fs.existsSync(fullPath);
   let existingSbContent = '';
   if (pathExists) {
@@ -16,7 +23,7 @@ const saveToStorybookFolder = (content, folder, fileName) => {
   }
   if (pathExists) {
     if (!content) {
-      console.log(`Removing storybook documentation from ${fullPath}`);
+      console.log(`No content. Removing storybook documentation from ${fullPath}`);
       fs.unlinkSync(fullPath);
     }
     const hasChanged = existingSbContent !== content;
@@ -46,19 +53,20 @@ const docPaths = Object.entries(pkgDetails)
 docPaths.forEach(([pkgName, docPath]) => {
   const mdContent = fs.readFileSync(docPath, 'utf8');
   const isUtility = !pkgName.includes('-');
+  const categoryStr = isUtility ? 'utilities' : 'components';
   const newComponentContent = mdToSbMdx(
     docPath,
-    `${isUtility ? 'utilities' : 'components'}/${pkgName}/Documentation`
+    categoryStr,
+    `${categoryStr}/${pkgName}/Documentation`
   );
-  const newUtilityContent = `# ${pkgName}\n\n ${mdContent}`;
-  const headerContent = `# ${pkgName}\n${getJSRMarkdown(pkgName)}`;
-  const newSbContent = `${headerContent}\n${isUtility ? newUtilityContent : newComponentContent}`;
+  const newUtilityContent = `# ${pkgName}\n${getJSRMarkdown(pkgName)}\n\n ${mdContent}`;
+  const newSbContent = isUtility ? newUtilityContent : newComponentContent;
   saveToStorybookFolder(
     newSbContent,
-    isUtility ? 'utilities' : 'components',
+    categoryStr,
     `${pkgName}.mdx`
   );
 });
 
 const readmePath = `${repoRootDir}/README.md`;
-saveToStorybookFolder(mdToSbMdx(readmePath, 'About'), 'about', 'about.mdx');
+saveToStorybookFolder(mdToSbMdx(readmePath, 'about','About'), 'about', 'about.mdx');
