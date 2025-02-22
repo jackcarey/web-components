@@ -1,12 +1,11 @@
 # middle-truncate
 
+[![middle-truncate component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate) [![middle-truncate version on JSR](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate/versions) [![JSR score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score)
+
 > Truncate text in the middle
 
-[![middle-truncate](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate) [![score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score)
-
-**version:** 0.1.1
-
-**license:** [LGPL-3](./LICENSE.md)
+- **Version:** 0.1.1
+- **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/middle-truncate
 npx jsr add @web-components/middle-truncate
 ```
 
-## Documentation
+# Documentation
 
-- **Open [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate)**.
+- **Open examples for [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate)**.
 
 This package is a work-in-progress. It does not yet work with vertical text.
 

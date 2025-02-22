@@ -1,12 +1,11 @@
 # i-cal
 
+[![i-cal component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal) [![i-cal version on JSR](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal/versions) [![JSR score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score)
+
 > Renders ics data in a web component.
 
-[![i-cal](https://jsr.io/badges/@web-components/i-cal)](https://jsr.io/@web-components/i-cal) [![score](https://jsr.io/badges/@web-components/i-cal/score)](https://jsr.io/@web-components/i-cal/score)
-
-**version:** 1.1.8
-
-**license:** [LGPL-3](./LICENSE.md)
+- **Version:** 1.1.8
+- **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/i-cal
 npx jsr add @web-components/i-cal
 ```
 
-## Documentation
+# Documentation
 
-- **Open [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
+- **Open examples for [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
 
 The `i-cal` component renders ics formatted text as an ordered list. It has the following attributes:
 

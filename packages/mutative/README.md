@@ -1,12 +1,11 @@
 # mutative
 
+[![mutative utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative) [![mutative version on JSR](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative/versions) [![JSR score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score)
+
 > Persistent DOM mutation observations based on CSS query selectors
 
-[![mutative](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative) [![score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score)
-
-**version:** 1.0.3
-
-**license:** [LGPL-3](./LICENSE.md)
+- **Version:** 1.0.3
+- **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/mutative
 npx jsr add @web-components/mutative
 ```
 
-## Documentation
+# Documentation
 
-- **Open [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
+- **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
 
 Persistent DOM mutation observations based on CSS query [selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). It's essentially a wrapper for a global [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) that filters records to specific callbacks. The API is _similar_ to MutationObserver, but not the same.
 
