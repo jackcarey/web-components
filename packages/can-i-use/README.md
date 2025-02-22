@@ -1,12 +1,11 @@
 # can-i-use
 
+[![can-i-use component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use) [![can-i-use version on JSR](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use/versions) [![JSR score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
+
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 
-[![can-i-use](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use) [![score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
-
-**version:** 1.0.8
-
-**license:** [LGPL-3](./LICENSE.md)
+- **Version:** 1.0.8
+- **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/can-i-use
 npx jsr add @web-components/can-i-use
 ```
 
-## Documentation
+# Documentation
 
-- **Open [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use)**.
+- **Open examples for [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use)**.
 
 ## Attributes
 

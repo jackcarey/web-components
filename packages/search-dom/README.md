@@ -1,12 +1,11 @@
 # search-dom
 
+[![search-dom component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom) [![search-dom version on JSR](https://jsr.io/badges/@web-components/search-dom)](https://jsr.io/@web-components/search-dom/versions) [![JSR score](https://jsr.io/badges/@web-components/search-dom/score)](https://jsr.io/@web-components/search-dom/score)
+
 > A component that filters the DOM when an inner search input changes.
 
-[![search-dom](https://jsr.io/badges/@web-components/search-dom)](https://jsr.io/@web-components/search-dom) [![score](https://jsr.io/badges/@web-components/search-dom/score)](https://jsr.io/@web-components/search-dom/score)
-
-**version:** 0.0.1
-
-**license:** [](./LICENSE.md)
+- **Version:** 0.0.1
+- **License:** [](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/search-dom
 npx jsr add @web-components/search-dom
 ```
 
-## Documentation
+# Documentation
 
-- **Open [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom)**.
+- **Open examples for [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom)**.
 
 A component that filters the DOM when an inner search input changes.
 

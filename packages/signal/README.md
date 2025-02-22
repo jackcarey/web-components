@@ -1,12 +1,11 @@
 # signal
 
+[![signal utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal) [![signal version on JSR](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal/versions) [![JSR score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
+
 > A reactive data object that emits events on itself and other EventTargets when its value changes.
 
-[![signal](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal) [![score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
-
-**version:** 1.0.1
-
-**license:** [LGPL-3](./LICENSE.md)
+- **Version:** 1.0.1
+- **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
@@ -28,9 +27,9 @@ deno add jsr:@web-components/signal
 npx jsr add @web-components/signal
 ```
 
-## Documentation
+# Documentation
 
-- **Open [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
+- **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
 
 //todo
 
