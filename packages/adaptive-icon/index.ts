@@ -83,21 +83,19 @@ class AdaptiveIcon extends HTMLElement {
         if (!this.#shadowRoot) {
             this.#shadowRoot = this.attachShadow({ mode: 'open' });
         }
-        const thisId = `adaptive-icon-${Math.random().toString(36).substring(7)}`;
-        this.#shadowRoot.host.id = thisId;
         const imgHtml = this.srcset || this.src ? `<img id="" ${this.srcset ? `srcset="${this.srcset ?? ''}"` : ''} ${this.src ? `src="${this.src}"` : ``}/>` : '';
         this.#shadowRoot.innerHTML = `<style>
-            :host::part(top-left){position:relative;top:0;left:0}
-            :host::part(top-right){position:relative;top:0;right:0}
-            :host::part(bottom-left){position:relative;bottom:0;left:0}
-            :host::part(bottom-right){position:relative;bottom:0;right:0}
-            :host::part(icon) img{width:100%;height:100%;object-fit:contain;aspect-ratio:1;}
+            #top-left{position:absolute;top:0;left:0}
+            #top-right{position:absolute;top:0;right:0}
+            #bottom-left{position:absolute;bottom:0;left:0}
+            #bottom-right{position:absolute;bottom:0;right:0}
+            #icon img{width:100%;height:100%;object-fit:contain;aspect-ratio:1;}
         </style>
-        <div part="icon"><slot>${imgHtml}</slot></div>
-        <div id="top-left" part="top-left"><slot name="top-left">${this.topLeft ?? ''}</slot></div>
-        <div id="top-right" part="top-right"><slot name="top-right">${this.topRight ?? ''}</slot></div>
-        <div id="bottom-left" part="bottom-left"><slot name="bottom-left">${this.bottomLeft ?? ''}</slot></div>
-        <div id="bottom-right" part="bottom-right"><slot name="bottom-right">${this.bottomRight ?? ''}</slot></div>`;
+            <div id="top-left" part="top-left"><slot name="top-left">${this.topLeft ?? ''}</slot></div>
+            <div id="top-right" part="top-right"><slot name="top-right">${this.topRight ?? ''}</slot></div>
+            <div id="icon" part="icon"><slot>${imgHtml}</slot></div>
+            <div id="bottom-left" part="bottom-left"><slot name="bottom-left">${this.bottomLeft ?? ''}</slot></div>
+            <div id="bottom-right" part="bottom-right"><slot name="bottom-right">${this.bottomRight ?? ''}</slot></div>`;
     }
 
     constructor() {
