@@ -17,7 +17,7 @@ export const WithAttributes: Story = {
         'bottom-left': '↖️',
         'top-right': '↘️',
         'top-left': '↙️',
-        src: 'https://picsum.photos/web-components/200/200',
+        src: 'https://picsum.photos/seed/web-components/200/200',
     }
 };
 
