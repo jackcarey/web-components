@@ -16,7 +16,6 @@ export const CreateComponentStoryMeta = (component: string, styles?: string, ove
         component,
         parameters: {
             controls: { expanded: true },
-            layout: 'fullscreen',
         },
         decorators: CreateComponentDecorators(component, styles),
         ...overrides,

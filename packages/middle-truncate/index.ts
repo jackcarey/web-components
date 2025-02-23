@@ -318,7 +318,7 @@ class MiddleTruncate extends HTMLElement {
             ({ length: segLen }, idx, arr) => {
               const sumLen = Math.ceil(
                 arr.slice(-idx).reduce((prev, curr) => prev + curr.length, 0) +
-                  segLen
+                segLen
               );
               return sumLen > endMaxPx;
             }
@@ -390,3 +390,5 @@ class MiddleTruncate extends HTMLElement {
 }
 
 customElements.define('middle-truncate', MiddleTruncate);
+
+export default MiddleTruncate;
