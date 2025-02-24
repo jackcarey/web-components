@@ -1,394 +1,141 @@
-type SegmentDataWithLength = Intl.SegmentData & {
-  length: number;
-};
-
-class DimensionProxy {
-  #elLen: number;
-  #dividerLen: number;
-  #maxTextLen: number;
-  #onChange: (object: DimensionProxy) => void;
-  constructor(
-    onChange: (object: DimensionProxy) => void,
-    initialValue?: object
-  ) {
-    const {
-      elLen = 0,
-      dividerLen = 0,
-      maxTextLen = 0,
-    } = (initialValue as DimensionProxy) ?? {};
-    this.#elLen = elLen;
-    this.#dividerLen = dividerLen;
-    this.#maxTextLen = maxTextLen;
-    this.#onChange = onChange;
-  }
-  get elLen(): number {
-    return this.#elLen;
-  }
-  set elLen(val: number) {
-    if (val !== this.#elLen) {
-      this.#elLen = val;
-      this.#onChange(this);
-    }
-  }
-  get dividerLen() {
-    return this.#dividerLen;
-  }
-  set dividerLen(val) {
-    if (val !== this.#dividerLen) {
-      this.#dividerLen = val;
-      this.#onChange(this);
-    }
-  }
-  get maxTextLen() {
-    return this.#maxTextLen;
-  }
-  set maxTextLen(val) {
-    if (val !== this.#maxTextLen) {
-      this.#maxTextLen = val;
-      this.#onChange(this);
-    }
-  }
-}
-
-/**
- * A custom HTML element that truncates text in the middle to fit within a specified limit.
- * @module middle-truncate
- * @class MiddleTruncate
- * @extends HTMLElement
- *
- * @attribute {string} value - The text content to be truncated.
- * @attribute {number} limit - The maximum number of characters to display.
- * @attribute {string} dir - The text direction, either 'ltr' (left-to-right) or 'rtl' (right-to-left).
- *
- */
 class MiddleTruncate extends HTMLElement {
-  #segmenter: Intl.Segmenter;
-  #segments: SegmentDataWithLength[] = [];
-  #dimensionUpdateLockId: ReturnType<typeof requestIdleCallback> | undefined;
-  #redrawLock: ReturnType<typeof requestAnimationFrame> | undefined;
-  #defaultDivider: string = '…';
-  #windowFocused = true;
-  #resizeObserver: ResizeObserver | undefined;
-  #dimensions: DimensionProxy;
-  #internals: ElementInternals;
-
   static get observedAttributes() {
-    return ['title', 'at', 'divider', 'disabled', 'ms', 'truncated'];
+    return ['at'];
   }
-
+  static get #styles() {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`
+      :host span {
+        text-overflow:   ellipsis;
+        overflow: hidden;
+        wrap: nowrap;
+        text-wrap: none;
+        white-space: nowrap;
+        overflow-wrap: hidden;
+        max-width: 100%;
+        max-height: 100%;
+        display: inline-block;
+      }
+      :host span::after{
+        content: var(--content,'');
+        inline-size: var(--fragmentSize, 0);
+        wrap: nowrap;
+        text-wrap: none;
+        white-space: nowrap;
+        overflow: none;
+        border: 1px solid blue;
+        display: inline;
+        }`);
+    return sheet;
+  }
+  static #segmenter = new Intl.Segmenter();
+  #segments: string[] = [];
+  #shadowRoot: ShadowRoot;
+  #animFrame: number | undefined;
+  #mutationObserver: MutationObserver | undefined = undefined;
+  #resizeObserver: ResizeObserver | undefined = undefined;
   constructor() {
     super();
-    window.addEventListener('resize', () => {
-      this.#render();
-    });
-    window.addEventListener('focus', () => {
-      this.#windowFocused = true;
-      this.#render();
-    });
-    window.addEventListener('blur', () => {
-      this.#windowFocused = false;
-      this.#cancelNextRender();
-    });
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        this.#cancelNextRender();
-      } else {
-        this.#render();
-      }
-    });
-    this.#dimensions = new DimensionProxy((_dimProxy) => {
-      this.#redraw();
-    });
-
-    // Attach an ElementInternals to get states property
-    this.#internals = this.attachInternals();
+    this.#shadowRoot = this.attachShadow({ mode: 'open' });
+    this.#shadowRoot.adoptedStyleSheets = [MiddleTruncate.#styles];
   }
 
-  get #canUpdate() {
-    if (!this || !this.#windowFocused || !this.isConnected || document.hidden)
-      return false;
-    const rect = this.getBoundingClientRect();
-    //this isVisible check has a pixel buffer around the screen size
-    const bufferPx = 10;
-    const isVisible =
-      rect.top >= -bufferPx &&
-      rect.bottom <= window.innerHeight + bufferPx &&
-      rect.left >= -bufferPx &&
-      rect.right <= window.innerWidth + bufferPx;
-    return isVisible;
+  get at(): number {
+    const parsed = parseInt(this.getAttribute('at') ?? '');
+    if (isNaN(parsed)) {
+      return 50;
+    }
+    return Math.min(100, Math.max(0, parsed));
   }
 
-  #cancelNextRender() {
-    if (this.#dimensionUpdateLockId) {
-      cancelIdleCallback(this.#dimensionUpdateLockId);
-      this.#dimensionUpdateLockId = undefined;
+  set at(value: number | string) {
+    if (value) {
+      const asInt = parseInt(value.toString(), 10);
+      this.setAttribute('at', String(Math.min(100, Math.max(0, asInt))));
+    } else {
+      this.removeAttribute('at');
     }
-    if (this.#redrawLock) {
-      cancelAnimationFrame(this.#redrawLock);
-      this.#redrawLock = undefined;
-    }
+  }
+
+  #segmentInnerText = () => {
+    this.#segments = Array.from(MiddleTruncate.#segmenter.segment(this.innerText ?? '')).map(s => s.segment);
   }
 
   connectedCallback() {
-    if (!this.#resizeObserver) {
-      this.#resizeObserver = new ResizeObserver((entries) => {
-        const { contentBoxSize } = entries[0];
-        const { inlineSize } = contentBoxSize[0];
-        if (inlineSize) {
-          this.#dimensions.elLen = inlineSize;
-        }
+    if (!this.#mutationObserver) {
+      this.#mutationObserver = new MutationObserver(() => {
+        this.#segmentInnerText();
+        this.render();
       });
     }
+    if (!this.#resizeObserver) {
+      this.#resizeObserver = new ResizeObserver(() => this.render());
+    }
+    this.#mutationObserver.observe(this, { characterData: true });
     this.#resizeObserver.observe(this);
-    this.#render();
+    this.#segmentInnerText();
+    this.render();
   }
 
   disconnectedCallback() {
-    if (this.#resizeObserver) {
-      this.#resizeObserver.disconnect();
+    this.#mutationObserver?.disconnect();
+    this.#resizeObserver?.disconnect();
+    this.#mutationObserver = undefined;
+    this.#resizeObserver = undefined;
+    if (this.#animFrame) {
+      cancelAnimationFrame(this.#animFrame);
     }
-    this.#cancelNextRender();
   }
 
-  attributeChangedCallback(attrName, oldVal, newVal) {
-    if (attrName === 'title') {
-      if (!this.#segmenter) {
-        this.#segmenter = new Intl.Segmenter();
-      }
-      if (!newVal) {
-        this.#segments = [];
-      } else {
-        Array.from(this.#segmenter.segment(newVal)).forEach((segData, idx) => {
-          this.#segments[idx] = {
-            ...segData,
-            input: '', //the input is stored in this.title. No need to keep it duplicated it in memory here
-            length: this.#segments[idx]?.length ?? 0,
-          };
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  render() {
+    if (!this.#animFrame) {
+      this.#shadowRoot.innerHTML = `<span><slot></slot></span>`;
+      const innerSpan = this.#shadowRoot.querySelector('span') as HTMLSpanElement | null;
+      if (innerSpan) {
+        this.#animFrame = requestAnimationFrame(() => {
+          this.#segments = Array.from(MiddleTruncate.#segmenter.segment(this.innerText ?? '')).map(s => s.segment);
+          const isVertical = getComputedStyle(this).writingMode.startsWith('vertical');
+          const inlineSize = isVertical ? (this.offsetHeight) : (this.offsetWidth);
+          const maxFirstPx = this.at / 100 * inlineSize;
+          const maxFragmentPx = (inlineSize - maxFirstPx);
+          let secondText = '';
+          let secondLength = 0;
+          for (let i = this.#segments?.length - 1; i >= 0; i--) {
+            const segment = this.#segments[i];
+            if (secondLength < maxFragmentPx) {
+              innerSpan.innerText = segment;
+              const fragmentSize = isVertical ? (innerSpan.offsetHeight) : (innerSpan.offsetWidth);
+              if (secondLength + fragmentSize < maxFragmentPx) {
+                secondText = segment + secondText;
+                secondLength += fragmentSize;
+              }
+            }
+          }
+          innerSpan.innerHTML = `<slot></slot>`; //reset the slot content
+          secondText = secondText.trim();
+          console.log({
+            innerText: this.innerText,
+            at: this.at,
+            isVertical,
+            inlineSize,
+            maxFirstPx,
+            maxFragmentPx,
+            secondLength,
+            secondText,
+          });
+          innerSpan.style.setProperty('--size', `${maxFirstPx}px`);
+          innerSpan.style.setProperty('--fragmentSize', `${maxFragmentPx}px`);
+          innerSpan.style.setProperty('--content', `"${secondText}"`);
+          this.#animFrame = undefined;
         });
       }
     }
-    // 'truncated' is read-only and should always match the internal value
-    if (attrName === 'truncated') {
-      this.#setTruncated(this.truncated);
-    }
-    this.#cancelNextRender();
-    this.#render();
-  }
-
-  /**
-   * The percentage of text to show the truncation at.
-   */
-  get at(): number {
-    const fallback = 50;
-    if (this.hasAttribute('at')) {
-      try {
-        return parseInt(String(this.getAttribute('at')));
-      } catch (e) {
-        return fallback;
-      }
-    }
-    return fallback;
-  }
-
-  /**
-   * The percentage of text to show the truncation at.
-   */
-  set at(val: string | number | undefined | null) {
-    if (val === undefined || val === null) {
-      this.removeAttribute('at');
-    } else {
-      const asNum = Math.max(0, Math.min(100, parseInt(String(val))));
-      if (asNum) {
-        this.setAttribute('at', String(asNum));
-      }
-    }
-  }
-
-  /**
-   * The maximum number of milliseconds to wait before recalculating dimensions
-   */
-  get ms(): number {
-    const fallback = 16; //at 60fps 16ms is roughly 1 frame
-    if (this.hasAttribute('at')) {
-      try {
-        return parseInt(String(this.getAttribute('at')));
-      } catch (e) {
-        return fallback;
-      }
-    }
-    return fallback;
-  }
-
-  /**
-   * The maximum number of milliseconds to wait before recalculating dimensions
-   */
-  set ms(val: string | number | undefined | null) {
-    if (!val) {
-      this.removeAttribute('ms');
-    } else {
-      const asNum = Math.max(0, parseInt(String(val)));
-      if (asNum) {
-        this.setAttribute('ms', String(asNum));
-      }
-    }
-  }
-
-  get divider() {
-    return this.getAttribute('divider') ?? this.#defaultDivider;
-  }
-
-  set divider(val) {
-    if (!val?.length) {
-      this.removeAttribute('divider');
-    } else {
-      this.setAttribute('divider', val);
-    }
-  }
-
-  get truncated() {
-    return this.#internals.states.has('truncated');
-  }
-
-  #setTruncated(isTruncated: boolean) {
-    const hasInternal = this.#internals.states.has('truncated');
-    const hasAttr = this.hasAttribute('truncated');
-    if (isTruncated) {
-      if (!hasInternal) {
-        this.#internals.states.add('truncated');
-      }
-      if (!hasAttr) {
-        this.setAttribute('truncated', '');
-      }
-    } else {
-      if (hasInternal) {
-        this.#internals.states.delete('truncated');
-      }
-      if (hasAttr) {
-        this.removeAttribute('truncated');
-      }
-    }
-  }
-
-  #redraw() {
-    //this is the latest update, it's the only one that should be applied.
-    if (this.#redrawLock) {
-      cancelAnimationFrame(this.#redrawLock);
-      this.#redrawLock = undefined;
-    }
-    const updateInnerText = (newText: string): boolean => {
-      if (this.innerText !== newText) {
-        this.innerText = newText ?? '';
-        return true;
-      }
-      return false;
-    };
-    const redraw = () => {
-      if (this && (!this.isConnected || this.hasAttribute('disabled'))) {
-        updateInnerText(this.title);
-      } else {
-        //there's no point rendering elements that aren't seen, so only continue while the element is in view
-        if (!this.#canUpdate) return;
-        const noTitle = !this.title || !this.#segments?.length;
-        this.#setTruncated(
-          noTitle ? false : this.#dimensions.elLen < this.#dimensions.maxTextLen
-        );
-        const useFullText =
-          noTitle || !this.#dimensions.elLen || !this.truncated;
-        if (useFullText) {
-          updateInnerText(this.title);
-        } else if (this.#dimensions.elLen <= this.#dimensions.dividerLen) {
-          updateInnerText(this.divider);
-        } else {
-          const availableSpace = Math.floor(
-            this.#dimensions.elLen - this.#dimensions.dividerLen
-          );
-          const startMaxPx = Math.floor(availableSpace * (this.at / 100));
-          const endMaxPx = Math.floor(availableSpace - startMaxPx);
-          const startIdx = this.#segments.filter(
-            ({ length: segLen }, idx, arr) => {
-              const sumLen = Math.ceil(
-                arr
-                  .slice(0, idx)
-                  .reduce((prev, curr) => prev + curr.length, 0) + segLen
-              );
-              return sumLen < startMaxPx;
-            }
-          ).length;
-          const endIdx = this.#segments.filter(
-            ({ length: segLen }, idx, arr) => {
-              const sumLen = Math.ceil(
-                arr.slice(-idx).reduce((prev, curr) => prev + curr.length, 0) +
-                segLen
-              );
-              return sumLen > endMaxPx;
-            }
-          ).length;
-          const startStr = this.title.slice(0, startIdx);
-          const endStr = this.title.slice(endIdx);
-          console.log(`truncated`, {
-            startIdx,
-            endIdx,
-            startStr,
-            dims: this.#dimensions,
-            endStr,
-            availableSpace,
-            startMaxPx,
-            endMaxPx,
-          });
-          updateInnerText(`${startStr}${this.divider}${endStr}`);
-        }
-      }
-    };
-    redraw();
-    this.#redrawLock = requestAnimationFrame(redraw);
-  }
-
-  #render() {
-    if (!this) return;
-    //there's an update pending, let it finish
-    if (this.#dimensionUpdateLockId) return;
-    const updateDimensions = () => {
-      const currentText = this.innerText;
-      const { writingMode } = getComputedStyle(this);
-      const isVertical = writingMode.startsWith('vertical');
-      const isSideways = writingMode.startsWith('sideways');
-      const useHeight = isVertical || isSideways;
-
-      const getDim = () => {
-        const { width, height } = this.getBoundingClientRect();
-        return useHeight ? height : width;
-      };
-
-      this.#defaultDivider = isVertical ? '︙' : '…'; //unicode FE19 and 2026
-      this.innerText = this.divider;
-      // const { width: dividerWidth, height: dividerHeight } = this.getBoundingClientRect();
-      this.#dimensions.dividerLen = Math.ceil(getDim());
-
-      //determine the dimensions of the text by summing the length and width of each rendered segment
-      let fullTextLen = 0;
-      this.#segments.forEach((segData, idx) => {
-        this.innerText = segData.segment;
-        const dim = Math.ceil(getDim());
-        fullTextLen += dim;
-        this.#segments[idx].length = dim;
-      });
-      this.#dimensions.maxTextLen = fullTextLen;
-
-      this.innerText = this.title;
-      //determine the correct element dimensions to use for the next render
-      this.#dimensions.elLen = Math.floor(getDim());
-
-      //then restore the correct text
-      this.innerText = currentText;
-      // and remove the lock on updating dimensions
-      this.#dimensionUpdateLockId = undefined;
-    };
-    this.#dimensionUpdateLockId = requestIdleCallback(updateDimensions, {
-      timeout: this.ms,
-    });
   }
 }
 
 customElements.define('middle-truncate', MiddleTruncate);
-
 export default MiddleTruncate;

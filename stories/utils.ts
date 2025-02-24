@@ -6,7 +6,7 @@ export const CreateComponentDecorators = (component: string, styles?: string) =>
         (story) => {
             import(`../packages/${component}/index.ts`);
             const styleHtml = html`<style>${styles ?? ""}</style>`;
-            return html`${styleHtml}${story()}`;
+            return html`${styleHtml}<div id="container">${story()}</div>`;
         }
     ];
 };
