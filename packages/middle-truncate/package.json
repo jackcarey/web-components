@@ -1,7 +1,7 @@
 {
   "name": "middle-truncate",
   "version": "0.1.1",
-  "description": "Truncate text in the middle",
+  "description": "Truncate text in the middle at a configurable position.",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

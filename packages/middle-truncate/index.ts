@@ -6,25 +6,19 @@ class MiddleTruncate extends HTMLElement {
     const sheet = new CSSStyleSheet();
     sheet.replaceSync(`
       :host span {
-        text-overflow:   ellipsis;
-        overflow: hidden;
         wrap: nowrap;
         text-wrap: none;
         white-space: nowrap;
-        overflow-wrap: hidden;
-        max-width: 100%;
-        max-height: 100%;
-        display: inline-block;
+        display: inline-block block;
+        }
+        :host #start{
+          text-overflow: ellipsis;
+          overflow: hidden;
       }
-      :host span::after{
-        content: var(--content,'');
-        inline-size: var(--fragmentSize, 0);
-        wrap: nowrap;
-        text-wrap: none;
-        white-space: nowrap;
-        overflow: none;
-        border: 1px solid blue;
-        display: inline;
+      :host #end{
+          text-overflow: visible;
+          overflow: hidden;
+          text-align: end;
         }`);
     return sheet;
   }
@@ -93,30 +87,52 @@ class MiddleTruncate extends HTMLElement {
 
   render() {
     if (!this.#animFrame) {
-      this.#shadowRoot.innerHTML = `<span><slot></slot></span>`;
-      const innerSpan = this.#shadowRoot.querySelector('span') as HTMLSpanElement | null;
-      if (innerSpan) {
+      this.#shadowRoot.innerHTML = `<span id="start"><slot></slot></span><span id="end"></span>`;
+      const startSpan = this.#shadowRoot.querySelector('#start') as HTMLSpanElement;
+      const endSpan = this.#shadowRoot.querySelector('#end') as HTMLSpanElement;
+      if (startSpan && endSpan) {
         this.#animFrame = requestAnimationFrame(() => {
           this.#segments = Array.from(MiddleTruncate.#segmenter.segment(this.innerText ?? '')).map(s => s.segment);
           const isVertical = getComputedStyle(this).writingMode.startsWith('vertical');
           const inlineSize = isVertical ? (this.offsetHeight) : (this.offsetWidth);
-          const maxFirstPx = this.at / 100 * inlineSize;
-          const maxFragmentPx = (inlineSize - maxFirstPx);
+          const maxFirstPx = (this.at / 100 * inlineSize);
+          const maxFragmentPx = 0.9 * (inlineSize - maxFirstPx);
+
+          let firstText = '';
+          let firstLength = 0;
+          for (let i = 0; i < this.#segments?.length; i++) {
+            const segment = this.#segments[i];
+            if (firstLength < maxFirstPx) {
+              startSpan.innerText = segment;
+              const fragmentSize = isVertical ? (startSpan.offsetHeight) : (startSpan.offsetWidth);
+              if (firstLength + fragmentSize < maxFirstPx) {
+                firstText += segment;
+                firstLength += fragmentSize;
+              }
+            }
+          }
+
           let secondText = '';
           let secondLength = 0;
           for (let i = this.#segments?.length - 1; i >= 0; i--) {
             const segment = this.#segments[i];
             if (secondLength < maxFragmentPx) {
-              innerSpan.innerText = segment;
-              const fragmentSize = isVertical ? (innerSpan.offsetHeight) : (innerSpan.offsetWidth);
+              startSpan.innerText = segment;
+              const fragmentSize = isVertical ? (startSpan.offsetHeight) : (startSpan.offsetWidth);
               if (secondLength + fragmentSize < maxFragmentPx) {
                 secondText = segment + secondText;
                 secondLength += fragmentSize;
               }
             }
           }
-          innerSpan.innerHTML = `<slot></slot>`; //reset the slot content
+
+          firstText = firstText.trim();
           secondText = secondText.trim();
+          startSpan.innerText = firstText;
+          endSpan.innerText = secondText;
+          startSpan.style.setProperty('max-width', `${maxFirstPx}px`);
+          endSpan.style.setProperty('width', `${maxFragmentPx}px`);
+          this.#animFrame = undefined;
           console.log({
             innerText: this.innerText,
             at: this.at,
@@ -126,11 +142,9 @@ class MiddleTruncate extends HTMLElement {
             maxFragmentPx,
             secondLength,
             secondText,
+            scrollHeight: this.scrollHeight,
+            scrollWidth: this.scrollWidth,
           });
-          innerSpan.style.setProperty('--size', `${maxFirstPx}px`);
-          innerSpan.style.setProperty('--fragmentSize', `${maxFragmentPx}px`);
-          innerSpan.style.setProperty('--content', `"${secondText}"`);
-          this.#animFrame = undefined;
         });
       }
     }
