@@ -18,11 +18,11 @@ export const InputColor: Story = {
     tags: ['a11y-serious'],
 };
 
-export const AccessibleColors = {
-    args: {
-        "accessible-colors": "true",
-    },
-};
+// export const AccessibleColors = {
+//     args: {
+//         "accessible-colors": "true",
+//     },
+// };
 
 export const ImageMode = {
     args: {
