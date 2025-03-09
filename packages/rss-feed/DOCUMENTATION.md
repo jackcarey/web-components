@@ -105,3 +105,9 @@ Style the component with display [contents](https://developer.mozilla.org/en-US/
 ## Dependencies
 
 This element uses [rss-parser](https://www.npmjs.com/package/rss-parser) to extract RSS information.
+
+## Future work
+
+_Could include..._
+
+-   OPML support
