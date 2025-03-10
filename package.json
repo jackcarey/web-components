@@ -23,7 +23,7 @@
     "@storybook/builder-vite": "^8.5.8",
     "@storybook/test": "^8.4.7",
     "@storybook/test-runner": "^0.21.0",
-    "@storybook/web-components": "^8.4.7",
+    "@storybook/web-components": "^8.6.4",
     "@storybook/web-components-vite": "^8.5.8",
     "axe-playwright": "^2.0.3",
     "chromatic": "^11.25.2",
