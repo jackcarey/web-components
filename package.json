@@ -1,12 +1,11 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
-    "@npmcli/package-json": "^6.1.1",
-    "@types/ical": "^0.8.3",
     "ical.js": "^2.1.0"
   },
   "description": "A collection of web components for a variety purposes.",
   "devDependencies": {
+    "@types/ical": "^0.8.3",
     "@chromatic-com/storybook": "^3.2.4",
     "@custom-elements-manifest/analyzer": "^0.10.4",
     "@jest/globals": "^29.7.0",
