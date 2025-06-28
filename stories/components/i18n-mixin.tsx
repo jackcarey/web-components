@@ -32,7 +32,7 @@ export const WithLang: Story = {
         lang: "en",
     },
     render: (args) => {
-        return html` <i18n-provider lang="${args.lang}">
+        return html`<i18n-provider lang="${args.lang}">
             <p>${args.lang} text</p>
         </i18n-provider>`;
     },
