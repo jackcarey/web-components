@@ -4,12 +4,12 @@
 
 > A component that filters the DOM when an inner search input changes.
 
-- **Version:** 0.0.1
-- **License:** [](./LICENSE.md)
+-   **Version:** 0.0.1
+-   **License:** [](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/search-dom](https://esm.sh/jsr/@web-components/search-dom) 
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/search-dom](https://esm.sh/jsr/@web-components/search-dom)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/search-dom" type="module"></script>
@@ -21,7 +21,9 @@
 deno add jsr:@web-components/search-dom
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:**
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/search-dom
@@ -29,7 +31,7 @@ npx jsr add @web-components/search-dom
 
 # Documentation
 
-- **Open examples for [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom)**.
+-   **Open examples for [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom)**.
 
 A component that filters the DOM when an inner search input changes.
 

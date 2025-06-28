@@ -4,12 +4,12 @@ $badges
 
 $description
 
-- **Version:** $version
-- **License:** [$license](./LICENSE.md)
+-   **Version:** $version
+-   **License:** [$license](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name) 
+**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
@@ -21,7 +21,9 @@ $description
 deno add jsr:@web-components/$name
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+**NPM:**
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/$name
@@ -29,7 +31,7 @@ npx jsr add @web-components/$name
 
 # Documentation
 
-- **Open examples for [$name on Storybook]($storybookLink)**.
+-   **Open examples for [$name on Storybook]($storybookLink)**.
 
 $docs
 

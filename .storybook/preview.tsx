@@ -1,5 +1,5 @@
-import { Preview } from "@storybook/web-components";
-/** @type { import('@storybook/web-components').Preview } */
+import { Preview } from "@storybook/web-components-vite";
+/** @type { import('@storybook/web-components-vite').Preview } */
 const preview: Preview = {
     parameters: {
         actions: { argTypesRegex: "^on[A-Z].*" },
@@ -13,7 +13,7 @@ const preview: Preview = {
             toc: true,
         },
         options: {
-            // The `a` and `b` arguments in this function have a type of `import('@storybook/types').IndexEntry`. Remember that the function is executed in a JavaScript environment, so use JSDoc for IntelliSense to introspect it.
+            // The `a` and `b` arguments in this function have a type of `import('storybook/internal/types').IndexEntry`. Remember that the function is executed in a JavaScript environment, so use JSDoc for IntelliSense to introspect it.
             storySort: {
                 order: [
                     "About",

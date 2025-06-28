@@ -1,0 +1,5 @@
+{
+    "name": "@web-components/i18n-mixin",
+    "version": "0.0.1",
+    "exports": "./mod.ts"
+}

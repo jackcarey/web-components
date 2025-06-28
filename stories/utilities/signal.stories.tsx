@@ -1,4 +1,4 @@
-import type { Meta, StoryContext, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryContext, StoryObj } from "@storybook/web-components-vite";
 import Signal from "../../packages/signal";
 import { html } from "lit";
 

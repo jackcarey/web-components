@@ -8,7 +8,7 @@ const mdToSbMdx = (absoluteDocPath, folder, title) => {
   const sanitizedPath = absoluteDocPath.replace(/\\/g, '/');
   const relativePath = path.relative(getSbDocsFolderPath(folder), sanitizedPath).replace(/\\/g, '/');
   const imports = [
-    `import { Meta, Markdown } from "@storybook/blocks";`,
+    `import { Meta, Markdown } from "@storybook/addon-docs/blocks";`,
     `import Docs from "${relativePath}?raw";`
   ].join('\n');
   return `${imports}\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
