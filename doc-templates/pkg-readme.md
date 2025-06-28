@@ -9,7 +9,9 @@ $description
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/$name](https://esm.sh/jsr/@web-components/$name)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/$name" type="module"></script>
