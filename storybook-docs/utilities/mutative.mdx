@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/mutative](https://esm.sh/jsr/@web-components/mutative)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/mutative](https://esm.sh/jsr/@web-components/mutative)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/mutative" type="module"></script>

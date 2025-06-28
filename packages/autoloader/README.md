@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web-components/autoloader)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/autoloader](https://esm.sh/jsr/@web-components/autoloader)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/autoloader" type="module"></script>

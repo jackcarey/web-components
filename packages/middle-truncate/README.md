@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/middle-truncate](https://esm.sh/jsr/@web-components/middle-truncate)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/middle-truncate](https://esm.sh/jsr/@web-components/middle-truncate)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/middle-truncate" type="module"></script>

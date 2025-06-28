@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/search-dom](https://esm.sh/jsr/@web-components/search-dom)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/search-dom](https://esm.sh/jsr/@web-components/search-dom)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/search-dom" type="module"></script>

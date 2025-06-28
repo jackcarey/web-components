@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/i18n-mixin](https://esm.sh/jsr/@web-components/i18n-mixin)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/i18n-mixin](https://esm.sh/jsr/@web-components/i18n-mixin)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/i18n-mixin" type="module"></script>

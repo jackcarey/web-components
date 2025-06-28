@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/signal" type="module"></script>

@@ -9,7 +9,9 @@
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use)
+**Browser:**
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/can-i-use](https://esm.sh/jsr/@web-components/can-i-use)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/can-i-use" type="module"></script>
