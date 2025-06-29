@@ -1,5 +1,6 @@
 export class DynamicTemplate extends HTMLElement {
     static datasetAttribute = 'dynamic-template';
+    static defaultTemplate: string | null | undefined = undefined;
     #observer: MutationObserver | null;
     constructor() {
         super();
@@ -10,7 +11,7 @@ export class DynamicTemplate extends HTMLElement {
                 this.#render();
             });
         }
-        this.#observer.observe(document.body, { childList: true, subtree: true });
+        this.#observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`] });
         this.#render();
     }
     disconnectedCallback() {
@@ -29,8 +30,8 @@ export class DynamicTemplate extends HTMLElement {
         const dataEl = this.closest(`[data-${DynamicTemplate.datasetAttribute}]`);
         const templateName = (dataEl as HTMLElement).dataset.dynamicTemplate;
         const tagName = this.tagName.toLowerCase();
-        const templateId = templateName ? `${templateName}-${tagName}` : undefined;
-        const template = templateId ? document.querySelector(`template[id=${templateId}]`) as HTMLTemplateElement | null : null;
+        const templateId = templateName ? `${templateName}-${tagName}` : DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
+        const template = templateId ? document.querySelector(`template[id="${templateId}"]`) as HTMLTemplateElement | null : null;
 
         const exportedParts = template?.getAttribute('exportparts');
         if (exportedParts) {
@@ -40,11 +41,12 @@ export class DynamicTemplate extends HTMLElement {
         }
 
         if (template) {
-            const clone = template.content.cloneNode(true) as DocumentFragment;
+            const clone = (template as HTMLTemplateElement).content.cloneNode(true) as DocumentFragment;
             this.shadowRoot!.innerHTML = '';
             this.shadowRoot!.appendChild(clone);
         } else {
-            this.shadowRoot!.innerHTML = `<slot></slot>`;
+            //setting the innerHTML directly allows the `slot` attributes to be ignored.
+            this.shadowRoot!.innerHTML = this.innerHTML;
         }
     }
 }
