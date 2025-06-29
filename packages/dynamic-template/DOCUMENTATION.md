@@ -38,7 +38,7 @@ Since the `DynamicTemplate` class is registered with name `blog-post` and the te
 
 **Styling components**
 
-The `DynamicTemplate` assumes nothing about styles by default. You can use a `style` tag within a template or, if the `exportparts` attribute is present, it will be copied from templates to each consumer to enable global styling.
+The `DynamicTemplate` assumes nothing about styles. You can use a `style` tag within a template or, if the `exportparts` attribute is present, it will be copied from templates to each consumer to enable global styling.
 
 **Using a different dataset attribute**
 
