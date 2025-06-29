@@ -4,24 +4,28 @@
 
 > Renders ics data in a web component.
 
-- **Version:** 1.1.8
-- **License:** [LGPL-3](./LICENSE.md)
+-   **Version:** 1.1.8
+-   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal) 
+### Browser
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/i-cal](https://esm.sh/jsr/@web-components/i-cal)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/i-cal" type="module"></script>
 ```
 
-#### Deno
+### Deno
 
 ```
 deno add jsr:@web-components/i-cal
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### NPM
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/i-cal
@@ -29,7 +33,7 @@ npx jsr add @web-components/i-cal
 
 # Documentation
 
-- **Open examples for [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
+-   **Open examples for [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
 
 The `i-cal` component renders ics formatted text as an ordered list. It has the following attributes:
 

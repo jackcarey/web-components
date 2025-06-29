@@ -4,24 +4,28 @@
 
 > Dynamically render a component using corresponding templates
 
-- **Version:** 1.0.0
-- **License:** [](./LICENSE.md)
+-   **Version:** 1.0.0
+-   **License:** [](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/dynamic-template](https://esm.sh/jsr/@web-components/dynamic-template) 
+### Browser
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/dynamic-template](https://esm.sh/jsr/@web-components/dynamic-template)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/dynamic-template" type="module"></script>
 ```
 
-#### Deno
+### Deno
 
 ```
 deno add jsr:@web-components/dynamic-template
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### NPM
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/dynamic-template
@@ -29,7 +33,7 @@ npx jsr add @web-components/dynamic-template
 
 # Documentation
 
-- **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-dynamic-template)**.
+-   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-dynamic-template)**.
 
 WIP: Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
 
@@ -67,11 +71,11 @@ The `DynamicTemplate` can be registered multiple times with different names. The
 </main>
 ```
 
-Since the `DynamicTemplate class is registered with name `blog-post` and the template name (`compact`) in the closest ancestor (`main`), the `blog-post`components take their inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
+Since the `DynamicTemplate` class is registered with name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take their inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
 
 **Styling components**
 
-The `DynamicTemplate` assumes nothing about styles by default. You can use a `style` tag within a template or, if the `exportparts` attribute is present, it will be copied from templates to each consumer to enable global styling.
+The `DynamicTemplate` assumes nothing about styles. You can use a `style` tag within a template or, if the `exportparts` attribute is present, it will be copied from templates to each consumer to enable global styling.
 
 **Using a different dataset attribute**
 
