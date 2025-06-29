@@ -13,6 +13,11 @@ export const Default: Story = {
     args: {},
 };
 
+const defineScriptHtml = html`<script type="module">
+            import { DynamicTemplate } from "/web-components/packages/dynamic-template/index.js";
+            customElements.define("blog-post", DynamicTemplate);
+        </script>`;
+
 const blogPostHtml = html`
             <blog-post>
                 <h1 slot="heading">Some title</h1>
@@ -43,9 +48,7 @@ const imageOnlyBlogPostTemplate = html`
 export const CompactTemplate: Story = {
     args: {},
     render: () => html`
-        <script type="module">
-            customElements.define("blog-post", DynamicTemplate);
-        </script>
+                ${defineScriptHtml}
         ${compactBlogPostTemplateHtml}
         <main data-dynamic-template="compact">
             ${blogPostHtml}
@@ -56,10 +59,7 @@ export const CompactTemplate: Story = {
 export const ImageOnlyTemplate: Story = {
     args: {},
     render: () => html`
-        <script type="module">
-            import { DynamicTemplate } from "../packages/dynamic-template/index.js";
-            customElements.define("blog-post", DynamicTemplate);
-        </script>
+        ${defineScriptHtml}
         <main data-dynamic-template="image-only">
             ${imageOnlyBlogPostTemplate}
             ${blogPostHtml}
@@ -80,7 +80,7 @@ export const TemplateSelector: Story = {
             </select>
         </heading>
         <script type="module">
-            import { DynamicTemplate } from "../packages/dynamic-template/index.js";
+            import { DynamicTemplate } from "/web-components/packages/dynamic-template/index.js";
             customElements.define("blog-post", DynamicTemplate);
             const select = document.getElementById("template-select");
             select.addEventListener("change", (event) => {
