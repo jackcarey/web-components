@@ -1,3 +1,10 @@
+/**
+ * Dynamically render the components DOM using corresponding templates.
+ * This allows for a single component to have multiple themes or styles based on the template used.
+ * The template is selected based on the closest ancestor element with a `data-dynamic-template`
+ * attribute and the tag name of the component.
+ * If no template is found, the light DOM content is used as-is.
+ */
 export class DynamicTemplate extends HTMLElement {
     static datasetAttribute = 'dynamic-template';
     static defaultTemplate: string | null | undefined = undefined;
