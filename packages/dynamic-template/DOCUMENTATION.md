@@ -34,7 +34,7 @@ The `DynamicTemplate` can be registered multiple times with different names. The
 </main>
 ```
 
-Since the `DynamicTemplate` class is registered with name `blog-post` and the template name (`compact`) in the closest ancestor (`main`), the `blog-post`components take their inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
+Since the `DynamicTemplate` class is registered with name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take their inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
 
 **Styling components**
 
