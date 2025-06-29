@@ -4,24 +4,28 @@
 
 > A reactive data object that emits events on itself and other EventTargets when its value changes.
 
-- **Version:** 1.0.1
-- **License:** [LGPL-3](./LICENSE.md)
+-   **Version:** 1.0.1
+-   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal) 
+### Browser
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/signal](https://esm.sh/jsr/@web-components/signal)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/signal" type="module"></script>
 ```
 
-#### Deno
+### Deno
 
 ```
 deno add jsr:@web-components/signal
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### NPM
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/signal
@@ -29,7 +33,7 @@ npx jsr add @web-components/signal
 
 # Documentation
 
-- **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
+-   **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
 
 //todo
 

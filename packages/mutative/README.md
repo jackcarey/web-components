@@ -4,24 +4,28 @@
 
 > Persistent DOM mutation observations based on CSS query selectors
 
-- **Version:** 1.0.3
-- **License:** [LGPL-3](./LICENSE.md)
+-   **Version:** 1.0.3
+-   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/mutative](https://esm.sh/jsr/@web-components/mutative) 
+### Browser
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/mutative](https://esm.sh/jsr/@web-components/mutative)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/mutative" type="module"></script>
 ```
 
-#### Deno
+### Deno
 
 ```
 deno add jsr:@web-components/mutative
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### NPM
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/mutative
@@ -29,7 +33,7 @@ npx jsr add @web-components/mutative
 
 # Documentation
 
-- **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
+-   **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
 
 Persistent DOM mutation observations based on CSS query [selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). It's essentially a wrapper for a global [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) that filters records to specific callbacks. The API is _similar_ to MutationObserver, but not the same.
 
