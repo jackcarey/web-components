@@ -9,6 +9,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+    storyName: "Default (no content)",
     args: {},
 };
 
@@ -43,7 +44,6 @@ export const CompactTemplate: Story = {
     args: {},
     render: () => html`
         <script type="module">
-            import { DynamicTemplate } from "../packages/dynamic-template/index.js";
             customElements.define("blog-post", DynamicTemplate);
         </script>
         ${compactBlogPostTemplateHtml}
