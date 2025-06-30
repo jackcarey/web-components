@@ -31,7 +31,7 @@ deno add jsr:@web-components/search-dom
 npx jsr add @web-components/search-dom
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [search-dom on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom)**.
 
