@@ -59,10 +59,10 @@ docPaths.forEach(([pkgName, docPath]) => {
     categoryStr,
     `${categoryStr}/${pkgName}/Documentation`
   );
-  saveToStorybookFolder(
+  const parentPath = path.dirname(docPath);
+  fs.writeFileSync(
+    path.join(parentPath, `${pkgName}.mdx`),
     newSbContent,
-    categoryStr,
-    `${pkgName}.mdx`
   );
 });
 
