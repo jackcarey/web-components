@@ -1,7 +1,7 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
-    "ical.js": "^2.2.0",
+    "ical.js": "^2.0.1",
     "web-components": "file:"
   },
   "description": "A collection of web components for a variety purposes.",
@@ -40,7 +40,7 @@
   "main": "autoloader.js",
   "name": "web-components",
   "scripts": {
-    "build-docs": "npm i && node scripts/install-deps-at-root.mjs && node scripts/generate-pkg-readmes.mjs && node scripts/generate-root-readme.mjs && node scripts/generate-storybook-docs.mjs && storybook build",
+    "build-docs": "npm i && node scripts/install-deps-at-root.mjs && node scripts/generate-pkg-readmes.mjs && node scripts/generate-root-readme.mjs && node scripts/generate-storybook-docs.mjs && npm run build-storybook",
     "build-storybook": "node scripts/generate-storybook-docs.mjs && storybook build --output-dir docs",
     "build": "npm run build-docs && npm run build-storybook",
     "storybook": "npm run build-docs && storybook dev -p 6006",
