@@ -31,7 +31,7 @@ deno add jsr:@web-components/$name
 npx jsr add @web-components/$name
 ```
 
-## Documentation
+# Documentation
 
 -   **Open examples for [$name on Storybook]($storybookLink)**.
 

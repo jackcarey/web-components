@@ -31,7 +31,7 @@ deno add jsr:@web-components/i-cal
 npx jsr add @web-components/i-cal
 ```
 
-## Documentation
+# Documentation
 
 -   **Open examples for [i-cal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-i-cal)**.
 

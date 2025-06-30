@@ -31,7 +31,7 @@ deno add jsr:@web-components/dynamic-template
 npx jsr add @web-components/dynamic-template
 ```
 
-## Documentation
+# Documentation
 
 -   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-dynamic-template)**.
 

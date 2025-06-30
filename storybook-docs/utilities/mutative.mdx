@@ -31,7 +31,7 @@ deno add jsr:@web-components/mutative
 npx jsr add @web-components/mutative
 ```
 
-## Documentation
+# Documentation
 
 -   **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
 

@@ -15,10 +15,21 @@ const existsWithContent = (path) =>
 
 Object.entries(pkgDetails).forEach(([dir, pkgJson]) => {
   const name = pkgJson?.name;
+  const isUtility = !name.includes('-');
   const docsPath = path.join(dir, 'DOCUMENTATION.md');
   const licensePath = path.join(dir, 'LICENSE.md');
-  const storiesTSPath = path.join(dir, `${name}.stories.ts`);
-  const storiesTSXPath = path.join(dir, `${name}.stories.tsx`);
+  const storiesTSPath = path.join(
+    repoRootDir,
+    'stories',
+    isUtility ? 'utilities' : 'components',
+    `${name}.stories.ts`
+  );
+  const storiesTSXPath = path.join(
+    repoRootDir,
+    'stories',
+    isUtility ? 'utilities' : 'components',
+    `${name}.stories.tsx`
+  );
   const hasDocs = existsWithContent(docsPath);
   const hasLicense = existsWithContent(licensePath);
   const hasStories =
