@@ -10,15 +10,16 @@
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                height: 100vh;
+                margin: 0;
             }
         </style>
     </head>
     <body>
-        <p>Use the link below if you are not redirected.</p>
-        <a href="./docs">Storybook</a>
-        <script>
-            // Redirect to the Storybook static build
-            window.location.href = "./docs";
-        </script>
+        <iframe
+            src="https://jackcarey.co.uk/web-components/docs/iframe.html?viewMode=docs&id=about"
+            style="width: 100%; height: 100%; border: none"
+            title="Web Components Documentation"
+        ></iframe>
     </body>
 </html>

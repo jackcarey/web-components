@@ -7,14 +7,14 @@
 [![pages-build-deployment](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment)
 
 -   **Documentation**
-    -   [Storybook examples](https://jackcarey.co.uk/web-components/storybook-static/)
+    -   [Storybook examples](https://jackcarey.co.uk/web-components/docs/)
     -   [Github source](https://github.com/jackcarey/web-components)
 -   **Information**
     -   There are currently $count packages in this collection. Some are web components intended for the DOM, others are utilities that components may consume.
     -   **Each is published with a separate package, readme, license, and documentation.**
     -   Registry entries are published to [jsr.io/@web-components](https://jsr.io/@web-components).
     -   The 'autoloader' can be used to load other components from [esm.sh](https://esm.sh/).
-    
+
 ---
 
 $table
