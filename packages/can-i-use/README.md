@@ -31,7 +31,7 @@ deno add jsr:@web-components/can-i-use
 npx jsr add @web-components/can-i-use
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [can-i-use on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use)**.
 

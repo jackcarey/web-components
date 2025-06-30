@@ -31,7 +31,7 @@ deno add jsr:@web-components/middle-truncate
 npx jsr add @web-components/middle-truncate
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [middle-truncate on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate)**.
 

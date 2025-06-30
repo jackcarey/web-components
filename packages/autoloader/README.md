@@ -31,7 +31,7 @@ deno add jsr:@web-components/autoloader
 npx jsr add @web-components/autoloader
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [autoloader on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-autoloader)**.
 
