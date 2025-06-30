@@ -1,6 +1,6 @@
 # middle-truncate
 
-[![middle-truncate component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-middle-truncate) [![middle-truncate version on JSR](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate/versions) [![JSR score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score)
+[![middle-truncate component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-middle-truncate) [![middle-truncate version on JSR](https://jsr.io/badges/@web-components/middle-truncate)](https://jsr.io/@web-components/middle-truncate/versions) [![JSR score](https://jsr.io/badges/@web-components/middle-truncate/score)](https://jsr.io/@web-components/middle-truncate/score)
 
 > Truncate text in the middle
 

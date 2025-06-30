@@ -1,6 +1,6 @@
 # search-dom
 
-[![search-dom component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-search-dom) [![search-dom version on JSR](https://jsr.io/badges/@web-components/search-dom)](https://jsr.io/@web-components/search-dom/versions) [![JSR score](https://jsr.io/badges/@web-components/search-dom/score)](https://jsr.io/@web-components/search-dom/score)
+[![search-dom component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-search-dom) [![search-dom version on JSR](https://jsr.io/badges/@web-components/search-dom)](https://jsr.io/@web-components/search-dom/versions) [![JSR score](https://jsr.io/badges/@web-components/search-dom/score)](https://jsr.io/@web-components/search-dom/score)
 
 > A component that filters the DOM when an inner search input changes.
 

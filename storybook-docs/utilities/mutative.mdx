@@ -1,6 +1,6 @@
 # mutative
 
-[![mutative utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative) [![mutative version on JSR](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative/versions) [![JSR score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score)
+[![mutative utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-mutative) [![mutative version on JSR](https://jsr.io/badges/@web-components/mutative)](https://jsr.io/@web-components/mutative/versions) [![JSR score](https://jsr.io/badges/@web-components/mutative/score)](https://jsr.io/@web-components/mutative/score)
 
 > Persistent DOM mutation observations based on CSS query selectors
 

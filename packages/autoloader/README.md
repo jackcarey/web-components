@@ -1,6 +1,6 @@
 # autoloader
 
-[![autoloader utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-autoloader) [![autoloader version on JSR](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader/versions) [![JSR score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score)
+[![autoloader utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-autoloader) [![autoloader version on JSR](https://jsr.io/badges/@web-components/autoloader)](https://jsr.io/@web-components/autoloader/versions) [![JSR score](https://jsr.io/badges/@web-components/autoloader/score)](https://jsr.io/@web-components/autoloader/score)
 
 > Automatically load components from jackcarey/web-components using esm.sh.
 

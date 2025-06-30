@@ -1,6 +1,6 @@
 # signal
 
-[![signal utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal) [![signal version on JSR](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal/versions) [![JSR score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
+[![signal utility on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-signal) [![signal version on JSR](https://jsr.io/badges/@web-components/signal)](https://jsr.io/@web-components/signal/versions) [![JSR score](https://jsr.io/badges/@web-components/signal/score)](https://jsr.io/@web-components/signal/score)
 
 > A reactive data object that emits events on itself and other EventTargets when its value changes.
 
