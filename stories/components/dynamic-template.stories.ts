@@ -1,9 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { CreateComponentStoryMeta } from "../utils";
+import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
 import { html } from "lit";
+import { DynamicTemplate } from "../../packages/dynamic-template/index.js";
 
 // This default export determines where your story goes in the story list
-const meta: Meta = { ...CreateComponentStoryMeta("dynamic-template") };
+const meta: Meta = {
+    ...CreateComponentStoryMeta("dynamic-template", undefined, {
+        decorators: [
+            ...CreateComponentDecorators("dynamic-template", undefined),
+            (story) => {
+                if (!customElements.get("blog-post")) {
+                    customElements.define("blog-post", DynamicTemplate);
+                }
+                return html`${story()}`;
+            }
+        ]
+    })
+};
 
 export default meta;
 type Story = StoryObj;
@@ -14,8 +27,6 @@ export const Default: Story = {
 };
 
 const defineScriptHtml = html`<script type="module">
-            import { DynamicTemplate } from "/web-components/packages/dynamic-template/index.js";
-            customElements.define("blog-post", DynamicTemplate);
         </script>`;
 
 const blogPostHtml = html`
@@ -80,8 +91,6 @@ export const TemplateSelector: Story = {
             </select>
         </heading>
         <script type="module">
-            import { DynamicTemplate } from "/web-components/packages/dynamic-template/index.js";
-            customElements.define("blog-post", DynamicTemplate);
             const select = document.getElementById("template-select");
             select.addEventListener("change", (event) => {
                 const templateName = event.target.value;
