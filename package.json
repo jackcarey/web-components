@@ -46,7 +46,7 @@
     "storybook": "npm run build-docs && storybook dev -p 6006",
     "test": "test-storybook --ci --json --failOnConsole --includeTags=\"test,a11y-minor,a11y-major,a11y-serious,a11y-critical\" --excludeTags=\"skip\"",
     "test-coverage": "test --coverage",
-    "test-ci": "npm run build-storybook && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --silent --port 6006\" \"wait-on tcp:6006 && npm run test\"",
+    "test-ci": "npm run build-storybook && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server docs --silent --port 6006\" \"wait-on tcp:6006 && npm run test\"",
     "serve-ci": "npm run build-docs && npm run storybook",
     "chromatic": "npx chromatic"
   },
