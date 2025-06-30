@@ -1,7 +1,7 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
-    "ical.js": "^2.0.1",
+    "ical.js": "^2.2.0",
     "web-components": "file:"
   },
   "description": "A collection of web components for a variety purposes.",

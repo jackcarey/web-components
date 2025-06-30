@@ -1,6 +1,6 @@
 # can-i-use
 
-[![can-i-use component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-can-i-use) [![can-i-use version on JSR](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use/versions) [![JSR score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
+[![can-i-use component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-can-i-use) [![can-i-use version on JSR](https://jsr.io/badges/@web-components/can-i-use)](https://jsr.io/@web-components/can-i-use/versions) [![JSR score](https://jsr.io/badges/@web-components/can-i-use/score)](https://jsr.io/@web-components/can-i-use/score)
 
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 
