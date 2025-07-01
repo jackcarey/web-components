@@ -26,8 +26,8 @@ try {
     if (changedFiles.length > 0) {
         console.log('Relevant changes detected.');
         try {
-            logExecSync(`git config --global user.email "action@github.com"`);
-            logExecSync(`git config --global user.name "[GitHub Action]"`);
+            logExecSync(`git config --global user.email "actions@github.com"`);
+            logExecSync(`git config --global user.name "[GitHub Actions]"`);
             logExecSync(`git add .`);
             logExecSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
             logExecSync(`git push`);
