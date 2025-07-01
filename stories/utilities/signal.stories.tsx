@@ -57,7 +57,7 @@ export const LotsOfProperties: Story = {
             const listener = (evt) => console.log("listener on signal", evt);
             s.addEventListener("signal", listener);
             for (let i = 0; i < 1000; ++i) {
-                s[i] = Math.round(Math.random() * 10000);
+                s[i] = i * 2;
             }
             return signalHtml(context, s);
         },
