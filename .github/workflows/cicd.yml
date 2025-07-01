@@ -47,7 +47,7 @@ jobs:
                       node_modules
                       ~/.cache/ms-playwright
                       /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
               run: npm ci
@@ -74,7 +74,7 @@ jobs:
                       node_modules
                       ~/.cache/ms-playwright
                       /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-${{hashFiles('packages/**/package-lock.json') }}
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             # Test
 
