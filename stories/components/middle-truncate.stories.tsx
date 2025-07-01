@@ -3,18 +3,11 @@ import { CreateComponentStoryMeta } from "../utils";
 
 // This default export determines where your story goes in the story list
 const meta: Meta = {
-    ...CreateComponentStoryMeta(
-        "middle-truncate",
-        "middle-truncate{border:1px solid red;}"
-    ),
+    ...CreateComponentStoryMeta("middle-truncate", "middle-truncate{border:1px solid red;}"),
 };
 
 export default meta;
 type Story = StoryObj;
-
-export const Default: Story = {
-    args: {},
-};
 
 const textStrings = {
     en: "The quick brown fox jumps over the lazy dog.",
@@ -31,7 +24,7 @@ export const WithTitle: Story = {
 export const At0Percent: Story = {
     args: {
         title: textStrings.en,
-        at: '0',
+        at: "0",
     },
 };
 

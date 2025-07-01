@@ -21,11 +21,6 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-    storyName: "Default (no content)",
-    args: {},
-};
-
 const defineScriptHtml = html`<script type="module">
         </script>`;
 

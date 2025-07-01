@@ -9,10 +9,6 @@ const meta: Meta = { ...CreateComponentStoryMeta("i-cal") };
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-    args: {},
-};
-
 export const FixedEvents: Story = {
     args: {
         events: exampleICS,
