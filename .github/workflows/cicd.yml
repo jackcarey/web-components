@@ -16,7 +16,7 @@ permissions:
 jobs:
     main:
         name: Test, build, and publish
-        if: github.actor != '[GitHub Actions]'
+        if: github.actor != 'actions-user'
         timeout-minutes: 15
         runs-on: ubuntu-latest
         permissions:
