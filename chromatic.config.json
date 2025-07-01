@@ -2,5 +2,8 @@
   "exitOnceUploaded": true,
   "onlyChanged": true,
   "projectId": "Project:67352607574d35385334da84",
-  "zip": true
+  "zip": true,
+  "buildCommand": "npm run build-storybook",
+  "outputDir": "docs",
+  "repositorySlug": "jackcarey/web-components"
 }
