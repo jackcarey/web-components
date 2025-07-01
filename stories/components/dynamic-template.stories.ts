@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
 import { html } from "lit";
 import { DynamicTemplate } from "../../packages/dynamic-template/index.js";

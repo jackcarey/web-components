@@ -20,16 +20,15 @@ const config: StorybookConfig = {
     stories: storyLocations,
     addons: [
         "@storybook/addon-links",
-        "@storybook/addon-essentials",
         "@storybook/addon-a11y",
-        "@storybook/addon-interactions",
         "@storybook/addon-themes",
         {
             name: "@storybook/addon-coverage",
             options: coverageConfig,
         },
-        './addons/commitLabel.ts',
         // "@chromatic-com/storybook"
+        './addons/commitLabel.ts',
+        "@storybook/addon-docs"
     ],
     framework: {
         name: "@storybook/web-components-vite",

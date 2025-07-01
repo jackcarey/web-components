@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { CreateComponentStoryMeta } from "../utils";
 
 // This default export determines where your story goes in the story list
