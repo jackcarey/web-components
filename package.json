@@ -7,7 +7,7 @@
   "description": "A collection of web components for a variety purposes.",
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
-    "@jest/globals": "^29.7.0",
+    "@jest/globals": "^30.0.3",
     "@mdx-js/react": "^3.1.0",
     "@npmcli/package-json": "^6.1.1",
     "@playwright/test": "^1.51.1",
