@@ -31,11 +31,11 @@ deno add jsr:@web-components/dynamic-template
 npx jsr add @web-components/dynamic-template
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-dynamic-template)**.
 
-WIP: Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
+Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
 
 The `DynamicTemplate` can be registered multiple times with different names. The template will be taken from the element with the format `[data-dynamic-template]-[tagName]`. If no template is found then the light DOM is rendered as-is.
 
@@ -71,7 +71,7 @@ The `DynamicTemplate` can be registered multiple times with different names. The
 </main>
 ```
 
-Since the `DynamicTemplate` class is registered with name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take their inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
+Since the `DynamicTemplate` element is registered with the name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take its inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
 
 **Styling components**
 

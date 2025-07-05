@@ -31,7 +31,7 @@ deno add jsr:@web-components/signal
 npx jsr add @web-components/signal
 ```
 
-# Documentation
+## Documentation
 
 -   **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
 
