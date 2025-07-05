@@ -4,7 +4,7 @@ The `DynamicTemplate` can be registered multiple times with different names. The
 
 **Example**
 
-1. Register the component: `customElementsRegistry.define('blog-post', DynamicTemplate);`
+1. Register the component: `DynamicTemplate.register('blog-post');`
 2. Set up your DOM:
 
 ```

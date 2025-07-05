@@ -40,14 +40,14 @@ class CanIUseComponent extends HTMLElement {
     }
     #upgradeProperty(prop) {
         if (this && this.hasOwnProperty(prop)) {
-          let value = this[prop];
-          delete this[prop];
-          this[prop] = value;
+            let value = this[prop];
+            delete this[prop];
+            this[prop] = value;
         }
-      }
-      #upgradeAllProperties() {
+    }
+    #upgradeAllProperties() {
         CanIUseComponent.observedAttributes.forEach(this.#upgradeProperty);
-      }
+    }
 
     /**
      * Called when the component is disconnected from the DOM.
@@ -151,11 +151,9 @@ class CanIUseComponent extends HTMLElement {
     #render(): void {
         if (!this.#root) return;
         if (this.mode === "iframe") {
-            this.#root.innerHTML = `<iframe title="Can I Use data embed for '${this.feature}'" src="https://caniuse.bitsofco.de/embed/index.html?feat=${
-                this.feature
-            }&periods=${this.periods}&accessible-colours=${
-                this.accessibleColors ? "true" : "false"
-            }" frameborder="0" width="100%" height="400px"></iframe>`;
+            this.#root.innerHTML = `<iframe title="Can I Use data embed for '${this.feature}'" src="https://caniuse.bitsofco.de/embed/index.html?feat=${this.feature
+                }&periods=${this.periods}&accessible-colours=${this.accessibleColors ? "true" : "false"
+                }" frameborder="0" width="100%" height="400px"></iframe>`;
         } else if (this.mode === "image") {
             this.#root.innerHTML = `<picture>
               <source type="image/webp" srcset="https://caniuse.bitsofco.de/image/${this.feature}.webp">
@@ -166,6 +164,8 @@ class CanIUseComponent extends HTMLElement {
     }
 }
 
-customElements.define("can-i-use", CanIUseComponent);
+if ("customElements" in window && !customElements.get("can-i-use")) {
+    customElements.define("can-i-use", CanIUseComponent);
+}
 
 export default CanIUseComponent;

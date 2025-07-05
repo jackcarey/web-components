@@ -164,4 +164,6 @@ export default class SearchDOM extends HTMLElement implements EventTarget {
     }
 }
 
-customElements.define("search-dom", SearchDOM);
+if ("customElements" in window && !customElements.get("search-dom")) {
+    customElements.define("search-dom", SearchDOM);
+}

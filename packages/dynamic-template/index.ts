@@ -8,6 +8,12 @@
 export class DynamicTemplate extends HTMLElement {
     static datasetAttribute = 'dynamic-template';
     static defaultTemplate: string | null | undefined = undefined;
+    static register(tagName: string) {
+        if (!tagName?.length) return;
+        if ("customElements" in window && !customElements.get(tagName)) {
+            customElements.define(tagName, DynamicTemplate);
+        }
+    }
     #observer: MutationObserver | null;
     constructor() {
         super();
