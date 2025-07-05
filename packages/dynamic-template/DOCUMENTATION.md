@@ -53,7 +53,7 @@ Set `DynamicTemplate.defaultTemplate` to define the name of the default template
 You can inherit the properties and methods of `DynamicTemplate` like any other class:
 
 ```
-class YourComponent extends DynamicTemplate`
+class YourComponent extends DynamicTemplate {...}`
 ```
 
 The following are exposed to subclasses:
