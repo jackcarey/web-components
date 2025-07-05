@@ -1,4 +1,5 @@
 .github/ @jackcarey
+./storybook @jackcarey
 /scripts/ @jackcarey
 .gitignore @jackcarey
 /packages/**/LICENSE.md @jackcarey
