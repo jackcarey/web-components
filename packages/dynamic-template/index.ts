@@ -15,11 +15,11 @@ export class DynamicTemplate extends HTMLElement {
     connectedCallback() {
         if (!this.#observer) {
             this.#observer = new MutationObserver(() => {
-                this.#render();
+                this.render();
             });
         }
         this.#observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`] });
-        this.#render();
+        this.render();
     }
     disconnectedCallback() {
         if (this.#observer) {
@@ -27,18 +27,25 @@ export class DynamicTemplate extends HTMLElement {
             this.#observer = null;
         }
     }
-    #render() {
+    protected get templateName(): string | undefined {
+        const dataEl = this.closest(`[data-${DynamicTemplate.datasetAttribute}]`);
+        const templateName = (dataEl as HTMLElement).dataset.dynamicTemplate;
+        return templateName;
+    }
+    protected get templateId(): string | undefined {
+        const tagName = this.tagName.toLowerCase();
+        const templateId = this.templateName ? `${this.templateName}-${tagName}` : DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
+        return templateId;
+    }
+    protected render(templateId?: string) {
         if (!this.shadowRoot) {
             this.attachShadow({
                 mode: 'open',
                 delegatesFocus: true
             });
         }
-        const dataEl = this.closest(`[data-${DynamicTemplate.datasetAttribute}]`);
-        const templateName = (dataEl as HTMLElement).dataset.dynamicTemplate;
-        const tagName = this.tagName.toLowerCase();
-        const templateId = templateName ? `${templateName}-${tagName}` : DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
-        const template = templateId ? document.querySelector(`template[id="${templateId}"]`) as HTMLTemplateElement | null : null;
+        const usingTemplateId: string | undefined = templateId || this.templateId;
+        const template = usingTemplateId ? document.querySelector(`template[id="${usingTemplateId}"]`) as HTMLTemplateElement | null : null;
 
         const exportedParts = template?.getAttribute('exportparts');
         if (exportedParts) {

@@ -47,3 +47,17 @@ The dataset attribute can be changed as it is a static value on `DynamicTemplate
 **Using a default theme**
 
 Set `DynamicTemplate.defaultTemplate` to define the name of the default template that should be used for components. If none is set, all light DOM elements will be rendered in the shadow DOM. This should be changed either before elements are registered or before they are connected to the DOM.
+
+**Inheriting the component**
+
+You can inherit the properties and methods of `DynamicTemplate` like any other class:
+
+```
+class YourComponent extends DynamicTemplate`
+```
+
+The following are exposed to subclasses:
+
+-   `templateName` - The string returned from `data-dynamic-template` in the closest ancestor element.
+-   `templateId` - The ID of the `template` this element will look for.
+-   `render(templateId?: string)` - The render function that finds and consumes templates. Subclasses can optionally change the `templateId` by passing it as the only argument.
