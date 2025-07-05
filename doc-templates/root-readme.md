@@ -21,4 +21,8 @@ $table
 
 ---
 
+## Contributing
+
+Contributions are welcome! Check out the [Development](/web-components/docs/?path=/docs/development--all-stories) page.
+
 Made by [jackcarey](https://jackcarey.co.uk/).
