@@ -1,4 +1,4 @@
-# web-components
+import{j as o}from"./index-BFfWjCa1.js";import{useMDXComponents as n}from"./index-Bx0zT03Q.js";import{M as c,c as a}from"./blocks-CjjJu9Rq.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-C3yLPgbT.js";const r=`# web-components
 
 [![web-components on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/)
 [![web-components on the JSR registry](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
@@ -37,3 +37,6 @@
 Contributions are welcome! Check out the [Development](/web-components/docs/?path=/docs/development--all-stories) page.
 
 Made by [jackcarey](https://jackcarey.co.uk/).
+`;function s(e){return o.jsxs(o.Fragment,{children:[o.jsx(c,{title:"About"}),`
+`,o.jsx(a,{children:r})]})}function h(e={}){const{wrapper:t}={...n(),...e.components};return t?o.jsx(t,{...e,children:o.jsx(s,{...e})}):s()}export{h as default};
+//# sourceMappingURL=about-OCdHYKca.js.map
