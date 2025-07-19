@@ -6,7 +6,7 @@ const theme = create({
     base: "light",
     brandTitle: "Web Components",
     brandUrl: "https://jackcarey.co.uk/web-components",
-    brandImage: "../images/open-graph.png",
+    brandImage: "../images/storybook-header.png",
     brandTarget: "_self",
 
 

@@ -1,7 +1,10 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
+    "@npmcli/package-json": "^6.1.1",
+    "@types/ical": "^0.8.3",
     "ical.js": "^2.0.1",
+    "rss-parser": "^3.13.0",
     "web-components": "file:"
   },
   "description": "A collection of web components for a variety purposes.",
