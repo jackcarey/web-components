@@ -1,4 +1,4 @@
-import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays } from 'diff';
+import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays, Diff } from 'diff';
 
 // https://github.com/kpdecker/jsdiff#change-objects
 type ChangeObject = {
@@ -19,12 +19,14 @@ const DIFF_MODES = {
     arrays: diffArrays,
 };
 
+type DiffMode = keyof typeof DIFF_MODES;
+
 type DiffTextOptions<FuncType extends (...any) => any> = Parameters<FuncType>[3];
 
 type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof diffChars> | DiffTextOptions<typeof diffWordsWithSpace> | DiffTextOptions<typeof diffLines> | DiffTextOptions<typeof diffSentences> | DiffTextOptions<typeof diffCss> | DiffTextOptions<typeof diffJson> | DiffTextOptions<typeof diffArrays>;
 
 export class DiffText extends HTMLElement {
-    static get setupAttrs() { return ['original', 'changed', 'original-src', 'changed-src', 'refresh']; }
+    static get setupAttrs() { return ['original', 'changed', 'original-src', 'changed-src', 'refetch']; }
     static get observedAttributes() {
         const jsDiffAttrs = ['mode', 'ignore-case'];
         return [...jsDiffAttrs, ...DiffText.setupAttrs, 'compare'];
@@ -45,9 +47,9 @@ export class DiffText extends HTMLElement {
 
     #originalMutationObserver: MutationObserver | null = null;
     #changedMutationObserver: MutationObserver | null = null;
-    #refreshIntervalListener: ReturnType<typeof setInterval> | null = null;
-    #originalValue: string | null = null;
-    #changedValue: string | null = null;
+    #refetchIntervalListener: ReturnType<typeof setInterval> | null = null;
+    #originalValue: string | undefined;
+    #changedValue: string | undefined;
     #changes: ChangeObject[] = [];
     #animationFrame: number | null = null;
     #jsDiffOptions: AnyDiffOptions | null = null;
@@ -56,11 +58,11 @@ export class DiffText extends HTMLElement {
         return this.#changes as ChangeObject[];
     }
 
-    get mode() {
-        return this.getAttribute('mode') || 'word';
+    get mode(): DiffMode {
+        return (this.getAttribute('mode') || 'word') as DiffMode;
     }
 
-    set mode(value: string) {
+    set mode(value: DiffMode) {
         if (!value?.length) {
             this.setAttribute('mode', value);
         } else {
@@ -128,32 +130,32 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get refresh(): number | undefined {
-        const refreshAttr = this.getAttribute('refresh');
-        if (refreshAttr) {
-            const refreshNum = parseInt(refreshAttr, 10);
-            if (isNaN(refreshNum) || refreshNum <= 0) {
+    get refetch(): number | undefined {
+        const refetchAttr = this.getAttribute('refetch');
+        if (refetchAttr) {
+            const refetchNum = parseInt(refetchAttr, 10);
+            if (isNaN(refetchNum) || refetchNum <= 0) {
                 return undefined;
             }
-            return refreshNum;
+            return refetchNum;
         }
         return undefined;
     }
 
-    set refresh(value: string) {
+    set refetch(value: string) {
         if (value?.length) {
             try {
                 const parsedNum = parseInt(value, 10);
                 if (parsedNum) {
-                    this.setAttribute('refresh', value);
+                    this.setAttribute('refetch', value);
                 } else {
-                    this.removeAttribute('refresh');
+                    this.removeAttribute('refetch');
                 }
             } catch (_e) {
-                this.removeAttribute('refresh');
+                this.removeAttribute('refetch');
             }
         } else {
-            this.removeAttribute('refresh');
+            this.removeAttribute('refetch');
         }
     }
 
@@ -183,9 +185,9 @@ export class DiffText extends HTMLElement {
         this.#originalMutationObserver = null;
         this.#changedMutationObserver?.disconnect();
         this.#changedMutationObserver = null;
-        if (this.#refreshIntervalListener) {
-            clearInterval(this.#refreshIntervalListener);
-            this.#refreshIntervalListener = null;
+        if (this.#refetchIntervalListener) {
+            clearInterval(this.#refetchIntervalListener);
+            this.#refetchIntervalListener = null;
         }
     }
 
@@ -193,8 +195,11 @@ export class DiffText extends HTMLElement {
         const originalSrc = this.getAttribute('original-src');
         const changedSrc = this.getAttribute('changed-src');
 
+        const promises: Promise<number | void>[] = [];
+        const errors: Error[] = [];
+
         if (originalSrc) {
-            fetch(originalSrc)
+            promises.push(fetch(originalSrc)
                 .then(response => {
                     if (this.mode === 'json') {
                         return response.json();
@@ -203,12 +208,11 @@ export class DiffText extends HTMLElement {
                 })
                 .then(text => {
                     this.#originalValue = text;
-                    this.#render();
-                });
+                }).catch((e: Error) => errors.push(e)));
         }
 
         if (changedSrc) {
-            fetch(changedSrc)
+            promises.push(fetch(changedSrc)
                 .then(response => {
                     if (this.mode === 'json') {
                         return response.json();
@@ -217,17 +221,24 @@ export class DiffText extends HTMLElement {
                 })
                 .then(text => {
                     this.#changedValue = text;
-                    this.#render();
-                });
+                }).catch((e: Error) => errors.push(e)));
         }
+
+        //only throw errors after both fetches have been attempted.
+        Promise.allSettled(promises).then(() => {
+            if (errors.length) {
+                console.error('Error fetching diff text sources:');
+                errors.forEach(error => console.error(error));
+            }
+            this.#render();
+        });
     }
 
     #getElementValue = (el: HTMLElement): string => {
         const innerText = el.innerText;
-        const innerHTML = el.innerHTML;
         const compareProp = this.compare;
         if (!compareProp?.length) {
-            return innerText || innerHTML || '';
+            return innerText;
         }
         const comparePropValue = compareProp in el ? el[compareProp] : null;
         if (compareProp) {
@@ -237,16 +248,16 @@ export class DiffText extends HTMLElement {
         if (compareAttrValue) {
             return compareAttrValue;
         }
-        return comparePropValue || compareAttrValue || innerText || innerHTML || '';
+        return comparePropValue || compareAttrValue || innerText;
     }
 
     #setup() {
         this.disconnectedCallback();
         const usingOriginalSrc = Boolean(this.getAttribute('original-src'));
         const usingChangedSrc = Boolean(this.getAttribute('changed-src'));
-        const refreshAttr = this.getAttribute('refresh');
-        const refreshNum = refreshAttr ? parseInt(refreshAttr, 10) : 0
-        const usingRefresh = (usingOriginalSrc || usingChangedSrc) && Boolean(refreshNum);
+        const refetchAttr = this.getAttribute('refetch');
+        const refetchNum = refetchAttr ? parseInt(refetchAttr, 10) : 0
+        const usingRefetch = (usingOriginalSrc || usingChangedSrc) && Boolean(refetchNum);
 
         const usingOriginalEl = !usingOriginalSrc && Boolean(this.original);
         const usingChangedEl = !usingChangedSrc && Boolean(this.changed);
@@ -255,14 +266,20 @@ export class DiffText extends HTMLElement {
             this.#fetchSrcs();
         }
 
-        if (usingRefresh) {
-            if (this.#refreshIntervalListener) {
-                clearInterval(this.#refreshIntervalListener);
+        if (usingRefetch) {
+            if (this.#refetchIntervalListener) {
+                clearInterval(this.#refetchIntervalListener);
             }
-            this.#refreshIntervalListener = setInterval(() => {
+            if (this.#refetchIntervalListener) {
+                clearInterval(this.#refetchIntervalListener);
+                this.#refetchIntervalListener = null;
+            }
+            this.#refetchIntervalListener = setInterval(() => {
+                this.#fetchSrcs();
                 this.#render();
-            }, Math.max(1000, refreshNum));
+            }, Math.max(1000, refetchNum * 1000));
         }
+        console.log(`DiffText: Refetching every ${refetchNum} seconds. (${refetchAttr})`, this.#refetchIntervalListener);
 
         const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
         if (usingOriginalEl) {
@@ -320,14 +337,13 @@ export class DiffText extends HTMLElement {
     }
 
     #updateDiff() {
-        const modeFn = DIFF_MODES[this.mode] || diffWords;
+        const modeFn = (DIFF_MODES[this.mode] || diffWords) as Function;
         let a = this.#originalValue;
         let b = this.#changedValue;
-        if (this.ignoreCase) {
-            a = a?.toLowerCase() ?? null;
-            b = b?.toLowerCase() ?? null;
-        }
-        this.#changes = modeFn(a ?? b, b ?? a, this.options ?? {}) as ChangeObject[];
+        this.#changes = modeFn(a ?? '', b ?? '', {
+            ignoreCase: Boolean(this.ignoreCase),
+            ...(this.options ?? {})
+        }) as ChangeObject[];
     }
 
     #render() {
@@ -361,6 +377,11 @@ export class DiffText extends HTMLElement {
             this.#setup();
         }
 
+        this.#render();
+    }
+
+    refresh() {
+        this.#setup();
         this.#render();
     }
 }
