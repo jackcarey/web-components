@@ -352,13 +352,17 @@ export class DiffText extends HTMLElement {
             //@ts-expect-error - callback type isn't inferred
             this.options?.callback(this.#changes);
         }
+        const eventDetail = {
+            ...Object.fromEntries(DiffText.observedAttributes.map(attr => {
+                return [attr, this.getAttribute(attr)];
+            })),
+            options: this.options,
+            original: this.#originalValue,
+            changed: this.#changedValue,
+            changes: this.#changes,
+        }
         this.dispatchEvent(new CustomEvent('diff-text', {
-            detail: {
-                changes: this.#changes,
-                original: this.#originalValue,
-                changed: this.#changedValue,
-                mode: this.mode,
-            },
+            detail: eventDetail,
             bubbles: true,
             composed: true,
             cancelable: true,

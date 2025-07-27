@@ -18,4 +18,4 @@
 
 **Events**
 
--   `diff-text`: Emitted when the text diff is calculated, this event contains `detail` for the mode, original value, changed value, and list of changes.
+-   `diff-text`: Emitted when the text diff is calculated, this event contains `detail` for the attributes, original value, changed value, and list of changes.
