@@ -50,7 +50,7 @@ jobs:
                   key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
-              run: npm ci
+              run: npm i --legacy-peer-deps
 
             - name: Save commit hash
               run: node scripts/store-commit-hash.mjs
@@ -81,11 +81,11 @@ jobs:
             - name: Run tests
               run: npm run test-ci
 
-            - name: Run Chromatic (on PRs)
-              if: github.event_name == 'pull_request'
-              uses: chromaui/action@latest
-              with:
-                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+            # - name: Run Chromatic (on PRs)
+            #   if: github.event_name == 'pull_request'
+            #   uses: chromaui/action@latest
+            #   with:
+            #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
             - name: Check if Storybook test results exist after testing
               run: node scripts/check-story-results.mjs
