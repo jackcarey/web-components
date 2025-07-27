@@ -163,3 +163,12 @@ export const CompareAttr: Story = {
         mode: "chars",
     },
 };
+
+export const Lines: Story = {
+    name: "Compare by lines",
+    args: {
+        "original-src": "https://baconipsum.com/api/?type=meat-and-filler&format=text",
+        "changed-src": "https://baconipsum.com/api/?type=meat-and-filler&format=text",
+        mode: "lines",
+    },
+};
