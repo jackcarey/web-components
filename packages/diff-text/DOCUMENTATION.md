@@ -14,4 +14,8 @@
 **Properties**
 
     - `options`: The [jsdiff](https://www.npmjs.com/package/diff) options to be used when comparing 2 strings/objects.
-    - `refresh()` - Reload the component manually, useful if using remote content without `refetch`.
+    - `refresh()`: Reload the component manually, useful if using remote content without `refetch`.
+
+**Events**
+
+-   `diff-text`: Emitted when the text diff is calculated, this event contains `detail` for the mode, original value, changed value, and list of changes.

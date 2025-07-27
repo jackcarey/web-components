@@ -346,11 +346,23 @@ export class DiffText extends HTMLElement {
             //promise.try() could be used here in the future when there's greater usage
             callback: undefined,
         }) as ChangeObject[];
+        //handling the options callback provides compatibility with the jsDiff API
         //@ts-expect-error - callback type isn't inferred
         if (this.options && this.options?.callback && typeof this.options?.callback === 'function') {
             //@ts-expect-error - callback type isn't inferred
             this.options?.callback(this.#changes);
         }
+        this.dispatchEvent(new CustomEvent('diff-text', {
+            detail: {
+                changes: this.#changes,
+                original: this.#originalValue,
+                changed: this.#changedValue,
+                mode: this.mode,
+            },
+            bubbles: true,
+            composed: true,
+            cancelable: true,
+        }));
     }
 
     #render() {
