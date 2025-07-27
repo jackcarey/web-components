@@ -1,35 +1,39 @@
 # rss-feed
 
-[![rss-feed component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-rss-feed) [![rss-feed version on JSR](https://jsr.io/badges/@web-components/rss-feed)](https://jsr.io/@web-components/rss-feed/versions) [![JSR score](https://jsr.io/badges/@web-components/rss-feed/score)](https://jsr.io/@web-components/rss-feed/score)
+[![rss-feed component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-rss-feed) [![rss-feed version on JSR](https://jsr.io/badges/@web-components/rss-feed)](https://jsr.io/@web-components/rss-feed/versions) [![JSR score](https://jsr.io/badges/@web-components/rss-feed/score)](https://jsr.io/@web-components/rss-feed/score)
 
 > Render RSS feeds in the DOM
 
-- **Version:** 0.0.0
-- **License:** [LGPL-3](./LICENSE.md)
+-   **Version:** 0.0.0
+-   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
 
-**Browser:** via the ESM CDN: [https://esm.sh/jsr/@web-components/rss-feed](https://esm.sh/jsr/@web-components/rss-feed) 
+### Browser
+
+-   via the ESM CDN: [https://esm.sh/jsr/@web-components/rss-feed](https://esm.sh/jsr/@web-components/rss-feed)
 
 ```html
 <script src="https://esm.sh/jsr/@web-components/rss-feed" type="module"></script>
 ```
 
-#### Deno
+### Deno
 
 ```
 deno add jsr:@web-components/rss-feed
 ```
 
-**NPM:** JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
+### NPM
+
+-   JSR provides [NPM compatibility](https://jsr.io/docs/npm-compatibility). You can install this package with:
 
 ```
 npx jsr add @web-components/rss-feed
 ```
 
-# Documentation
+## Documentation
 
-- **Open examples for [rss-feed on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-rss-feed)**.
+-   **Open examples for [rss-feed on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-rss-feed)**.
 
 Fetch and render RSS feeds using inner `template` and `source` elements.
 
@@ -39,8 +43,9 @@ Fetch and render RSS feeds using inner `template` and `source` elements.
 -   `ttl` - The TTL to use for all feeds in seconds.
 -   `proxy` - Prepended to feed URLs to work around CORS restrictions, if needed.
 -   `loading` - Not provided or `lazy`, ensures data is only loaded when the component is visible.
--   `sort-by` - The item attribute to sort by. Default: `pubDate`. Allowed values are: 'pubDate', 'title', 'link', 'guid', 'creator', 'summary', 'content', 'isoDate', 'categories', 'contentSnippet', 'enclosure'.
+-   `sort-by` - The item attribute to sort by. Default: `pubDate`. RSS specification values are: 'pubDate', 'title', 'link', 'guid', 'creator', 'summary', 'content', 'isoDate', 'categories', 'contentSnippet', 'enclosure'. However, some feeds include custom properties that can still be used.
 -   `sort-order` - `asc` (default) or `desc`.
+-   `link` - An optional anchor [`target`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target). When present, each item is wrapped in an anchor link.
 -   `element` - A custom element name to render items with (eg. `your-rss-item`). Properties and attributes are set from the `sort-by` allowed values. For more more information on the item structure, look at [rss-parser](https://www.npmjs.com/package/rss-parser).
 
 ## Examples
@@ -137,6 +142,12 @@ Style the component with display [contents](https://developer.mozilla.org/en-US/
 ## Dependencies
 
 This element uses [rss-parser](https://www.npmjs.com/package/rss-parser) to extract RSS information.
+
+## Future work
+
+_Could include..._
+
+-   OPML support
 
 
 ---
