@@ -1,0 +1,16 @@
+{
+    "name": "diff-text",
+    "version": "0.0.1",
+    "description": "",
+    "main": "./index.ts",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "LGPL-3",
+    "dependencies": {
+        "jsdiff": "^1.1.1"
+    }
+}
