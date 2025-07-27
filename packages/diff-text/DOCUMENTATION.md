@@ -1,4 +1,4 @@
-`diff-text` uses [jsdiff](https://www.npmjs.com/package/diff) to render the difference between words (with or without spaces), characters, lines, sentences, CSS, JSON, or arrays.
+`diff-text` uses [kpdecker/jsdiff](https://www.npmjs.com/package/diff) to render the difference between words (with or without spaces), characters, lines, sentences, CSS, JSON, or arrays.
 
 **Attributes**
 
