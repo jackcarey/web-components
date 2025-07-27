@@ -254,31 +254,41 @@ export class DiffText extends HTMLElement {
             }, refreshNum);
         }
 
+        console.log('setup');
+
+        const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
         if (usingOriginalEl) {
             const originalSelector = this.getAttribute('original');
-            if (!this.#originalMutationObserver) {
+            if (this.#originalMutationObserver) {
+                this.#originalMutationObserver.disconnect();
+            } else {
                 this.#originalMutationObserver = new MutationObserver(() => {
                     if (originalSelector) {
                         this.#originalMutationObserver = new MutationObserver(() => {
                             const originalEl = document.querySelector<HTMLElement>(originalSelector);
                             this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
                             this.#render();
+                            console.log(`original value changed`, this.#originalValue);
                         });
                     }
                 });
             }
+            console.log(`original observer is`, this.#originalMutationObserver)
             if (originalSelector) {
                 const originalEl = document.querySelector<HTMLElement>(originalSelector);
                 if (originalEl) {
-                    this.#originalMutationObserver.observe(originalEl, { childList: true, subtree: true });
-                    this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
+                    console.log(`observing original element`, originalEl);
+                    this.#originalMutationObserver.observe(originalEl, observerOptions);
+                    this.#originalValue = this.#getElementValue(originalEl);
                 }
             }
         }
 
         if (usingChangedEl) {
             const changedSelector = this.getAttribute('changed');
-            if (!this.#changedMutationObserver) {
+            if (this.#changedMutationObserver) {
+                this.#changedMutationObserver.disconnect();
+            } else {
                 this.#changedMutationObserver = new MutationObserver(() => {
                     if (changedSelector) {
                         this.#changedMutationObserver = new MutationObserver(() => {
@@ -292,7 +302,7 @@ export class DiffText extends HTMLElement {
             if (changedSelector) {
                 const changedEl = document.querySelector<HTMLElement>(changedSelector);
                 if (changedEl) {
-                    this.#changedMutationObserver.observe(changedEl, { childList: true, subtree: true });
+                    this.#changedMutationObserver.observe(changedEl, observerOptions);
                     this.#changedValue = this.#getElementValue(changedEl);
                 }
             }
