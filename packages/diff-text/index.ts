@@ -41,8 +41,8 @@ export class DiffText extends HTMLElement {
     #animationFrame: number | null = null;
     #jsDiffOptions: AnyDiffOptions | null = null;
 
-    get changes() {
-        return this.#changes as ChangeObject[];
+    get changes(): ChangeObject[] {
+        return this.#changes;
     }
 
     get mode(): DiffMode {
