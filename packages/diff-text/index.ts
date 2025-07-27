@@ -195,7 +195,12 @@ export class DiffText extends HTMLElement {
 
         if (originalSrc) {
             fetch(originalSrc)
-                .then(response => response.text())
+                .then(response => {
+                    if (this.mode === 'json') {
+                        return response.json();
+                    }
+                    return response.text();
+                })
                 .then(text => {
                     this.#originalValue = text;
                     this.#render();
@@ -204,7 +209,12 @@ export class DiffText extends HTMLElement {
 
         if (changedSrc) {
             fetch(changedSrc)
-                .then(response => response.text())
+                .then(response => {
+                    if (this.mode === 'json') {
+                        return response.json();
+                    }
+                    return response.text();
+                })
                 .then(text => {
                     this.#changedValue = text;
                     this.#render();
@@ -251,7 +261,7 @@ export class DiffText extends HTMLElement {
             }
             this.#refreshIntervalListener = setInterval(() => {
                 this.#render();
-            }, refreshNum);
+            }, Math.max(1000, refreshNum));
         }
 
         const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
@@ -311,13 +321,13 @@ export class DiffText extends HTMLElement {
 
     #updateDiff() {
         const modeFn = DIFF_MODES[this.mode] || diffWords;
-        let a = this.#originalValue || '';
-        let b = this.#changedValue || '';
+        let a = this.#originalValue;
+        let b = this.#changedValue;
         if (this.ignoreCase) {
-            a = a.toLowerCase();
-            b = b.toLowerCase();
+            a = a?.toLowerCase() ?? null;
+            b = b?.toLowerCase() ?? null;
         }
-        this.#changes = modeFn(a, b, this.options ?? {}) as ChangeObject[];
+        this.#changes = modeFn(a ?? b, b ?? a, this.options ?? {}) as ChangeObject[];
     }
 
     #render() {
@@ -335,6 +345,7 @@ export class DiffText extends HTMLElement {
                 } else if (change.removed) {
                     span.classList.add('diff-text-removed');
                 }
+                span.dataset.diffTextCount = change.count.toString();
                 this.appendChild(span);
             });
         });

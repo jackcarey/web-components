@@ -29,6 +29,7 @@ const renderFn: StoryObj["render"] = (args: Args) => {
                 changed="${args.changed}"
                 original-src="${args["original-src"]}"
                 changed-src="${args["changed-src"]}"
+                mode="${args.mode}"
             ></diff-text>
         </p>
         <b>Args:</b><br />
@@ -79,5 +80,40 @@ export const OriginalAndChangedSrc: Story = {
             "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
         "changed-src":
             "https://gist.githubusercontent.com/jackcarey/d8098b3784dcce32f9a4266c89bc1148/raw/abb8bb4d96fadb307997bf1592283b727910f798/other-text.txt",
+    },
+};
+
+export const Refresh: Story = {
+    args: {
+        mode: "json",
+        "original-src": "http://worldtimeapi.org/api/timezone/Europe/London",
+        "changed-src": "http://worldtimeapi.org/api/timezone/America/Argentina/Salta",
+        refresh: 1000,
+    },
+};
+
+export const WithChangingText: Story = {
+    args: {
+        original: "#original",
+        changed: "#changed",
+        mode: "chars",
+    },
+    render: (args: Args, context) => {
+        const originalStory = renderFn(args, context);
+        return html`${originalStory}
+            <script>
+                let originalText = document.querySelector("#original");
+                let changedText = document.querySelector("#changed");
+                const setOriginal = () => {
+                    originalText.textContent = \`This will change 250ms. \${new Date().toISOString()}\`;
+                };
+                setInterval(setOriginal, 250);
+                setOriginal();
+                const setChanged = () => {
+                    changedText.textContent = \`This will change every second. \${new Date().toISOString()}\`;
+                };
+                setChanged();
+                setInterval(setChanged, 1000);
+            </script>`;
     },
 };
