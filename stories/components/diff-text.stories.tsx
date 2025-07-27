@@ -109,9 +109,9 @@ export const WithChangingText: Story = {
                 let originalText = document.querySelector("#original");
                 let changedText = document.querySelector("#changed");
                 const setOriginal = () => {
-                    originalText.textContent = \`This will change 300ms. \${new Date().toISOString()}\`;
+                    originalText.textContent = \`This will change 250ms. \${new Date().toISOString()}\`;
                 };
-                setInterval(setOriginal, 300);
+                setInterval(setOriginal, 250);
                 setOriginal();
                 const setChanged = () => {
                     changedText.textContent = \`This will change every second. \${new Date().toISOString()}\`;
