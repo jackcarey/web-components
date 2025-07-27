@@ -335,38 +335,50 @@ export class DiffText extends HTMLElement {
         this.#render();
     }
 
-    #updateDiff() {
+    #updateDiff(): boolean {
         const modeFn = (DIFF_MODES[this.mode] || diffWords) as Function;
-        let a = this.#originalValue;
-        let b = this.#changedValue;
-        this.#changes = modeFn(a ?? '', b ?? '', {
+        const a = this.#originalValue;
+        const b = this.#changedValue;
+        const oldChanges = structuredClone(this.#changes);
+        const newChanges = modeFn(a ?? '', b ?? '', {
             ignoreCase: Boolean(this.ignoreCase),
             ...(this.options ?? {}),
             //the callback cannot be passed as a jsDiff option as this makes the call async
             //promise.try() could be used here in the future when there's greater usage
             callback: undefined,
         }) as ChangeObject[];
-        //handling the options callback provides compatibility with the jsDiff API
-        //@ts-expect-error - callback type isn't inferred
-        if (this.options && this.options?.callback && typeof this.options?.callback === 'function') {
+
+        const hasChanged = newChanges.length !== oldChanges.length || newChanges.some((change, index) => {
+            const oldChange = oldChanges[index];
+            return !oldChange || change.value !== oldChange.value || change.added !== oldChange.added || change.removed !== oldChange.removed || change.count !== oldChange.count;
+        });
+
+        if (hasChanged) {
+            this.#changes = newChanges;
+
+            //handling the options callback provides compatibility with the jsDiff API
             //@ts-expect-error - callback type isn't inferred
-            this.options?.callback(this.#changes);
+            if (this.options && this.options?.callback && typeof this.options?.callback === 'function') {
+                //@ts-expect-error - callback type isn't inferred
+                this.options?.callback(this.#changes);
+            }
+            const eventDetail = {
+                ...Object.fromEntries(DiffText.observedAttributes.map(attr => {
+                    return [attr, this.getAttribute(attr)];
+                })),
+                options: this.options,
+                original: this.#originalValue,
+                changed: this.#changedValue,
+                changes: this.#changes,
+            }
+            this.dispatchEvent(new CustomEvent('diff-text', {
+                detail: eventDetail,
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+            }));
         }
-        const eventDetail = {
-            ...Object.fromEntries(DiffText.observedAttributes.map(attr => {
-                return [attr, this.getAttribute(attr)];
-            })),
-            options: this.options,
-            original: this.#originalValue,
-            changed: this.#changedValue,
-            changes: this.#changes,
-        }
-        this.dispatchEvent(new CustomEvent('diff-text', {
-            detail: eventDetail,
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-        }));
+        return hasChanged;
     }
 
     #render() {
@@ -374,19 +386,21 @@ export class DiffText extends HTMLElement {
             cancelAnimationFrame(this.#animationFrame);
         }
         this.#animationFrame = requestAnimationFrame(() => {
-            this.#updateDiff();
-            this.innerHTML = '';
-            this.#changes.forEach(change => {
-                const span = document.createElement('span');
-                span.textContent = change.value;
-                if (change.added) {
-                    span.classList.add('diff-text-added');
-                } else if (change.removed) {
-                    span.classList.add('diff-text-removed');
-                }
-                span.dataset.diffTextCount = change.count.toString();
-                this.appendChild(span);
-            });
+            const changed = this.#updateDiff();
+            if (changed) {
+                this.innerHTML = '';
+                this.#changes.forEach(change => {
+                    const span = document.createElement('span');
+                    span.textContent = change.value;
+                    if (change.added) {
+                        span.classList.add('diff-text-added');
+                    } else if (change.removed) {
+                        span.classList.add('diff-text-removed');
+                    }
+                    span.dataset.diffTextCount = change.count.toString();
+                    this.appendChild(span);
+                });
+            }
         });
     }
 
