@@ -62,6 +62,10 @@ const meta: Meta = {
         ],
     }),
     render: renderFn,
+    parameters: {
+        //these stories are ignored by default, they must be opt-ed in by setting this to false
+        chromatic: { disableSnapshot: true },
+    },
 };
 
 export default meta;
@@ -69,6 +73,9 @@ type Story = StoryObj;
 
 export const Default: Story = {
     args: { original: "#original", changed: "#changed" },
+    parameters: {
+        chromatic: { disableSnapshot: false },
+    },
 };
 
 export const CompareChars: Story = {
@@ -76,6 +83,9 @@ export const CompareChars: Story = {
         original: "#original",
         changed: "#changed",
         mode: "chars",
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
 
@@ -85,6 +95,9 @@ export const IgnoreCase: Story = {
         changed: "#changed",
         "ignore-case": true,
     },
+    parameters: {
+        chromatic: { disableSnapshot: false },
+    },
 };
 
 export const IgnoreCaseChars: Story = {
@@ -93,6 +106,9 @@ export const IgnoreCaseChars: Story = {
         changed: "#changed",
         mode: "chars",
         "ignore-case": true,
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
 
@@ -129,6 +145,9 @@ export const OriginalSrc: Story = {
             "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
         changed: "#changed",
     },
+    parameters: {
+        chromatic: { disableSnapshot: false },
+    },
 };
 
 export const ChangedSrc: Story = {
@@ -137,6 +156,9 @@ export const ChangedSrc: Story = {
         original: "#original",
         "changed-src":
             "https://gist.githubusercontent.com/jackcarey/d8098b3784dcce32f9a4266c89bc1148/raw/abb8bb4d96fadb307997bf1592283b727910f798/other-text.txt",
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
 
@@ -147,6 +169,9 @@ export const OriginalAndChangedSrc: Story = {
             "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
         "changed-src":
             "https://gist.githubusercontent.com/jackcarey/d8098b3784dcce32f9a4266c89bc1148/raw/abb8bb4d96fadb307997bf1592283b727910f798/other-text.txt",
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
 
@@ -167,6 +192,9 @@ export const CompareAttr: Story = {
         changed: "#changed",
         compare: "title",
         mode: "chars",
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
 
@@ -200,5 +228,8 @@ export const Callback: Story = {
                 return diff;
             }
         }`,
+    },
+    parameters: {
+        chromatic: { disableSnapshot: false },
     },
 };
