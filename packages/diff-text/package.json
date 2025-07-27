@@ -11,6 +11,6 @@
     "author": "",
     "license": "LGPL-3",
     "dependencies": {
-        "jsdiff": "^1.1.1"
+        "diff": "^8.0.2"
     }
 }

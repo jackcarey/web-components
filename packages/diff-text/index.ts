@@ -1,4 +1,4 @@
-import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays } from 'jsdiff';
+import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays } from 'diff';
 
 // https://github.com/kpdecker/jsdiff#change-objects
 type ChangeObject = {
@@ -212,6 +212,24 @@ export class DiffText extends HTMLElement {
         }
     }
 
+    #getElementValue = (el: HTMLElement): string => {
+        const innerText = el.innerText;
+        const innerHTML = el.innerHTML;
+        const compareProp = this.compare;
+        if (!compareProp?.length) {
+            return innerText || innerHTML || '';
+        }
+        const comparePropValue = compareProp in el ? el[compareProp] : null;
+        if (compareProp) {
+            return comparePropValue;
+        }
+        const compareAttrValue = el.getAttribute(compareProp);
+        if (compareAttrValue) {
+            return compareAttrValue;
+        }
+        return comparePropValue || compareAttrValue || innerText || innerHTML || '';
+    }
+
     #setup() {
         this.disconnectedCallback();
         const usingOriginalSrc = Boolean(this.getAttribute('original-src'));
@@ -220,8 +238,8 @@ export class DiffText extends HTMLElement {
         const refreshNum = refreshAttr ? parseInt(refreshAttr, 10) : 0
         const usingRefresh = (usingOriginalSrc || usingChangedSrc) && Boolean(refreshNum);
 
-        const usingOriginalEl = !usingOriginalSrc && Boolean(this.getAttribute('original'));
-        const usingChangedEl = !usingChangedSrc && Boolean(this.getAttribute('changed'));
+        const usingOriginalEl = !usingOriginalSrc && Boolean(this.original);
+        const usingChangedEl = !usingChangedSrc && Boolean(this.changed);
 
         if (usingOriginalSrc || usingChangedSrc) {
             this.#fetchSrcs();
@@ -236,63 +254,53 @@ export class DiffText extends HTMLElement {
             }, refreshNum);
         }
 
-        const getElementValue = (el: HTMLElement): string => {
-            const innerText = el.innerText;
-            const innerHTML = el.innerHTML;
-            const compareProp = this.compare;
-            if (!compareProp?.length) {
-                return innerText || innerHTML || '';
-            }
-            const comparePropValue = compareProp in el ? el[compareProp] : null;
-            if (compareProp) {
-                return compareProp;
-            }
-            const compareAttrValue = el.getAttribute(compareProp);
-            if (compareAttrValue) {
-                return compareAttrValue;
-            }
-            return comparePropValue || compareAttrValue || innerText || innerHTML || '';
-        }
-
         if (usingOriginalEl) {
+            const originalSelector = this.getAttribute('original');
             if (!this.#originalMutationObserver) {
                 this.#originalMutationObserver = new MutationObserver(() => {
                     if (originalSelector) {
-                        this.#originalMutationObserver = new MutationObserver(() => { this.#render(); });
+                        this.#originalMutationObserver = new MutationObserver(() => {
+                            const originalEl = document.querySelector<HTMLElement>(originalSelector);
+                            this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
+                            this.#render();
+                        });
                     }
                 });
             }
-            const originalSelector = this.getAttribute('original');
             if (originalSelector) {
-                const originalEl = this.querySelector<HTMLElement>(originalSelector);
+                const originalEl = document.querySelector<HTMLElement>(originalSelector);
                 if (originalEl) {
                     this.#originalMutationObserver.observe(originalEl, { childList: true, subtree: true });
-                    this.#originalValue = getElementValue(originalEl as HTMLElement);
+                    this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
                 }
             }
         }
 
         if (usingChangedEl) {
+            const changedSelector = this.getAttribute('changed');
             if (!this.#changedMutationObserver) {
                 this.#changedMutationObserver = new MutationObserver(() => {
                     if (changedSelector) {
-                        this.#changedMutationObserver = new MutationObserver(() => { this.#render(); });
+                        this.#changedMutationObserver = new MutationObserver(() => {
+                            const changedEl = document.querySelector(changedSelector);
+                            this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
+                            this.#render();
+                        });
                     }
                 });
             }
-            const changedSelector = this.getAttribute('changed');
             if (changedSelector) {
-                const originalEl = this.querySelector<HTMLElement>(changedSelector);
-                if (originalEl) {
-                    this.#changedMutationObserver.observe(originalEl, { childList: true, subtree: true });
-                    this.#changedValue = getElementValue(originalEl);
+                const changedEl = document.querySelector<HTMLElement>(changedSelector);
+                if (changedEl) {
+                    this.#changedMutationObserver.observe(changedEl, { childList: true, subtree: true });
+                    this.#changedValue = this.#getElementValue(changedEl);
                 }
             }
         }
     }
 
     get options(): AnyDiffOptions {
-        return this.#jsDiffOptions || {};
+        return this.#jsDiffOptions || undefined;
     }
 
     set options(newValue: AnyDiffOptions | null | undefined) {
@@ -304,7 +312,7 @@ export class DiffText extends HTMLElement {
         this.#render();
     }
 
-    #updateChanges() {
+    #updateDiff() {
         const modeFn = DIFF_MODES[this.mode] || diffWords;
         let a = this.#originalValue || '';
         let b = this.#changedValue || '';
@@ -320,7 +328,7 @@ export class DiffText extends HTMLElement {
             cancelAnimationFrame(this.#animationFrame);
         }
         this.#animationFrame = requestAnimationFrame(() => {
-            this.#updateChanges();
+            this.#updateDiff();
             this.innerHTML = '';
             this.#changes.forEach(change => {
                 const span = document.createElement('span');
