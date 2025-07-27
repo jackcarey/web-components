@@ -19,11 +19,15 @@ const DIFF_MODES = {
     arrays: diffArrays,
 };
 
+type DiffTextOptions<FuncType extends (...any) => any> = Parameters<FuncType>[3];
+
+type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof diffChars> | DiffTextOptions<typeof diffWordsWithSpace> | DiffTextOptions<typeof diffLines> | DiffTextOptions<typeof diffSentences> | DiffTextOptions<typeof diffCss> | DiffTextOptions<typeof diffJson> | DiffTextOptions<typeof diffArrays>;
+
 export class DiffText extends HTMLElement {
     static get setupAttrs() { return ['original', 'changed', 'original-src', 'changed-src', 'refresh']; }
     static get observedAttributes() {
-        const jsDiffAttrs = ['mode', 'ignore-case', 'segmenter'];
-        return [...jsDiffAttrs, ...DiffText.setupAttrs];
+        const jsDiffAttrs = ['mode', 'ignore-case'];
+        return [...jsDiffAttrs, ...DiffText.setupAttrs, 'compare'];
     }
 
     static get jsdiff() {
@@ -46,6 +50,7 @@ export class DiffText extends HTMLElement {
     #changedValue: string | null = null;
     #changes: ChangeObject[] = [];
     #animationFrame: number | null = null;
+    #jsDiffOptions: AnyDiffOptions | null = null;
 
     get changes() {
         return this.#changes as ChangeObject[];
@@ -72,18 +77,6 @@ export class DiffText extends HTMLElement {
             this.setAttribute('ignore-case', '');
         } else {
             this.removeAttribute('ignore-case');
-        }
-    }
-
-    get intlSegmenter() {
-        return this.getAttribute('segmenter') === 'true';
-    }
-
-    set intlSegmenter(value: boolean) {
-        if (value) {
-            this.setAttribute('segmenter', '');
-        } else {
-            this.removeAttribute('segmenter');
         }
     }
 
@@ -164,6 +157,18 @@ export class DiffText extends HTMLElement {
         }
     }
 
+    get compare() {
+        return this.getAttribute('compare');
+    }
+
+    set compare(value: string | null) {
+        if (value?.length) {
+            this.setAttribute('compare', value);
+        } else {
+            this.removeAttribute('compare');
+        }
+    }
+
     constructor() {
         super();
     }
@@ -231,6 +236,24 @@ export class DiffText extends HTMLElement {
             }, refreshNum);
         }
 
+        const getElementValue = (el: HTMLElement): string => {
+            const innerText = el.innerText;
+            const innerHTML = el.innerHTML;
+            const compareProp = this.compare;
+            if (!compareProp?.length) {
+                return innerText || innerHTML || '';
+            }
+            const comparePropValue = compareProp in el ? el[compareProp] : null;
+            if (compareProp) {
+                return compareProp;
+            }
+            const compareAttrValue = el.getAttribute(compareProp);
+            if (compareAttrValue) {
+                return compareAttrValue;
+            }
+            return comparePropValue || compareAttrValue || innerText || innerHTML || '';
+        }
+
         if (usingOriginalEl) {
             if (!this.#originalMutationObserver) {
                 this.#originalMutationObserver = new MutationObserver(() => {
@@ -241,10 +264,10 @@ export class DiffText extends HTMLElement {
             }
             const originalSelector = this.getAttribute('original');
             if (originalSelector) {
-                const originalEl = this.querySelector(originalSelector);
+                const originalEl = this.querySelector<HTMLElement>(originalSelector);
                 if (originalEl) {
                     this.#originalMutationObserver.observe(originalEl, { childList: true, subtree: true });
-                    this.#originalValue = originalEl.textContent || originalEl.innerHTML || '';
+                    this.#originalValue = getElementValue(originalEl as HTMLElement);
                 }
             }
         }
@@ -259,13 +282,26 @@ export class DiffText extends HTMLElement {
             }
             const changedSelector = this.getAttribute('changed');
             if (changedSelector) {
-                const originalEl = this.querySelector(changedSelector);
+                const originalEl = this.querySelector<HTMLElement>(changedSelector);
                 if (originalEl) {
                     this.#changedMutationObserver.observe(originalEl, { childList: true, subtree: true });
-                    this.#changedValue = originalEl.textContent || originalEl.innerHTML || '';
+                    this.#changedValue = getElementValue(originalEl);
                 }
             }
         }
+    }
+
+    get options(): AnyDiffOptions {
+        return this.#jsDiffOptions || {};
+    }
+
+    set options(newValue: AnyDiffOptions | null | undefined) {
+        if (newValue && typeof newValue === 'object') {
+            this.#jsDiffOptions = newValue;
+        } else {
+            this.#jsDiffOptions = null;
+        }
+        this.#render();
     }
 
     #updateChanges() {
@@ -276,8 +312,7 @@ export class DiffText extends HTMLElement {
             a = a.toLowerCase();
             b = b.toLowerCase();
         }
-        //todo: handle passing options to jsdiff
-        this.#changes = modeFn(a, b);
+        this.#changes = modeFn(a, b, this.options ?? {}) as ChangeObject[];
     }
 
     #render() {
