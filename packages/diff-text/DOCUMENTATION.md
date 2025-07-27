@@ -1,5 +1,7 @@
 `diff-text` uses [kpdecker/jsdiff](https://www.npmjs.com/package/diff) to render the difference between words (with or without spaces), characters, lines, sentences, CSS, JSON, or arrays.
 
+There is no default styling. Removed text is given the class `diff-text-removed` and added text is given the class `diff-text-added`.
+
 **Attributes**
 
 -   `mode`: one of `words`, `wordsWithSpaces`, `chars` (characters), `lines`, `sentences`, `css`, `json`, `arrays`.
@@ -19,3 +21,26 @@
 **Events**
 
 -   `diff-text`: Emitted when the text diff is calculated, this event contains `detail` for the attributes, original value, changed value, and list of changes.
+
+## Example
+
+This snippet:
+
+```html
+<span id="original">The quick brown fox jumps over the lazy dog.</span>
+<span id="changed">The slow blue rabbit jumps over the lazy cat.</span>
+<diff-text></diff-text>
+```
+
+becomes:
+
+```html
+<span id="original">The quick brown fox jumps over the lazy dog.</span>
+<span id="changed">The slow blue fox jumps over the lazy dog.</span>
+<diff-text>
+    <span>The</span>
+    <span class="diff-text-removed">quick brown</span>
+    <span class="diff-text-added">slow blue</span>
+    <span>jumps over the lazy dog.</span>
+</diff-text>
+```
