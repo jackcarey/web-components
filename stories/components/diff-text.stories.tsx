@@ -38,6 +38,12 @@ const renderFn: StoryObj["render"] = (args: Args) => {
                 ignore-case="${args["ignore-case"]}"
                 refetch="${args.refetch}"
             ></diff-text>
+            ${!args.options
+                ? ""
+                : html`<script>
+                      const diffText = document.querySelector("diff-text");
+                      diffText.options = ${args.options};
+                  </script>`}
         </p>
         <b>Args:</b><br />
         <pre>${JSON.stringify(args, null, 2)}</pre>`;
@@ -167,8 +173,32 @@ export const CompareAttr: Story = {
 export const Lines: Story = {
     name: "Compare by lines",
     args: {
-        "original-src": "https://baconipsum.com/api/?type=meat-and-filler&format=text",
-        "changed-src": "https://baconipsum.com/api/?type=meat-and-filler&format=text",
+        "original-src": "https://baconipsum.com/api/?type=meat-and-filler&paras=3&format=text",
+        "changed-src": "https://baconipsum.com/api/?type=meat-and-filler&paras=3&format=text",
         mode: "lines",
+    },
+};
+
+export const Arrays = {
+    name: "Compare arrays",
+    args: {
+        "original-src": "https://jsonplaceholder.typicode.com/comments?postId=1",
+        "changed-src": "https://jsonplaceholder.typicode.com/comments?postId=2",
+        mode: "arrays",
+    },
+};
+
+export const Callback: Story = {
+    name: "Callback (on diff)",
+    args: {
+        original: "#original",
+        changed: "#changed",
+        mode: "chars",
+        options: `{
+            callback: (diff) => {
+                console.log("Diff callback:", diff);
+                return diff;
+            }
+        }`,
     },
 };

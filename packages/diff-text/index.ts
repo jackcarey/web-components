@@ -1,4 +1,4 @@
-import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays, Diff } from 'diff';
+import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays } from 'diff';
 
 // https://github.com/kpdecker/jsdiff#change-objects
 type ChangeObject = {
@@ -279,7 +279,6 @@ export class DiffText extends HTMLElement {
                 this.#render();
             }, Math.max(1000, refetchNum * 1000));
         }
-        console.log(`DiffText: Refetching every ${refetchNum} seconds. (${refetchAttr})`, this.#refetchIntervalListener);
 
         const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
         if (usingOriginalEl) {
@@ -328,8 +327,8 @@ export class DiffText extends HTMLElement {
     }
 
     set options(newValue: AnyDiffOptions | null | undefined) {
-        if (newValue && typeof newValue === 'object') {
-            this.#jsDiffOptions = newValue;
+        if (newValue) {
+            this.#jsDiffOptions = newValue as AnyDiffOptions;
         } else {
             this.#jsDiffOptions = null;
         }
@@ -342,8 +341,16 @@ export class DiffText extends HTMLElement {
         let b = this.#changedValue;
         this.#changes = modeFn(a ?? '', b ?? '', {
             ignoreCase: Boolean(this.ignoreCase),
-            ...(this.options ?? {})
+            ...(this.options ?? {}),
+            //the callback cannot be passed as a jsDiff option as this makes the call async
+            //promise.try() could be used here in the future when there's greater usage
+            callback: undefined,
         }) as ChangeObject[];
+        //@ts-expect-error - callback type isn't inferred
+        if (this.options && this.options?.callback && typeof this.options?.callback === 'function') {
+            //@ts-expect-error - callback type isn't inferred
+            this.options?.callback(this.#changes);
+        }
     }
 
     #render() {
