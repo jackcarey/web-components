@@ -26,24 +26,11 @@ type DiffTextOptions<FuncType extends (...any) => any> = Parameters<FuncType>[3]
 type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof diffChars> | DiffTextOptions<typeof diffWordsWithSpace> | DiffTextOptions<typeof diffLines> | DiffTextOptions<typeof diffSentences> | DiffTextOptions<typeof diffCss> | DiffTextOptions<typeof diffJson> | DiffTextOptions<typeof diffArrays>;
 
 export class DiffText extends HTMLElement {
-    static get setupAttrs() { return ['original', 'changed', 'original-src', 'changed-src', 'refetch']; }
-    static get observedAttributes() {
+    static get setupAttrs(): string[] { return ['original', 'changed', 'original-src', 'changed-src', 'refetch']; }
+    static get observedAttributes(): string[] {
         const jsDiffAttrs = ['mode', 'ignore-case'];
         return [...jsDiffAttrs, ...DiffText.setupAttrs, 'compare'];
     }
-
-    static get jsdiff() {
-        return {
-            word: diffWords,
-            chars: diffChars,
-            wordsWithSpaces: diffWordsWithSpace,
-            lines: diffLines,
-            sentences: diffSentences,
-            css: diffCss,
-            json: diffJson,
-            arrays: diffArrays,
-        };
-    };
 
     #originalMutationObserver: MutationObserver | null = null;
     #changedMutationObserver: MutationObserver | null = null;
@@ -70,7 +57,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get ignoreCase() {
+    get ignoreCase(): boolean {
         return this.getAttribute('ignore-case') === 'true';
     }
 
@@ -82,7 +69,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get original() {
+    get original(): string {
         return this.getAttribute('original') || '';
     }
 
@@ -94,7 +81,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get changed() {
+    get changed(): string {
         return this.getAttribute('changed') || '';
     }
 
@@ -106,7 +93,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get originalSrc() {
+    get originalSrc(): string {
         return this.getAttribute('original-src') || '';
     }
 
@@ -118,7 +105,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get changedSrc() {
+    get changedSrc(): string {
         return this.getAttribute('changed-src') || '';
     }
 
@@ -159,7 +146,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get compare() {
+    get compare(): string | null {
         return this.getAttribute('compare');
     }
 
@@ -404,7 +391,7 @@ export class DiffText extends HTMLElement {
         });
     }
 
-    attributeChangedCallback(name, _oldValue, newValue) {
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
         if (name === 'mode' && newValue?.length && !DIFF_MODES[newValue]) {
             this.setAttribute('mode', 'word');
             return;
