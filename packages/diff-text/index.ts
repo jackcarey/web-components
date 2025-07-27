@@ -254,31 +254,22 @@ export class DiffText extends HTMLElement {
             }, refreshNum);
         }
 
-        console.log('setup');
-
         const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
         if (usingOriginalEl) {
             const originalSelector = this.getAttribute('original');
             if (this.#originalMutationObserver) {
                 this.#originalMutationObserver.disconnect();
-            } else {
+            } else if (this.original) {
                 this.#originalMutationObserver = new MutationObserver(() => {
-                    if (originalSelector) {
-                        this.#originalMutationObserver = new MutationObserver(() => {
-                            const originalEl = document.querySelector<HTMLElement>(originalSelector);
-                            this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
-                            this.#render();
-                            console.log(`original value changed`, this.#originalValue);
-                        });
-                    }
+                    const originalEl = document.querySelector<HTMLElement>(this.original);
+                    this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
+                    this.#render();
                 });
             }
-            console.log(`original observer is`, this.#originalMutationObserver)
             if (originalSelector) {
                 const originalEl = document.querySelector<HTMLElement>(originalSelector);
                 if (originalEl) {
-                    console.log(`observing original element`, originalEl);
-                    this.#originalMutationObserver.observe(originalEl, observerOptions);
+                    this.#originalMutationObserver?.observe(originalEl, observerOptions);
                     this.#originalValue = this.#getElementValue(originalEl);
                 }
             }
@@ -288,21 +279,17 @@ export class DiffText extends HTMLElement {
             const changedSelector = this.getAttribute('changed');
             if (this.#changedMutationObserver) {
                 this.#changedMutationObserver.disconnect();
-            } else {
+            } else if (this.changed) {
                 this.#changedMutationObserver = new MutationObserver(() => {
-                    if (changedSelector) {
-                        this.#changedMutationObserver = new MutationObserver(() => {
-                            const changedEl = document.querySelector(changedSelector);
-                            this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
-                            this.#render();
-                        });
-                    }
+                    const changedEl = document.querySelector(this.changed);
+                    this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
+                    this.#render();
                 });
             }
             if (changedSelector) {
                 const changedEl = document.querySelector<HTMLElement>(changedSelector);
                 if (changedEl) {
-                    this.#changedMutationObserver.observe(changedEl, observerOptions);
+                    this.#changedMutationObserver?.observe(changedEl, observerOptions);
                     this.#changedValue = this.#getElementValue(changedEl);
                 }
             }
