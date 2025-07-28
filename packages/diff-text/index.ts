@@ -1,6 +1,14 @@
 import { diffWords, diffChars, diffWordsWithSpace, diffLines, diffSentences, diffCss, diffJson, diffArrays } from 'diff';
 
 // https://github.com/kpdecker/jsdiff#change-objects
+/**
+ * Represents a single change in a diff operation.
+ *
+ * @property value - The text content associated with this change.
+ * @property added - Indicates if this segment was added.
+ * @property removed - Indicates if this segment was removed.
+ * @property count - The number of characters or items in this change.
+ */
 type ChangeObject = {
     value: string;
     added: boolean;
@@ -8,6 +16,25 @@ type ChangeObject = {
     count: number;
 };
 
+/**
+ * A mapping of diff mode names to their corresponding diffing functions.
+ *
+ * Each key represents a diff mode, such as 'word', 'chars', 'lines', etc.,
+ * and maps to a function that performs the diff operation for that mode.
+ *
+ * Available diff modes:
+ * - `word`: Diffs by words.
+ * - `chars`: Diffs by individual characters.
+ * - `wordsWithSpaces`: Diffs by words, preserving spaces.
+ * - `lines`: Diffs by lines.
+ * - `sentences`: Diffs by sentences.
+ * - `css`: Diffs CSS code.
+ * - `json`: Diffs JSON objects.
+ * - `arrays`: Diffs arrays.
+ *
+ * @remarks
+ * The diffing functions (e.g., `diffWords`, `diffChars`) must be defined and imported in the module.
+ */
 const DIFF_MODES = {
     word: diffWords,
     chars: diffChars,
@@ -25,6 +52,50 @@ type DiffTextOptions<FuncType extends (...any) => any> = Parameters<FuncType>[3]
 
 type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof diffChars> | DiffTextOptions<typeof diffWordsWithSpace> | DiffTextOptions<typeof diffLines> | DiffTextOptions<typeof diffSentences> | DiffTextOptions<typeof diffCss> | DiffTextOptions<typeof diffJson> | DiffTextOptions<typeof diffArrays>;
 
+/**
+ * A custom HTML element for displaying and updating text differences ("diffs") between two sources.
+ * 
+ * The `DiffText` web component compares two text sources (either from attributes, DOM elements, or remote URLs)
+ * and renders the differences using customizable diff modes (e.g., word, character, line, or JSON).
+ * It supports live updates via MutationObservers or periodic refetching from remote sources.
+ * 
+ * ## Attributes
+ * - `original`: CSS selector for the original text element, or direct text value.
+ * - `changed`: CSS selector for the changed text element, or direct text value.
+ * - `original-src`: URL to fetch the original text from.
+ * - `changed-src`: URL to fetch the changed text from.
+ * - `refetch`: Interval (in seconds) to periodically refetch remote sources.
+ * - `mode`: Diff mode to use (`word`, `char`, `line`, `json`, etc.).
+ * - `ignore-case`: If present, performs a case-insensitive diff.
+ * - `compare`: Property or attribute name to use for extracting text from elements.
+ * 
+ * ## Properties
+ * - `changes`: The current array of diff change objects.
+ * - `mode`: The current diff mode.
+ * - `ignoreCase`: Whether to ignore case when diffing.
+ * - `original`: The original text or selector.
+ * - `changed`: The changed text or selector.
+ * - `originalSrc`: The URL for the original text.
+ * - `changedSrc`: The URL for the changed text.
+ * - `refetch`: The refetch interval in seconds.
+ * - `compare`: The property or attribute to use for comparison.
+ * - `options`: Additional options for the diff algorithm.
+ * 
+ * ## Methods
+ * - `refresh()`: Manually refreshes the diff by re-fetching sources and re-rendering.
+ * 
+ * ## Events
+ * - Dispatches a `diff-text` CustomEvent whenever the diff changes, with details about the diff and current options.
+ * 
+ * ## Usage Example
+ * ```html
+ * <diff-text original="#old" changed="#new" mode="word"></diff-text>
+ * ```
+ * 
+ * @element diff-text
+ * @fires diff-text - Fired when the diff changes.
+ * @public
+ */
 export class DiffText extends HTMLElement {
     static get setupAttrs(): string[] { return ['original', 'changed', 'original-src', 'changed-src', 'refetch']; }
     static get observedAttributes(): string[] {
