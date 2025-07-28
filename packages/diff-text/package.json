@@ -1,0 +1,16 @@
+{
+    "name": "diff-text",
+    "version": "1.0.0",
+    "description": "Use diff-text to compare two texts/objects and  render the differences.",
+    "main": "./index.ts",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "BSD-3-Clause",
+    "dependencies": {
+        "diff": "^8.0.2"
+    }
+}
