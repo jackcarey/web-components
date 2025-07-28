@@ -11,7 +11,7 @@ const template = fs.readFileSync(
 
 // Generate the markdown content
 const pagesLink = (pathQuery) => `https://jackcarey.co.uk/web-components/docs/?path=${pathQuery}`;
-const pkgToMdRow = ([dir, pkgJson]) => {
+const pkgToMdRow = ([_dir, pkgJson]) => {
   const name = pkgJson?.name ?? "-";
   const isUtility = !name.includes("-");
   const srcLink = `[${name}](${pagesLink(`/docs/${isUtility ? "utilities" : "components"}-${name}`)})`;
@@ -19,9 +19,7 @@ const pkgToMdRow = ([dir, pkgJson]) => {
   const description = `${pkgJson?.description ?? ""} - **${type}**`.trim() ?? name;
   const version = pkgJson?.version ?? "-";
   const licenseName = pkgJson?.license ?? "unlicensed";
-  const licenseMd = `[${licenseName}](https://www.tldrlegal.com/search?query=${encodeURIComponent(
-    licenseName
-  )})`;
+  const licenseMd = `[${licenseName}](https://github.com/jackcarey/web-components/blob/main/packages/${name}/LICENSE.md)`;
   return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getBadges(name)} |`;
 };
 const mdBody = `| Name | Description | Version | License | Links |\n| --- | --- | --- | --- | --- |\n${Object.entries(
