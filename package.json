@@ -1,7 +1,8 @@
 {
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
-    "ical.js": "^2.0.1",
+    "diff": "^8.0.2",
+    "ical.js": "^2.2.0",
     "rss-parser": "^3.13.0",
     "web-components": "file:"
   },
