@@ -50,6 +50,7 @@ const meta: Meta = {
             },
         ],
     }),
+    tags: ["test"],
     render: renderFn,
 };
 export default meta;

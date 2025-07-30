@@ -74,7 +74,7 @@ class KBDClick extends HTMLElement {
         document.removeEventListener('keydown', this.#handleKeyDown);
     }
 
-    attributeChangedCallback(name): void {
+    attributeChangedCallback(name: string): void {
         const setupAttrs = ['capture', 'passive', 'disabled'];
         if (setupAttrs.includes(name)) {
             this.#setupListener();
