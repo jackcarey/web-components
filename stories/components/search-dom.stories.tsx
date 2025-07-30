@@ -74,7 +74,10 @@ export const MatchCase = {
     args: {},
     render: (_args) => {
         return html`<search-dom target="ul" items="li" mode="matchCase">
-                <input type="search" />
+                <label for="search"
+                    >Search:
+                    <input type="search" id="search" />
+                </label>
             </search-dom>
             ${ulHtml}`;
     },
