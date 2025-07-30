@@ -1,0 +1,6 @@
+{
+  "name": "@web-components/kbd-click",
+  "version": "1.0.0",
+  "exports": "./index.ts",
+  "license": "LGPL-3.0-or-later"
+}
