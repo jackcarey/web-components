@@ -8,6 +8,9 @@ const renderFn: StoryObj["render"] = (args: Args) => {
             kbd-click {
                 display: contents;
             }
+            button {
+                display: contents;
+            }
             kbd {
                 background-color: #eee;
                 border-radius: 3px;
@@ -65,21 +68,41 @@ export const CaseSensitive: Story = {
         filter: "A, B, C",
     },
     render: (args: Args) => {
-        return html` <kbd-click
-            ${args.passive ? "passive" : ""}
-            ${args.capture ? "capture" : ""}
-            ${args.allowRepeat ? "allow-repeat" : ""}
-            filter="${args.filter || ""}"
-            case-sensitive
-        >
-            <p>
-                Case-sensitive, use 'shift' then press a letter. Press
-                <button onclick="alert('from A button')"><kbd>A</kbd></button>,
-                <button onclick="alert('from B button')"><kbd>B</kbd></button>, or
-                <button onclick="alert('from C button')"><kbd>C</kbd></button>
-                to trigger a click event.
-            </p>
-        </kbd-click>`;
+        return html` <style>
+                kbd-click {
+                    display: contents;
+                }
+                button {
+                    display: contents;
+                }
+                kbd {
+                    background-color: #eee;
+                    border-radius: 3px;
+                    border: 1px solid #b4b4b4;
+                    box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
+                    color: #333;
+                    display: inline-block;
+                    font-size: 0.85em;
+                    font-weight: 700;
+                    line-height: 1;
+                    padding: 2px 4px;
+                    white-space: nowrap;
+                }</style
+            ><kbd-click
+                ${args.passive ? "passive" : ""}
+                ${args.capture ? "capture" : ""}
+                ${args.allowRepeat ? "allow-repeat" : ""}
+                filter="${args.filter || ""}"
+                case-sensitive
+            >
+                <p>
+                    Case-sensitive, hold <kbd>shift</kbd> then press a letter. Press
+                    <button onclick="alert('from A button')"><kbd>A</kbd></button>,
+                    <button onclick="alert('from B button')"><kbd>B</kbd></button>, or
+                    <button onclick="alert('from C button')"><kbd>C</kbd></button>
+                    to trigger a click event.
+                </p>
+            </kbd-click>`;
     },
 };
 
@@ -88,20 +111,40 @@ export const Filtered: Story = {
         filter: "A",
     },
     render: (args: Args) => {
-        return html` <kbd-click
-            ${args.passive ? "passive" : ""}
-            ${args.capture ? "capture" : ""}
-            ${args.allowRepeat ? "allow-repeat" : ""}
-            filter="${args.filter || ""}"
-        >
-            <p>
-                Filtered only to 'A'. Press
-                <button onclick="alert('from A button')"><kbd>A</kbd></button>,
-                <button onclick="alert('from B button')"><kbd>B</kbd></button>, or
-                <button onclick="alert('from C button')"><kbd>C</kbd></button>
-                to trigger a click event.
-            </p>
-        </kbd-click>`;
+        return html` <style>
+                kbd-click {
+                    display: contents;
+                }
+                button {
+                    display: contents;
+                }
+                kbd {
+                    background-color: #eee;
+                    border-radius: 3px;
+                    border: 1px solid #b4b4b4;
+                    box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
+                    color: #333;
+                    display: inline-block;
+                    font-size: 0.85em;
+                    font-weight: 700;
+                    line-height: 1;
+                    padding: 2px 4px;
+                    white-space: nowrap;
+                }</style
+            ><kbd-click
+                ${args.passive ? "passive" : ""}
+                ${args.capture ? "capture" : ""}
+                ${args.allowRepeat ? "allow-repeat" : ""}
+                filter="${args.filter || ""}"
+            >
+                <p>
+                    Filtered only to 'A'. Press
+                    <button onclick="alert('from A button')"><kbd>A</kbd></button>,
+                    <button onclick="alert('from B button')"><kbd>B</kbd></button>, or
+                    <button onclick="alert('from C button')"><kbd>C</kbd></button>
+                    to trigger a click event.
+                </p>
+            </kbd-click>`;
     },
 };
 
