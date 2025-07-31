@@ -3,28 +3,35 @@ import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
 import { html } from "lit";
 import KBDClick from "../../packages/kbd-click";
 
+const stylesHtml = html` <style>
+    kbd-click {
+        display: contents;
+    }
+    button {
+        display: contents;
+    }
+    kbd {
+        background-color: #eee;
+        border-radius: 3px;
+        border: 1px solid #b4b4b4;
+        box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
+        color: #333;
+        display: inline-block;
+        font-size: 0.85em;
+        font-weight: 700;
+        line-height: 1;
+        padding: 2px 4px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+    kbd:active {
+        box-shadow: 0 1px 1px rgb(100 100 100 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset,
+            inset -1px -1px #a3a3a3;
+    }
+</style>`;
+
 const renderFn: StoryObj["render"] = (args: Args) => {
-    return html` <style>
-            kbd-click {
-                display: contents;
-            }
-            button {
-                display: contents;
-            }
-            kbd {
-                background-color: #eee;
-                border-radius: 3px;
-                border: 1px solid #b4b4b4;
-                box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
-                color: #333;
-                display: inline-block;
-                font-size: 0.85em;
-                font-weight: 700;
-                line-height: 1;
-                padding: 2px 4px;
-                white-space: nowrap;
-            }
-        </style>
+    return html`${stylesHtml}
         <kbd-click
             ${args.passive ? "passive" : ""}
             ${args.capture ? "capture" : ""}
@@ -68,27 +75,7 @@ export const CaseSensitive: Story = {
         filter: "A, B, C",
     },
     render: (args: Args) => {
-        return html` <style>
-                kbd-click {
-                    display: contents;
-                }
-                button {
-                    display: contents;
-                }
-                kbd {
-                    background-color: #eee;
-                    border-radius: 3px;
-                    border: 1px solid #b4b4b4;
-                    box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
-                    color: #333;
-                    display: inline-block;
-                    font-size: 0.85em;
-                    font-weight: 700;
-                    line-height: 1;
-                    padding: 2px 4px;
-                    white-space: nowrap;
-                }</style
-            ><kbd-click
+        return html` ${stylesHtml}<kbd-click
                 ${args.passive ? "passive" : ""}
                 ${args.capture ? "capture" : ""}
                 ${args.allowRepeat ? "allow-repeat" : ""}
@@ -111,27 +98,7 @@ export const Filtered: Story = {
         filter: "A",
     },
     render: (args: Args) => {
-        return html` <style>
-                kbd-click {
-                    display: contents;
-                }
-                button {
-                    display: contents;
-                }
-                kbd {
-                    background-color: #eee;
-                    border-radius: 3px;
-                    border: 1px solid #b4b4b4;
-                    box-shadow: 0 1px 1px rgb(0 0 0 / 0.2), 0 2px 0 0 rgb(255 255 255 / 0.7) inset;
-                    color: #333;
-                    display: inline-block;
-                    font-size: 0.85em;
-                    font-weight: 700;
-                    line-height: 1;
-                    padding: 2px 4px;
-                    white-space: nowrap;
-                }</style
-            ><kbd-click
+        return html`${stylesHtml}<kbd-click
                 ${args.passive ? "passive" : ""}
                 ${args.capture ? "capture" : ""}
                 ${args.allowRepeat ? "allow-repeat" : ""}
