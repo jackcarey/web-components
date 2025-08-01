@@ -11,11 +11,14 @@ Object.values(pkgDetails).forEach(pkg => {
 });
 
 const autoloaderPath = `${repoRootDir}/packages/autoloader/components.ts`;
-const autoLoaderContent = `const components = ${JSON.stringify(componentVersions)};\nexport default components;`;
+const existingContent = fs.existsSync(autoloaderPath) ? fs.readFileSync(autoloaderPath, 'utf8') : '';
+const newAutoLoaderContent = `const components = ${JSON.stringify(componentVersions)};\nexport default components;`;
 
-if (!fs.existsSync(autoloaderPath) || fs.readFileSync(autoloaderPath, 'utf8') !== autoLoaderContent) {
-    fs.writeFileSync(autoloaderPath, autoLoaderContent);
-    console.log('Autoloader list updated', autoLoaderContent);
+const hasContentChanged = !!(existingContent?.length) || existingContent !== newAutoLoaderContent;
+
+if (hasContentChanged) {
+    fs.writeFileSync(autoloaderPath, newAutoLoaderContent);
+    console.log('Autoloader list updated', newAutoLoaderContent);
 } else {
     console.log('No changes to autoloader list');
 }
