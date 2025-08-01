@@ -51,9 +51,6 @@ jobs:
             - name: Install root dependencies
               run: npm i --legacy-peer-deps
 
-            - name: Save commit hash
-              run: node scripts/store-commit-hash.mjs
-
             - name: Check each package has documentation, license, and Storybook files
               run: node scripts/check-documentation-files.mjs
 
@@ -82,11 +79,13 @@ jobs:
             # Build
 
             - name: Bump versions in package.json files
-              if: github.ref == 'refs/heads/main'
               run: node scripts/bump-versions.mjs
 
             - name: Build the autoloader package list
               run: node scripts/generate-autoloader-list.mjs
+
+            - name: Bump autoloader package version
+              run: node scripts/bump-versions.mjs
 
             - name: Generate JSR files from package.json
               run: node scripts/generate-jsr.mjs
@@ -105,6 +104,9 @@ jobs:
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
               run: node scripts/publish-jsr.mjs
+
+            - name: Save commit hash
+              run: node scripts/store-commit-hash.mjs
 
             - name: Save file changes (on main)
               if: github.ref == 'refs/heads/main'
