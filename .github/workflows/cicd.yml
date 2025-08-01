@@ -39,14 +39,13 @@ jobs:
               with:
                   node-version: "22"
 
-            - name: Restore cached deps
+            - name: Handle cached deps
               id: cache-deps-restore
               uses: actions/cache/restore@v4
               with:
                   path: |
                       node_modules
                       ~/.cache/ms-playwright
-                      /home/runner/.cache/ms-playwright
                   key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
@@ -65,16 +64,6 @@ jobs:
 
             - name: Install Playwright
               run: npx playwright install --with-deps
-
-            - name: Save deps to cache
-              id: cache-deps-save
-              uses: actions/cache/save@v4
-              with:
-                  path: |
-                      node_modules
-                      ~/.cache/ms-playwright
-                      /home/runner/.cache/ms-playwright
-                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             # Test
 
