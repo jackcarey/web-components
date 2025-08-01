@@ -97,7 +97,7 @@ type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof
  * @public
  */
 export class DiffText extends HTMLElement {
-    static get setupAttrs(): string[] { return ['original', 'changed', 'original-src', 'changed-src', 'refetch']; }
+    static get setupAttrs(): string[] { return ['original-selector', 'changed-selector', 'original-src', 'changed-src', 'refetch']; }
     static get observedAttributes(): string[] {
         const jsDiffAttrs = ['mode', 'ignore-case'];
         return [...jsDiffAttrs, ...DiffText.setupAttrs, 'compare'];
@@ -140,27 +140,27 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get original(): string {
-        return this.getAttribute('original') || '';
+    get originalSelector(): string {
+        return this.getAttribute('original-selector') || '';
     }
 
-    set original(value: string) {
+    set originalSelector(value: string) {
         if (value?.length) {
-            this.setAttribute('original', value);
+            this.setAttribute('original-selector', value);
         } else {
-            this.removeAttribute('original');
+            this.removeAttribute('original-selector');
         }
     }
 
-    get changed(): string {
-        return this.getAttribute('changed') || '';
+    get changedSelector(): string {
+        return this.getAttribute('changed-selector') || '';
     }
 
-    set changed(value: string) {
+    set changedSelector(value: string) {
         if (value?.length) {
-            this.setAttribute('changed', value);
+            this.setAttribute('changed-selector', value);
         } else {
-            this.removeAttribute('changed');
+            this.removeAttribute('changed-selector');
         }
     }
 
@@ -317,8 +317,8 @@ export class DiffText extends HTMLElement {
         const refetchNum = refetchAttr ? parseInt(refetchAttr, 10) : 0
         const usingRefetch = (usingOriginalSrc || usingChangedSrc) && Boolean(refetchNum);
 
-        const usingOriginalEl = !usingOriginalSrc && Boolean(this.original);
-        const usingChangedEl = !usingChangedSrc && Boolean(this.changed);
+        const usingOriginalEl = !usingOriginalSrc && Boolean(this.originalSelector);
+        const usingChangedEl = !usingChangedSrc && Boolean(this.changedSelector);
 
         if (usingOriginalSrc || usingChangedSrc) {
             this.#fetchSrcs();
@@ -340,18 +340,17 @@ export class DiffText extends HTMLElement {
 
         const observerOptions = { childList: true, subtree: true, attributes: true, characterData: true };
         if (usingOriginalEl) {
-            const originalSelector = this.getAttribute('original');
             if (this.#originalMutationObserver) {
                 this.#originalMutationObserver.disconnect();
-            } else if (this.original) {
+            } else if (this.originalSelector) {
                 this.#originalMutationObserver = new MutationObserver(() => {
-                    const originalEl = document.querySelector<HTMLElement>(this.original);
+                    const originalEl = document.querySelector<HTMLElement>(this.originalSelector);
                     this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
                     this.#render();
                 });
             }
-            if (originalSelector) {
-                const originalEl = document.querySelector<HTMLElement>(originalSelector);
+            if (this.originalSelector) {
+                const originalEl = document.querySelector<HTMLElement>(this.originalSelector);
                 if (originalEl) {
                     this.#originalMutationObserver?.observe(originalEl, observerOptions);
                     this.#originalValue = this.#getElementValue(originalEl);
@@ -360,18 +359,17 @@ export class DiffText extends HTMLElement {
         }
 
         if (usingChangedEl) {
-            const changedSelector = this.getAttribute('changed');
             if (this.#changedMutationObserver) {
                 this.#changedMutationObserver.disconnect();
-            } else if (this.changed) {
+            } else if (this.changedSelector) {
                 this.#changedMutationObserver = new MutationObserver(() => {
-                    const changedEl = document.querySelector(this.changed);
+                    const changedEl = document.querySelector(this.changedSelector);
                     this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
                     this.#render();
                 });
             }
-            if (changedSelector) {
-                const changedEl = document.querySelector<HTMLElement>(changedSelector);
+            if (this.changedSelector) {
+                const changedEl = document.querySelector<HTMLElement>(this.changedSelector);
                 if (changedEl) {
                     this.#changedMutationObserver?.observe(changedEl, observerOptions);
                     this.#changedValue = this.#getElementValue(changedEl);
