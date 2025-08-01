@@ -29,8 +29,8 @@ const renderFn: StoryObj["render"] = (args: Args) => {
         <b>Diff Text Component:</b>
         <p>
             <diff-text
-                original="${args.original}"
-                changed="${args.changed}"
+                original-selector="${args.originalSelector}"
+                changed-selector="${args.changedSelector}"
                 original-src="${args["original-src"]}"
                 changed-src="${args["changed-src"]}"
                 mode="${args.mode}"
@@ -72,7 +72,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    args: { original: "#original", changed: "#changed" },
+    args: { originalSelector: "#original", changedSelector: "#changed" },
     parameters: {
         chromatic: { disableSnapshot: false },
     },
@@ -80,8 +80,8 @@ export const Default: Story = {
 
 export const CompareChars: Story = {
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         mode: "chars",
     },
     parameters: {
@@ -91,8 +91,8 @@ export const CompareChars: Story = {
 
 export const IgnoreCase: Story = {
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         "ignore-case": true,
     },
     parameters: {
@@ -102,8 +102,8 @@ export const IgnoreCase: Story = {
 
 export const IgnoreCaseChars: Story = {
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         mode: "chars",
         "ignore-case": true,
     },
@@ -114,8 +114,8 @@ export const IgnoreCaseChars: Story = {
 
 export const WithChangingText: Story = {
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         mode: "chars",
     },
     render: (args: Args, context) => {
@@ -143,7 +143,7 @@ export const OriginalSrc: Story = {
     args: {
         "original-src":
             "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
-        changed: "#changed",
+        changedSelector: "#changed",
     },
     parameters: {
         chromatic: { disableSnapshot: false },
@@ -153,7 +153,7 @@ export const OriginalSrc: Story = {
 export const ChangedSrc: Story = {
     name: "Changed Src (remote text)",
     args: {
-        original: "#original",
+        originalSelector: "#original",
         "changed-src":
             "https://gist.githubusercontent.com/jackcarey/d8098b3784dcce32f9a4266c89bc1148/raw/abb8bb4d96fadb307997bf1592283b727910f798/other-text.txt",
     },
@@ -188,8 +188,8 @@ export const Refresh: Story = {
 export const CompareAttr: Story = {
     name: "Compare by attribute (title)",
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         compare: "title",
         mode: "chars",
     },
@@ -219,8 +219,8 @@ export const Arrays = {
 export const Callback: Story = {
     name: "Callback (on diff)",
     args: {
-        original: "#original",
-        changed: "#changed",
+        originalSelector: "#original",
+        changedSelector: "#changed",
         mode: "chars",
         options: `{
             callback: (diff) => {
