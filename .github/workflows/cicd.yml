@@ -41,7 +41,7 @@ jobs:
 
             - name: Handle cached deps
               id: cache-deps-restore
-              uses: actions/cache/restore@v4
+              uses: actions/cache@v4
               with:
                   path: |
                       node_modules
