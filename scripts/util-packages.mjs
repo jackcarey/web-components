@@ -19,8 +19,10 @@ const unsortedPkgDetails = {};
 let count = 0;
 await Promise.all(packageDirectories.map(async (dir) => {
     return PackageJson.load(dir).then(({ content }) => {
-        unsortedPkgDetails[dir] = content;
-        count += 1;
+        if (content && content?.private !== "true") {
+            unsortedPkgDetails[dir] = content;
+            count += 1;
+        }
     });
 }));
 
