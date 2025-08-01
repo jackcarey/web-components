@@ -6,11 +6,13 @@ import components from "./components";
  * It also observes the document body for any added nodes and loads the corresponding components.
  */
 const autoload = () => {
-    Object.entries(components).forEach(([tagName, version]) => {
+    //load from current DOM
+    Object.entries(components).forEach(([tagName]) => {
         if (!document.querySelector(tagName)) return;
         loadTag(tagName);
     });
 
+    //load components when the DOM changes
     const observer = new MutationObserver((mutationsList) => {
         for (let mutation of mutationsList) {
             if (mutation.type === "childList") {
