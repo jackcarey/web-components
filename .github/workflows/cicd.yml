@@ -92,11 +92,11 @@ jobs:
               if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/bump-versions.mjs
 
-            - name: Build the autoloader package list
+            - name: Build the autoloader package list from package.json files
               if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/generate-autoloader-list.mjs
 
-            - name: Bump autoloader package version
+            - name: Bump autoloader package version, if changed
               if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/bump-versions.mjs
 
