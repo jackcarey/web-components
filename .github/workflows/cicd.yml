@@ -22,6 +22,12 @@ jobs:
             contents: read
             id-token: write
         steps:
+            - name: Skip if commit message starts with [GH Actions]
+              if: ${{ github.event.head_commit.message && startsWith(github.event.head_commit.message, '[GH Actions]') }}
+              run: |
+                  echo "[GH Actions] commit detected, skipping job."
+                  exit 0
+
             - name: Checkout repo
               uses: actions/checkout@v4
               with:
