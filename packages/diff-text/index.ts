@@ -100,7 +100,7 @@ export class DiffText extends HTMLElement {
     static get setupAttrs(): string[] { return ['original-selector', 'changed-selector', 'original-src', 'changed-src', 'refetch']; }
     static get observedAttributes(): string[] {
         const jsDiffAttrs = ['mode', 'ignore-case'];
-        return [...jsDiffAttrs, ...DiffText.setupAttrs, 'compare'];
+        return [...jsDiffAttrs, ...DiffText.setupAttrs, 'original', 'changed', 'compare'];
     }
 
     #originalMutationObserver: MutationObserver | null = null;
@@ -137,6 +137,30 @@ export class DiffText extends HTMLElement {
             this.setAttribute('ignore-case', '');
         } else {
             this.removeAttribute('ignore-case');
+        }
+    }
+
+    get original(): string {
+        return this.getAttribute('original') || '';
+    }
+
+    set original(value: string) {
+        if (value?.length) {
+            this.setAttribute('original', value);
+        } else {
+            this.removeAttribute('original');
+        }
+    }
+
+    get changed(): string {
+        return this.getAttribute('changed') || '';
+    }
+
+    set changed(value: string) {
+        if (value?.length) {
+            this.setAttribute('changed', value);
+        } else {
+            this.removeAttribute('changed');
         }
     }
 
@@ -464,6 +488,12 @@ export class DiffText extends HTMLElement {
         if (name === 'mode' && newValue?.length && !DIFF_MODES[newValue]) {
             this.setAttribute('mode', 'word');
             return;
+        }
+        if (name === 'original') {
+            this.#originalValue = newValue;
+        }
+        if (name === 'changed') {
+            this.#changedValue = newValue;
         }
         const requiresNewSetup = DiffText.setupAttrs.includes(name);
         if (requiresNewSetup) {
