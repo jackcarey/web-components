@@ -41,7 +41,8 @@ const loadTag = (name) => {
     const script = document.createElement("script");
     script.type = "module";
     script.async = true;
-    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}@${version}`;
+    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}${version === "latest" ? "" : `@${version}`
+        }`;
     const alreadyExists = document.querySelector(`script[src="${script.src}"]`);
     if (alreadyExists) return; // Prevent loading the same script multiple times
     document.head.appendChild(script);
