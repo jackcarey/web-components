@@ -4,7 +4,7 @@ import path from "path";
 import fs from 'fs';
 //this script could do with checking against the commit of the last version bump for each package
 // but for now it will do a simple check against the last commit
-// thi should be changed in the future
+// this should be changed in the future
 
 const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
 const lastPackageChangesCommit = fs.readFileSync(path.join(repoRootDir, '/.storybook/last-commit-hash.txt'), 'utf8').trim();
@@ -27,11 +27,11 @@ console.log(`Changed packages:\n\n- ${changedPackages.join("\n- ")}\n`);
 Object.entries(pkgDetails).filter(([_, pkg]) => {
     return changedPackages.includes(pkg.name);
 }).forEach(([pkgPath, pkg]) => {
-    try{
+    try {
         process.chdir(pkgPath);
         const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}" --no-git-tag-version`);
         console.log(bumpResult.toString());
-    }catch(e){
+    } catch (e) {
         console.error(`Failed to bump version for package: ${pkg.name}`);
         console.error(e);
     }
