@@ -6,7 +6,7 @@ DOM components are are versioned to match each autoloader release.
 This version includes the following components:
 
 - `can-i-use`: v1.0.8
-- `diff-text`: v1.0.14
+- `diff-text`: v1.0.16
 - `dynamic-template`: v1.0.0
 - `i-cal`: v1.1.8
 - `kbd-click`: v1.0.0
