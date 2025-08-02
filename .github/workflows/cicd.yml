@@ -22,10 +22,9 @@ jobs:
             contents: read
             id-token: write
         env:
-            SKIP_GH_ACTIONS: ${{ github.event.head_commit.message && startsWith(github.event.head_commit.message, '[GH Actions]') && 'true' || 'false' }}
+            IS_GH_ACTION: ${{ github.event.head_commit.message && startsWith(github.event.head_commit.message, '[GH Actions]') && 'true' || 'false' }}
         steps:
             - name: Checkout repo
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
@@ -35,15 +34,12 @@ jobs:
             # Check repo
 
             - name: Check if CODEOWNERS file exists
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: bash scripts/check-codeowners.sh
 
             - name: Setup Node.js environment
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               uses: actions/setup-node@v4
 
             - name: Handle cached deps
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               id: cache-deps-restore
               uses: actions/cache@v4
               with:
@@ -53,27 +49,22 @@ jobs:
                   key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
             - name: Install root dependencies
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: npm i
 
             - name: Check each package has documentation, license, and Storybook files
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/check-documentation-files.mjs
 
             # Cache Deps
 
             - name: Install package dependencies at root level (for Storybook)
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/install-deps-at-root.mjs
 
             - name: Install Playwright
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: npx playwright install --with-deps
 
             # Test
 
             - name: Run tests
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: npm run test-ci
 
             # - name: Run Chromatic (on PRs)
@@ -83,50 +74,37 @@ jobs:
             #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
             - name: Check if Storybook test results exist after testing
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/check-story-results.mjs
 
             # Build
 
             - name: Bump versions in package.json files
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/bump-versions.mjs
 
             - name: Build the autoloader package list from package.json files
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/generate-autoloader-list.mjs
 
-            - name: Bump autoloader package version, if changed
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
-              run: node scripts/bump-versions.mjs
-
             - name: Generate JSR files from package.json
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/generate-jsr.mjs
 
             - name: Generate package README files
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/generate-pkg-readmes.mjs
 
             - name: Generate root README file
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/generate-root-readme.mjs
 
             - name: Generate Storybook documentation
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               id: generate-storybook-docs
               run: node scripts/generate-storybook-docs.mjs
 
             # Publish
 
             - name: Publish updated packages to JSR (dry-run, then push on main)
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/publish-jsr.mjs
 
             - name: Save commit hash
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' }}
               run: node scripts/store-commit-hash.mjs
 
             - name: Save file changes (on main)
-              if: ${{ env.SKIP_GH_ACTIONS == 'false' && github.ref == 'refs/heads/main' }}
+              if: ${{ github.ref == 'refs/heads/main' }}
               run: node scripts/commit-push-diffs.mjs
