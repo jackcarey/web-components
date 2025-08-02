@@ -1,8 +1,9 @@
 import { addons, types } from 'storybook/manager-api';
 import fs from 'fs';
 import path from 'path';
+import { repoRootDir } from '../../scripts/util-packages.mjs';
 
-const commitHashPath = path.resolve(__dirname, '../last-commit-hash.txt');
+const commitHashPath = path.join(repoRootDir, '/.storybook/last-commit-hash.txt');
 const commitHash = fs.existsSync(commitHashPath)
   ? fs.readFileSync(commitHashPath, 'utf-8').trim()
   : undefined;

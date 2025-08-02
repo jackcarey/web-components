@@ -70,5 +70,7 @@ const logExecSync = (command) => {
     }
 };
 
-export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot, getBadges, logExecSync };
+const lastCommitHashFilePath = path.join(repoRootDir, '/.storybook/last-commit-hash.txt');
+
+export { repoRootDir, pkgRootDir, pkgDetails, count, installDepsAtRoot, getBadges, logExecSync, lastCommitHashFilePath };
 export default unsortedPkgDetails;
