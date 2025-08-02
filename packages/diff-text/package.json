@@ -1,6 +1,6 @@
 {
     "name": "diff-text",
-    "version": "1.0.13",
+    "version": "1.0.15",
     "description": "Use diff-text to compare two texts/objects and render the differences.",
     "main": "./index.ts",
     "type": "module",
