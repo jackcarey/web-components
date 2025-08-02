@@ -233,3 +233,22 @@ export const Callback: Story = {
         chromatic: { disableSnapshot: false },
     },
 };
+
+export const textInput: Story = {
+    name: "Text Input (with diff)",
+    args: {
+        "original-src":
+            "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
+        changedSelector: "#text",
+        compare: "value",
+    },
+    render: (args: Args, context) => {
+        const originalStory = renderFn(args, context);
+        return html`<div>
+                <textarea id="text" style="width: 80ch;" rows="10" cols="80">
+The quick brown fox jumps over the lazy dog.</textarea
+                >
+            </div>
+            ${originalStory}`;
+    },
+};

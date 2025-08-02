@@ -377,6 +377,10 @@ export class DiffText extends HTMLElement {
                 const originalEl = document.querySelector<HTMLElement>(this.originalSelector);
                 if (originalEl) {
                     this.#originalMutationObserver?.observe(originalEl, observerOptions);
+                    originalEl.addEventListener('input', () => {
+                        this.#originalValue = this.#getElementValue(originalEl as HTMLElement);
+                        this.#render();
+                    });
                     this.#originalValue = this.#getElementValue(originalEl);
                 }
             }
@@ -387,6 +391,7 @@ export class DiffText extends HTMLElement {
                 this.#changedMutationObserver.disconnect();
             } else if (this.changedSelector) {
                 this.#changedMutationObserver = new MutationObserver(() => {
+                    console.log('changed mutation observer');
                     const changedEl = document.querySelector(this.changedSelector);
                     this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
                     this.#render();
@@ -396,6 +401,10 @@ export class DiffText extends HTMLElement {
                 const changedEl = document.querySelector<HTMLElement>(this.changedSelector);
                 if (changedEl) {
                     this.#changedMutationObserver?.observe(changedEl, observerOptions);
+                    changedEl.addEventListener('input', () => {
+                        this.#changedValue = this.#getElementValue(changedEl as HTMLElement);
+                        this.#render();
+                    });
                     this.#changedValue = this.#getElementValue(changedEl);
                 }
             }
