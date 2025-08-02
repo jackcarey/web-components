@@ -4,7 +4,7 @@
 
 > Automatically load components from jackcarey/web-components using esm.sh.
 
--   **Version:** 1.1.42
+-   **Version:** 1.1.43
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
@@ -43,7 +43,7 @@ DOM components are are versioned to match each autoloader release.
 This version includes the following components:
 
 - `can-i-use`: v1.0.8
-- `diff-text`: v1.0.22
+- `diff-text`: v1.0.23
 - `dynamic-template`: v1.0.0
 - `i-cal`: v1.1.8
 - `kbd-click`: v1.0.0
