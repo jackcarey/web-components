@@ -40,16 +40,18 @@ export class RevealPresentation extends HTMLElement {
             showNotes: false,
             autoAnimate: true,
             center: true,
-            embedded: true,
             pdfMaxPagesPerSlide: 1,
             viewDistance: 1,
             mobileViewDistance: 1,
             ...attrs,
+            embedded: true,
         };
         this.#deck?.destroy();
         this.#deck = new Reveal(this, fullInitConfig);
     }
     connectedCallback() {
+        this.classList.add("reveal");
+        this.classList.add("slides");
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
                 this.#setupDeck();
