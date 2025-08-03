@@ -1,6 +1,6 @@
 # web-components
 
-[![web-components on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/storybook-static/)
+[![web-components on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/)
 [![web-components on the JSR registry](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
 [![CICD workflow on main](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 [![CodeQL](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql)
