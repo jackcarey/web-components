@@ -8,12 +8,6 @@ const meta: Meta = { ...CreateComponentStoryMeta("rss-feed") };
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
-    args: {
-        proxy: "https://corsproxy.io/?url=",
-    },
-};
-
 export const TitleOnly: Story = {
     args: {},
     render: () =>
