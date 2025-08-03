@@ -1,0 +1,4 @@
+import{C as s,a as i}from"./utils-Bk6qYvED.js";import{x as n}from"./iframe-CZ9ljJln.js";import{RevealPresentation as m}from"./index-CnfQ0pAt.js";import"./_commonjsHelpers-CqkleIqs.js";const p=r=>n`<reveal-presentation>${JSON.stringify(r,null,2)}</reveal-presentation>`,f={...s("reveal-presentation",void 0,{decorators:[...i("reveal-presentation",void 0),r=>(customElements.get("reveal-presentation")||customElements.define("reveal-presentation",m),n`${r()}`)]}),render:p},e={args:{}};var t,o,a;e.parameters={...e.parameters,docs:{...(t=e.parameters)==null?void 0:t.docs,source:{originalSource:`{
+  args: {}
+}`,...(a=(o=e.parameters)==null?void 0:o.docs)==null?void 0:a.source}}};const v=["Default"];export{e as Default,v as __namedExportsOrder,f as default};
+//# sourceMappingURL=reveal-presentation.stories-6QBdzUfR.js.map

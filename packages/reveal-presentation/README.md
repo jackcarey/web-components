@@ -2,9 +2,9 @@
 
 [![reveal-presentation component on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-reveal-presentation) [![reveal-presentation version on JSR](https://jsr.io/badges/@web-components/reveal-presentation)](https://jsr.io/@web-components/reveal-presentation/versions) [![JSR score](https://jsr.io/badges/@web-components/reveal-presentation/score)](https://jsr.io/@web-components/reveal-presentation/score)
 
-> Instantiate a reveal.js target using attributes for configuration
+> Instantiate a reveal.js presentation using attributes for configuration
 
--   **Version:** 0.0.3
+-   **Version:** 0.0.4
 -   **License:** [MIT](./LICENSE.md)
 
 ## Using this package
@@ -36,8 +36,6 @@ npx jsr add @web-components/reveal-presentation
 -   **Open examples for [reveal-presentation on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-reveal-presentation)**.
 
 Instantiates reveal.js in a component so you can set up the light DOM children as slides. This component is packaged with reveal.js and it's default plugins. Highlight, Markdown, and Notes are enabled by default. The `embedded` flag is set to `true` by default.
-
-All attributes except `use-preamble` are passed to the reveal.js config.
 
 This component is unofficial and unaffiliated with the [reveal.js](https://revealjs.com/) library.
 
