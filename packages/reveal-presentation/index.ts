@@ -33,10 +33,15 @@ export class RevealPresentation extends HTMLElement {
     #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
 
     #setupDeck() {
-        const configOptions: Record<string, string> = {};
+        const booleanConfigOpts = Object.entries(config).filter(([_, value]) => typeof value === 'boolean').map(([key]) => key);;
+        const configOptions: Record<string, string | boolean> = {};
         for (const attr of this.attributes) {
             if (RevealPresentation.revealJsConfigAttrs.includes(attr.name) && !RevealPresentation.excludedAttrs.includes(attr.name)) {
-                configOptions[attr.name] = attr.value;
+                if (booleanConfigOpts.includes(attr.name)) {
+                    configOptions[attr.name] = attr.value === 'true';
+                } else {
+                    configOptions[attr.name] = attr.value;
+                }
             }
         }
         const fullInitConfig: Reveal.Options = {
