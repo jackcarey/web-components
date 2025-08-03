@@ -113,7 +113,7 @@ export class RevealPresentation extends HTMLElement {
         this.#deck = null;
     }
 
-    attributeChangedCallback(name): void {
+    attributeChangedCallback(name: string, _oldValue: string | null | undefined, _newValue: string | null | undefined): void {
         if (name === "theme") {
             this.#applyTheme();
         }
