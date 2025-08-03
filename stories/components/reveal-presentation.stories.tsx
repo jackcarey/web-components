@@ -27,6 +27,11 @@ const defaultRenderFn: StoryObj["render"] = (args: Args) => {
             <h2>Slide 2</h2>
             <p>This is the second slide.</p>
         </section>
+        <section>
+            <h2>Slide 3</h2>
+            <p>This is the second slide.</p>
+            <img src="https://picsum.photos/100/100" alt="Random Image" />
+        </section>
     `)(args);
 };
 
@@ -49,5 +54,13 @@ export default meta;
 type Story = StoryObj;
 
 export const Basic: Story = {
-    args: {},
+    args: {
+        theme: "black",
+    },
+};
+
+export const NightTheme: Story = {
+    args: {
+        theme: "night",
+    },
 };
