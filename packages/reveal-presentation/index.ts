@@ -2,7 +2,7 @@ import Reveal from "reveal.js";
 import Monokai from "reveal.js/plugin/highlight/highlight.esm.js";
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
-
+import { config } from "./configObject";
 /**
  * A custom element that naively initializes a Reveal.js presentation.
  * It sets up the Reveal.js options based on the attributes of the element.
@@ -10,21 +10,49 @@ import Notes from "reveal.js/plugin/notes/notes.js";
  * * The element listens for the `resize` event to adjust the layout of the presentation.
  */
 export class RevealPresentation extends HTMLElement {
+    /**
+     * List of attributes that are used to configure Reveal.js.
+     * Ref: https://revealjs.com/config/
+     */
+    static revealJsConfigAttrs = Object.keys(config);
+    /**
+     * List of attributes that are excluded from the Reveal.js configuration.
+     */
+    static excludedAttrs = ['plugins', 'theme', 'width', 'height'];
+    /**
+     * The list of attributes that the custom element observes for changes.
+     * @returns {string[]} An array of attribute names that the custom element observes.
+     */
+    static observedAttributes() {
+        return [...RevealPresentation.revealJsConfigAttrs, ...RevealPresentation.excludedAttrs];
+    }
+
+    #shadowRoot: ShadowRoot;
     #deck: Reveal.Reveal | null = null;
     #mutationObserver: MutationObserver;
     #resizeObserver: ResizeObserver | null = null;
     #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
-    #setupDeck() {
-        const excludedAttrs = ['plugins'];
-        const attrs: Record<string, string> = {};
-        for (const attr of this.attributes) {
-            if (excludedAttrs.includes(attr.name)) {
-                continue;
-            }
-            attrs[attr.name] = attr.value;
+    #applyTheme() {
+        console.log("Applying theme:", this.theme);
+        //this sets the attributes to the default values if not set
+        this.width = this.width;
+        this.height = this.height;
+        this.theme = this.theme;
+    }
+    #render() {
+        if (!this.#shadowRoot) {
+            this.#shadowRoot = this.attachShadow({ mode: "open" });
         }
-        //this could be more explicit, but this is a quick way to get all of the attributes
-        // ref: https://revealjs.com/config/
+        this.#shadowRoot.innerHTML = `<slot></slot>`;
+
+    }
+    #setupDeck() {
+        const configOptions: Record<string, string> = {};
+        for (const attr of this.attributes) {
+            if (RevealPresentation.revealJsConfigAttrs.includes(attr.name) && !RevealPresentation.excludedAttrs.includes(attr.name)) {
+                configOptions[attr.name] = attr.value;
+            }
+        }
         const fullInitConfig: Reveal.Options = {
             plugins: this.plugins,
             hash: true,
@@ -33,7 +61,7 @@ export class RevealPresentation extends HTMLElement {
             disableLayout: true,
             progress: true,
             backgroundTransition:
-                (attrs?.backgroundTransition ?? attrs?.transition ?? "fade") as "fade" | "slide" | "convex" | "concave" | "zoom",
+                (configOptions?.backgroundTransition ?? configOptions?.transition ?? "fade") as "fade" | "slide" | "convex" | "concave" | "zoom",
             slideNumber: true,
             controls: true,
             controlsLayout: "edges",
@@ -43,15 +71,18 @@ export class RevealPresentation extends HTMLElement {
             pdfMaxPagesPerSlide: 1,
             viewDistance: 1,
             mobileViewDistance: 1,
-            ...attrs,
             embedded: true,
+            ...configOptions,
         };
         this.#deck?.destroy();
         this.#deck = new Reveal(this, fullInitConfig);
+        this.#deck.initialize();
+        this.#deck.layout();
+
     }
     connectedCallback() {
         this.classList.add("reveal");
-        this.classList.add("slides");
+
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
                 this.#setupDeck();
@@ -70,6 +101,7 @@ export class RevealPresentation extends HTMLElement {
             attributes: true,
         });
         this.#setupDeck();
+        this.#applyTheme();
         window.addEventListener("resize", this.#deck.layout.bind);
     }
     disconnectedCallback() {
@@ -80,6 +112,16 @@ export class RevealPresentation extends HTMLElement {
         this.#deck = null;
     }
 
+    attributeChangedCallback(name) {
+        if (name === "theme") {
+            this.#applyTheme();
+        }
+        if (RevealPresentation.revealJsConfigAttrs.includes(name) && !RevealPresentation.excludedAttrs.includes(name)) {
+            this.#setupDeck();
+        }
+        this.#render();
+    }
+
     get plugins() {
         return this.#plugins;
     }
@@ -88,8 +130,44 @@ export class RevealPresentation extends HTMLElement {
         this.#plugins = plugins;
         this.#setupDeck();
     }
+
+    get theme() {
+        return this.getAttribute("theme") || "black";
+    }
+
+    set theme(theme: string) {
+        if (theme?.length) {
+            this.setAttribute("theme", theme);
+        } else {
+            this.removeAttribute("theme");
+        }
+    }
+
+    get width() {
+        return this.getAttribute("width") || "100%";
+    }
+
+    set width(width: string) {
+        if (width?.length) {
+            this.setAttribute("width", width);
+        } else {
+            this.removeAttribute("width");
+        }
+    }
+
+    get height() {
+        return this.getAttribute("height") || "500px";
+    }
+
+    set height(height: string) {
+        if (height?.length) {
+            this.setAttribute("height", height);
+        } else {
+            this.removeAttribute("height");
+        }
+    }
 }
 
-if (!customElements.get("reveal-presentation")) {
+if (customElements && !customElements.get("reveal-presentation")) {
     customElements.define("reveal-presentation", RevealPresentation);
 }
