@@ -1,7 +1,7 @@
 {
   "name": "reveal-presentation",
   "version": "0.0.2",
-  "description": "Instantiate a reveal.js target using attributes for configuration",
+  "description": "Instantiate a reveal.js presentation using attributes for configuration",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
