@@ -9,7 +9,7 @@ import Notes from "reveal.js/plugin/notes/notes.js";
  * The presentation can be customized with various options like background transition, slide number, controls, etc
  * * The element listens for the `resize` event to adjust the layout of the presentation.
  */
-class RevealPresentation extends HTMLElement {
+export class RevealPresentation extends HTMLElement {
     #deck: Reveal.Reveal | null = null;
     #mutationObserver: MutationObserver;
     #setup() {
