@@ -4,7 +4,7 @@
 
 > Persistent DOM mutation observations based on CSS query selectors
 
--   **Version:** 1.0.7
+-   **Version:** 1.0.8
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
