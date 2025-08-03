@@ -4,7 +4,7 @@
 
 > A reactive data object that emits events on itself and other EventTargets when its value changes.
 
--   **Version:** 1.0.2
+-   **Version:** 1.0.3
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
