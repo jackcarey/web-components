@@ -12,7 +12,8 @@ import Notes from "reveal.js/plugin/notes/notes.js";
 export class RevealPresentation extends HTMLElement {
     #deck: Reveal.Reveal | null = null;
     #mutationObserver: MutationObserver;
-    #setup() {
+    #resizeObserver: ResizeObserver | null = null;
+    #setupDeck() {
         const attrs: Record<string, string> = {};
         for (const attr of this.attributes) {
             attrs[attr.name] = attr.value;
@@ -42,8 +43,14 @@ export class RevealPresentation extends HTMLElement {
     connectedCallback() {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
-                this.#setup();
+                this.#setupDeck();
             });
+        }
+        if (!this.#resizeObserver) {
+            this.#resizeObserver = new ResizeObserver(() => {
+                this.#deck?.layout();
+            });
+            this.#resizeObserver.observe(this);
         }
         this.#mutationObserver.observe(this, {
             childList: true,
@@ -51,15 +58,15 @@ export class RevealPresentation extends HTMLElement {
             characterData: true,
             attributes: true,
         });
-        this.#setup();
+        this.#setupDeck();
         window.addEventListener("resize", this.#deck.layout.bind);
     }
     disconnectedCallback() {
         this.#mutationObserver?.disconnect();
+        this.#resizeObserver?.disconnect();
         window.removeEventListener("resize", this.#deck.layout);
         this.#deck?.destroy();
         this.#deck = null;
-
     }
 }
 
@@ -67,5 +74,4 @@ export class RevealPresentation extends HTMLElement {
 
 if (!customElements.get("reveal-presentation")) {
     customElements.define("reveal-presentation", RevealPresentation);
-    setTimeout(() => Reveal.layout());
 }
