@@ -63,6 +63,8 @@ export class RevealPresentation extends HTMLElement {
             viewDistance: 1,
             mobileViewDistance: 1,
             embedded: true,
+            scrollActivationWidth: 500,
+            scrollProgress: true,
             ...configOptions,
         };
 
