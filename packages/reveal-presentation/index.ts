@@ -10,6 +10,7 @@ import Notes from "reveal.js/plugin/notes/notes.js";
  * * The element listens for the `resize` event to adjust the layout of the presentation.
  */
 class RevealPresentation extends HTMLElement {
+    #deck: Reveal.Reveal | null = null;
     #mutationObserver: MutationObserver;
     #setup() {
         const attrs: Record<string, string> = {};
@@ -35,7 +36,8 @@ class RevealPresentation extends HTMLElement {
             embedded: true,
             ...attrs,
         };
-        Reveal.initialize(fullInitConfig);
+        this.#deck?.destroy();
+        this.#deck = new Reveal(this, fullInitConfig);
     }
     connectedCallback() {
         if (!this.#mutationObserver) {
@@ -50,15 +52,18 @@ class RevealPresentation extends HTMLElement {
             attributes: true,
         });
         this.#setup();
+        window.addEventListener("resize", this.#deck.layout.bind);
     }
     disconnectedCallback() {
         this.#mutationObserver?.disconnect();
+        window.removeEventListener("resize", this.#deck.layout);
+        this.#deck?.destroy();
+        this.#deck = null;
+
     }
 }
 
-window.addEventListener("resize", () => {
-    Reveal.layout();
-})
+
 
 if (!customElements.get("reveal-presentation")) {
     customElements.define("reveal-presentation", RevealPresentation);
