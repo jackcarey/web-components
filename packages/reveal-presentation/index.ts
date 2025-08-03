@@ -13,14 +13,20 @@ export class RevealPresentation extends HTMLElement {
     #deck: Reveal.Reveal | null = null;
     #mutationObserver: MutationObserver;
     #resizeObserver: ResizeObserver | null = null;
+    #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
     #setupDeck() {
+        const excludedAttrs = ['plugins'];
         const attrs: Record<string, string> = {};
         for (const attr of this.attributes) {
+            if (excludedAttrs.includes(attr.name)) {
+                continue;
+            }
             attrs[attr.name] = attr.value;
         }
+        //this could be more explicit, but this is a quick way to get all of the attributes
         // ref: https://revealjs.com/config/
         const fullInitConfig: Reveal.Options = {
-            plugins: [Monokai, Markdown, Notes],
+            plugins: this.plugins,
             hash: true,
             preloadIframes: true,
             respondToHashChanges: true,
@@ -35,6 +41,9 @@ export class RevealPresentation extends HTMLElement {
             autoAnimate: true,
             center: true,
             embedded: true,
+            pdfMaxPagesPerSlide: 1,
+            viewDistance: 1,
+            mobileViewDistance: 1,
             ...attrs,
         };
         this.#deck?.destroy();
@@ -68,9 +77,16 @@ export class RevealPresentation extends HTMLElement {
         this.#deck?.destroy();
         this.#deck = null;
     }
+
+    get plugins() {
+        return this.#plugins;
+    }
+
+    set plugins(plugins: Reveal.Plugin[]) {
+        this.#plugins = plugins;
+        this.#setupDeck();
+    }
 }
-
-
 
 if (!customElements.get("reveal-presentation")) {
     customElements.define("reveal-presentation", RevealPresentation);
