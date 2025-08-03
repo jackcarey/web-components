@@ -4,7 +4,7 @@
 
 > Use diff-text to compare two texts/objects and render the differences.
 
--   **Version:** 1.0.30
+-   **Version:** 1.0.31
 -   **License:** [BSD-3-Clause](./LICENSE.md)
 
 ## Using this package
@@ -33,7 +33,7 @@ npx jsr add @web-components/diff-text
 
 ## Documentation
 
--   **Open examples for [diff-text on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-diff-text)**.
+-   **Open examples for [diff-text on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-diff-text)**.
 
 `diff-text` uses [kpdecker/jsdiff](https://www.npmjs.com/package/diff) to render the difference between words (with or without spaces), characters, lines, sentences, CSS, JSON, or arrays.
 

@@ -33,7 +33,7 @@ npx jsr add @web-components/kbd-click
 
 ## Documentation
 
--   **Open examples for [kbd-click on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-kbd-click)**.
+-   **Open examples for [kbd-click on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-kbd-click)**.
 
 The `kbd-click` component listens on the `document` for key presses then fires clicks on any visible inner `kbd` elements where the `data-key` or `innerText` match. This is useful for implementing keyboard shortcuts.
 

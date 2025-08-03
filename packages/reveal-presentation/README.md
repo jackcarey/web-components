@@ -4,7 +4,7 @@
 
 > Instantiate a reveal.js target using attributes for configuration
 
--   **Version:** 0.0.2
+-   **Version:** 0.0.3
 -   **License:** [MIT](./LICENSE.md)
 
 ## Using this package
@@ -33,7 +33,7 @@ npx jsr add @web-components/reveal-presentation
 
 ## Documentation
 
--   **Open examples for [reveal-presentation on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-reveal-presentation)**.
+-   **Open examples for [reveal-presentation on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-reveal-presentation)**.
 
 Instantiates reveal.js in a component so you can set up the light DOM children as slides. This component is packaged with reveal.js and it's default plugins. Highlight, Markdown, and Notes are enabled by default. The `embedded` flag is set to `true` by default.
 
