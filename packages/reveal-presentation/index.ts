@@ -82,12 +82,8 @@ export class RevealPresentation extends HTMLElement {
 
     }
 
-    constructor() {
-        super();
-        this.#initShadowDom();
-    }
-
     connectedCallback() {
+        this.#initShadowDom();
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
                 this.#setupDeck();
@@ -172,6 +168,6 @@ export class RevealPresentation extends HTMLElement {
     }
 }
 
-if (customElements && !customElements.get("reveal-presentation")) {
-    customElements.define("reveal-presentation", RevealPresentation);
+if (customElements?.define && !customElements.get('reveal-presentation')) {
+    customElements.define('reveal-presentation', RevealPresentation);
 }

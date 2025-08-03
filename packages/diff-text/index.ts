@@ -518,6 +518,6 @@ export class DiffText extends HTMLElement {
     }
 }
 
-if (customElements && customElements?.define) {
+if (customElements?.define && !customElements.get('diff-text')) {
     customElements.define('diff-text', DiffText);
 }

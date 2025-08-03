@@ -3,8 +3,31 @@ import { CreateComponentDecorators, CreateComponentStoryMeta } from "../utils";
 import { html } from "lit";
 import { RevealPresentation } from "../../packages/reveal-presentation";
 
-const renderFn: StoryObj["render"] = (args: Args) => {
-    return html`<reveal-presentation>${JSON.stringify(args, null, 2)}</reveal-presentation>`;
+const renderFactory = (innerSlidesHtml: ReturnType<typeof html>) => {
+    return (args: Args) => {
+        return html`
+            <reveal-presentation
+                theme="${args.theme}"
+                width="${args.width}"
+                height="${args.height}"
+            >
+                ${innerSlidesHtml}
+            </reveal-presentation>
+        `;
+    };
+};
+
+const defaultRenderFn: StoryObj["render"] = (args: Args) => {
+    return renderFactory(html`
+        <section>
+            <h2>Slide 1</h2>
+            <p>This is the first slide.</p>
+        </section>
+        <section>
+            <h2>Slide 2</h2>
+            <p>This is the second slide.</p>
+        </section>
+    `)(args);
 };
 
 const meta: Meta = {
@@ -12,19 +35,19 @@ const meta: Meta = {
         decorators: [
             ...CreateComponentDecorators("reveal-presentation", undefined),
             (story) => {
-                if (!customElements.get("reveal-presentation")) {
+                if (customElements?.define && !customElements.get("reveal-presentation")) {
                     customElements.define("reveal-presentation", RevealPresentation);
                 }
                 return html`${story()}`;
             },
         ],
     }),
-    render: renderFn,
+    render: defaultRenderFn,
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Basic: Story = {
     args: {},
 };
