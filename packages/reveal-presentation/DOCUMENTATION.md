@@ -2,4 +2,4 @@ Instantiates reveal.js in a component so you can set up the light DOM children a
 
 All attributes except `use-preamble` are passed to the reveal.js config.
 
-The `use-preamble` option checks for a `section` slide with the `id`
+This component is unofficial and unaffiliated with the [reveal.js](https://revealjs.com/) library.
