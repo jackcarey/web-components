@@ -1,6 +1,6 @@
 {
   "name": "@web-components/i-cal",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }

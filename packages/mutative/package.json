@@ -1,6 +1,6 @@
 {
   "name": "mutative",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Persistent DOM mutation observations based on CSS query selectors",
   "main": "./index.ts",
   "scripts": {
