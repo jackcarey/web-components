@@ -1,6 +1,6 @@
 {
   "name": "reveal-presentation",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Instantiate a reveal.js target using attributes for configuration",
   "main": "./index.ts",
   "scripts": {
