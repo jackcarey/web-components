@@ -33,7 +33,7 @@ npx jsr add @web-components/rss-feed
 
 ## Documentation
 
--   **Open examples for [rss-feed on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-rss-feed)**.
+-   **Open examples for [rss-feed on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-rss-feed)**.
 
 Fetch and render RSS feeds using inner `template` and `source` elements.
 

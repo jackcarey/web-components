@@ -33,7 +33,7 @@ npx jsr add @web-components/dynamic-template
 
 ## Documentation
 
--   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/components-dynamic-template)**.
+-   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-dynamic-template)**.
 
 Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
 

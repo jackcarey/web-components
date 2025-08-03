@@ -33,7 +33,7 @@ npx jsr add @web-components/signal
 
 ## Documentation
 
--   **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-signal)**.
+-   **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-signal)**.
 
 //todo
 

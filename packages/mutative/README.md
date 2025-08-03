@@ -33,7 +33,7 @@ npx jsr add @web-components/mutative
 
 ## Documentation
 
--   **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/storybook-static/?path=/docs/utilities-mutative)**.
+-   **Open examples for [mutative on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-mutative)**.
 
 Persistent DOM mutation observations based on CSS query [selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors). It's essentially a wrapper for a global [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) that filters records to specific callbacks. The API is _similar_ to MutationObserver, but not the same.
 
