@@ -17,12 +17,12 @@ const pkgToMdRow = ([_dir, pkgJson]) => {
   const srcLink = `[${name}](${pagesLink(`/docs/${isUtility ? "utilities" : "components"}-${name}`)})`;
   const type = name.includes("-") ? "Component" : "Utility";
   const description = `${pkgJson?.description ?? ""} - **${type}**`.trim() ?? name;
-  const version = pkgJson?.version ?? "-";
+  // const version = pkgJson?.version ?? "-";
   const licenseName = pkgJson?.license ?? "unlicensed";
   const licenseMd = `[${licenseName}](https://github.com/jackcarey/web-components/blob/main/packages/${name}/LICENSE.md)`;
-  return `| ${srcLink} | ${description} | ${version} | ${licenseMd} | ${getBadges(name)} |`;
+  return `| ${srcLink} | ${description} | ${licenseMd} | ${getBadges(name)} |`;
 };
-const mdBody = `| Name | Description | Version | License | Links |\n| --- | --- | --- | --- | --- |\n${Object.entries(
+const mdBody = `| Name | Description | License | Links |\n| --- | --- | --- | --- |\n${Object.entries(
   pkgDetails
 ).filter(([_dir, pkgJson]) => !pkgJson.private)
   .map(pkgToMdRow)
