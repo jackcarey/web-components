@@ -1,2 +1,2 @@
-const components = {"can-i-use":"1.0.13","diff-text":"1.0.36","dynamic-template":"1.0.5","i-cal":"1.1.13","kbd-click":"1.0.5","middle-truncate":"0.1.6","reveal-presentation":"0.0.8","rss-feed":"0.0.5","search-dom":"0.0.6"};
+const components = {"can-i-use":"1.0.14","diff-text":"1.0.37","dynamic-template":"1.0.6","i-cal":"1.1.14","kbd-click":"1.0.6","middle-truncate":"0.1.7","reveal-presentation":"0.0.9","rss-feed":"0.0.6","search-dom":"0.0.7"};
 export default components;
