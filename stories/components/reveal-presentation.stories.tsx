@@ -64,3 +64,27 @@ export const NightTheme: Story = {
         theme: "night",
     },
 };
+
+export const BeigeTheme: Story = {
+    args: {
+        theme: "beige",
+    },
+};
+
+export const SerifTheme: Story = {
+    args: {
+        theme: "serif",
+    },
+};
+
+export const SkyTheme: Story = {
+    args: {
+        theme: "sky",
+    },
+};
+
+export const BloodTheme: Story = {
+    args: {
+        theme: "blood",
+    },
+};
