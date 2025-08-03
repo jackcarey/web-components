@@ -1,6 +1,6 @@
 {
   "name": "dynamic-template",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Dynamically render a component using corresponding templates",
   "main": "./index.ts",
   "scripts": {
