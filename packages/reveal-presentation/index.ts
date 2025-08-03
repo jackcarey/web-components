@@ -4,7 +4,7 @@ import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
 import { config } from "./configObject";
 /**
- * A custom element that naively initializes a Reveal.js presentation.
+ * A custom element that initializes a Reveal.js presentation.
  * It sets up the Reveal.js options based on the attributes of the element.
  * The presentation can be customized with various options like background transition, slide number, controls, etc
  * * The element listens for the `resize` event to adjust the layout of the presentation.
@@ -39,14 +39,14 @@ export class RevealPresentation extends HTMLElement {
         this.height = this.height;
         this.theme = this.theme;
     }
-    #render() {
+    #initShadowDom() {
         if (!this.#shadowRoot) {
             this.#shadowRoot = this.attachShadow({ mode: "open" });
+            this.#shadowRoot.innerHTML = `<div class="reveal"><div class="slides"><slot></slot></div></div>`;
         }
-        this.#shadowRoot.innerHTML = `<slot></slot>`;
-
     }
     #setupDeck() {
+        this.#initShadowDom();
         const configOptions: Record<string, string> = {};
         for (const attr of this.attributes) {
             if (RevealPresentation.revealJsConfigAttrs.includes(attr.name) && !RevealPresentation.excludedAttrs.includes(attr.name)) {
@@ -74,15 +74,20 @@ export class RevealPresentation extends HTMLElement {
             embedded: true,
             ...configOptions,
         };
+
         this.#deck?.destroy();
-        this.#deck = new Reveal(this, fullInitConfig);
+        this.#deck = new Reveal(this.#shadowRoot.querySelector(".reveal"), fullInitConfig);
         this.#deck.initialize();
         this.#deck.layout();
 
     }
-    connectedCallback() {
-        this.classList.add("reveal");
 
+    constructor() {
+        super();
+        this.#initShadowDom();
+    }
+
+    connectedCallback() {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
                 this.#setupDeck();
@@ -102,7 +107,7 @@ export class RevealPresentation extends HTMLElement {
         });
         this.#setupDeck();
         this.#applyTheme();
-        window.addEventListener("resize", this.#deck.layout.bind);
+        window.addEventListener("resize", this.#deck.layout);
     }
     disconnectedCallback() {
         this.#mutationObserver?.disconnect();
@@ -119,7 +124,6 @@ export class RevealPresentation extends HTMLElement {
         if (RevealPresentation.revealJsConfigAttrs.includes(name) && !RevealPresentation.excludedAttrs.includes(name)) {
             this.#setupDeck();
         }
-        this.#render();
     }
 
     get plugins() {

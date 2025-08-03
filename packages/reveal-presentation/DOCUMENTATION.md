@@ -7,7 +7,4 @@ Component attributes are the same as the [config options](https://revealjs.com/c
 ## Properties
 
 -   `plugins`: An array of [plugin](https://revealjs.com/plugins/) objects. By default this component enables Highlight, Markdown, and Notes plugins.
-
-## Styling
-
-No CSS or styling is included by default. Check out [reveal.js themes](https://revealjs.com/themes/) for that.
+-   `theme`: A string representing the theme name to import from Reveal.js [built-in themes](https://revealjs.com/themes/).
