@@ -14,16 +14,16 @@ export class RevealPresentation extends HTMLElement {
      * List of attributes that are used to configure Reveal.js.
      * Ref: https://revealjs.com/config/
      */
-    static revealJsConfigAttrs = Object.keys(config);
+    static revealJsConfigAttrs: string[] = Object.keys(config);
     /**
      * List of attributes that are excluded from the Reveal.js configuration.
      */
-    static excludedAttrs = ['plugins', 'theme', 'width', 'height'];
+    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height'];
     /**
      * The list of attributes that the custom element observes for changes.
      * @returns {string[]} An array of attribute names that the custom element observes.
      */
-    static observedAttributes() {
+    static observedAttributes(): string[] {
         return [...RevealPresentation.revealJsConfigAttrs, ...RevealPresentation.excludedAttrs];
     }
 
@@ -82,7 +82,7 @@ export class RevealPresentation extends HTMLElement {
 
     }
 
-    connectedCallback() {
+    connectedCallback(): void {
         this.#initShadowDom();
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
@@ -105,7 +105,7 @@ export class RevealPresentation extends HTMLElement {
         this.#applyTheme();
         window.addEventListener("resize", this.#deck.layout);
     }
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         this.#mutationObserver?.disconnect();
         this.#resizeObserver?.disconnect();
         window.removeEventListener("resize", this.#deck.layout);
@@ -113,7 +113,7 @@ export class RevealPresentation extends HTMLElement {
         this.#deck = null;
     }
 
-    attributeChangedCallback(name) {
+    attributeChangedCallback(name): void {
         if (name === "theme") {
             this.#applyTheme();
         }
@@ -122,7 +122,7 @@ export class RevealPresentation extends HTMLElement {
         }
     }
 
-    get plugins() {
+    get plugins(): Reveal.Plugin[] {
         return this.#plugins;
     }
 
@@ -131,7 +131,7 @@ export class RevealPresentation extends HTMLElement {
         this.#setupDeck();
     }
 
-    get theme() {
+    get theme(): string {
         return this.getAttribute("theme") || "black";
     }
 
@@ -143,7 +143,7 @@ export class RevealPresentation extends HTMLElement {
         }
     }
 
-    get width() {
+    get width(): string {
         return this.getAttribute("width") || "100%";
     }
 
@@ -155,7 +155,7 @@ export class RevealPresentation extends HTMLElement {
         }
     }
 
-    get height() {
+    get height(): string {
         return this.getAttribute("height") || "500px";
     }
 
