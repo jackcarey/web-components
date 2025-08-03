@@ -3,6 +3,7 @@ import Monokai from "reveal.js/plugin/highlight/highlight.esm.js";
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
 import { config } from "./configObject";
+
 /**
  * A custom element that initializes a Reveal.js presentation.
  * It sets up the Reveal.js options based on the attributes of the element.
@@ -23,30 +24,15 @@ export class RevealPresentation extends HTMLElement {
      * The list of attributes that the custom element observes for changes.
      * @returns {string[]} An array of attribute names that the custom element observes.
      */
-    static observedAttributes(): string[] {
+    static get observedAttributes(): string[] {
         return [...RevealPresentation.revealJsConfigAttrs, ...RevealPresentation.excludedAttrs];
     }
 
-    #shadowRoot: ShadowRoot;
     #deck: Reveal.Reveal | null = null;
-    #mutationObserver: MutationObserver;
     #resizeObserver: ResizeObserver | null = null;
     #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
-    #applyTheme() {
-        console.log("Applying theme:", this.theme);
-        //this sets the attributes to the default values if not set
-        this.width = this.width;
-        this.height = this.height;
-        this.theme = this.theme;
-    }
-    #initShadowDom() {
-        if (!this.#shadowRoot) {
-            this.#shadowRoot = this.attachShadow({ mode: "open" });
-            this.#shadowRoot.innerHTML = `<div class="reveal"><div class="slides"><slot></slot></div></div>`;
-        }
-    }
+
     #setupDeck() {
-        this.#initShadowDom();
         const configOptions: Record<string, string> = {};
         for (const attr of this.attributes) {
             if (RevealPresentation.revealJsConfigAttrs.includes(attr.name) && !RevealPresentation.excludedAttrs.includes(attr.name)) {
@@ -76,49 +62,73 @@ export class RevealPresentation extends HTMLElement {
         };
 
         this.#deck?.destroy();
-        this.#deck = new Reveal(this.#shadowRoot.querySelector(".reveal"), fullInitConfig);
+        this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
         this.#deck.initialize();
-        this.#deck.layout();
+        this.#deck?.layout();
+    }
 
+    #setupDom() {
+        if (!this.querySelector('.reveal .slides')) {
+            this.innerHTML = `<div class="reveal" style="width: ${this.width}; height: ${this.height}">
+                <div class="slides">
+                    ${this.innerHTML}
+                </div>
+            </div>`;
+        }
     }
 
     connectedCallback(): void {
-        this.#initShadowDom();
-        if (!this.#mutationObserver) {
-            this.#mutationObserver = new MutationObserver(() => {
-                this.#setupDeck();
-            });
-        }
+        this.#setupDom();
         if (!this.#resizeObserver) {
             this.#resizeObserver = new ResizeObserver(() => {
                 this.#deck?.layout();
             });
             this.#resizeObserver.observe(this);
         }
-        this.#mutationObserver.observe(this, {
-            childList: true,
-            subtree: true,
-            characterData: true,
-            attributes: true,
+        window.addEventListener("resize", () => {
+            this.#deck?.layout();
         });
         this.#setupDeck();
-        this.#applyTheme();
-        window.addEventListener("resize", this.#deck.layout);
     }
     disconnectedCallback(): void {
-        this.#mutationObserver?.disconnect();
         this.#resizeObserver?.disconnect();
-        window.removeEventListener("resize", this.#deck.layout);
+        window.removeEventListener("resize", () => {
+            this.#deck?.layout();
+        });
         this.#deck?.destroy();
         this.#deck = null;
     }
 
-    attributeChangedCallback(name: string, _oldValue: string | null | undefined, _newValue: string | null | undefined): void {
-        if (name === "theme") {
-            this.#applyTheme();
-        }
+    attributeChangedCallback(name: string, _oldValue: string | null | undefined, newValue: string | null | undefined): void {
         if (RevealPresentation.revealJsConfigAttrs.includes(name) && !RevealPresentation.excludedAttrs.includes(name)) {
             this.#setupDeck();
+        }
+        if (name === 'theme' && newValue?.length) {
+            const hasRevealCSS = document.querySelector('link[href*="reveal.css"]');
+            const hasThemeCSS = document.querySelector(`link[href*="${newValue}.css"]`);
+            if (!hasRevealCSS) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://esm.sh/reveal.js/dist/reveal.css';
+                document.head.appendChild(link);
+            }
+            if (!hasThemeCSS) {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = `https://esm.sh/reveal.js/dist/theme/${newValue}.css`;
+                document.head.appendChild(link);
+            }
+        }
+        if (['width', 'height'].includes(name) && newValue?.length) {
+            if (!this.querySelector('.reveal .slides')) {
+                this.innerHTML = `<div class="reveal" style="width: ${this.width}; height: ${this.height}">
+                <div class="slides">
+                    ${this.innerHTML}
+                </div>
+            </div>`;
+            }
+            (this.querySelector('.reveal')! as HTMLElement).style.width = this.width;
+            (this.querySelector('.reveal')! as HTMLElement).style.height = this.height;
         }
     }
 
@@ -129,18 +139,6 @@ export class RevealPresentation extends HTMLElement {
     set plugins(plugins: Reveal.Plugin[]) {
         this.#plugins = plugins;
         this.#setupDeck();
-    }
-
-    get theme(): string {
-        return this.getAttribute("theme") || "black";
-    }
-
-    set theme(theme: string) {
-        if (theme?.length) {
-            this.setAttribute("theme", theme);
-        } else {
-            this.removeAttribute("theme");
-        }
     }
 
     get width(): string {
@@ -164,6 +162,18 @@ export class RevealPresentation extends HTMLElement {
             this.setAttribute("height", height);
         } else {
             this.removeAttribute("height");
+        }
+    }
+
+    get theme(): string | null {
+        return this.getAttribute("theme");
+    }
+
+    set theme(theme: string) {
+        if (theme?.length) {
+            this.setAttribute("theme", theme);
+        } else {
+            this.removeAttribute("theme");
         }
     }
 }
