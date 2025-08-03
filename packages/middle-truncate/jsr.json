@@ -1,6 +1,6 @@
 {
   "name": "@web-components/middle-truncate",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }
