@@ -2,6 +2,7 @@ import Reveal from "reveal.js";
 import Monokai from "reveal.js/plugin/highlight/highlight.esm.js";
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
+import Appearance from 'reveal.js-appearance';
 import { config } from "./configObject";
 
 /**
@@ -19,7 +20,7 @@ export class RevealPresentation extends HTMLElement {
     /**
      * List of attributes that are excluded from the Reveal.js configuration.
      */
-    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height'];
+    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height', 'appearance'];
     /**
      * The list of attributes that the custom element observes for changes.
      * @returns {string[]} An array of attribute names that the custom element observes.
@@ -45,7 +46,7 @@ export class RevealPresentation extends HTMLElement {
             }
         }
         const fullInitConfig: Reveal.Options = {
-            plugins: this.plugins,
+            plugins: [...this.plugins, this.appearance ? Appearance : null].filter(Boolean) as Reveal.Plugin[],
             hash: true,
             preloadIframes: true,
             respondToHashChanges: true,
@@ -181,6 +182,18 @@ export class RevealPresentation extends HTMLElement {
             this.setAttribute("theme", theme);
         } else {
             this.removeAttribute("theme");
+        }
+    }
+
+    get appearance(): boolean {
+        return this.hasAttribute("appearance");
+    }
+
+    set appearance(appearance: boolean) {
+        if (appearance) {
+            this.setAttribute("appearance", "");
+        } else {
+            this.removeAttribute("appearance");
         }
     }
 }

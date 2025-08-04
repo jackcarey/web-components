@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jackcarey/web-components#readme",
   "dependencies": {
-    "reveal.js": "^5.2.1"
+    "reveal.js": "^5.2.1",
+    "reveal.js-appearance": "^1.3.4"
   }
 }
