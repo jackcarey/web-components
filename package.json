@@ -2,7 +2,7 @@
   "author": "jackcarey (jackcarey.co.uk)",
   "dependencies": {
     "diff": "^8.0.2",
-    "ical.js": "^2.2.0",
+    "ical.js": "^2.0.1",
     "reveal.js": "^5.2.1",
     "rss-parser": "^3.13.0",
     "web-components": "file:"

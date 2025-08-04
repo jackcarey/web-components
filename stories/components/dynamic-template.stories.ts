@@ -21,9 +21,6 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-const defineScriptHtml = html`<script type="module">
-        </script>`;
-
 const blogPostHtml = html`
             <blog-post>
                 <h1 slot="heading">Some title</h1>
@@ -54,7 +51,6 @@ const imageOnlyBlogPostTemplate = html`
 export const CompactTemplate: Story = {
     args: {},
     render: () => html`
-                ${defineScriptHtml}
         ${compactBlogPostTemplateHtml}
         <main data-dynamic-template="compact">
             ${blogPostHtml}
@@ -65,7 +61,6 @@ export const CompactTemplate: Story = {
 export const ImageOnlyTemplate: Story = {
     args: {},
     render: () => html`
-        ${defineScriptHtml}
         <main data-dynamic-template="image-only">
             ${imageOnlyBlogPostTemplate}
             ${blogPostHtml}
