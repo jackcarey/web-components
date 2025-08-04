@@ -14,7 +14,7 @@
  */
 class CiteList extends HTMLElement {
     #mutationObserver: MutationObserver;
-    static get observedAttributes() {
+    static get observedAttributes(): string[] {
         return ['selector', 'limit', 'link'];
     }
 
@@ -82,7 +82,7 @@ class CiteList extends HTMLElement {
         return !this.limit ? cites : cites.slice(0, this.limit);
     }
 
-    #setupObserver() {
+    #setupObserver(): void {
         if (!this.#mutationObserver) {
             this.#mutationObserver = new MutationObserver(() => {
                 this.#render();
@@ -101,7 +101,7 @@ class CiteList extends HTMLElement {
         }
     }
 
-    #render() {
+    #render(): void {
         this.innerHTML = '';
         const citations = this.citationElements;
         const orderedListEl = document.createElement('ol');
@@ -126,16 +126,16 @@ class CiteList extends HTMLElement {
         }
     }
 
-    connectedCallback() {
+    connectedCallback(): void {
         this.#render();
         this.#setupObserver();
     }
 
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         this.#mutationObserver?.disconnect();
     }
 
-    attributeChangedCallback(name: string, _oldValue: string | null | undefined, _newValue: string | null | undefined) {
+    attributeChangedCallback(name: string, _oldValue: string | null | undefined, _newValue: string | null | undefined): void {
         if (name === "selector") {
             this.#setupObserver();
         }
