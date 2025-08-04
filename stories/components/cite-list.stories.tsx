@@ -72,6 +72,41 @@ export const Link: Story = {
     render: (args, context) => {
         const originalStory = renderFn(args, context);
         return html`${originalStory}
+            <article>
+                <p>
+                    This is a paragraph with a <cite>citation 1</cite>. It should be linked to the
+                    original citation.
+                </p>
+                <p>Another paragraph with a <cite>citation 2</cite>.</p>
+                <p>And another one with a <cite>citation 3</cite>.</p>
+                <p>And another one with a <cite>citation 4</cite>.</p>
+                <p>And another one with a <cite>citation 5</cite>.</p>
+                <p>And another one with a <cite>citation 6</cite>.</p>
+                <p>And another one with a <cite>citation 7</cite>.</p>
+                <p>And another one with a <cite>citation 8</cite>.</p>
+                <p>And another one with a <cite>citation 9</cite>.</p>
+                <p>And another one with a <cite>citation 10</cite>.</p>
+                <p>And another one with a <cite>citation 11</cite>.</p>
+                <p>And another one with a <cite>citation 12</cite>.</p>
+                <p>And another one with a <cite>citation 13</cite>.</p>
+                <p>And another one with a <cite>citation 14</cite>.</p>
+                <p>And another one with a <cite>citation 15</cite>.</p>
+                <p>And another one with a <cite>citation 16</cite>.</p>
+                <p>And another one with a <cite>citation 17</cite>.</p>
+                <p>And another one with a <cite>citation 18</cite>.</p>
+                <p>And another one with a <cite>citation 19</cite>.</p>
+                <p>And another one with a <cite>citation 20</cite>.</p>
+                <p>And another one with a <cite>citation 21</cite>.</p>
+                <p>And another one with a <cite>citation 22</cite>.</p>
+                <p>And another one with a <cite>citation 23</cite>.</p>
+                <p>And another one with a <cite>citation 24</cite>.</p>
+                <p>And another one with a <cite>citation 25</cite>.</p>
+                <p>And another one with a <cite>citation 26</cite>.</p>
+                <p>And another one with a <cite>citation 27</cite>.</p>
+                <p>And another one with a <cite>citation 28</cite>.</p>
+                <p>And another one with a <cite>citation 29</cite>.</p>
+                <p>And another one with a <cite>citation 30</cite>.</p>
+            </article>
             <style>
                 cite-list a {
                     color: blue;
