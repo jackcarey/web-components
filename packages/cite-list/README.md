@@ -4,7 +4,7 @@
 
 > Collection <cite/>-ations from the DOM into a list
 
--   **Version:** 0.0.4
+-   **Version:** 0.0.5
 -   **License:** [LGPL-3.0](./LICENSE.md)
 
 ## Using this package
