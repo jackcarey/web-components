@@ -124,11 +124,13 @@ class CiteList extends HTMLElement {
                 }
             });
         }
+        this.dataset.observedElementCount = this.observedElements.length.toString();
+        this.dataset.citeCount = citations.length.toString();
     }
 
     connectedCallback(): void {
-        this.#render();
         this.#setupObserver();
+        this.#render();
     }
 
     disconnectedCallback(): void {
