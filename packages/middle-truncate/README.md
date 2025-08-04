@@ -4,7 +4,7 @@
 
 > Truncate text in the middle
 
--   **Version:** 0.1.12
+-   **Version:** 0.1.13
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
