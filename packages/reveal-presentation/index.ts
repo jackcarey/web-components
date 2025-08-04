@@ -67,7 +67,10 @@ export class RevealPresentation extends HTMLElement {
             scrollActivationWidth: 500,
             scrollProgress: true,
             appearance: {
+                cssautoload: true,
                 autoappear: true,
+                hideagain: true,
+                delay: 300,
             },
             ...configOptions,
         };
