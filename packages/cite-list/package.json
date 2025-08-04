@@ -1,0 +1,19 @@
+{
+  "name": "cite-list",
+  "version": "0.0.0",
+  "description": "Collection <cite/>-ations from the DOM into a list",
+  "main": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackcarey/web-components.git"
+  },
+  "author": "jackcarey",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jackcarey/web-components/issues"
+  },
+  "homepage": "https://github.com/jackcarey/web-components#readme"
+}
