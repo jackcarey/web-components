@@ -1,7 +1,9 @@
 {
     "livePreview.defaultPreviewPath": "/index.html",
     "cSpell.words": [
+        "autoappear",
         "autodocs",
+        "autoelements",
         "autoload",
         "autoloader",
         "calscale",
