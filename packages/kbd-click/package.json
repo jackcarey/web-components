@@ -1,6 +1,6 @@
 {
   "name": "kbd-click",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Trigger click events on child kbd elements",
   "main": "./index.ts",
   "scripts": {

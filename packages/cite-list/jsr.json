@@ -1,0 +1,6 @@
+{
+  "name": "@web-components/cite-list",
+  "version": "0.0.1",
+  "exports": "./index.ts",
+  "license": "LGPL-3.0"
+}

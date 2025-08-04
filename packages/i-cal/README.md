@@ -4,7 +4,7 @@
 
 > Renders ics data in a web component.
 
--   **Version:** 1.1.16
+-   **Version:** 1.1.17
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package

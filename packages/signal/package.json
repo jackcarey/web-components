@@ -1,6 +1,6 @@
 {
   "name": "signal",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A reactive data object that emits events on itself and other EventTargets when its value changes.",
   "main": "./index.ts",
   "scripts": {

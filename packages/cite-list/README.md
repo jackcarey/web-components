@@ -4,7 +4,7 @@
 
 > Collection <cite/>-ations from the DOM into a list
 
--   **Version:** 0.0.0
+-   **Version:** 0.0.1
 -   **License:** [LGPL-3.0](./LICENSE.md)
 
 ## Using this package
@@ -35,7 +35,7 @@ npx jsr add @web-components/cite-list
 
 -   **Open examples for [cite-list on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-cite-list)**.
 
-
+See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.
 
 ---
 
