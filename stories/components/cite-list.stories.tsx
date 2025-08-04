@@ -25,7 +25,7 @@ const renderFn: StoryObj["render"] = (args: Args) => {
 };
 
 const meta: Meta = {
-    ...CreateComponentStoryMeta("diff-text", undefined, {
+    ...CreateComponentStoryMeta("cite-list", undefined, {
         decorators: [
             ...CreateComponentDecorators("cite-list", undefined),
             (story) => {
@@ -37,10 +37,6 @@ const meta: Meta = {
         ],
     }),
     render: renderFn,
-    parameters: {
-        //these stories are ignored by default, they must be opt-ed in by setting this to false
-        chromatic: { disableSnapshot: true },
-    },
 };
 
 export default meta;
