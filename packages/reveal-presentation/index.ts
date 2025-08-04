@@ -45,7 +45,7 @@ export class RevealPresentation extends HTMLElement {
                 }
             }
         }
-        const fullInitConfig: Reveal.Options = {
+        const fullInitConfig: Reveal.Options & { appearance: Record<any, any> } = {
             plugins: [...this.plugins, this.appearance ? Appearance : null].filter(Boolean) as Reveal.Plugin[],
             hash: true,
             preloadIframes: true,
