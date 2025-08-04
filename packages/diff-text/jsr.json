@@ -1,6 +1,6 @@
 {
   "name": "@web-components/diff-text",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "exports": "./index.ts",
   "license": "BSD-3-Clause"
 }
