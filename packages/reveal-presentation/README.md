@@ -4,7 +4,7 @@
 
 > Instantiate a reveal.js presentation using attributes for configuration
 
--   **Version:** 0.0.12
+-   **Version:** 0.0.13
 -   **License:** [MIT](./LICENSE.md)
 
 ## Using this package
@@ -45,6 +45,7 @@ Component attributes are the same as the [config options](https://revealjs.com/c
 
 -   `plugins`: An array of [plugin](https://revealjs.com/plugins/) objects. By default this component enables Highlight, Markdown, and Notes plugins.
 -   `theme`: optional, one of the [built-in theme](https://revealjs.com/themes/) names to load from [esm.sh](https://esm.sh). Note, this will affect all presentations on a page. To change this behaviour, apply scoped styles with your own theme or [custom properties](https://revealjs.com/themes/#custom-properties).
+-   `appearance`: Load the Appearance plugin from [`martinomagnifico/reveal.js-appearance`](https://github.com/martinomagnifico/reveal.js-appearance).
 
 
 ---
