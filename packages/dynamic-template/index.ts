@@ -8,23 +8,42 @@
 export class DynamicTemplate extends HTMLElement {
     static datasetAttribute = 'dynamic-template';
     static defaultTemplate: string | null | undefined = undefined;
-    #observer: MutationObserver | null;
+    private static observer: MutationObserver | null = null;
+    private static instances: Set<DynamicTemplate> = new Set();
+
     constructor() {
         super();
     }
     connectedCallback() {
-        if (!this.#observer) {
-            this.#observer = new MutationObserver(() => {
-                this.render();
+        DynamicTemplate.instances.add(this);
+        // the mutation observer needn't exist before any element instances are connected
+        if (!DynamicTemplate.observer) {
+            DynamicTemplate.observer = new MutationObserver((mutations) => {
+                for (const instance of DynamicTemplate.instances) {
+                    //only re-rendering elements that are affected by the mutation
+                    const isChildOfMutation = mutations.some(mutation => {
+                        return mutation.target.contains(instance);
+                    });
+                    if (isChildOfMutation) {
+                        instance.render();
+                    }
+                }
+            });
+            DynamicTemplate.observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`]
             });
         }
-        this.#observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`] });
         this.render();
     }
     disconnectedCallback() {
-        if (this.#observer) {
-            this.#observer.disconnect();
-            this.#observer = null;
+        DynamicTemplate.instances.delete(this);
+        // Disconnect observer if no instances remain
+        if (DynamicTemplate.instances.size === 0 && DynamicTemplate.observer) {
+            DynamicTemplate.observer.disconnect();
+            DynamicTemplate.observer = null;
         }
     }
     protected get templateName(): string | undefined {

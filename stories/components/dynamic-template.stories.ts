@@ -24,17 +24,17 @@ type Story = StoryObj;
 const blogPostHtml = html`
             <blog-post>
                 <h1 slot="heading">Some title</h1>
-                <img src="https://picsum.photos/200" alt="Image" slot="image">
+                <img src="https://picsum.photos/100" alt="Image" slot="image">
                 <p>Some text</p>
             </blog-post>
             <blog-post>
                 <h1 slot="heading">Some title 2</h1>
-                <img src="https://picsum.photos/200" alt="Image" slot="image">
+                <img src="https://picsum.photos/100" alt="Image" slot="image">
                 <p>Some text 2</p>
             </blog-post>
             <blog-post>
                 <h1 slot="heading">Some title 3</h1>
-                <img src="https://picsum.photos/200" alt="Image" slot="image">
+                <img src="https://picsum.photos/100" alt="Image" slot="image">
                 <p>Some text 3</p>
             </blog-post>`;
 
