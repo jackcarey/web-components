@@ -15,7 +15,7 @@
 class CiteList extends HTMLElement {
     #mutationObserver: MutationObserver;
     static get observedAttributes(): string[] {
-        return ['selector', 'limit', 'link'];
+        return ['selector', 'limit', 'link', 'text-only'];
     }
 
     get selector(): string | null {
@@ -62,6 +62,18 @@ class CiteList extends HTMLElement {
         }
     }
 
+    get textOnly(): boolean {
+        return this.hasAttribute('text-only');
+    }
+
+    set textOnly(value: boolean) {
+        if (value) {
+            this.setAttribute('text-only', '');
+        } else {
+            this.removeAttribute('text-only');
+        }
+    }
+
     get observedElements(): Array<Element> {
         if (!this.selector) return [];
         const parents = document.querySelectorAll(this.selector);
@@ -103,16 +115,22 @@ class CiteList extends HTMLElement {
 
     #render(): void {
         this.innerHTML = '';
-        const citations = this.citationElements;
         const orderedListEl = document.createElement('ol');
         this.appendChild(orderedListEl);
-        if (citations.length > 0) {
-            orderedListEl.setAttribute('data-cite-count', citations.length.toString());
+        if (this.citationElements.length > 0) {
+            orderedListEl.setAttribute('data-cite-count', this.citationElements.length.toString());
             const scrollToArgs: ScrollIntoViewOptions = { behavior: 'smooth', block: 'center', inline: 'center' };
-            citations.forEach(cite => {
+            this.citationElements.forEach(cite => {
                 const listItem = document.createElement('li');
                 orderedListEl.appendChild(listItem);
-                listItem.textContent = (cite as HTMLElement).innerText || '';
+                if (this.textOnly) {
+                    listItem.textContent = (cite as HTMLElement).innerText || '';
+                } else {
+                    listItem.innerHTML = (cite.cloneNode(true) as HTMLElement).innerHTML || '';
+                    listItem.querySelectorAll('[id]').forEach(el => {
+                        el.removeAttribute('id'); // Remove IDs to avoid duplicates in the list
+                    });
+                }
                 if (cite.id) {
                     listItem.setAttribute('data-cite-id', cite.id);
                 }
@@ -125,7 +143,7 @@ class CiteList extends HTMLElement {
             });
         }
         this.dataset.observedElementCount = this.observedElements.length.toString();
-        this.dataset.citeCount = citations.length.toString();
+        this.dataset.citeCount = this.citationElements.length.toString();
     }
 
     connectedCallback(): void {

@@ -1,5 +1,5 @@
 {
-  "name": "use-element",
+  "name": "mirror-element",
   "version": "0.0.0",
   "description": "Copy the innerHTML of any other element.",
   "main": "./index.ts",

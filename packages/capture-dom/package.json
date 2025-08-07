@@ -1,7 +1,7 @@
 {
-  "name": "cite-list",
-  "version": "1.0.0",
-  "description": "Collection <cite/>-ations from the DOM into a list",
+  "name": "capture-dom",
+  "version": "0.0.0",
+  "description": "Record child DOM to a video, OPFS, or download.",
   "main": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
