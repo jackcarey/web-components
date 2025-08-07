@@ -6,7 +6,7 @@
  * If no template is found, the light DOM content is used as-is.
  */
 export class DynamicTemplate extends HTMLElement {
-    static #setupMutationObserver = () => {
+    static #setupMutationObserver = (): void => {
         DynamicTemplate.observer?.disconnect();
         DynamicTemplate.observer = new MutationObserver((mutations) => {
             for (const instance of DynamicTemplate.instances) {
@@ -30,8 +30,8 @@ export class DynamicTemplate extends HTMLElement {
             instance.render();
         });
     }
-    static #datasetAttr = 'dynamic-template';
-    static get datasetAttribute() {
+    static #datasetAttr: string = 'dynamic-template';
+    static get datasetAttribute(): string {
         return DynamicTemplate.#datasetAttr ?? 'dynamic-template';
     }
 
@@ -42,7 +42,7 @@ export class DynamicTemplate extends HTMLElement {
     private static observer: MutationObserver | null = null;
     private static instances: Set<DynamicTemplate> = new Set();
 
-    connectedCallback() {
+    connectedCallback(): void {
         DynamicTemplate.instances.add(this);
         this.render();
         // the mutation observer needn't exist before any element instances are connected
@@ -50,7 +50,7 @@ export class DynamicTemplate extends HTMLElement {
             DynamicTemplate.#setupMutationObserver();
         }
     }
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         DynamicTemplate.instances.delete(this);
         // Disconnect observer if no instances remain
         if (DynamicTemplate.instances.size === 0 && DynamicTemplate.observer) {
@@ -68,7 +68,7 @@ export class DynamicTemplate extends HTMLElement {
         const templateId = this.templateName ? `${this.templateName}-${tagName}` : DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
         return templateId;
     }
-    protected render(templateId?: string) {
+    protected render(templateId?: string): void {
         if (!this.shadowRoot) {
             this.attachShadow({
                 mode: 'open',
