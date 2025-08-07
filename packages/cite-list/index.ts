@@ -15,7 +15,7 @@
 class CiteList extends HTMLElement {
     #mutationObserver: MutationObserver;
     static get observedAttributes(): string[] {
-        return ['selector', 'limit', 'link'];
+        return ['selector', 'limit', 'link', 'text-only'];
     }
 
     get selector(): string | null {
@@ -59,6 +59,18 @@ class CiteList extends HTMLElement {
             this.setAttribute('link', 'true');
         } else {
             this.removeAttribute('link');
+        }
+    }
+
+    get textOnly(): boolean {
+        return this.hasAttribute('text-only');
+    }
+
+    set textOnly(value: boolean) {
+        if (value) {
+            this.setAttribute('text-only', '');
+        } else {
+            this.removeAttribute('text-only');
         }
     }
 
@@ -111,7 +123,14 @@ class CiteList extends HTMLElement {
             this.citationElements.forEach(cite => {
                 const listItem = document.createElement('li');
                 orderedListEl.appendChild(listItem);
-                listItem.textContent = (cite as HTMLElement).innerText || '';
+                if (this.textOnly) {
+                    listItem.textContent = (cite as HTMLElement).innerText || '';
+                } else {
+                    listItem.innerHTML = (cite.cloneNode(true) as HTMLElement).innerHTML || '';
+                    listItem.querySelectorAll('[id]').forEach(el => {
+                        el.removeAttribute('id'); // Remove IDs to avoid duplicates in the list
+                    });
+                }
                 if (cite.id) {
                     listItem.setAttribute('data-cite-id', cite.id);
                 }
@@ -124,7 +143,7 @@ class CiteList extends HTMLElement {
             });
         }
         this.dataset.observedElementCount = this.observedElements.length.toString();
-        this.dataset.citeCount = citations.length.toString();
+        this.dataset.citeCount = this.citationElements.length.toString();
     }
 
     connectedCallback(): void {
