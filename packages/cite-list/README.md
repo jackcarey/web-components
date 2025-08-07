@@ -4,7 +4,7 @@
 
 > Collection <cite/>-ations from the DOM into a list
 
--   **Version:** 0.0.4
+-   **Version:** 1.0.0
 -   **License:** [LGPL-3.0](./LICENSE.md)
 
 ## Using this package
@@ -35,7 +35,8 @@ npx jsr add @web-components/cite-list
 
 -   **Open examples for [cite-list on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-cite-list)**.
 
-See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.
+Copies the content of `<cite/>` elements from within a selector into a list. Use `text-only` to copy only the `innerText`, otherwise `innerHTML` will be copied. Use `limit` to limit the number of citations that are rendered.
+
 
 ---
 

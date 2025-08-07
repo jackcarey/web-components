@@ -79,7 +79,7 @@ The `DynamicTemplate` assumes nothing about styles. You can use a `style` tag wi
 
 **Using a different dataset attribute**
 
-The dataset attribute can be changed as it is a static value on `DynamicTemplate`. It's default value is `dynamic-template` but, for example, you may wish to change it with `DynamicTemplate.datasetAttribute = 'dt';` so that the selector for finding a template name is `data-dt`. This should be changed either before elements are registered or before they are connected to the DOM.
+The dataset attribute can be changed as it is a static value on `DynamicTemplate`. It's default value is `dynamic-template` but, for example, you may wish to change it with `DynamicTemplate.datasetAttribute = 'dt';` so that the selector for finding a template name is `data-dt`.
 
 **Using a default theme**
 
