@@ -103,13 +103,12 @@ class CiteList extends HTMLElement {
 
     #render(): void {
         this.innerHTML = '';
-        const citations = this.citationElements;
         const orderedListEl = document.createElement('ol');
         this.appendChild(orderedListEl);
-        if (citations.length > 0) {
-            orderedListEl.setAttribute('data-cite-count', citations.length.toString());
+        if (this.citationElements.length > 0) {
+            orderedListEl.setAttribute('data-cite-count', this.citationElements.length.toString());
             const scrollToArgs: ScrollIntoViewOptions = { behavior: 'smooth', block: 'center', inline: 'center' };
-            citations.forEach(cite => {
+            this.citationElements.forEach(cite => {
                 const listItem = document.createElement('li');
                 orderedListEl.appendChild(listItem);
                 listItem.textContent = (cite as HTMLElement).innerText || '';
