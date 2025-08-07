@@ -5,7 +5,7 @@
  * MirrorElement copies content from an element given by a selector into itself.
  */
 class MirrorElement extends HTMLElement {
-    static get observedAttributes() {
+    static get observedAttributes(): string[] {
         return ['selector', 'strip-ids', 'disabled'];
     }
 
@@ -22,7 +22,7 @@ class MirrorElement extends HTMLElement {
         this.#mutationObserver?.disconnect();
     }
 
-    attributeChangedCallback(name): void {
+    attributeChangedCallback(name: string): void {
         if (name === 'selector' || name === 'disabled') {
             this.#setupObserver();
         }
