@@ -6,25 +6,56 @@
  * If no template is found, the light DOM content is used as-is.
  */
 export class DynamicTemplate extends HTMLElement {
-    static datasetAttribute = 'dynamic-template';
-    static defaultTemplate: string | null | undefined = undefined;
-    #observer: MutationObserver | null;
-    constructor() {
-        super();
+    static #setupMutationObserver = () => {
+        DynamicTemplate.observer?.disconnect();
+        DynamicTemplate.observer = new MutationObserver((mutations) => {
+            for (const instance of DynamicTemplate.instances) {
+                //only re-rendering elements that are affected by the mutation
+                const isChildOfMutation = mutations.some(mutation => {
+                    return mutation.target.contains(instance);
+                });
+                if (isChildOfMutation) {
+                    instance.render();
+                }
+            }
+        });
+        DynamicTemplate.observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`]
+        });
+        // the attribute has just changed so we should re-render all instances
+        DynamicTemplate.instances.forEach(instance => {
+            instance.render();
+        });
     }
+    static #datasetAttr = 'dynamic-template';
+    static get datasetAttribute() {
+        return DynamicTemplate.#datasetAttr ?? 'dynamic-template';
+    }
+
+    static set datasetAttribute(value: string | null | undefined) {
+        DynamicTemplate.#datasetAttr = value?.length ? value : 'dynamic-template';
+    }
+    static defaultTemplate: string | null | undefined = undefined;
+    private static observer: MutationObserver | null = null;
+    private static instances: Set<DynamicTemplate> = new Set();
+
     connectedCallback() {
-        if (!this.#observer) {
-            this.#observer = new MutationObserver(() => {
-                this.render();
-            });
-        }
-        this.#observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: [`data-${DynamicTemplate.datasetAttribute}`] });
+        DynamicTemplate.instances.add(this);
         this.render();
+        // the mutation observer needn't exist before any element instances are connected
+        if (!DynamicTemplate.observer) {
+            DynamicTemplate.#setupMutationObserver();
+        }
     }
     disconnectedCallback() {
-        if (this.#observer) {
-            this.#observer.disconnect();
-            this.#observer = null;
+        DynamicTemplate.instances.delete(this);
+        // Disconnect observer if no instances remain
+        if (DynamicTemplate.instances.size === 0 && DynamicTemplate.observer) {
+            DynamicTemplate.observer.disconnect();
+            DynamicTemplate.observer = null;
         }
     }
     protected get templateName(): string | undefined {
