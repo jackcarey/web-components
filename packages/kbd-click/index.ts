@@ -62,6 +62,7 @@ class KBDClick extends HTMLElement {
                     cancelable: true,
                     composed: true,
                 }));
+                kbdEl.focus();
             }
         });
     }
