@@ -1,6 +1,6 @@
 {
   "name": "@web-components/autoloader",
-  "version": "1.1.63",
+  "version": "1.1.64",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }
