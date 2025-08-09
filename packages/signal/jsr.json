@@ -1,6 +1,6 @@
 {
   "name": "@web-components/signal",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }

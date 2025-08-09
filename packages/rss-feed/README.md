@@ -4,7 +4,7 @@
 
 > Render RSS feeds in the DOM
 
--   **Version:** 0.0.14
+-   **Version:** 0.0.15
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
