@@ -252,3 +252,9 @@ The quick brown fox jumps over the lazy dog.</textarea
             ${originalStory}`;
     },
 };
+
+export const ContentEditable: Story = {
+render: ()=>{
+return html`<diff-text contenteditable original="The quick brown fox jumps over the lazy dog." changed="The slow blue fox jumps over the sleepy dog."></diff-text>`;
+},
+};
