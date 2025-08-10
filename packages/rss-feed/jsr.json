@@ -1,6 +1,6 @@
 {
   "name": "@web-components/rss-feed",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }
