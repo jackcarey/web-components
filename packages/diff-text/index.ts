@@ -485,6 +485,7 @@ export class DiffText extends HTMLElement {
                         span.classList.add('diff-text-added');
                     } else if (change.removed) {
                         span.classList.add('diff-text-removed');
+                        span.setAttribute("contenteditable", false);
                     }
                     span.dataset.diffTextCount = change.count.toString();
                     this.appendChild(span);
