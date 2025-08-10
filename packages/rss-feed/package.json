@@ -1,6 +1,6 @@
 {
   "name": "rss-feed",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Render RSS feeds in the DOM",
   "main": "./index.ts",
   "scripts": {
