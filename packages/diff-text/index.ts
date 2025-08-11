@@ -331,7 +331,7 @@ export class DiffText extends HTMLElement {
         }
         if(el instanceof DiffText){
             const joinChar= this.mode ==="lines" ? "\n" : "";
-            const elText = el.children.filter(child => !child.classList.contains('diff-text-removed').join(joinChar);
+            const elText = el.children.filter(child => !child.classList.contains('diff-text-removed').join(joinChar));
             return elText;
         }
         const innerText = el.innerText;
