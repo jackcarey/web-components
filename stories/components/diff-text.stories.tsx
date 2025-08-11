@@ -255,6 +255,39 @@ The quick brown fox jumps over the lazy dog.</textarea
 
 export const ContentEditable: Story = {
 render: ()=>{
-return html`<diff-text contenteditable original="The quick brown fox jumps over the lazy dog." changed="The slow blue fox jumps over the sleepy dog."></diff-text>`;
+return html`<style>
+            diff-text {
+                display: block;
+                border: 1px solid #ccc;
+                min-height: 1em;
+            }
+            .diff-text-removed {
+                background-color: #ffcccc;
+                text-decoration: line-through;
+            }
+            .diff-text-added {
+                background-color: #ccffcc;
+            }
+        </style><diff-text contenteditable original="The quick brown fox jumps over the lazy dog." changed="The slow blue fox jumps over the sleepy dog."></diff-text>`;
+},
+};
+
+export const ContentEditable: Story = {
+    name: "Content editable (self)",
+render: ()=>{
+return html`<style>
+            diff-text {
+                display: block;
+                border: 1px solid #ccc;
+                min-height: 1em;
+            }
+            .diff-text-removed {
+                background-color: #ffcccc;
+                text-decoration: line-through;
+            }
+            .diff-text-added {
+                background-color: #ccffcc;
+            }
+        </style><diff-text contenteditable id="diff-self" original="The quick brown fox jumps over the lazy dog." changed-selector="#diff-self"></diff-text>`;
 },
 };
