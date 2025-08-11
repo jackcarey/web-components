@@ -1,5 +1,5 @@
 {
   "name": "@web-components/search-dom",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "exports": "./index.ts"
 }
