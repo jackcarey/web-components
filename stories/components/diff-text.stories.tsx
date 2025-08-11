@@ -272,7 +272,7 @@ return html`<style>
 },
 };
 
-export const ContentEditable: Story = {
+export const ContentEditableSelf: Story = {
     name: "Content editable (self)",
 render: ()=>{
 return html`<style>
