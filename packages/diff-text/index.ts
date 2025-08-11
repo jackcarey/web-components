@@ -317,7 +317,6 @@ export class DiffText extends HTMLElement {
     }
 
     #getElementValue = (el: HTMLElement): string => {
-        const innerText = el.innerText;
         const compareProp = this.compare;
         if (!compareProp?.length) {
             return innerText;
@@ -330,7 +329,13 @@ export class DiffText extends HTMLElement {
         if (compareAttrValue) {
             return compareAttrValue;
         }
-        return comparePropValue || compareAttrValue || innerText;
+        if(el instanceof DiffText){
+            const joinChar= this.mode ==="lines" ? "\n" : "";
+            const elText = el.children.filter(child => !child.classList.contains('diff-text-removed').join(joinChar);
+            return elText;
+        }
+        const innerText = el.innerText;
+        return innerText;
     }
 
     #setup() {
