@@ -1,6 +1,6 @@
 {
   "name": "reveal-presentation",
-  "version": "0.0.22",
+  "version": "0.0.21",
   "description": "Instantiate a reveal.js presentation using attributes for configuration",
   "main": "./index.ts",
   "scripts": {
