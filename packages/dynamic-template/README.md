@@ -4,7 +4,7 @@
 
 > Dynamically render a component using corresponding templates
 
--   **Version:** 1.0.18
+-   **Version:** 1.0.19
 -   **License:** [](./LICENSE.md)
 
 ## Using this package

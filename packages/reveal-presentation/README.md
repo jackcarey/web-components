@@ -4,7 +4,7 @@
 
 > Instantiate a reveal.js presentation using attributes for configuration
 
--   **Version:** 0.0.21
+-   **Version:** 0.0.22
 -   **License:** [MIT](./LICENSE.md)
 
 ## Using this package
