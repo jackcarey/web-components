@@ -10,11 +10,12 @@ const renderFn: StoryObj["render"] = (args: Args) => {
                 border: 1px solid #ccc;
                 min-height: 1em;
             }
-            .diff-text-removed {
+            diff-text del {
                 background-color: #ffcccc;
                 text-decoration: line-through;
             }
-            .diff-text-added {
+            diff-text ins {
+                text-decoration: none;
                 background-color: #ccffcc;
             }
         </style>
@@ -234,7 +235,7 @@ export const Callback: Story = {
     },
 };
 
-export const textInput: Story = {
+export const TextInput: Story = {
     name: "Text Input (with diff)",
     args: {
         "original-src":
@@ -254,40 +255,76 @@ The quick brown fox jumps over the lazy dog.</textarea
 };
 
 export const ContentEditable: Story = {
-render: ()=>{
-return html`<style>
-            diff-text {
-                display: block;
-                border: 1px solid #ccc;
-                min-height: 1em;
-            }
-            .diff-text-removed {
-                background-color: #ffcccc;
-                text-decoration: line-through;
-            }
-            .diff-text-added {
-                background-color: #ccffcc;
-            }
-        </style><diff-text contenteditable original="The quick brown fox jumps over the lazy dog." changed="The slow blue fox jumps over the sleepy dog."></diff-text>`;
-},
+    render: () => {
+        return html`<style>
+                diff-text {
+                    display: block;
+                    border: 1px solid #ccc;
+                    min-height: 1em;
+                }
+
+                diff-text del {
+                    background-color: #ffcccc;
+                    text-decoration: line-through;
+                }
+                diff-text ins {
+                    text-decoration: none;
+                    background-color: #ccffcc;
+                }</style
+            ><diff-text
+                contenteditable
+                original="The quick brown fox jumps over the lazy dog."
+                changed="The slow blue fox jumps over the sleepy dog."
+            ></diff-text>`;
+    },
 };
 
-export const ContentEditableSelf: Story = {
-    name: "Content editable (self)",
-render: ()=>{
-return html`<style>
-            diff-text {
-                display: block;
-                border: 1px solid #ccc;
-                min-height: 1em;
-            }
-            .diff-text-removed {
-                background-color: #ffcccc;
-                text-decoration: line-through;
-            }
-            .diff-text-added {
-                background-color: #ccffcc;
-            }
-        </style><diff-text contenteditable id="diff-self" original="The quick brown fox jumps over the lazy dog." changed-selector="#diff-self"></diff-text>`;
-},
+export const ContentEditor: Story = {
+    name: "Content Editor",
+    args: {
+        "original-src":
+            "https://gist.githubusercontent.com/jackcarey/8ba2b5b02fb1371171e268f4a557e7bf/raw/0ea3c70a4ecc6183c6a63c820eabfc15a4c97c71/text.txt",
+        changedSelector: "#text",
+        compare: "value",
+    },
+    render: (args: Args, context) => {
+        return html`<style>
+                diff-text {
+                    display: block;
+                    border: 1px solid #ccc;
+                    min-height: 1em;
+                }
+
+                diff-text del {
+                    background-color: #ffcccc;
+                    text-decoration: line-through;
+                }
+                diff-text ins {
+                    text-decoration: none;
+                    background-color: #ccffcc;
+                }
+            </style>
+            <textarea style="display:none;">The slow blue fox jumps over the sleepy dog.</textarea>
+            <diff-text
+                contenteditable
+                original="The quick brown fox jumps over the lazy dog."
+                changed-selector="textarea"
+            ></diff-text>
+            <script>
+                window.addEventListener("DOMContentLoaded", () => {
+                    new MutationObserver(() => {
+                        const diffEls = document.querySelectorAll("diff-text span,ins");
+                        const filteredContent = Array.from(diffEls)
+                            .map((el) => el.innerText)
+                            .join("");
+                        document.querySelector("textarea").innerText = filteredContent;
+                    }).observe(document.querySelector("diff-text"), {
+                        characterData: true,
+                        attributes: true,
+                        subtree: true,
+                        childList: true,
+                    });
+                });
+            </script>`;
+    },
 };

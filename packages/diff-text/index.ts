@@ -253,8 +253,22 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    constructor() {
-        super();
+    get debug() {
+        return this.hasAttribute("debug");
+    }
+
+    set debug(val: boolean) {
+        if (val) {
+            this.setAttribute("debug", "");
+        } else {
+            this.removeAttribute("debug");
+        }
+    }
+
+    #debugLog(...message) {
+        if (this.debug) {
+            console.log(...message);
+        }
     }
 
     connectedCallback() {
@@ -319,7 +333,7 @@ export class DiffText extends HTMLElement {
     #getElementValue = (el: HTMLElement): string => {
         const compareProp = this.compare;
         if (!compareProp?.length) {
-            return innerText;
+            return el.innerText;
         }
         const comparePropValue = compareProp in el ? el[compareProp] : null;
         if (compareProp) {
@@ -329,8 +343,8 @@ export class DiffText extends HTMLElement {
         if (compareAttrValue) {
             return compareAttrValue;
         }
-        if(el instanceof DiffText){
-            const joinChar= this.mode ==="lines" ? "\n" : "";
+        if (el instanceof DiffText) {
+            const joinChar = this.mode === "lines" ? "\n" : "";
             const elText = el.children.filter(child => !child.classList.contains('diff-text-removed').join(joinChar));
             return elText;
         }
@@ -431,10 +445,8 @@ export class DiffText extends HTMLElement {
 
     #updateDiff(): boolean {
         const modeFn = (DIFF_MODES[this.mode] || diffWords) as Function;
-        const a = this.#originalValue;
-        const b = this.#changedValue;
         const oldChanges = structuredClone(this.#changes);
-        const newChanges = modeFn(a ?? '', b ?? '', {
+        const newChanges = modeFn(this.#originalValue ?? '', this.#changedValue ?? '', {
             ignoreCase: Boolean(this.ignoreCase),
             ...(this.options ?? {}),
             //the callback cannot be passed as a jsDiff option as this makes the call async
@@ -446,6 +458,14 @@ export class DiffText extends HTMLElement {
             const oldChange = oldChanges[index];
             return !oldChange || change.value !== oldChange.value || change.added !== oldChange.added || change.removed !== oldChange.removed || change.count !== oldChange.count;
         });
+
+        this.#debugLog({
+            mode: this.mode,
+            original: this.#originalValue,
+            changed: this.#changedValue,
+            newChanges,
+            hasChanged
+        })
 
         if (hasChanged) {
             this.#changes = newChanges;
@@ -471,6 +491,8 @@ export class DiffText extends HTMLElement {
                 composed: true,
                 cancelable: true,
             }));
+
+            this.#debugLog('diff-text emitted event');
         }
         return hasChanged;
     }
@@ -483,17 +505,16 @@ export class DiffText extends HTMLElement {
             const changed = this.#updateDiff();
             if (changed) {
                 this.innerHTML = '';
+                this.#debugLog('rendering changes', this.#changes);
                 this.#changes.forEach(change => {
-                    const span = document.createElement('span');
-                    span.textContent = change.value;
-                    if (change.added) {
-                        span.classList.add('diff-text-added');
-                    } else if (change.removed) {
-                        span.classList.add('diff-text-removed');
-                        span.setAttribute("contenteditable", false);
+                    const elName = change.added ? 'ins' : change.removed ? 'del' : 'span';
+                    const el = document.createElement(elName);
+                    el.textContent = change.value;
+                    if (change.removed) {
+                        el.setAttribute("contenteditable", "false");
                     }
-                    span.dataset.diffTextCount = change.count.toString();
-                    this.appendChild(span);
+                    el.dataset.diffTextCount = change.count.toString();
+                    this.appendChild(el);
                 });
             }
         });
