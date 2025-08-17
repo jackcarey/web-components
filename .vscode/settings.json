@@ -8,6 +8,7 @@
         "autoloader",
         "calscale",
         "caniuse",
+        "contenteditable",
         "cssautoload",
         "exportparts",
         "flexbox",
