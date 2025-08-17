@@ -46,23 +46,24 @@ class KBDClick extends HTMLElement {
         if (!isFilteredIn) {
             return;
         }
-        const kbdEls = this.querySelectorAll('kbd');
-        if (kbdEls.length === 0) {
+        const els = this.querySelectorAll('kbd,[accesskey]');
+        if (els.length === 0) {
             return;
         }
         const ignoreVisibility = this.ignoreVisibility;
-        kbdEls.forEach(kbdEl => {
-            const elCode = (kbdEl.getAttribute('data-key') ?? kbdEl.innerText.trim());
+        els.forEach(el => {
+            const isKbd = el.tagName.toLowerCase() === 'kbd';
+            const elCode = (el.getAttribute('accesskey') ?? isKbd ? (el as HTMLElement).innerText.trim() : '').trim();
             const usingElCode = this.caseSensitive ? elCode : elCode.toLowerCase();
             const matchesEvent = usingElCode === usingKey;
-            const isVisible = ignoreVisibility || kbdEl.checkVisibility();
+            const isVisible = ignoreVisibility || el.checkVisibility();
             if (matchesEvent && isVisible) {
-                kbdEl.dispatchEvent(new MouseEvent('click', {
+                el.dispatchEvent(new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true,
                     composed: true,
                 }));
-                kbdEl.focus();
+                (el as HTMLElement).focus();
             }
         });
     }
