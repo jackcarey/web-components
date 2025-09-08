@@ -19,7 +19,7 @@
     "@storybook/addon-coverage": "^2.0.0",
     "@storybook/addon-docs": "^9.0.15",
     "@storybook/addon-links": "^9.0.15",
-    "@storybook/addon-themes": "^9.0.15",
+    "@storybook/addon-themes": "^9.1.5",
     "@storybook/builder-vite": "^9.0.15",
     "@storybook/test-runner": "^0.23.0",
     "@storybook/web-components-vite": "^9.0.15",
