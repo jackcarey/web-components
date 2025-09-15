@@ -17,7 +17,7 @@
     "@playwright/test": "^1.51.1",
     "@storybook/addon-a11y": "^9.0.15",
     "@storybook/addon-coverage": "^2.0.0",
-    "@storybook/addon-docs": "^9.0.15",
+    "@storybook/addon-docs": "^9.1.6",
     "@storybook/addon-links": "^9.0.15",
     "@storybook/addon-themes": "^9.0.15",
     "@storybook/builder-vite": "^9.0.15",
