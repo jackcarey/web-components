@@ -5,7 +5,7 @@ type WindowDPiP = Window & {
   };
 };
 
-export default class DocumentPiP extends HTMLElement {
+export class DocumentPiP extends HTMLElement {
   static get observedAttributes() {
     return ['disabled', 'id', 'position', 'width', 'height'];
   }
@@ -39,6 +39,7 @@ export default class DocumentPiP extends HTMLElement {
       return false;
     } else {
       // Open a Picture-in-Picture window.
+      // @ts-expect-error documentPictureInPicture is not yet in the lib dom types
       const pipWindow = await window.documentPictureInPicture.requestWindow({
         width: this.width ? parseInt(this.width) : 300,
         height: this.height ? parseInt(this.height) : 200,
@@ -47,17 +48,13 @@ export default class DocumentPiP extends HTMLElement {
       pipWindow.addEventListener('pagehide', this.#pipWindowClosedFn);
     }
     // Returns null if no pip window is currently open
+    // @ts-expect-error documentPictureInPicture is not yet in the lib dom types
     if (!window.documentPictureInPicture.window) {
       // Open a Picture-in-Picture window.
+      // @ts-expect-error documentPictureInPicture is not yet in the lib dom types
       const pipWindow = await window.documentPictureInPicture.requestWindow({
-        width: videoPlayer.clientWidth,
-        height: videoPlayer.clientHeight + 50,
-      });
-
-      // Add pagehide listener to handle the case of the pip window being closed using the browser X button
-      pipWindow.addEventListener('pagehide', (event) => {
-        inPipMessage.style.display = 'none';
-        playerContainer.append(videoPlayer);
+        width: this.clientWidth,
+        height: this.clientHeight + 50,
       });
 
       // Copy style sheets over from the initial document
@@ -76,20 +73,21 @@ export default class DocumentPiP extends HTMLElement {
 
           link.rel = 'stylesheet';
           link.type = styleSheet.type;
-          link.media = styleSheet.media;
-          link.href = styleSheet.href;
+          link.media = styleSheet.media.mediaText;
+          if (styleSheet.href) link.href = styleSheet.href;
           pipWindow.document.head.appendChild(link);
         }
       });
 
       // Move the player to the Picture-in-Picture window.
-      pipWindow.document.body.append(videoPlayer);
+      pipWindow.document.body.append(this);
 
       // Display a message to say it has been moved
       inPipMessage.style.display = 'block';
     } else {
       inPipMessage.style.display = 'none';
-      playerContainer.append(videoPlayer);
+      playerContainer.append(this);
+      // @ts-expect-error documentPictureInPicture is not yet in the lib dom types
       window.documentPictureInPicture.window.close();
     }
   }
@@ -115,9 +113,8 @@ export default class DocumentPiP extends HTMLElement {
                     <slot name="not-available">PiP not available</slot>
                 </div>`;
     } else {
-      this.#root.innerHTML = `<input type="checkbox" id="pip-toggle" ${
-        !this.disabled ? 'disabled' : ''
-      } ${checked ? 'checked' : ''}/>
+      this.#root.innerHTML = `<input type="checkbox" id="pip-toggle" ${this.disabled ? 'disabled' : ''
+        } ${checked ? 'checked' : ''}/>
                 <label id="pip-toggle-label" for="pip-toggle">
                     <slot name="toggle-label">Picture-in-Picture</slot>
                 </label>
