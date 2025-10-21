@@ -1,32 +1,29 @@
 # web-components
 
-## This is currently a work-in-progress.
+[![web-components on Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://jackcarey.co.uk/web-components/docs/)
+[![web-components on the JSR registry](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
+[![CICD workflow on main](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
 
-[![JSR Scope](https://jsr.io/badges/@web-components)](https://jsr.io/@web-components)
-[![repo workflow](https://github.com/jackcarey/web-components/actions/workflows/repo.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/repo.yml?query=branch%3Amain)
-[![CICD workflow](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/jackcarey/web-components/actions/workflows/cicd.yml?query=branch%3Amain)
-[![pages-build-deployment](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment)
+<!-- [![CodeQL](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/github-code-scanning/codeql)
+[![pages-build-deployment](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jackcarey/web-components/actions/workflows/pages/pages-build-deployment) -->
 
--   There are $count packages in this collection. Some are web components intended for the DOM, others are utilities that components consume.
--   **Each is published as it's own package with a readme, license, and documentation.**
--   They are distributed through [jsr.io/@web-components](https://jsr.io/@web-components).
+-   **Documentation**
+    -   [Storybook examples](https://jackcarey.co.uk/web-components/docs/)
+    -   [Github source](https://github.com/jackcarey/web-components)
+-   **Information**
+    -   There are currently $count packages in this collection. Some are web components intended for the DOM, others are utilities that components may consume.
+    -   **Each is published with a separate package, readme, license, and documentation.**
+    -   Registry entries are published to [jsr.io/@web-components](https://jsr.io/@web-components).
+    -   The 'autoloader' can be used to load other components from [esm.sh](https://esm.sh/).
+
+---
 
 $table
 
 ---
 
-Made with ❤️ by [jackcarey](https://jackcarey.co.uk/)
+## Contributing
 
----
+Contributions are welcome! Check out the [Development](https://jackcarey.co.uk/web-components/docs/?path=/docs/development--all-stories) page.
 
-## Using components
-
-//todo
-
-## Developing components
-
-//todo
-
-### Publishing documentation
-
-Readmes, JSR config, and package documentation are updated using GitHub Actions to run the files in the `/scripts` folder. These handle patch version bumping and config for automatic JSR registry publishing. They also handle compiling complete readme files that combine `package.json` and `DOCUMENTATION.md` files.
+Made by [jackcarey](https://jackcarey.co.uk/).

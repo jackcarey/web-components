@@ -1,2 +1,9 @@
 node_modules
 coverage/
+*storybook.log
+
+# Chromatic & Storybook
+build-storybook.log
+chromatic.log
+chromatic-build-*.xml
+chromatic-diagnostics.json

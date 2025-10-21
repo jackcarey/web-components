@@ -1,40 +1,88 @@
 name: CI/CD
 
 on:
-    workflow_run:
-        workflows: [Repository]
-        branches: [main]
-        types:
-            - completed
+    push:
+        branches:
+            - main
+            - develop
+    pull_request:
+
+permissions:
+    contents: write
+    deployments: write
+    pages: write
+    id-token: write
 
 jobs:
     main:
         name: Test, build, and publish
+        timeout-minutes: 15
         runs-on: ubuntu-latest
         permissions:
-            contents: write
+            contents: read
             id-token: write
+        env:
+            IS_GH_ACTION: ${{ github.event.head_commit.message && startsWith(github.event.head_commit.message, '[GH Actions]') && 'true' || 'false' }}
         steps:
             - name: Checkout repo
               uses: actions/checkout@v4
               with:
                   ref: ${{ github.event.pull_request.head.ref }}
                   token: ${{ secrets.CI_PAT }}
+                  fetch-depth: 0
+
+            # Check repo
+
+            - name: Check if CODEOWNERS file exists
+              run: bash scripts/check-codeowners.sh
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
+
+            - name: Handle cached deps
+              id: cache-deps-restore
+              uses: actions/cache@v4
               with:
-                  node-version: "20"
+                  path: |
+                      node_modules
+                      ~/.cache/ms-playwright
+                  key: ${{ runner.os }}-deps-${{ hashFiles('package-lock.json') }}-pkg-${{hashFiles('packages/**/package-lock.json') }}
 
-            - name: Install dependencies
-              run: npm install
+            - name: Install root dependencies
+              run: npm i
 
-            - name: Build the autoloader package list
-              run: node scripts/generate-autoloader-list.mjs
+            - name: Check each package has documentation, license, and Storybook files
+              run: node scripts/check-documentation-files.mjs
+
+            # Cache Deps
+
+            - name: Install package dependencies at root level (for Storybook)
+              run: node scripts/install-deps-at-root.mjs
+
+            - name: Install Playwright
+              run: npx playwright install --with-deps
+
+            # Test
+
+            - name: Run tests
+              run: npm run test-ci
+
+            # - name: Run Chromatic (on PRs)
+            #   if: github.event_name == 'pull_request'
+            #   uses: chromaui/action@latest
+            #   with:
+            #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+            - name: Check if Storybook test results exist after testing
+              run: node scripts/check-story-results.mjs
+
+            # Build
 
             - name: Bump versions in package.json files
-              if: github.ref == 'refs/heads/main'
-              run: bash scripts/bump-versions.sh
+              run: node scripts/bump-versions.mjs
+
+            - name: Build the autoloader package list from package.json files
+              run: node scripts/generate-autoloader-list.mjs
 
             - name: Generate JSR files from package.json
               run: node scripts/generate-jsr.mjs
@@ -45,22 +93,18 @@ jobs:
             - name: Generate root README file
               run: node scripts/generate-root-readme.mjs
 
-            - name: Generate publishing scripts
-              run: node scripts/generate-publish-scripts.mjs
+            - name: Generate Storybook documentation
+              id: generate-storybook-docs
+              run: node scripts/generate-storybook-docs.mjs
 
-            - name: "[dry-run] Publish updated packages to JSR"
-              if: github.ref != 'refs/heads/main'
-              run: bash scripts/publish-jsr-dryrun.sh
+            # Publish
 
-            - name: Publish updated packages to JSR (on main)
-              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
-              run: bash scripts/publish-jsr.sh
+            - name: Publish updated packages to JSR (dry-run, then push on main)
+              run: node scripts/publish-jsr.mjs
+
+            - name: Save commit hash
+              run: node scripts/store-commit-hash.mjs
 
             - name: Save file changes (on main)
-              if: github.ref == 'refs/heads/main' && ${{ github.event.workflow_run.conclusion == 'success' }}
-              run: |
-                  git diff
-                  git config --global user.email "action@github.com"
-                  git config --global user.name "GitHub Action"
-                  git commit -am "[GH Actions] Update documentation" || exit 0
-                  git push
+              if: ${{ env.IS_GH_ACTION == 'false' && github.ref == 'refs/heads/main' }}
+              run: node scripts/commit-push-diffs.mjs

@@ -1,2 +1,2 @@
-const components = {"can-i-use":"1.0.8","i-cal":"1.0.8"};
+const components = {"can-i-use":"1.0.28","capture-dom":"0.0.8","cite-list":"1.0.8","diff-text":"1.0.51","dynamic-template":"1.0.20","i-cal":"1.1.28","kbd-click":"1.0.20","middle-truncate":"0.1.21","mirror-element":"0.0.8","reveal-presentation":"0.0.23","rss-feed":"0.0.20","search-dom":"0.0.21"};
 export default components;

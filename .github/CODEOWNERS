@@ -1,3 +1,7 @@
 .github/ @jackcarey
-/scripts/ @jackcarey
+.storybook/ @jackcarey
+scripts/ @jackcarey
 .gitignore @jackcarey
+packages/**/LICENSE.md @jackcarey
+CODEOWNERS @jackcarey
+context7.json jackcarey

@@ -1,4 +1,29 @@
 {
     "livePreview.defaultPreviewPath": "/index.html",
-    "cSpell.words": ["autoload", "autoloader", "caniuse", "jcal", "opfs", "vevent", "vevents"]
+    "cSpell.words": [
+        "autoappear",
+        "autodocs",
+        "autoelements",
+        "autoload",
+        "autoloader",
+        "calscale",
+        "caniuse",
+        "contenteditable",
+        "cssautoload",
+        "exportparts",
+        "flexbox",
+        "hideagain",
+        "ICAL",
+        "icalts",
+        "jcal",
+        "jsdiff",
+        "Monokai",
+        "opfs",
+        "shadowrootmode",
+        "Srcs",
+        "Subcomponents",
+        "VCALENDAR",
+        "vevent",
+        "vevents"
+    ]
 }

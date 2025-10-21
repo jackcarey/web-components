@@ -1,0 +1,19 @@
+{
+  "name": "signal",
+  "version": "1.0.21",
+  "description": "A reactive data object that emits events on itself and other EventTargets when its value changes.",
+  "main": "./index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackcarey/web-components.git"
+  },
+  "author": "jackcarey",
+  "license": "LGPL-3",
+  "bugs": {
+    "url": "https://github.com/jackcarey/web-components/issues"
+  },
+  "homepage": "https://github.com/jackcarey/web-components#readme"
+}

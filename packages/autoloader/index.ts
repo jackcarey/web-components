@@ -6,11 +6,13 @@ import components from "./components";
  * It also observes the document body for any added nodes and loads the corresponding components.
  */
 const autoload = () => {
-    Object.entries(components).forEach(([tagName, version]) => {
+    //load from current DOM
+    Object.entries(components).forEach(([tagName]) => {
         if (!document.querySelector(tagName)) return;
         loadTag(tagName);
     });
 
+    //load components when the DOM changes
     const observer = new MutationObserver((mutationsList) => {
         for (let mutation of mutationsList) {
             if (mutation.type === "childList") {
@@ -39,9 +41,10 @@ const loadTag = (name) => {
     const script = document.createElement("script");
     script.type = "module";
     script.async = true;
-    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}${
-        version === "latest" ? "" : `@${version}`
-    }`;
+    script.src = `https://esm.sh/jsr/@web-components/${encodeURIComponent(name)}${version === "latest" ? "" : `@${version}`
+        }`;
+    const alreadyExists = document.querySelector(`script[src="${script.src}"]`);
+    if (alreadyExists) return; // Prevent loading the same script multiple times
     document.head.appendChild(script);
 };
 
