@@ -4,7 +4,7 @@
 
 > A component that filters the DOM when an inner search input changes.
 
--   **Version:** 0.0.22
+-   **Version:** 0.0.23
 -   **License:** [](./LICENSE.md)
 
 ## Using this package
