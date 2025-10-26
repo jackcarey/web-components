@@ -1,6 +1,6 @@
 {
   "name": "@web-components/reveal-presentation",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "exports": "./index.ts",
   "license": "MIT"
 }
