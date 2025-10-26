@@ -160,6 +160,18 @@ export class RevealPresentation extends HTMLElement {
             (this.querySelector('.reveal')! as HTMLElement).style.width = this.width;
             (this.querySelector('.reveal')! as HTMLElement).style.height = this.height;
         }
+        if (name === "ready") {
+            const isReady = this.#deck.isReady();
+            if (isReady) {
+                if (!this.hasAttribute("ready")) {
+                    this.setAttribute("ready", "");
+                }
+            } else {
+                if (this.hasAttribute("ready")) {
+                    this.removeAttribute("ready");
+                }
+            }
+        }
     }
 
     get plugins(): Reveal.Plugin[] {
