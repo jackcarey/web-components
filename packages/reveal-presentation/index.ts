@@ -79,9 +79,10 @@ export class RevealPresentation extends HTMLElement {
         const initDeck = () => {
             this.#deck?.destroy();
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
-            this.#deck.initialize();
-            this.#deck?.layout();
-            this.setAttribute("ready", "");
+            this.#deck.initialize().then(() => {
+                this.#deck?.layout();
+                this.setAttribute("ready", "");
+            });
         };
 
         if (document.readyState === 'complete') {
