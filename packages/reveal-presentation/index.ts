@@ -34,6 +34,7 @@ export class RevealPresentation extends HTMLElement {
     #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
 
     #setupDeck() {
+        this.removeAttribute("ready");
         const booleanConfigOpts = Object.entries(config).filter(([_, value]) => typeof value === 'boolean').map(([key]) => key);;
         const configOptions: Record<string, string | boolean> = {};
         for (const attr of this.attributes) {
@@ -80,6 +81,7 @@ export class RevealPresentation extends HTMLElement {
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
             this.#deck.initialize();
             this.#deck?.layout();
+            this.setAttribute("ready", "");
         };
 
         if (document.readyState === 'complete') {
@@ -123,6 +125,7 @@ export class RevealPresentation extends HTMLElement {
         });
         this.#deck?.destroy();
         this.#deck = null;
+        this.removeAttribute("ready");
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null | undefined, newValue: string | null | undefined): void {
