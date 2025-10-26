@@ -1,6 +1,6 @@
 {
   "name": "@web-components/can-i-use",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "exports": "./index.ts",
   "license": "LGPL-3"
 }
