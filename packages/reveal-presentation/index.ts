@@ -75,21 +75,21 @@ export class RevealPresentation extends HTMLElement {
             ...configOptions,
         };
 
-        const initDeck = ()=> {
+        const initDeck = () => {
             this.#deck?.destroy();
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
             this.#deck.initialize();
             this.#deck?.layout();
         };
 
-        if(document.readyState === 'completed'){
+        if (document.readyState === 'complete') {
             initDeck();
-        }else{
+        } else {
             document.addEventListener("readystatechange", (event) => {
-if (event.target.readyState === "complete") {
-    initDeck();
-  }
-}, {once:true,passive:true});
+                if (document.readyState === "complete") {
+                    initDeck();
+                }
+            }, { once: true, passive: true });
         }
     }
 
