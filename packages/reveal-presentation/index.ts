@@ -81,6 +81,12 @@ export class RevealPresentation extends HTMLElement {
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
             this.#deck.initialize().then(() => {
                 this.#deck?.layout();
+                const events = ['slidechanged', 'slidetransitionend', 'resize', 'fragmentshown', 'fragmenthidden', 'overviewshown', 'overviewhidden', 'autoslideresumed', 'autoslideresumed'];
+                events.forEach(eventName => {
+                    this.#deck?.on(eventName, (event: Event) => {
+                        this.dispatchEvent(event);
+                    });
+                });
                 this.setAttribute("ready", "");
             });
         };
