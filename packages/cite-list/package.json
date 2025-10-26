@@ -1,6 +1,6 @@
 {
   "name": "cite-list",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Collection <cite/>-ations from the DOM into a list",
   "main": "./index.ts",
   "scripts": {
