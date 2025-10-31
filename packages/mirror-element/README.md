@@ -4,7 +4,7 @@
 
 > Copy the innerHTML of any other element.
 
--   **Version:** 0.0.15
+-   **Version:** 0.0.16
 -   **License:** [LGPL-3.0](./LICENSE.md)
 
 ## Using this package

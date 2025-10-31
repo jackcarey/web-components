@@ -1,0 +1,3 @@
+import{j as t}from"./index-Dlwx_-PB.js";import{useMDXComponents as r}from"./index-BM3H6bQe.js";import{M as s,a as m}from"./blocks-BB5lVM4O.js";import{D as i}from"./README-D_7suaMy.js";import"./_commonjsHelpers-CqkleIqs.js";import"./preload-helper-Dp1pzeXC.js";import"./iframe-0Bzx7bik.js";function e(o){return t.jsxs(t.Fragment,{children:[t.jsx(s,{title:"components/use-element/Documentation"}),`
+`,t.jsx(m,{children:i})]})}function M(o={}){const{wrapper:n}={...r(),...o.components};return n?t.jsx(n,{...o,children:t.jsx(e,{...o})}):e()}export{M as default};
+//# sourceMappingURL=use-element-Dj8aI8sk.js.map
