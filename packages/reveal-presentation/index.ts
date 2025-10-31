@@ -174,6 +174,10 @@ export class RevealPresentation extends HTMLElement {
         }
     }
 
+    get deck(): Reveal.Reveal | null {
+        return this.#deck;
+    }
+
     get plugins(): Reveal.Plugin[] {
         return this.#plugins;
     }
