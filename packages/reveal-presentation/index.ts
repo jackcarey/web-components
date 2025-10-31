@@ -1,5 +1,4 @@
 import Reveal from "reveal.js";
-import Monokai from "reveal.js/plugin/highlight/highlight.esm.js";
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
 import Appearance from 'reveal.js-appearance';
@@ -31,7 +30,7 @@ export class RevealPresentation extends HTMLElement {
 
     #deck: Reveal.Reveal | null = null;
     #resizeObserver: ResizeObserver | null = null;
-    #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
+    #plugins: Reveal.Plugin[] = [Markdown, Notes];
 
     #setupDeck() {
         this.removeAttribute("ready");
