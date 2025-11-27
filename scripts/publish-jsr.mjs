@@ -14,7 +14,7 @@ console.log('-'.repeat(80));
 
 const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
-const isGHAction = lastCommitMsg.startsWith('[GH Action]');
+const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
 
 if (branch === 'main') {
     console.log(`On main branch (${branch}), last commit message: '${lastCommitMsg}', isGHAction: ${isGHAction}`);
