@@ -1,8 +1,14 @@
 import { pkgDetails, logExecSync } from './util-packages.mjs';
 
+
+const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
+const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
+
 Object.entries(pkgDetails).forEach(([dir, pkg]) => {
-    if (pkg.private) {
-        console.log(`Skipping, package '${pkg.name}' marked as private`);
+    const isAutoLoader = pkg.name.includes('autoloader');
+    if (pkg.private || (isGHAction && !isAutoLoader)) {
+        console.log(`Skipping, package '${pkg.name}' marked as private or not an autoloader in GH Action context`);
     } else {
         console.log(`Dry run for package '${pkg.name}'...`);
         const dryRunCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty --dry-run`;
@@ -11,10 +17,6 @@ Object.entries(pkgDetails).forEach(([dir, pkg]) => {
 });
 console.log('Dry runs complete!');
 console.log('-'.repeat(80));
-
-const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
-const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
-const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
 
 if (branch === 'main') {
     console.log(`On main branch, isGHAction: ${isGHAction}`);
