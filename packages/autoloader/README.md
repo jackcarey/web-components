@@ -4,7 +4,7 @@
 
 > Automatically load components from jackcarey/web-components using esm.sh.
 
--   **Version:** 1.1.81
+-   **Version:** 1.1.82
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
@@ -42,18 +42,18 @@ Utilities are not loaded with the autoloader, only DOM components.
 DOM components are are versioned to match each autoloader release.
 This version includes the following components:
 
-- `can-i-use`: v1.0.38
-- `capture-dom`: v0.0.18
-- `cite-list`: v1.0.18
-- `diff-text`: v1.0.61
-- `dynamic-template`: v1.0.30
-- `i-cal`: v1.1.38
-- `kbd-click`: v1.0.30
-- `middle-truncate`: v0.1.31
-- `mirror-element`: v0.0.18
-- `reveal-presentation`: v0.0.33
-- `rss-feed`: v0.0.30
-- `search-dom`: v0.0.31
+- `can-i-use`: v1.0.39
+- `capture-dom`: v0.0.19
+- `cite-list`: v1.0.19
+- `diff-text`: v1.0.62
+- `dynamic-template`: v1.0.31
+- `i-cal`: v1.1.39
+- `kbd-click`: v1.0.31
+- `middle-truncate`: v0.1.32
+- `mirror-element`: v0.0.19
+- `reveal-presentation`: v0.0.34
+- `rss-feed`: v0.0.31
+- `search-dom`: v0.0.32
 
 
 
