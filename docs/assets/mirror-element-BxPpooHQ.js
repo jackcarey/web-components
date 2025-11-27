@@ -1,3 +1,0 @@
-import{j as t}from"./index-Dlwx_-PB.js";import{useMDXComponents as e}from"./index-BM3H6bQe.js";import{M as m,a as s}from"./blocks-teiYLBVt.js";import{D as i}from"./README-BayuHNez.js";import"./_commonjsHelpers-CqkleIqs.js";import"./preload-helper-Dp1pzeXC.js";import"./iframe-Dty1tNkP.js";function r(o){return t.jsxs(t.Fragment,{children:[t.jsx(m,{title:"components/mirror-element/Documentation"}),`
-`,t.jsx(s,{children:i})]})}function M(o={}){const{wrapper:n}={...e(),...o.components};return n?t.jsx(n,{...o,children:t.jsx(r,{...o})}):r()}export{M as default};
-//# sourceMappingURL=mirror-element-BxPpooHQ.js.map

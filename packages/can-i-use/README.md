@@ -4,7 +4,7 @@
 
 > Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component
 
--   **Version:** 1.0.41
+-   **Version:** 1.0.42
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
