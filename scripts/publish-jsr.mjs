@@ -17,7 +17,7 @@ const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
 const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
 
 if (branch === 'main') {
-    console.log(`On main branch (${branch}), last commit message: '${lastCommitMsg}', isGHAction: ${isGHAction}`);
+    console.log(`On main branch, isGHAction: ${isGHAction}`);
     if (isGHAction) {
         console.log('GitHub Action - only publishing auto-loader to JSR...');
         Object.entries(pkgDetails).forEach(([dir, pkg]) => {
