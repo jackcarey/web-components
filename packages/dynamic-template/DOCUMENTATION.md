@@ -1,6 +1,11 @@
-Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
+Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the tag name.
 
-The `DynamicTemplate` can be registered multiple times with different names. The template will be taken from the element with the format `[data-dynamic-template]-[tagName]`. If no template is found then the light DOM is rendered as-is.
+The `DynamicTemplate` can be registered multiple times with different names and templates will be rendered with this priority:
+
+1. The template will be taken from the element with the format `[data-dynamic-template]-[tagName]`.
+2. If no dynamic template is found, a template with the ID of the tag name is used.
+3. If no tag template is found, the default template for the DynamicTemplate class is used.
+4. If no default template is set then the light DOM is rendered as-is.
 
 **Example**
 
