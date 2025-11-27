@@ -11,8 +11,6 @@ const lastCommitMsg = execSync(`git log -1 --pretty=%B ${lastPackageChangesCommi
 console.log(`Looking for changes since commit: ${lastPackageChangesCommit} - "${lastCommitMsg}"`);
 const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n');
 
-console.log(`All changed files:\n\n- ${allChanges.join("\n- ")}\n`);
-
 const relevantChanges = allChanges.filter(filePath => {
     const pathLower = filePath?.toLowerCase();
 
@@ -24,17 +22,8 @@ const relevantChanges = allChanges.filter(filePath => {
     const isPathExcludedCompletely = excludedFileNames.includes(pathLower);
     const isFileNameExcluded = excludedFileNames.some(p => pathLower.endsWith(p));
 
-    console.log(`exclusion details`, {
-        filePath,
-        isWithinPkg,
-        isPathExcludedCompletely,
-        isFileNameExcluded
-    });
-
     return isWithinPkg && !isPathExcludedCompletely && !isFileNameExcluded;
 });
-
-console.log(`Relevant changed files:\n\n- ${relevantChanges.join("\n- ")}\n`);
 
 const changedPackages = Array.from(new Set(relevantChanges.map(filePath => {
     return filePath.split('/')[1];
