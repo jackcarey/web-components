@@ -4,6 +4,65 @@ import Notes from "reveal.js/plugin/notes/notes.js";
 import Appearance from 'reveal.js-appearance';
 import { config } from "./configObject";
 
+const addPreloadLink = (url: string | URL | null, as: string) => {
+    if (!url) return;
+    const existing = document.querySelector(`link[href="${url}"]`);
+    if (!existing) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = as;
+        link.href = String(url);
+        document.head.appendChild(link);
+    }
+};
+
+const preloadRevealMedia = (element: HTMLElement) => {
+    if (!element) return;
+    const selector = '[data-background-image], img[src][loading!="lazy"]';
+    element.querySelectorAll(selector).forEach((el) => {
+        const srcSet = el.getAttribute("srcset");
+        if (srcSet) {
+            const urls = srcSet
+                .split(",")
+                .map((part) => part.trim().split(" ")[0])
+                .filter(Boolean);
+            urls.forEach((srcUrl) => addPreloadLink(srcUrl, "image"));
+        } else {
+            const url =
+                el.getAttribute("data-background-image") ??
+                el.getAttribute("src") ??
+                el.getAttribute("srcset");
+            if (el.tagName.toLowerCase() === "img" && !el.getAttribute("loading")) {
+                el.setAttribute("loading", "eager");
+            }
+            addPreloadLink(url, "image");
+        }
+    });
+    element.querySelectorAll("video").forEach((el) => {
+        if (!el.getAttribute("preload")) {
+            el.setAttribute("preload", "auto");
+        }
+        const url = el.getAttribute("src");
+        addPreloadLink(url, "video");
+        const posterSrc = el.getAttribute("poster");
+        if (posterSrc) {
+            addPreloadLink(posterSrc, "image");
+        }
+        const trackEls = el.querySelectorAll("track[src]");
+        trackEls.forEach((trackEl) => {
+            const trackUrl = trackEl.getAttribute("src");
+            addPreloadLink(trackUrl, "track");
+        });
+    });
+    element.querySelectorAll("audio").forEach((el) => {
+        if (!el.getAttribute("preload")) {
+            el.setAttribute("preload", "auto");
+        }
+        const url = el.getAttribute("src");
+        addPreloadLink(url, "audio");
+    });
+};
+
 /**
  * A custom element that initializes a Reveal.js presentation.
  * It sets up the Reveal.js options based on the attributes of the element.
@@ -19,7 +78,7 @@ export class RevealPresentation extends HTMLElement {
     /**
      * List of attributes that are excluded from the Reveal.js configuration.
      */
-    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height', 'appearance'];
+    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height', 'appearance', 'preload'];
     /**
      * The list of attributes that the custom element observes for changes.
      * @returns {string[]} An array of attribute names that the custom element observes.
@@ -159,6 +218,7 @@ export class RevealPresentation extends HTMLElement {
             (this.querySelector('.reveal')! as HTMLElement).style.width = this.width;
             (this.querySelector('.reveal')! as HTMLElement).style.height = this.height;
         }
+        // make sure the "ready" attribute is in sync with the deck's state
         if (name === "ready") {
             const isReady = this.#deck.isReady();
             if (isReady) {
@@ -170,6 +230,9 @@ export class RevealPresentation extends HTMLElement {
                     this.removeAttribute("ready");
                 }
             }
+        }
+        if (name === "preload" && newValue !== null) {
+            preloadRevealMedia(this);
         }
     }
 
