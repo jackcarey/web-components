@@ -5,16 +5,16 @@ Utilities are not loaded with the autoloader, only DOM components.
 DOM components are are versioned to match each autoloader release.
 This version includes the following components:
 
-- `can-i-use`: v1.0.40
-- `capture-dom`: v0.0.20
-- `cite-list`: v1.0.20
-- `diff-text`: v1.0.63
-- `dynamic-template`: v1.0.32
-- `i-cal`: v1.1.40
-- `kbd-click`: v1.0.32
-- `middle-truncate`: v0.1.33
-- `mirror-element`: v0.0.20
-- `reveal-presentation`: v0.0.35
-- `rss-feed`: v0.0.32
-- `search-dom`: v0.0.33
+- `can-i-use`: v1.0.41
+- `capture-dom`: v0.0.21
+- `cite-list`: v1.0.21
+- `diff-text`: v1.0.64
+- `dynamic-template`: v1.0.33
+- `i-cal`: v1.1.41
+- `kbd-click`: v1.0.33
+- `middle-truncate`: v0.1.34
+- `mirror-element`: v0.0.21
+- `reveal-presentation`: v0.0.36
+- `rss-feed`: v0.0.33
+- `search-dom`: v0.0.34
 

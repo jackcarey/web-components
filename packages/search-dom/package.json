@@ -1,6 +1,6 @@
 {
   "name": "search-dom",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "A component that filters the DOM when an inner search input changes.",
   "main": "./index.ts",
   "scripts": {
