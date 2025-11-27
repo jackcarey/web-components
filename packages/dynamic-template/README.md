@@ -4,7 +4,7 @@
 
 > Dynamically render a component using corresponding templates
 
--   **Version:** 1.0.28
+-   **Version:** 1.0.29
 -   **License:** [](./LICENSE.md)
 
 ## Using this package
@@ -35,13 +35,18 @@ npx jsr add @web-components/dynamic-template
 
 -   **Open examples for [dynamic-template on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/components-dynamic-template)**.
 
-Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the the tag name.
+Use the closest `data-dynamic-template` attribute to find a template element to use for the shadow DOM based on that and the tag name.
 
-The `DynamicTemplate` can be registered multiple times with different names. The template will be taken from the element with the format `[data-dynamic-template]-[tagName]`. If no template is found then the light DOM is rendered as-is.
+The `DynamicTemplate` can be registered multiple times with different names and templates will be rendered with this priority:
+
+1. The template will be taken from the element with the format `[data-dynamic-template]-[tagName]`.
+2. If no dynamic template is found, a template with the ID of the tag name is used.
+3. If no tag template is found, the default template for the DynamicTemplate class is used.
+4. If no default template is set then the light DOM is rendered as-is.
 
 **Example**
 
-1. Register the component: `customElements.define('blog-post', DynamicTemplate')`
+1. Register the component: `customElements.define('blog-post', DynamicTemplate)`
 2. Set up your DOM:
 
 ```
@@ -65,13 +70,17 @@ The `DynamicTemplate` can be registered multiple times with different names. The
         <img src="https://example.com/image2.png"
     </blog-post>
     <blog-post data-dynamic-template="simple">
-        <h1>Some titl3</h1>
+        <h1>Some title 3</h1>
         <img src="https://example.com/image3.png"
     </blog-post>
 </main>
 ```
 
 Since the `DynamicTemplate` element is registered with the name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take its inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
+
+**Dynamic content**
+
+Use [slot](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/slot) elements in your templates.
 
 **Styling components**
 

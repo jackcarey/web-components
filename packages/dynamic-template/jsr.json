@@ -1,5 +1,5 @@
 {
   "name": "@web-components/dynamic-template",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "exports": "./index.ts"
 }

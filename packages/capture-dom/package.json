@@ -1,6 +1,6 @@
 {
   "name": "capture-dom",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Record child DOM to a video, OPFS, or download.",
   "main": "./index.ts",
   "scripts": {
