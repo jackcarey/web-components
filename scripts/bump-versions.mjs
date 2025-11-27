@@ -1,24 +1,41 @@
 import { execSync } from 'child_process';
-import { lastCommitHashFilePath, pkgDetails, repoRootDir } from './util-packages.mjs';
-import path from "path";
+import { lastCommitHashFilePath, pkgDetails } from './util-packages.mjs';
 import fs from 'fs';
 //this script could do with checking against the commit of the last version bump for each package
 // but for now it will do a simple check against the last commit
 // this should be changed in the future
 
-const excludedFileNames = ['README.md', 'jsr.json', 'package.json'].map(file => file.toLowerCase());
+const excludedFileNames = ['README.md', 'jsr.json', 'package-lock.json', 'package.json'].map(file => file.toLowerCase());
 const lastPackageChangesCommit = fs.readFileSync(lastCommitHashFilePath, 'utf8').trim();
-console.log(`Looking for changes since commit: ${lastPackageChangesCommit}`);
+const lastCommitMsg = execSync(`git log -1 --pretty=%B ${lastPackageChangesCommit}`).toString().trim();
+console.log(`Looking for changes since commit: ${lastPackageChangesCommit} - "${lastCommitMsg}"`);
 const allChanges = execSync(`git diff ${lastPackageChangesCommit} HEAD --name-only`).toString().replaceAll("\\", "/").split('\n');
+
+console.log(`All changed files:\n\n- ${allChanges.join("\n- ")}\n`);
+
 const relevantChanges = allChanges.filter(filePath => {
-    const pathLower = filePath.toLowerCase();
+    const pathLower = filePath?.toLowerCase();
+
+    if (!pathLower) {
+        return false;
+    }
 
     const isWithinPkg = pathLower.startsWith('packages/');
-    const isExcludedCompletely = excludedFileNames.includes(pathLower);
-    const isDocumentExcluded = excludedFileNames.some(p => p.endsWith(pathLower));
+    const isPathExcludedCompletely = excludedFileNames.includes(pathLower);
+    const isFileNameExcluded = excludedFileNames.some(p => pathLower.endsWith(p));
 
-    return isWithinPkg && !isExcludedCompletely && !isDocumentExcluded;
+    console.log(`exclusion details`, {
+        filePath,
+        isWithinPkg,
+        isPathExcludedCompletely,
+        isFileNameExcluded
+    });
+
+    return isWithinPkg && !isPathExcludedCompletely && !isFileNameExcluded;
 });
+
+console.log(`Relevant changed files:\n\n- ${relevantChanges.join("\n- ")}\n`);
+
 const changedPackages = Array.from(new Set(relevantChanges.map(filePath => {
     return filePath.split('/')[1];
 })));
