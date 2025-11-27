@@ -41,6 +41,10 @@ The `DynamicTemplate` can be registered multiple times with different names and 
 
 Since the `DynamicTemplate` element is registered with the name `blog-post` and the template name (`compact`) is in the closest ancestor (`main`), the `blog-post`components take its inner content from the`template`element with ID `compact-blog-post`, apart from the last one which uses the `simple` template.
 
+**Dynamic content**
+
+Use [slot](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/slot) elements in your templates.
+
 **Styling components**
 
 The `DynamicTemplate` assumes nothing about styles. You can use a `style` tag within a template or, if the `exportparts` attribute is present, it will be copied from templates to each consumer to enable global styling.
