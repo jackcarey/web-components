@@ -231,7 +231,7 @@ export class RevealPresentation extends HTMLElement {
                 }
             }
         }
-        if (name === "preload" && newValue !== null) {
+        if (this.isConnected && name === "preload" && newValue !== null) {
             preloadRevealMedia(this);
         }
     }
