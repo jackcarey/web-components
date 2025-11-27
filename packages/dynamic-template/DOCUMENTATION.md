@@ -4,7 +4,7 @@ The `DynamicTemplate` can be registered multiple times with different names. The
 
 **Example**
 
-1. Register the component: `customElements.define('blog-post', DynamicTemplate')`
+1. Register the component: `customElements.define('blog-post', DynamicTemplate)`
 2. Set up your DOM:
 
 ```
@@ -28,7 +28,7 @@ The `DynamicTemplate` can be registered multiple times with different names. The
         <img src="https://example.com/image2.png"
     </blog-post>
     <blog-post data-dynamic-template="simple">
-        <h1>Some titl3</h1>
+        <h1>Some title 3</h1>
         <img src="https://example.com/image3.png"
     </blog-post>
 </main>
