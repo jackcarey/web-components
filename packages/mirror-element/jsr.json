@@ -1,6 +1,6 @@
 {
   "name": "@web-components/mirror-element",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "exports": "./index.ts",
   "license": "LGPL-3.0"
 }
