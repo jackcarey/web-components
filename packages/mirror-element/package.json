@@ -1,6 +1,6 @@
 {
   "name": "mirror-element",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Copy the innerHTML of any other element.",
   "main": "./index.ts",
   "scripts": {

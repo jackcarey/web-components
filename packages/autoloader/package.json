@@ -1,6 +1,6 @@
 {
   "name": "autoloader",
-  "version": "1.1.80",
+  "version": "1.1.81",
   "description": "Automatically load components from jackcarey/web-components using esm.sh.",
   "main": "./index.ts",
   "type": "module",
