@@ -37,6 +37,7 @@ const autoload = () => {
  */
 const loadTag = (name: string) => {
     if (!name) return;
+    if (customElements.get(name)) return; // Prevent loading if already defined
     const version = components[name] ?? "latest";
     const script = document.createElement("script");
     script.type = "module";
