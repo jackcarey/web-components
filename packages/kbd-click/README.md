@@ -4,7 +4,7 @@
 
 > Trigger click events on child kbd elements
 
--   **Version:** 1.0.34
+-   **Version:** 1.0.36
 -   **License:** [LGPL-3.0-or-later](./LICENSE.md)
 
 ## Using this package
