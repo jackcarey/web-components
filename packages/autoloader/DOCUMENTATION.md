@@ -14,7 +14,7 @@ This version includes the following components:
 - `kbd-click`: v1.0.36
 - `middle-truncate`: v0.1.37
 - `mirror-element`: v0.0.24
-- `reveal-presentation`: v0.0.39
+- `reveal-presentation`: v0.0.41
 - `rss-feed`: v0.0.36
 - `search-dom`: v0.0.37
 
