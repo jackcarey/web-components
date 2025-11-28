@@ -8,23 +8,19 @@ import components from "./components";
 const autoload = () => {
     //load from current DOM
     Object.entries(components).forEach(([tagName]) => {
-        if (!document.querySelector(tagName)) return;
-        loadTag(tagName);
+        if (document.querySelector(tagName)) loadTag(tagName);
     });
 
     //load components when the DOM changes
     const observer = new MutationObserver((mutationsList) => {
-        for (let mutation of mutationsList) {
-            if (mutation.type === "childList") {
-                const addedNodes = Array.from(mutation.addedNodes);
-                if (!addedNodes.length) continue;
-                addedNodes.forEach((node) => {
-                    if (node.nodeType !== Node.ELEMENT_NODE) return;
-                    const nodeTagName = node.nodeName.toLowerCase();
-                    if (Object.keys(components).includes(nodeTagName)) loadTag(nodeTagName);
-                });
-            }
-        }
+        mutationsList.filter(mutation => mutation.type === "childList").forEach(mutation => {
+            const addedNodes = Array.from(mutation.addedNodes);
+            if (!addedNodes.length) return;
+            addedNodes.filter(node => node.nodeType === Node.ELEMENT_NODE).forEach((node) => {
+                const nodeTagName = node.nodeName.toLowerCase();
+                if (Object.keys(components).includes(nodeTagName)) loadTag(nodeTagName);
+            });
+        });
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
