@@ -4,7 +4,6 @@
 
 > Record child DOM to a video, OPFS, or download.
 
--   **Version:** 0.0.24
 -   **License:** [LGPL-3.0](./LICENSE.md)
 
 ## Using this package
