@@ -50,7 +50,7 @@ if (isMain) {
             console.log(`Bumping patch version for package: ${pkg.name}`);
             process.chdir(pkgPath);
             const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${pkg.name}" --no-git-tag-version`);
-            console.log(bumpResult.toString());
+            console.log(`Bumped ${pkg.name} to ${bumpResult}`);
         } catch (e) {
             console.error(`Failed to bump version for package: ${pkg.name}`);
             console.error(e);
