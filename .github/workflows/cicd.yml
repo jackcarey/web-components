@@ -76,16 +76,15 @@ jobs:
             - name: Check if Storybook test results exist after testing
               run: node scripts/check-story-results.mjs
 
-            # Build
+            # Build and Publish
+            - name: Build & publish changed packages
+              run: node scripts/bump-publish-jsr.mjs
 
-            - name: Bump versions in package.json files
-              run: node scripts/bump-versions.mjs
-
+              # this gets re-published when the next GH Action runs on main
             - name: Build the autoloader package list from package.json files
               run: node scripts/generate-autoloader-list.mjs
 
-            - name: Generate JSR files from package.json
-              run: node scripts/generate-jsr.mjs
+            # Update documentation
 
             - name: Generate package README files
               run: node scripts/generate-pkg-readmes.mjs
@@ -96,12 +95,6 @@ jobs:
             - name: Generate Storybook documentation
               id: generate-storybook-docs
               run: node scripts/generate-storybook-docs.mjs
-
-            # Publish
-
-            - name: Publish updated packages to JSR (dry-run, then push on main)
-              run: node scripts/publish-jsr.mjs
-
             - name: Save commit hash
               run: node scripts/store-commit-hash.mjs
 

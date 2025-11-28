@@ -3,6 +3,7 @@ import { pkgDetails, logExecSync } from './util-packages.mjs';
 import path from 'path';
 import fs from 'fs';
 
+const jsrScope = 'web-components';
 const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
 const isMain = branch === 'main';
@@ -34,6 +35,30 @@ const publishPkg = (name, dir, version) => {
     if (!version) {
         throw new Error(`Version is required to tag package '${name}'.`);
     }
+
+    const jsrPath = path.join(dir, 'jsr.json');
+    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
+
+    const name = pkgJson?.name;
+    const version = pkgJson?.version;
+    const entry = pkgJson?.main ?? "./index.ts";
+    if (!name) throw new Error('Package name not found in package.json');
+    if (!version) throw new Error('Package version not found in package.json');
+    const jsrJson = {
+        "name": `@${jsrScope}/${name}`,
+        "version": version,
+        "exports": entry,
+    };
+    if (pkgJson?.license) jsrJson.license = pkgJson.license;
+
+    const newContent = JSON.stringify(jsrJson, null, 2);
+    if (existingContent !== newContent) {
+        fs.writeFileSync(jsrPath, newContent);
+        console.log('JSR object updated at ', jsrPath);
+    } else {
+        console.log('No changes to JSR object at', jsrPath);
+    }
+
     console.log(`Publishing package '${name}'...`);
     const publishCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty`;
     const publishResult = logExecSync(publishCmd);
