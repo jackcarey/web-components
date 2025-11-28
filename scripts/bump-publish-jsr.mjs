@@ -27,7 +27,8 @@ const dryRunPkg = (name, dir) => {
  * @param {string} dir 
  * @returns 
  */
-const publishPkg = (name, dir, version) => {
+const publishPkg = (dir, pkgJson) => {
+    const { name, version, entry = "./index.ts", license } = pkgJson;
     if (!isMain) {
         console.log(`Not on main branch, skipping publish for package '${name}'.`);
         return;
@@ -35,21 +36,19 @@ const publishPkg = (name, dir, version) => {
     if (!version) {
         throw new Error(`Version is required to tag package '${name}'.`);
     }
+    if (!entry) {
+        throw new Error(`Entry is required to publish package '${name}'.`);
+    }
 
     const jsrPath = path.join(dir, 'jsr.json');
     const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
 
-    const name = pkgJson?.name;
-    const version = pkgJson?.version;
-    const entry = pkgJson?.main ?? "./index.ts";
-    if (!name) throw new Error('Package name not found in package.json');
-    if (!version) throw new Error('Package version not found in package.json');
     const jsrJson = {
         "name": `@${jsrScope}/${name}`,
         "version": version,
         "exports": entry,
     };
-    if (pkgJson?.license) jsrJson.license = pkgJson.license;
+    if (license) jsrJson.license = license;
 
     const newContent = JSON.stringify(jsrJson, null, 2);
     if (existingContent !== newContent) {
@@ -165,11 +164,7 @@ if (isMain) {
         console.log('-'.repeat(80));
         console.log('Publishing packages...');
         changedPkgs.forEach(({ dir, pkg }) => {
-            const version = pkgDetails[dir]?.version;
-            if (!version) {
-                throw new Error(`Version is required to tag package '${pkg.name}': '${version}'`);
-            }
-            publishPkg(pkg.name, dir, version);
+            publishPkg(dir, pkgDetails[dir]);
         });
         console.log('Publish complete!');
         console.log('-'.repeat(80));
