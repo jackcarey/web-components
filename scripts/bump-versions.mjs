@@ -9,7 +9,6 @@ const excludedFileNames = ['README.md', 'jsr.json', 'package-lock.json', 'packag
 const lastPackageChangesCommit = fs.readFileSync(lastCommitHashFilePath, 'utf8').trim();
 const lastCommitMsg = execSync(`git log -1 --pretty=%B ${lastPackageChangesCommit}`).toString().trim();
 
-
 const branch = logExecSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 const isMain = branch === 'main';
 const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
