@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { pkgDetails, logExecSync } from './util-packages.mjs';
+import { pkgDetails, logExecSync, updatePkgDetails } from './util-packages.mjs';
 import path from 'path';
 import fs from 'fs';
 
@@ -178,11 +178,13 @@ if (isMain) {
         console.log('Dry runs complete!');
         console.log('-'.repeat(80));
         console.log('Publishing packages...');
-        changedPkgs.forEach(({ dir, pkg }) => {
-            publishPkg(dir, pkgDetails[dir]);
+        await updatePkgDetails().then(() => {
+            changedPkgs.forEach(({ dir }) => {
+                publishPkg(dir, pkgDetails[dir]);
+            });
+            console.log('Publish complete!');
+            console.log('-'.repeat(80));
         });
-        console.log('Publish complete!');
-        console.log('-'.repeat(80));
     }
 } else {
     console.log(`Branch is ${branch}, dry run publishing packages (only).`);

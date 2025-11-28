@@ -17,14 +17,21 @@ const packageDirectories = fs.readdirSync(pkgRootDir, { withFileTypes: true })
 // Read the package.json files and extract the details
 const unsortedPkgDetails = {};
 let count = 0;
-await Promise.all(packageDirectories.map(async (dir) => {
+
+export const loadPkgDetails = async (dir) => {
     return PackageJson.load(dir).then(({ content }) => {
         if (content && content?.private !== "true") {
             unsortedPkgDetails[dir] = content;
-            count += 1;
+            count = Object.keys(unsortedPkgDetails).length;
         }
     });
-}));
+};
+
+export const updatePkgDetails = async () =>
+    await Promise.all(packageDirectories.map(async (dir) => {
+        return loadPkgDetails(dir);
+    }));
+await updatePkgDetails();
 
 //sanitises the package names and sorts them alphabetically
 const pkgDetails = Object.fromEntries(Object.entries(unsortedPkgDetails).sort(([dirA, pkgA], [dirB, pkgB]) => {
