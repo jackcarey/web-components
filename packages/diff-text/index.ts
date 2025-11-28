@@ -501,6 +501,7 @@ export class DiffText extends HTMLElement {
     }
 
     #render(): void {
+        // canceling the previous animation frame ensures only one render per frame
         if (this.#animationFrame) {
             cancelAnimationFrame(this.#animationFrame);
         }
