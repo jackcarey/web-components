@@ -1,9 +1,67 @@
 import Reveal from "reveal.js";
-import Monokai from "reveal.js/plugin/highlight/highlight.esm.js";
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import Notes from "reveal.js/plugin/notes/notes.js";
 import Appearance from 'reveal.js-appearance';
 import { config } from "./configObject";
+
+const addPreloadLink = (url: string | URL | null, as: string) => {
+    if (!url) return;
+    const existing = document.querySelector(`link[href="${url}"]`);
+    if (!existing) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = as;
+        link.href = String(url);
+        document.head.appendChild(link);
+    }
+};
+
+const preloadRevealMedia = (element: HTMLElement) => {
+    if (!element) return;
+    const selector = '[data-background-image], img[src][loading!="lazy"]';
+    element.querySelectorAll(selector).forEach((el) => {
+        const srcSet = el.getAttribute("srcset");
+        if (srcSet) {
+            const urls = srcSet
+                .split(",")
+                .map((part) => part.trim().split(" ")[0])
+                .filter(Boolean);
+            urls.forEach((srcUrl) => addPreloadLink(srcUrl, "image"));
+        } else {
+            const url =
+                el.getAttribute("data-background-image") ??
+                el.getAttribute("src") ??
+                el.getAttribute("srcset");
+            if (el.tagName.toLowerCase() === "img" && !el.getAttribute("loading")) {
+                el.setAttribute("loading", "eager");
+            }
+            addPreloadLink(url, "image");
+        }
+    });
+    element.querySelectorAll("video").forEach((el) => {
+        if (!el.getAttribute("preload")) {
+            el.setAttribute("preload", "auto");
+        }
+        const url = el.getAttribute("src");
+        addPreloadLink(url, "video");
+        const posterSrc = el.getAttribute("poster");
+        if (posterSrc) {
+            addPreloadLink(posterSrc, "image");
+        }
+        const trackEls = el.querySelectorAll("track[src]");
+        trackEls.forEach((trackEl) => {
+            const trackUrl = trackEl.getAttribute("src");
+            addPreloadLink(trackUrl, "track");
+        });
+    });
+    element.querySelectorAll("audio").forEach((el) => {
+        if (!el.getAttribute("preload")) {
+            el.setAttribute("preload", "auto");
+        }
+        const url = el.getAttribute("src");
+        addPreloadLink(url, "audio");
+    });
+};
 
 /**
  * A custom element that initializes a Reveal.js presentation.
@@ -20,7 +78,7 @@ export class RevealPresentation extends HTMLElement {
     /**
      * List of attributes that are excluded from the Reveal.js configuration.
      */
-    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height', 'appearance'];
+    static excludedAttrs: string[] = ['plugins', 'theme', 'width', 'height', 'appearance', 'preload'];
     /**
      * The list of attributes that the custom element observes for changes.
      * @returns {string[]} An array of attribute names that the custom element observes.
@@ -31,9 +89,10 @@ export class RevealPresentation extends HTMLElement {
 
     #deck: Reveal.Reveal | null = null;
     #resizeObserver: ResizeObserver | null = null;
-    #plugins: Reveal.Plugin[] = [Monokai, Markdown, Notes];
+    #plugins: Reveal.Plugin[] = [Markdown, Notes];
 
     #setupDeck() {
+        this.removeAttribute("ready");
         const booleanConfigOpts = Object.entries(config).filter(([_, value]) => typeof value === 'boolean').map(([key]) => key);;
         const configOptions: Record<string, string | boolean> = {};
         for (const attr of this.attributes) {
@@ -75,21 +134,23 @@ export class RevealPresentation extends HTMLElement {
             ...configOptions,
         };
 
-        const initDeck = ()=> {
+        const initDeck = () => {
             this.#deck?.destroy();
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
-            this.#deck.initialize();
-            this.#deck?.layout();
+            this.#deck.initialize().then(() => {
+                this.#deck?.layout();
+                this.setAttribute("ready", "");
+            });
         };
 
-        if(document.readyState === 'completed'){
+        if (document.readyState === 'complete') {
             initDeck();
-        }else{
+        } else {
             document.addEventListener("readystatechange", (event) => {
-if (event.target.readyState === "complete") {
-    initDeck();
-  }
-}, {once:true,passive:true});
+                if (document.readyState === "complete") {
+                    initDeck();
+                }
+            }, { once: true, passive: true });
         }
     }
 
@@ -123,6 +184,7 @@ if (event.target.readyState === "complete") {
         });
         this.#deck?.destroy();
         this.#deck = null;
+        this.removeAttribute("ready");
     }
 
     attributeChangedCallback(name: string, _oldValue: string | null | undefined, newValue: string | null | undefined): void {
@@ -156,6 +218,26 @@ if (event.target.readyState === "complete") {
             (this.querySelector('.reveal')! as HTMLElement).style.width = this.width;
             (this.querySelector('.reveal')! as HTMLElement).style.height = this.height;
         }
+        // make sure the "ready" attribute is in sync with the deck's state
+        if (name === "ready") {
+            const isReady = this.#deck.isReady();
+            if (isReady) {
+                if (!this.hasAttribute("ready")) {
+                    this.setAttribute("ready", "");
+                }
+            } else {
+                if (this.hasAttribute("ready")) {
+                    this.removeAttribute("ready");
+                }
+            }
+        }
+        if (this.isConnected && name === "preload" && newValue !== null) {
+            preloadRevealMedia(this);
+        }
+    }
+
+    get deck(): Reveal.Reveal | null {
+        return this.#deck;
     }
 
     get plugins(): Reveal.Plugin[] {

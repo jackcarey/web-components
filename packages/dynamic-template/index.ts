@@ -60,13 +60,27 @@ export class DynamicTemplate extends HTMLElement {
     }
     protected get templateName(): string | undefined {
         const dataEl = this.closest(`[data-${DynamicTemplate.datasetAttribute}]`);
-        const templateName = (dataEl as HTMLElement).dataset.dynamicTemplate;
+        const templateName = (dataEl as HTMLElement | null)?.dataset.dynamicTemplate;
         return templateName;
     }
     protected get templateId(): string | undefined {
         const tagName = this.tagName.toLowerCase();
-        const templateId = this.templateName ? `${this.templateName}-${tagName}` : DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
-        return templateId;
+        //try the dynamic template first
+        const dynamicTemplateId = this.templateName ? `${this.templateName}-${tagName}` : undefined;
+        if (Boolean(document.querySelector(`template[id="${dynamicTemplateId}"]`))) {
+            return dynamicTemplateId;
+        }
+        // then try just the tag name
+        if (document.querySelector(`template[id="${tagName}"]`)) {
+            return tagName;
+        }
+
+        // finally try the default template if set
+        const defaultTemplateName = DynamicTemplate.defaultTemplate?.length ? DynamicTemplate.defaultTemplate : undefined;
+        if (Boolean(defaultTemplateName) && Boolean(document.querySelector(`template[id="${defaultTemplateName}"]`))) {
+            return defaultTemplateName;
+        }
+        return undefined;
     }
     protected render(templateId?: string): void {
         if (!this.shadowRoot) {
