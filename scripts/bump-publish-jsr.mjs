@@ -69,7 +69,7 @@ const publishPkg = (dir, pkgJson) => {
     const alreadyExists = existingPkgTags.includes(pkgTag);
     if (alreadyExists) {
         console.log(`Tag '${pkgTag}' already exists, skipping tag creation.`);
-        return publishResult;
+        return "";
     }
     updateJSR(dir, pkgJson);
     logExecSync(`git config --global user.email "actions@github.com"`);
