@@ -48,7 +48,7 @@ const DIFF_MODES = {
 
 type DiffMode = keyof typeof DIFF_MODES;
 
-type DiffTextOptions<FuncType extends (...any) => any> = Parameters<FuncType>[3];
+type DiffTextOptions<FuncType extends (...params: any) => any> = Parameters<FuncType>[3];
 
 type AnyDiffOptions = DiffTextOptions<typeof diffWords> | DiffTextOptions<typeof diffChars> | DiffTextOptions<typeof diffWordsWithSpace> | DiffTextOptions<typeof diffLines> | DiffTextOptions<typeof diffSentences> | DiffTextOptions<typeof diffCss> | DiffTextOptions<typeof diffJson> | DiffTextOptions<typeof diffArrays>;
 
@@ -253,7 +253,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    get debug() {
+    get debug(): boolean {
         return this.hasAttribute("debug");
     }
 
@@ -265,18 +265,18 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    #debugLog(...message) {
+    #debugLog(...message: any[]) {
         if (this.debug) {
             console.log(...message);
         }
     }
 
-    connectedCallback() {
+    connectedCallback(): void {
         this.#setup();
         this.#render();
     }
 
-    disconnectedCallback() {
+    disconnectedCallback(): void {
         this.#originalMutationObserver?.disconnect();
         this.#originalMutationObserver = null;
         this.#changedMutationObserver?.disconnect();
@@ -287,7 +287,7 @@ export class DiffText extends HTMLElement {
         }
     }
 
-    #fetchSrcs() {
+    #fetchSrcs(): void {
         const originalSrc = this.getAttribute('original-src');
         const changedSrc = this.getAttribute('changed-src');
 
@@ -335,7 +335,7 @@ export class DiffText extends HTMLElement {
         if (!compareProp?.length) {
             return el.innerText;
         }
-        const comparePropValue = compareProp in el ? el[compareProp] : null;
+        const comparePropValue = compareProp in el ? (el as any)[compareProp] : null;
         if (compareProp) {
             return comparePropValue;
         }
@@ -345,14 +345,17 @@ export class DiffText extends HTMLElement {
         }
         if (el instanceof DiffText) {
             const joinChar = this.mode === "lines" ? "\n" : "";
-            const elText = el.children.filter(child => !child.classList.contains('diff-text-removed').join(joinChar));
+            const elText = Array.from(el.children)
+                .filter(child => !child.classList.contains('diff-text-removed'))
+                .map(child => (child as HTMLElement).innerText)
+                .join(joinChar);
             return elText;
         }
         const innerText = el.innerText;
         return innerText;
     }
 
-    #setup() {
+    #setup(): void {
         this.disconnectedCallback();
         const usingOriginalSrc = Boolean(this.getAttribute('original-src'));
         const usingChangedSrc = Boolean(this.getAttribute('changed-src'));
@@ -497,7 +500,7 @@ export class DiffText extends HTMLElement {
         return hasChanged;
     }
 
-    #render() {
+    #render(): void {
         if (this.#animationFrame) {
             cancelAnimationFrame(this.#animationFrame);
         }
@@ -520,8 +523,8 @@ export class DiffText extends HTMLElement {
         });
     }
 
-    attributeChangedCallback(name: string, _oldValue: string, newValue: string) {
-        if (name === 'mode' && newValue?.length && !DIFF_MODES[newValue]) {
+    attributeChangedCallback(name: string, _oldValue: string, newValue: string): void {
+        if (name === 'mode' && newValue?.length && !DIFF_MODES[newValue as keyof typeof DIFF_MODES]) {
             this.setAttribute('mode', 'word');
             return;
         }
@@ -539,7 +542,7 @@ export class DiffText extends HTMLElement {
         this.#render();
     }
 
-    refresh() {
+    refresh(): void {
         this.#setup();
         this.#render();
     }
