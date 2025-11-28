@@ -13,7 +13,7 @@ Object.values(pkgDetails).forEach(pkg => {
 const autoloaderPath = `${repoRootDir}/packages/autoloader/components.ts`;
 const autoLoaderDocsPath = `${repoRootDir}/packages/autoloader/DOCUMENTATION.md`;
 const existingContent = fs.existsSync(autoloaderPath) ? fs.readFileSync(autoloaderPath, 'utf8') : '';
-const newAutoLoaderContent = `const components = ${JSON.stringify(componentVersions)};\nexport default components;`;
+const newAutoLoaderContent = `const components: Record<string, string> = ${JSON.stringify(componentVersions)};\nexport default components;`;
 const newDocsContent = `The 'autoloader' has no options.
 Component script tags are added to the head of the document using the [esm.sh CDN](https://esm.sh/). 
 This is done when the components are first seen in the DOM and when the DOM is updated.

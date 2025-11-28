@@ -29,7 +29,7 @@ const defaultRenderFn: StoryObj["render"] = (args: Args) => {
         </section>
         <section>
             <h2>Slide 3</h2>
-            <p>This is the second slide.</p>
+            <p>This is the third slide.</p>
             <img src="https://picsum.photos/100/100" alt="Random Image" />
         </section>
     `)(args);
