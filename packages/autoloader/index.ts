@@ -17,12 +17,11 @@ const autoload = () => {
         for (let mutation of mutationsList) {
             if (mutation.type === "childList") {
                 const addedNodes = Array.from(mutation.addedNodes);
+                if (!addedNodes.length) continue;
                 addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        const nodeTagName = node.nodeName.toLowerCase();
-                        const isIncluded = Object.keys(components).includes(nodeTagName);
-                        if (isIncluded) loadTag(nodeTagName);
-                    }
+                    if (node.nodeType !== Node.ELEMENT_NODE) return;
+                    const nodeTagName = node.nodeName.toLowerCase();
+                    if (Object.keys(components).includes(nodeTagName)) loadTag(nodeTagName);
                 });
             }
         }
