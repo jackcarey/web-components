@@ -18,7 +18,7 @@ const addPreloadLink = (url: string | URL | null, as: string) => {
 
 const preloadRevealMedia = (element: HTMLElement) => {
     if (!element) return;
-    const selector = '[data-background-image], img[src][loading!="lazy"]';
+    const selector = '*[data-background-image], img[src][loading!="lazy"]';
     element.querySelectorAll(selector).forEach((el) => {
         const srcSet = el.getAttribute("srcset");
         if (srcSet) {
