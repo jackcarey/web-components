@@ -121,13 +121,13 @@ const hasPkgChanged = (name, dir) => {
     if (hasChanged) {
         console.log(`Package '${name}' has changed files compared to '${latestTag}':\n- ${changedFiles.join("\n- ")}`);
     } else {
-        console.log(`Package '${name}' has no relevant changes.`);
+        console.log(`Package '${name}' has no relevant changes compared to '${latestTag}'.`);
     }
     return hasChanged;
 };
 
 const checkBumpPkg = (name, dir) => {
-    console.log(`Bumping patch version for package '${name}' compared to '${getLatestPkgTag(name) || 'none'}'`);
+    console.log(`Bumping patch version for package '${name}'`);
     process.chdir(dir);
     const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${name}" --no-git-tag-version`);
     console.log(`Bumped ${name} to ${bumpResult}`);
