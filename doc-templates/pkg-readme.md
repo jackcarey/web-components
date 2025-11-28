@@ -4,7 +4,6 @@ $badges
 
 $description
 
--   **Version:** $version
 -   **License:** [$license](./LICENSE.md)
 
 ## Using this package
