@@ -14,6 +14,13 @@ const updateJSR = (dir, pkgJson) => {
     const jsrPath = path.join(dir, 'jsr.json');
     const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
 
+    if (!version) {
+        throw new Error(`Version is required to tag package '${name}'.`);
+    }
+    if (!entry) {
+        throw new Error(`Entry is required to publish package '${name}'.`);
+    }
+
     const jsrJson = {
         "name": `@${jsrScope}/${name}`,
         "version": version,
@@ -50,16 +57,10 @@ const dryRunPkg = (name, dir) => {
  * @returns 
  */
 const publishPkg = (dir, pkgJson) => {
-    const { name, version, entry = "./index.ts", license } = pkgJson;
+    const { name, version } = pkgJson;
     if (!isMain) {
         console.log(`Not on main branch, skipping publish for package '${name}'.`);
         return;
-    }
-    if (!version) {
-        throw new Error(`Version is required to tag package '${name}'.`);
-    }
-    if (!entry) {
-        throw new Error(`Entry is required to publish package '${name}'.`);
     }
 
     updateJSR(dir, pkgJson);
