@@ -100,7 +100,7 @@ const hasPkgChanged = (name, dir) => {
     }
     const latestTag = getLatestPkgTag(name);
     const gitDiffCmd = latestTag ? `git diff --name-only ${latestTag} HEAD -- "${dir}"` : `git diff --name-only HEAD -- "${dir}"`;
-    const excludedFileNames = ['README.md', 'jsr.json', 'package-lock.json', 'package.json'].map(file => file.toLowerCase());
+    const excludedFileNames = ['jsr.json', 'package-lock.json', 'package.json'].map(file => file.toLowerCase());
     // Get all changed files in the directory (excluding specified files)
     const changedFiles = logExecSync(gitDiffCmd).toString()
         .split('\n')
