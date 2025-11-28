@@ -140,9 +140,9 @@ if (isMain) {
         console.log('-'.repeat(80));
         console.log('Publishing packages...');
         changedPkgs.forEach(({ dir, pkg }) => {
-            const version = pkgDetails[pkg.name]?.version;
+            const version = pkgDetails[dir]?.version;
             if (!version) {
-                throw new Error(`Version is required to tag package '${pkg.name}'.`);
+                throw new Error(`Version is required to tag package '${pkg.name}': '${version}'`);
             }
             publishPkg(pkg.name, dir, version);
         });
@@ -151,9 +151,8 @@ if (isMain) {
     }
 } else {
     console.log(`Branch is ${branch}, dry run publishing packages (only).`);
-    Object.entries(pkgDetails).forEach(([dir, pkg]) => {
+    Object.entries(pkgDetails).forEach(({ dir, pkg }) => {
         dryRunPkg(pkg.name, dir);
     });
     console.log('Dry runs complete!');
-    console.log('-'.repeat(80));
 }
