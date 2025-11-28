@@ -1,5 +1,5 @@
 import { execSync } from 'child_process';
-import { lastCommitHashFilePath, pkgDetails } from './util-packages.mjs';
+import { lastCommitHashFilePath, pkgDetails, logExecSync } from './util-packages.mjs';
 import fs from 'fs';
 //this script could do with checking against the commit of the last version bump for each package
 // but for now it will do a simple check against the last commit
