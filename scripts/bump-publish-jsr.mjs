@@ -9,6 +9,27 @@ const lastCommitMsg = logExecSync('git log -1 --pretty=%B').toString().trim();
 const isMain = branch === 'main';
 const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
 
+const updateJSR = (dir, pkgJson) => {
+    const { name, version, entry = "./index.ts", license } = pkgJson;
+    const jsrPath = path.join(dir, 'jsr.json');
+    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
+
+    const jsrJson = {
+        "name": `@${jsrScope}/${name}`,
+        "version": version,
+        "exports": entry,
+    };
+    if (license) jsrJson.license = license;
+
+    const newContent = JSON.stringify(jsrJson, null, 2);
+    if (existingContent !== newContent) {
+        fs.writeFileSync(jsrPath, newContent);
+        console.log('JSR object updated at ', jsrPath);
+    } else {
+        console.log('No changes to JSR object at', jsrPath);
+    }
+};
+
 /**
  * Perform a dry run publish for a given package.
  * @param {string} name - The name of the package.
@@ -16,6 +37,7 @@ const isGHAction = lastCommitMsg.startsWith('[GH Actions]');
  * @returns {Buffer} - The output of the dry run command.
  */
 const dryRunPkg = (name, dir) => {
+    updateJSR(dir, pkgDetails[dir]);
     const dryRunCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty --dry-run`;
     console.log(`Dry run for package '${name}'`);
     return logExecSync(dryRunCmd);
@@ -40,23 +62,7 @@ const publishPkg = (dir, pkgJson) => {
         throw new Error(`Entry is required to publish package '${name}'.`);
     }
 
-    const jsrPath = path.join(dir, 'jsr.json');
-    const existingContent = fs.existsSync(jsrPath) ? fs.readFileSync(jsrPath, 'utf8') : null;
-
-    const jsrJson = {
-        "name": `@${jsrScope}/${name}`,
-        "version": version,
-        "exports": entry,
-    };
-    if (license) jsrJson.license = license;
-
-    const newContent = JSON.stringify(jsrJson, null, 2);
-    if (existingContent !== newContent) {
-        fs.writeFileSync(jsrPath, newContent);
-        console.log('JSR object updated at ', jsrPath);
-    } else {
-        console.log('No changes to JSR object at', jsrPath);
-    }
+    updateJSR(dir, pkgJson);
 
     console.log(`Publishing package '${name}'...`);
     const publishCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty`;
