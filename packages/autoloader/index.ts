@@ -35,7 +35,7 @@ const autoload = () => {
  * Loads a web component by dynamically creating a script tag and appending it to the document head.
  * @param name - The name of the web component to load.
  */
-const loadTag = (name) => {
+const loadTag = (name: string) => {
     if (!name) return;
     const version = components[name] ?? "latest";
     const script = document.createElement("script");
