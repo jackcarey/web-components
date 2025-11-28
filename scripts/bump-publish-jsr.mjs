@@ -85,6 +85,9 @@ const publishPkg = (dir, pkgJson) => {
 
 const getLatestPkgTag = (name) => {
     const pkgTags = logExecSync(`git tag --list "${name}@*"`).toString().trim().split('\n').filter(t => t.startsWith(`${name}@`));
+    if (pkgTags.length === 0) {
+        return undefined;
+    }
     const latestTag = pkgTags.sort((a, b) => {
         const [AMajor, AMinor, APatch] = a.split('@')[1]?.split(".");
         const [BMajor, BMinor, BPatch] = b.split('@')[1]?.split(".");
@@ -124,7 +127,7 @@ const hasPkgChanged = (name, dir) => {
 };
 
 const checkBumpPkg = (name, dir) => {
-    console.log(`Bumping patch version for package '${name}' compared to '${latestTag}'`);
+    console.log(`Bumping patch version for package '${name}' compared to '${getLatestPkgTag(name) || 'none'}'`);
     process.chdir(dir);
     const bumpResult = execSync(`npm version patch -m "Bump package patch version for ${name}" --no-git-tag-version`);
     console.log(`Bumped ${name} to ${bumpResult}`);
