@@ -98,6 +98,6 @@ jobs:
             - name: Save commit hash
               run: node scripts/store-commit-hash.mjs
 
-            - name: Save file changes (on main)
+            - name: Commit file changes (on main)
               if: ${{ env.IS_GH_ACTION == 'false' && github.ref == 'refs/heads/main' }}
               run: node scripts/commit-push-diffs.mjs

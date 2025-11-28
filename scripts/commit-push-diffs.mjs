@@ -28,9 +28,8 @@ try {
         try {
             logExecSync(`git config --global user.email "actions@github.com"`);
             logExecSync(`git config --global user.name "[GitHub Actions]"`);
-            logExecSync(`git add .`);
-            logExecSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
-            logExecSync(`git push --tags`);
+            logExecSync(`git commit -a -m "[GH Actions] Update documentation and package files" || exit 0`);
+            logExecSync(`git push`);
             console.log(`Successfully pushed changes.`);
         } catch (e) {
             console.error('An error occurred:', e);
