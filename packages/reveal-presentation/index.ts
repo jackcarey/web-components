@@ -16,53 +16,6 @@ const addPreloadLink = (url: string | URL | null, as: string) => {
     }
 };
 
-const preloadRevealMedia = (element: HTMLElement) => {
-    if (!element) return;
-    const selector = '*[data-background-image], img[src][loading!="lazy"]';
-    element.querySelectorAll(selector).forEach((el) => {
-        const srcSet = el.getAttribute("srcset");
-        if (srcSet) {
-            const urls = srcSet
-                .split(",")
-                .map((part) => part.trim().split(" ")[0])
-                .filter(Boolean);
-            urls.forEach((srcUrl) => addPreloadLink(srcUrl, "image"));
-        } else {
-            const url =
-                el.getAttribute("data-background-image") ??
-                el.getAttribute("src") ??
-                el.getAttribute("srcset");
-            if (el.tagName.toLowerCase() === "img" && !el.getAttribute("loading")) {
-                el.setAttribute("loading", "eager");
-            }
-            addPreloadLink(url, "image");
-        }
-    });
-    element.querySelectorAll("video").forEach((el) => {
-        if (!el.getAttribute("preload")) {
-            el.setAttribute("preload", "auto");
-        }
-        const url = el.getAttribute("src");
-        addPreloadLink(url, "video");
-        const posterSrc = el.getAttribute("poster");
-        if (posterSrc) {
-            addPreloadLink(posterSrc, "image");
-        }
-        const trackEls = el.querySelectorAll("track[src]");
-        trackEls.forEach((trackEl) => {
-            const trackUrl = trackEl.getAttribute("src");
-            addPreloadLink(trackUrl, "track");
-        });
-    });
-    element.querySelectorAll("audio").forEach((el) => {
-        if (!el.getAttribute("preload")) {
-            el.setAttribute("preload", "auto");
-        }
-        const url = el.getAttribute("src");
-        addPreloadLink(url, "audio");
-    });
-};
-
 /**
  * A custom element that initializes a Reveal.js presentation.
  * It sets up the Reveal.js options based on the attributes of the element.
@@ -233,7 +186,49 @@ export class RevealPresentation extends HTMLElement {
             }
         }
         if (this.isConnected && name === "preload" && newValue !== null) {
-            preloadRevealMedia(this);
+            const selector = '*[data-background-image], img[src][loading!="lazy"]';
+            this.querySelectorAll(selector).forEach((el) => {
+                const srcSet = el.getAttribute("srcset");
+                if (srcSet) {
+                    const urls = srcSet
+                        .split(",")
+                        .map((part) => part.trim().split(" ")[0])
+                        .filter(Boolean);
+                    urls.forEach((srcUrl) => addPreloadLink(srcUrl, "image"));
+                } else {
+                    const url =
+                        el.getAttribute("data-background-image") ??
+                        el.getAttribute("src") ??
+                        el.getAttribute("srcset");
+                    if (el.tagName.toLowerCase() === "img" && !el.getAttribute("loading")) {
+                        el.setAttribute("loading", "eager");
+                    }
+                    addPreloadLink(url, "image");
+                }
+            });
+            this.querySelectorAll("video").forEach((el) => {
+                if (!el.getAttribute("preload")) {
+                    el.setAttribute("preload", "auto");
+                }
+                const url = el.getAttribute("src");
+                addPreloadLink(url, "video");
+                const posterSrc = el.getAttribute("poster");
+                if (posterSrc) {
+                    addPreloadLink(posterSrc, "image");
+                }
+                const trackEls = el.querySelectorAll("track[src]");
+                trackEls.forEach((trackEl) => {
+                    const trackUrl = trackEl.getAttribute("src");
+                    addPreloadLink(trackUrl, "track");
+                });
+            });
+            element.querySelectorAll("audio").forEach((el) => {
+                if (!el.getAttribute("preload")) {
+                    el.setAttribute("preload", "auto");
+                }
+                const url = el.getAttribute("src");
+                addPreloadLink(url, "audio");
+            });
         }
     }
 
