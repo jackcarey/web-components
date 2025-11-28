@@ -68,7 +68,13 @@ const publishPkg = (dir, pkgJson) => {
     console.log(`Publishing package '${name}'...`);
     const publishCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty`;
     const publishResult = logExecSync(publishCmd);
+    const existingPkgTags = logExecSync(`git tag --list "${name}@*"`).toString().trim().split('\n').filter(t => t.startsWith(`${name}@`));
     const pkgTag = `${name}@${version}`;
+    const alreadyExists = existingPkgTags.includes(pkgTag);
+    if (alreadyExists) {
+        console.log(`Tag '${pkgTag}' already exists, skipping tag creation.`);
+        return publishResult;
+    }
     logExecSync(`git config --global user.email "actions@github.com"`);
     logExecSync(`git config --global user.name "[GitHub Actions]"`);
     logExecSync(`git tag -a ${pkgTag} -m "${pkgTag}"`);
