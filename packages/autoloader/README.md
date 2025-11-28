@@ -45,7 +45,7 @@ This version includes the following components:
 - `can-i-use`: v1.0.44
 - `capture-dom`: v0.0.24
 - `cite-list`: v1.0.24
-- `diff-text`: v1.0.67
+- `diff-text`: v1.0.68
 - `dynamic-template`: v1.0.36
 - `i-cal`: v1.1.44
 - `kbd-click`: v1.0.36
