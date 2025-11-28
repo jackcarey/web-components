@@ -13,9 +13,9 @@
  * This will create a list of up to 5 <cite> elements found within <article> paragraphs.
  */
 class CiteList extends HTMLElement {
-    #mutationObserver: MutationObserver;
+    #mutationObserver: MutationObserver | null = null;
     static get observedAttributes(): string[] {
-        return ['selector', 'limit', 'link', 'text-only'];
+        return ['selector', 'limit', 'link', 'text-only', 'offset'];
     }
 
     get selector(): string | null {
@@ -74,6 +74,22 @@ class CiteList extends HTMLElement {
         }
     }
 
+    get offset(): number {
+        try {
+            const offset = parseInt(this.getAttribute("offset") || '0', 0);
+            if (isNaN(offset)) {
+                return 0;
+            }
+            return offset;
+        } catch (e) {
+            return 0;
+        }
+    }
+
+    set offset(value: number) {
+        this.setAttribute('offset', String(value));
+    }
+
     get observedElements(): Array<Element> {
         if (!this.selector) return [];
         const parents = document.querySelectorAll(this.selector);
@@ -91,7 +107,7 @@ class CiteList extends HTMLElement {
                 }
             });
         });
-        return !this.limit ? cites : cites.slice(0, this.limit);
+        return cites.slice(this.offset, this.limit ? this.offset + this.limit : undefined);
     }
 
     #setupObserver(): void {

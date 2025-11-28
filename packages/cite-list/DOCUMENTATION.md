@@ -1,1 +1,1 @@
-Copies the content of `<cite/>` elements from within a selector into a list. Use `text-only` to copy only the `innerText`, otherwise `innerHTML` will be copied. Use `limit` to limit the number of citations that are rendered.
+Copies the content of `<cite/>` elements from within a selector into a list. Use `text-only` to copy only the `innerText`, otherwise `innerHTML` will be copied. Use `limit` to limit the number of citations that are rendered and `offset` to change where the list starts.
