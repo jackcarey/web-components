@@ -4,7 +4,7 @@
 
 > Automatically load components from jackcarey/web-components using esm.sh.
 
--   **Version:** 1.1.87
+-   **Version:** 1.1.88
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package

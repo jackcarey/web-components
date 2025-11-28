@@ -1,0 +1,3 @@
+import{j as t}from"./index-Bgbee25h.js";import{useMDXComponents as e}from"./index-D5gfwaA0.js";import{M as m,a as s}from"./blocks-R5MxDoEC.js";import{D as i}from"./README-Bl56EKQ7.js";import"./_commonjsHelpers-CqkleIqs.js";import"./preload-helper-Dp1pzeXC.js";import"./iframe-5a84rVnP.js";function r(o){return t.jsxs(t.Fragment,{children:[t.jsx(m,{title:"components/mirror-element/Documentation"}),`
+`,t.jsx(s,{children:i})]})}function M(o={}){const{wrapper:n}={...e(),...o.components};return n?t.jsx(n,{...o,children:t.jsx(r,{...o})}):r()}export{M as default};
+//# sourceMappingURL=mirror-element-BPO9IT_i.js.map
