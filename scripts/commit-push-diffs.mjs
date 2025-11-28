@@ -30,7 +30,7 @@ try {
             logExecSync(`git config --global user.name "[GitHub Actions]"`);
             logExecSync(`git add .`);
             logExecSync(`git commit -m "[GH Actions] Update documentation and package files" || exit 0`);
-            logExecSync(`git push`);
+            logExecSync(`git push --tags`);
             console.log(`Successfully pushed changes.`);
         } catch (e) {
             console.error('An error occurred:', e);

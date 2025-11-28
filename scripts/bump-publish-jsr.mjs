@@ -62,6 +62,8 @@ const publishPkg = (dir, pkgJson) => {
     const publishCmd = `cd "${dir}"\nnpx jsr publish --allow-dirty`;
     const publishResult = logExecSync(publishCmd);
     const pkgTag = `${name}@${version}`;
+    logExecSync(`git config --global user.email "actions@github.com"`);
+    logExecSync(`git config --global user.name "[GitHub Actions]"`);
     logExecSync(`git tag -a ${pkgTag} -m "${name}@${version}"`);
     logExecSync(`git push --tags`);
     return publishResult;
