@@ -4,6 +4,7 @@
 
 > A reactive data object that emits events on itself and other EventTargets when its value changes.
 
+-   **Version:** 1.0.38
 -   **License:** [LGPL-3](./LICENSE.md)
 
 ## Using this package
@@ -33,8 +34,6 @@ npx jsr add @web-components/signal
 ## Documentation
 
 -   **Open examples for [signal on Storybook](https://jackcarey.co.uk/web-components/docs/?path=/docs/utilities-signal)**.
-
-//todo
 
 See [jackcarey/web-components](https://github.com/jackcarey/web-components) on GitHub.
 

@@ -1,2 +1,2 @@
-const components: Record<string, string> = {"can-i-use":"1.0.44","capture-dom":"0.0.24","cite-list":"1.0.25","diff-text":"1.0.69","dynamic-template":"1.0.37","i-cal":"1.1.45","kbd-click":"1.0.37","middle-truncate":"0.1.38","mirror-element":"0.0.25","reveal-presentation":"0.0.42","rss-feed":"0.0.37","search-dom":"0.0.38"};
+const components: Record<string, string> = {"can-i-use":"1.0.45","capture-dom":"0.0.25","cite-list":"1.0.25","diff-text":"1.0.69","dynamic-template":"1.0.37","i-cal":"1.1.45","kbd-click":"1.0.37","middle-truncate":"0.1.38","mirror-element":"0.0.25","reveal-presentation":"0.0.42","rss-feed":"0.0.37","search-dom":"0.0.38"};
 export default components;

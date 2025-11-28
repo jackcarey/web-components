@@ -5,8 +5,8 @@ Utilities are not loaded with the autoloader, only DOM components.
 DOM components are are versioned to match each autoloader release.
 This version includes the following components:
 
-- `can-i-use`: v1.0.44
-- `capture-dom`: v0.0.24
+- `can-i-use`: v1.0.45
+- `capture-dom`: v0.0.25
 - `cite-list`: v1.0.25
 - `diff-text`: v1.0.69
 - `dynamic-template`: v1.0.37
