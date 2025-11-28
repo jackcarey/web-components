@@ -136,6 +136,7 @@ export class RevealPresentation extends HTMLElement {
 
         const initDeck = () => {
             this.#deck?.destroy();
+            // @ts-expect-error Reveal types are not up to date
             this.#deck = new Reveal(this.querySelector(".reveal"), fullInitConfig);
             this.#deck.initialize().then(() => {
                 this.#deck?.layout();
