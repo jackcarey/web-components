@@ -64,8 +64,8 @@ const publishPkg = (dir, pkgJson) => {
     const pkgTag = `${name}@${version}`;
     logExecSync(`git config --global user.email "actions@github.com"`);
     logExecSync(`git config --global user.name "[GitHub Actions]"`);
-    logExecSync(`git tag -a ${pkgTag} -m "${name}@${version}"`);
-    logExecSync(`git push --tags`);
+    logExecSync(`git tag -a ${pkgTag} -m "${pkgTag}"`);
+    logExecSync(`git push origin tag ${pkgTag}`);
     return publishResult;
 };
 
