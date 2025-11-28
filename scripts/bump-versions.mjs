@@ -40,11 +40,9 @@ if (isMain) {
     Object.entries(pkgDetails).filter(([_, pkg]) => {
         const hasChanged = changedPackages.includes(pkg.name);
         const isAutoloader = pkg.name.includes('autoloader');
-        if (isGHAction) {
-            return hasChanged && isAutoloader;
-        } else {
-            return hasChanged;
-        }
+        const willBump = isGHAction ? isAutoloader && hasChanged : hasChanged;
+        console.log(`Package: ${pkg.name} bump: ${willBump}`);
+        return willBump;
     }).forEach(([pkgPath, pkg]) => {
         try {
             console.log(`Bumping patch version for package: ${pkg.name}`);
