@@ -20,7 +20,7 @@
     "@storybook/addon-docs": "^10.1.0",
     "@storybook/addon-links": "^10.1.0",
     "@storybook/addon-themes": "^10.1.0",
-    "@storybook/builder-vite": "^10.1.0",
+    "@storybook/builder-vite": "^10.1.2",
     "@storybook/test-runner": "^0.24.2",
     "@storybook/web-components-vite": "^10.1.0",
     "@types/ical": "^0.8.3",
