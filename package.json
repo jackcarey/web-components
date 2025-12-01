@@ -32,7 +32,7 @@
     "jsr": "^0.13.5",
     "lit": "^3.2.0",
     "storybook": "^10.1.0",
-    "wait-on": "^8.0.3"
+    "wait-on": "^9.0.3"
   },
   "keywords": [],
   "license": "ISC",
