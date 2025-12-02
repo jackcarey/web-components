@@ -4,6 +4,7 @@
 
 > Use diff-text to compare two texts/objects and render the differences.
 
+-   **Version:** 1.0.69
 -   **License:** [BSD-3-Clause](./LICENSE.md)
 
 ## Using this package
