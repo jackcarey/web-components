@@ -1,6 +1,6 @@
 {
   "name": "can-i-use",
-  "version": "1.0.46",
+  "version": "1.0.47",
   "description": "Wraps the caniuse embed from ireade/caniuse-embed so it can be used as a component",
   "main": "./index.ts",
   "type": "module",

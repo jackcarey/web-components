@@ -1,6 +1,6 @@
 {
   "name": "middle-truncate",
-  "version": "0.1.39",
+  "version": "0.1.40",
   "description": "Truncate text in the middle",
   "main": "./index.ts",
   "scripts": {
