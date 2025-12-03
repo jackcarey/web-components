@@ -121,7 +121,7 @@ export class RevealPresentation extends HTMLElement {
     #preloadResources() {
         if (!this.isConnected) return;
         if (this.getAttribute("preload") === null) return;
-        const selector = '[data-background-image], img[src]:not([loading="lazy"])';
+        const selector = '[data-background-image], img[src], img[srcset]';
         this.querySelectorAll(selector).forEach((el) => {
             const srcSet = el.getAttribute("srcset");
             if (srcSet) {
