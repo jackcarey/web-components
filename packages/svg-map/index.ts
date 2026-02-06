@@ -48,7 +48,7 @@ class SVGMap extends HTMLElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['data-zoom', 'data-area'],
+      attributeFilter: ['data-zoom', 'data-min-zoom', 'data-max-zoom', 'data-area', 'src'],
     });
   }
 
@@ -77,13 +77,36 @@ class SVGMap extends HTMLElement {
   }
 
   /**
-   * Get all SVG elements from the light DOM
+   * Get all SVG elements from the light DOM (inline and external)
    */
   #getSvgElements(): SVGElement[] {
     const svgs: SVGElement[] = [];
+    // Get inline SVG elements
     this.querySelectorAll('svg[slot="svg"]').forEach((el) => {
       if (el instanceof SVGElement) {
         svgs.push(el);
+      }
+    });
+    // Get external SVG elements from img/picture tags
+    this.querySelectorAll('img[slot="svg"], picture[slot="svg"] img').forEach((el) => {
+      if (el instanceof HTMLImageElement && el.naturalWidth > 0) {
+        // Create a container SVG element that represents the image
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', el.naturalWidth.toString());
+        svg.setAttribute('height', el.naturalHeight.toString());
+        svg.setAttribute('data-external-src', el.src);
+        
+        // Copy zoom attributes from img to svg
+        const zoomAttr = el.getAttribute('data-zoom');
+        const minZoomAttr = el.getAttribute('data-min-zoom');
+        const maxZoomAttr = el.getAttribute('data-max-zoom');
+        if (zoomAttr) svg.setAttribute('data-zoom', zoomAttr);
+        if (minZoomAttr) svg.setAttribute('data-min-zoom', minZoomAttr);
+        if (maxZoomAttr) svg.setAttribute('data-max-zoom', maxZoomAttr);
+        
+        // Store reference to original image
+        (svg as any).__imageElement = el;
+        svgs.push(svg);
       }
     });
     return svgs;
@@ -109,26 +132,65 @@ class SVGMap extends HTMLElement {
     const svgs = this.#getSvgElements();
     if (svgs.length === 0) return null;
 
-    // Find exact match first
-    const exactMatch = svgs.find((svg) => {
-      const zoomAttr = svg.getAttribute('data-zoom');
-      return zoomAttr && parseFloat(zoomAttr) === this.#currentZoom;
-    });
-    if (exactMatch) return exactMatch;
+    // Find SVGs that match zoom range (min-zoom to max-zoom)
+    const matchingSvgs = svgs.filter((svg) => {
+      const minZoom = svg.getAttribute('data-min-zoom');
+      const maxZoom = svg.getAttribute('data-max-zoom');
+      const exactZoom = svg.getAttribute('data-zoom');
 
-    // Find closest zoom level
+      // If exact zoom is specified, check for exact match
+      if (exactZoom) {
+        return parseFloat(exactZoom) === this.#currentZoom;
+      }
+
+      // Check if current zoom is within min/max range
+      const min = minZoom ? parseFloat(minZoom) : -Infinity;
+      const max = maxZoom ? parseFloat(maxZoom) : Infinity;
+      
+      return this.#currentZoom >= min && this.#currentZoom <= max;
+    });
+
+    if (matchingSvgs.length > 0) {
+      // If multiple match, prefer the one with the narrowest range
+      return matchingSvgs.reduce((best, current) => {
+        const bestMin = parseFloat(best.getAttribute('data-min-zoom') || '-Infinity');
+        const bestMax = parseFloat(best.getAttribute('data-max-zoom') || 'Infinity');
+        const bestRange = bestMax - bestMin;
+
+        const currMin = parseFloat(current.getAttribute('data-min-zoom') || '-Infinity');
+        const currMax = parseFloat(current.getAttribute('data-max-zoom') || 'Infinity');
+        const currRange = currMax - currMin;
+
+        return currRange < bestRange ? current : best;
+      });
+    }
+
+    // Fallback: Find closest zoom level
     let closest: SVGElement | null = null;
     let closestDiff = Infinity;
 
     svgs.forEach((svg) => {
       const zoomAttr = svg.getAttribute('data-zoom');
+      const minZoom = svg.getAttribute('data-min-zoom');
+      const maxZoom = svg.getAttribute('data-max-zoom');
+      
+      let compareZoom: number;
       if (zoomAttr) {
-        const svgZoom = parseFloat(zoomAttr);
-        const diff = Math.abs(svgZoom - this.#currentZoom);
-        if (diff < closestDiff) {
-          closestDiff = diff;
-          closest = svg;
-        }
+        compareZoom = parseFloat(zoomAttr);
+      } else if (minZoom && maxZoom) {
+        compareZoom = (parseFloat(minZoom) + parseFloat(maxZoom)) / 2;
+      } else if (minZoom) {
+        compareZoom = parseFloat(minZoom);
+      } else if (maxZoom) {
+        compareZoom = parseFloat(maxZoom);
+      } else {
+        return;
+      }
+
+      const diff = Math.abs(compareZoom - this.#currentZoom);
+      if (diff < closestDiff) {
+        closestDiff = diff;
+        closest = svg;
       }
     });
 
@@ -140,11 +202,26 @@ class SVGMap extends HTMLElement {
    * Check if an anchor should be visible at current zoom level
    */
   #isAnchorVisibleAtZoom(anchor: HTMLAnchorElement): boolean {
-    const zoomAttr = anchor.getAttribute('data-zoom');
-    if (!zoomAttr) return true; // No zoom restriction
+    const minZoom = anchor.getAttribute('data-min-zoom');
+    const maxZoom = anchor.getAttribute('data-max-zoom');
+    const exactZoom = anchor.getAttribute('data-zoom');
 
-    const zoomLevels = zoomAttr.split(',').map((z) => parseFloat(z.trim()));
-    return zoomLevels.some((z) => !isNaN(z) && z === this.#currentZoom);
+    // If no zoom restrictions, always visible
+    if (!minZoom && !maxZoom && !exactZoom) return true;
+
+    // Check exact zoom matches (comma-separated list)
+    if (exactZoom) {
+      const zoomLevels = exactZoom.split(',').map((z) => parseFloat(z.trim()));
+      if (zoomLevels.some((z) => !isNaN(z) && z === this.#currentZoom)) {
+        return true;
+      }
+    }
+
+    // Check min/max zoom range
+    const min = minZoom ? parseFloat(minZoom) : -Infinity;
+    const max = maxZoom ? parseFloat(maxZoom) : Infinity;
+
+    return this.#currentZoom >= min && this.#currentZoom <= max;
   }
 
   /**
@@ -291,10 +368,30 @@ class SVGMap extends HTMLElement {
 
     // Clone and add current SVG
     if (this.#currentSvg) {
-      const svgClone = this.#currentSvg.cloneNode(true) as SVGElement;
-      svgClone.removeAttribute('slot');
-      svgClone.style.display = 'block';
-      container.appendChild(svgClone);
+      const externalSrc = this.#currentSvg.getAttribute('data-external-src');
+      
+      if (externalSrc) {
+        // For external SVG images, use an img element
+        const img = document.createElement('img');
+        img.src = externalSrc;
+        img.style.display = 'block';
+        
+        // Get original image element to copy dimensions
+        const originalImg = (this.#currentSvg as any).__imageElement;
+        if (originalImg) {
+          if (originalImg.width) img.width = originalImg.width;
+          if (originalImg.height) img.height = originalImg.height;
+          if (originalImg.alt) img.alt = originalImg.alt;
+        }
+        
+        container.appendChild(img);
+      } else {
+        // For inline SVG, clone it
+        const svgClone = this.#currentSvg.cloneNode(true) as SVGElement;
+        svgClone.removeAttribute('slot');
+        svgClone.style.display = 'block';
+        container.appendChild(svgClone);
+      }
     }
 
     // Add positioned anchors
@@ -302,6 +399,8 @@ class SVGMap extends HTMLElement {
       const anchorClone = anchor.cloneNode(true) as HTMLAnchorElement;
       anchorClone.removeAttribute('data-area');
       anchorClone.removeAttribute('data-zoom');
+      anchorClone.removeAttribute('data-min-zoom');
+      anchorClone.removeAttribute('data-max-zoom');
       anchorClone.style.position = 'absolute';
       anchorClone.style.left = `${pos.x}px`;
       anchorClone.style.top = `${pos.y}px`;

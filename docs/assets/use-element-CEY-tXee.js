@@ -1,3 +1,0 @@
-import{j as t}from"./index-D3OCdday.js";import{useMDXComponents as r}from"./index-vh4sUJbT.js";import{M as s,a as m}from"./blocks-C8xSZwC7.js";import{D as i}from"./README-nVLt2z0_.js";import"./_commonjsHelpers-CqkleIqs.js";import"./preload-helper-Dp1pzeXC.js";import"./iframe-COHuWt_F.js";function e(o){return t.jsxs(t.Fragment,{children:[t.jsx(s,{title:"components/use-element/Documentation"}),`
-`,t.jsx(m,{children:i})]})}function M(o={}){const{wrapper:n}={...r(),...o.components};return n?t.jsx(n,{...o,children:t.jsx(e,{...o})}):e()}export{M as default};
-//# sourceMappingURL=use-element-CEY-tXee.js.map

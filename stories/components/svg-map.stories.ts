@@ -164,3 +164,123 @@ export const Disabled: Story = {
     <p>When disabled, the component does not render.</p>
   `,
 };
+
+export const MinMaxZoomRanges: Story = {
+  args: {
+    zoom: 1,
+  },
+  render: (args) => html`
+    <div>
+      <p>SVGs and links can use <code>data-min-zoom</code> and <code>data-max-zoom</code> to define ranges instead of exact values. Adjust zoom to see different content appear/disappear.</p>
+      <svg-map zoom="${args.zoom}">
+        <!-- Overview SVG: visible from zoom 0.5 to 1.5 -->
+        <svg slot="svg" data-min-zoom="0.5" data-max-zoom="1.5" width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+          <rect id="country" x="50" y="50" width="400" height="300" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+          <text x="250" y="30" text-anchor="middle" font-size="18" fill="#2e7d32">Country Map (zoom 0.5-1.5)</text>
+        </svg>
+        
+        <!-- Regional SVG: visible from zoom 1.5 to 2.5 -->
+        <svg slot="svg" data-min-zoom="1.5" data-max-zoom="2.5" width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+          <rect id="country" x="50" y="50" width="400" height="300" fill="#fff3e0" stroke="#e65100" stroke-width="3"/>
+          <rect id="region1" x="70" y="70" width="180" height="130" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+          <rect id="region2" x="270" y="70" width="160" height="130" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+          <rect id="region3" x="70" y="220" width="360" height="110" fill="#ffe0b2" stroke="#e65100" stroke-width="2"/>
+          <text x="250" y="30" text-anchor="middle" font-size="18" fill="#e65100">Regional Map (zoom 1.5-2.5)</text>
+        </svg>
+        
+        <!-- City SVG: visible from zoom 2.5 onwards -->
+        <svg slot="svg" data-min-zoom="2.5" width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+          <rect id="country" x="50" y="50" width="400" height="300" fill="#e1f5fe" stroke="#01579b" stroke-width="3"/>
+          <circle id="city1" cx="150" cy="120" r="30" fill="#81d4fa" stroke="#01579b" stroke-width="2"/>
+          <circle id="city2" cx="350" cy="120" r="30" fill="#81d4fa" stroke="#01579b" stroke-width="2"/>
+          <circle id="city3" cx="150" cy="280" r="30" fill="#81d4fa" stroke="#01579b" stroke-width="2"/>
+          <circle id="city4" cx="350" cy="280" r="30" fill="#81d4fa" stroke="#01579b" stroke-width="2"/>
+          <text x="250" y="30" text-anchor="middle" font-size="18" fill="#01579b">City Map (zoom 2.5+)</text>
+        </svg>
+        
+        <!-- Country-level links: visible 0.5-1.5 -->
+        <a href="#capital" data-area="country" data-min-zoom="0.5" data-max-zoom="1.5">Capital</a>
+        <a href="#info" data-area="country" data-min-zoom="0.5" data-max-zoom="1.5">Country Info</a>
+        
+        <!-- Regional links: visible 1.5-2.5 -->
+        <a href="#north" data-area="region1" data-min-zoom="1.5" data-max-zoom="2.5">North Region</a>
+        <a href="#east" data-area="region2" data-min-zoom="1.5" data-max-zoom="2.5">East Region</a>
+        <a href="#south" data-area="region3" data-min-zoom="1.5" data-max-zoom="2.5">South Region</a>
+        
+        <!-- City links: visible 2.5+ -->
+        <a href="#city1" data-area="city1" data-min-zoom="2.5">Alpha City</a>
+        <a href="#city2" data-area="city2" data-min-zoom="2.5">Beta City</a>
+        <a href="#city3" data-area="city3" data-min-zoom="2.5">Gamma City</a>
+        <a href="#city4" data-area="city4" data-min-zoom="2.5">Delta City</a>
+      </svg-map>
+    </div>
+  `,
+};
+
+export const ManyLinksInRegion: Story = {
+  args: {
+    zoom: 1,
+  },
+  render: (args) => html`
+    <div>
+      <p>Example with 20 links distributed in a grid pattern within one large region:</p>
+      <svg-map zoom="${args.zoom}">
+        <svg slot="svg" data-zoom="1" width="600" height="500" xmlns="http://www.w3.org/2000/svg">
+          <rect id="campus" x="50" y="50" width="500" height="400" fill="#f5f5f5" stroke="#424242" stroke-width="3"/>
+          <text x="300" y="35" text-anchor="middle" font-size="16" fill="#424242">University Campus - 20 Buildings</text>
+        </svg>
+        
+        <!-- 20 links in the campus area -->
+        <a href="#lib" data-area="campus" data-zoom="1">Library</a>
+        <a href="#gym" data-area="campus" data-zoom="1">Gymnasium</a>
+        <a href="#cafe" data-area="campus" data-zoom="1">Cafeteria</a>
+        <a href="#lab1" data-area="campus" data-zoom="1">Lab A</a>
+        <a href="#lab2" data-area="campus" data-zoom="1">Lab B</a>
+        <a href="#hall1" data-area="campus" data-zoom="1">Hall 1</a>
+        <a href="#hall2" data-area="campus" data-zoom="1">Hall 2</a>
+        <a href="#hall3" data-area="campus" data-zoom="1">Hall 3</a>
+        <a href="#admin" data-area="campus" data-zoom="1">Admin</a>
+        <a href="#theater" data-area="campus" data-zoom="1">Theater</a>
+        <a href="#pool" data-area="campus" data-zoom="1">Pool</a>
+        <a href="#dorm1" data-area="campus" data-zoom="1">Dorm A</a>
+        <a href="#dorm2" data-area="campus" data-zoom="1">Dorm B</a>
+        <a href="#dorm3" data-area="campus" data-zoom="1">Dorm C</a>
+        <a href="#music" data-area="campus" data-zoom="1">Music Hall</a>
+        <a href="#art" data-area="campus" data-zoom="1">Art Studio</a>
+        <a href="#med" data-area="campus" data-zoom="1">Medical</a>
+        <a href="#eng" data-area="campus" data-zoom="1">Engineering</a>
+        <a href="#sci" data-area="campus" data-zoom="1">Science</a>
+        <a href="#park" data-area="campus" data-zoom="1">Park</a>
+      </svg-map>
+    </div>
+  `,
+};
+
+export const ExternalSVGImage: Story = {
+  args: {
+    zoom: 1,
+  },
+  render: (args) => html`
+    <div>
+      <p>SVG images can be external files referenced via <code>&lt;img&gt;</code> tag. The component detects areas by their bounding boxes.</p>
+      <svg-map zoom="${args.zoom}">
+        <!-- External SVG via img tag for zoom level 1 -->
+        <img 
+          slot="svg" 
+          data-zoom="1" 
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='400'%3E%3Crect id='zone1' x='50' y='50' width='180' height='130' fill='%23ffcdd2' stroke='%23c62828' stroke-width='2'/%3E%3Crect id='zone2' x='270' y='50' width='180' height='130' fill='%23c8e6c9' stroke='%232e7d32' stroke-width='2'/%3E%3Ccircle id='zone3' cx='160' cy='300' r='60' fill='%23fff9c4' stroke='%23f57f17' stroke-width='2'/%3E%3Cpath id='zone4' d='M 270 250 L 450 250 L 360 370 Z' fill='%23b3e5fc' stroke='%2301579b' stroke-width='2'/%3E%3Ctext x='250' y='30' text-anchor='middle' font-size='18' fill='%23333'%3EExternal SVG Map%3C/text%3E%3C/svg%3E"
+          alt="Map with zones"
+          width="500"
+          height="400"
+        />
+        
+        <!-- Note: Links reference areas by ID, but external SVG positioning uses bounding box approach -->
+        <a href="#red" data-area="zone1" data-zoom="1">Red Zone</a>
+        <a href="#green" data-area="zone2" data-zoom="1">Green Zone</a>
+        <a href="#yellow" data-area="zone3" data-zoom="1">Yellow Zone</a>
+        <a href="#blue" data-area="zone4" data-zoom="1">Blue Zone</a>
+      </svg-map>
+      <p><em>Note: External SVGs position links using estimated bounding boxes since the SVG DOM isn't directly accessible. For precise positioning, use inline SVG.</em></p>
+    </div>
+  `,
+};
