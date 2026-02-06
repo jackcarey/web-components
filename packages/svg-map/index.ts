@@ -1,4 +1,11 @@
 /**
+ * Extended SVGElement type for storing reference to original image element
+ */
+interface SVGElementWithImageRef extends SVGElement {
+  __imageElement?: HTMLImageElement;
+}
+
+/**
  * A web component that plots anchor tags onto SVG images with zoom-based switching.
  * Works like a cross between an image map and a navigational map.
  */
@@ -48,7 +55,7 @@ class SVGMap extends HTMLElement {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['data-zoom', 'data-min-zoom', 'data-max-zoom', 'data-area', 'src'],
+      attributeFilter: ['data-area', 'data-max-zoom', 'data-min-zoom', 'data-zoom', 'src'],
     });
   }
 
@@ -91,7 +98,7 @@ class SVGMap extends HTMLElement {
     this.querySelectorAll('img[slot="svg"], picture[slot="svg"] img').forEach((el) => {
       if (el instanceof HTMLImageElement && el.naturalWidth > 0) {
         // Create a container SVG element that represents the image
-        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGElementWithImageRef;
         svg.setAttribute('width', el.naturalWidth.toString());
         svg.setAttribute('height', el.naturalHeight.toString());
         svg.setAttribute('data-external-src', el.src);
@@ -105,7 +112,7 @@ class SVGMap extends HTMLElement {
         if (maxZoomAttr) svg.setAttribute('data-max-zoom', maxZoomAttr);
         
         // Store reference to original image
-        (svg as any).__imageElement = el;
+        svg.__imageElement = el;
         svgs.push(svg);
       }
     });
@@ -377,7 +384,7 @@ class SVGMap extends HTMLElement {
         img.style.display = 'block';
         
         // Get original image element to copy dimensions
-        const originalImg = (this.#currentSvg as any).__imageElement;
+        const originalImg = (this.#currentSvg as SVGElementWithImageRef).__imageElement;
         if (originalImg) {
           if (originalImg.width) img.width = originalImg.width;
           if (originalImg.height) img.height = originalImg.height;
