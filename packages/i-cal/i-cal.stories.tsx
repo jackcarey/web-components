@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { CreateComponentStoryMeta } from "../../stories/utils";
-import exampleICS from "./example.ics";
+import exampleICS from "./example.ics?raw";
 import { html } from "lit";
 
 // This default export determines where your story goes in the story list
