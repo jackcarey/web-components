@@ -6,7 +6,8 @@ const getSbDocsFolderPath = (folder) => path.join(repoRootDir, 'storybook-docs',
 
 const mdToSbMdx = (absoluteDocPath, outputDir, title) => {
   const sanitizedPath = absoluteDocPath.replace(/\\/g, '/');
-  const relativePath = path.relative(outputDir, sanitizedPath).replace(/\\/g, '/');
+  const rel = path.relative(outputDir, sanitizedPath).replace(/\\/g, '/');
+  const relativePath = rel.startsWith('.') ? rel : `./${rel}`;
   const imports = [
     `import { Meta, Markdown } from "@storybook/addon-docs/blocks";`,
     `import Docs from "${relativePath}?raw";`
