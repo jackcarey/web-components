@@ -8,9 +8,6 @@ type Story = StoryObj;
 
 export const Default: Story = {
     args: {
-        code: `
-import autoloader from "../../packages/autoloader/index.ts";
-return "Autoloader registered. Components will load on demand when their tags appear in the DOM.";
-        `,
+        code: `return "Autoloader registered. Components will load on demand when their tags appear in the DOM.";`,
     },
 };
