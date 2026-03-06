@@ -1,12 +1,12 @@
-import { getBadges, pkgDetails, repoRootDir } from './util-packages.mjs';
+import { pkgDetails, repoRootDir } from './util-packages.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 
 const getSbDocsFolderPath = (folder) => path.join(repoRootDir, 'storybook-docs', folder);
 
-const mdToSbMdx = (absoluteDocPath, folder, title) => {
+const mdToSbMdx = (absoluteDocPath, outputDir, title) => {
   const sanitizedPath = absoluteDocPath.replace(/\\/g, '/');
-  const relativePath = path.relative(getSbDocsFolderPath(folder), sanitizedPath).replace(/\\/g, '/');
+  const relativePath = path.relative(outputDir, sanitizedPath).replace(/\\/g, '/');
   const imports = [
     `import { Meta, Markdown } from "@storybook/addon-docs/blocks";`,
     `import Docs from "${relativePath}?raw";`
@@ -14,57 +14,42 @@ const mdToSbMdx = (absoluteDocPath, folder, title) => {
   return `${imports}\n\n<Meta title="${title}"/>\n<Markdown>{Docs}</Markdown>`;
 };
 
-const saveToStorybookFolder = (content, folder, fileName) => {
-  const fullPath = path.join(getSbDocsFolderPath(folder), fileName);
+const saveFile = (content, fullPath) => {
   const pathExists = fs.existsSync(fullPath);
-  let existingSbContent = '';
-  if (pathExists) {
-    existingSbContent = fs.readFileSync(fullPath, 'utf8');
-  }
+  const existingContent = pathExists ? fs.readFileSync(fullPath, 'utf8') : '';
   if (pathExists) {
     if (!content) {
       console.log(`No content. Removing storybook documentation from ${fullPath}`);
       fs.unlinkSync(fullPath);
-    }
-    const hasChanged = existingSbContent !== content;
-    if (hasChanged) {
+    } else if (existingContent !== content) {
       fs.writeFileSync(fullPath, content, 'utf8');
-      console.debug(
-        `Updated storybook documentation for ${fileName} at ${fullPath}`
-      );
+      console.debug(`Updated storybook documentation at ${fullPath}`);
     } else {
-      console.debug(`No changes to storybook documentation for ${fileName}`);
+      console.debug(`No changes to storybook documentation at ${fullPath}`);
     }
-  } else {
-    if (content) {
-      fs.writeFileSync(fullPath, content, 'utf8');
-      console.debug(
-        `Created storybook documentation for ${fileName} at ${fullPath}`
-      );
-    }
+  } else if (content) {
+    fs.writeFileSync(fullPath, content, 'utf8');
+    console.debug(`Created storybook documentation at ${fullPath}`);
   }
 };
 
-//find all packages with documentation
+//find all packages with documentation and generate MDX files co-located in the package directory
 const docPaths = Object.entries(pkgDetails)
-  .map(([dir, pkgDetails]) => [pkgDetails.name, `${dir}/README.md`])
-  .filter(([_, docPath]) => fs.existsSync(docPath));
+  .map(([dir, pkgDetails]) => [pkgDetails.name, dir, `${dir}/README.md`])
+  .filter(([_, _dir, docPath]) => fs.existsSync(docPath));
 
-docPaths.forEach(([pkgName, docPath]) => {
-  const mdContent = fs.readFileSync(docPath, 'utf8');
+docPaths.forEach(([pkgName, pkgDir, docPath]) => {
   const isUtility = !pkgName.includes('-');
   const categoryStr = isUtility ? 'utilities' : 'components';
-  const newSbContent = isUtility ? mdContent : mdToSbMdx(
+  const outputPath = path.join(pkgDir, `${pkgName}.mdx`);
+  const newSbContent = mdToSbMdx(
     docPath,
-    categoryStr,
+    pkgDir,
     `${categoryStr}/${pkgName}/Documentation`
   );
-  saveToStorybookFolder(
-    newSbContent,
-    categoryStr,
-    `${pkgName}.mdx`
-  );
+  saveFile(newSbContent, outputPath);
 });
 
 const readmePath = `${repoRootDir}/README.md`;
-saveToStorybookFolder(mdToSbMdx(readmePath, 'about', 'About'), 'about', 'about.mdx');
+const aboutDir = getSbDocsFolderPath('about');
+saveFile(mdToSbMdx(readmePath, aboutDir, 'About'), path.join(aboutDir, 'about.mdx'));

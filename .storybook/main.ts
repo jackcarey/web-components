@@ -3,10 +3,8 @@ import { type InlineConfig } from "vite";
 
 const storyLocations = [
     "../packages/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "../packages/**/*.mdx",
     "../storybook-docs/**/*.mdx",
-    "../storybook-docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/**/*.mdx",
-    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)",
 ];
 
 const coverageConfig = {
